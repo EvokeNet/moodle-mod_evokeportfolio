@@ -48,30 +48,33 @@ $formdata = [
     'cmid' => $cm->id
 ];
 
+if ($evokeportfolio->groupactivity) {
+    $groupsutil = new \mod_evokeportfolio\util\groups();
+    $usercoursegroup = $groupsutil->get_user_group($course->id);
+
+    $formdata['groupid'] = $usercoursegroup->id;
+}
+
 $form = new mod_evokeportfolio_submit_form($url, $formdata);
 
 if ($form->is_cancelled()) {
     redirect(new moodle_url('/mod/evokeportfolio/view.php', $urlparams));
 } else if ($formdata = $form->get_data()) {
     try {
-        $data = clone $formdata;
+        unset($formdata->submitbutton);
 
-        unset($data->submitbutton);
+        $data = new \stdClass();
+        $data->cmid = $cm->id;
+        $data->userid = $USER->id;
+        $data->groupid = $formdata->groupid;
+        $data->role = 1;
+        $data->comment = $formdata->comment['text'];
+        $data->timecreated = time();
+        $data->timemodified = time();
 
-        foreach ($data as $key => $grade) {
-            $gradeitemid = substr(strrchr($key, "gradeitem-"), 10);
+        $DB->insert_record('evokeportfolio_entries', $data);
 
-            $data = new \stdClass();
-            $data->itemid = $gradeitemid;
-            $data->userid = $USER->id;
-            $data->grade = $grade;
-            $data->timecreated = time();
-            $data->timemodified = time();
-
-            $DB->insert_record('proa_grade_grades', $data);
-        }
-
-        $url = new moodle_url('/mod/competencyself/view.php', $urlparams);
+        $url = new moodle_url('/mod/evokeportfolio/view.php', $urlparams);
 
         redirect($url, 'Avaliação enviada com sucesso.', null, \core\output\notification::NOTIFY_SUCCESS);
     } catch (\Exception $e) {

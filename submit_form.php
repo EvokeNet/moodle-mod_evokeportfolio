@@ -39,9 +39,12 @@ class mod_evokeportfolio_submit_form extends moodleform {
      * Defines forms elements
      */
     public function definition() {
-        global $CFG;
-
         $mform = $this->_form;
+
+        if ($this->_customdata['groupid']) {
+            $mform->addElement('hidden', 'groupid', $this->_customdata['groupid']);
+            $mform->setType('groupid', PARAM_INT);
+        }
 
         $options = [
             'subdirs'=> 0,
@@ -60,5 +63,15 @@ class mod_evokeportfolio_submit_form extends moodleform {
         $mform->addElement('filemanager', 'attachments', get_string('page_submit_attachments', 'mod_evokeportfolio'), null,
             array('subdirs' => 0, 'areamaxbytes' => 10485760, 'maxfiles' => 1,
                 'accepted_types' => ['document', 'image'], 'return_types'=> FILE_INTERNAL | FILE_EXTERNAL));
+
+        $this->add_action_buttons(true);
+    }
+
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+
+        // TODO: To validate.
+
+        return $errors;
     }
 }

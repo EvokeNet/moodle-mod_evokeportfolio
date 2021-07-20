@@ -55,6 +55,7 @@ $string['page_view_viewallsubmissions'] = 'View all submissions';
 $string['page_view_submission_status'] = 'Submission status';
 $string['page_view_addsubmission'] = 'Add submission';
 $string['page_view_youhavenotsent'] = 'You have not made a submission yet.';
+$string['page_view_submissions'] = 'View submissions';
 
 $string['page_submit_comment'] = 'Your comment';
 $string['page_submit_attachments'] = 'Attachments';

@@ -2,3 +2,15 @@
     border: 1px solid #8f959e;
     padding: .5rem;
 }
+
+.path-mod-evokeportfolio .groupmember {
+    display: inline-block;
+    background-color: #140f3f;
+    padding: .25rem .25rem;
+    color: #fff;
+    border-radius: 20px;
+}
+
+.path-mod-evokeportfolio .groupmember img {
+    border-radius: 50%;
+}

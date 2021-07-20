@@ -18,6 +18,8 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_evokeportfolio\util\evokeportfolio;
+use mod_evokeportfolio\util\groups;
 use renderable;
 use templatable;
 use renderer_base;
@@ -49,6 +51,8 @@ class view implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
+        global $CFG, $USER;
+
         $timeremaining = $this->evokeportfolio->datelimit - time();
 
         $isdelayed = true;
@@ -74,6 +78,24 @@ class view implements renderable, templatable {
             'isdelayed' => $isdelayed
         ];
 
+        // Student.
+        if (has_capability('mod/evokeportfolio:submit', $this->context)) {
+            $evokeportfolioutil = new evokeportfolio();
+
+            if ($this->evokeportfolio->groupactivity) {
+                $groupsutil = new groups();
+                $usercoursegroup = $groupsutil->get_user_group($this->evokeportfolio->course);
+
+                $data['groupname'] = $usercoursegroup->name;
+                $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
+
+                $hassubmission = $evokeportfolioutil->has_submission($this->context->instanceid, $USER->id, $usercoursegroup->id);
+
+                $data['hassubmission'] = $hassubmission;
+            }
+        }
+
+        // Teacher.
         if (has_capability('mod/evokeportfolio:grade', $this->context)) {
             $coursemodule = get_coursemodule_from_instance('evokeportfolio', $this->evokeportfolio->id);
 

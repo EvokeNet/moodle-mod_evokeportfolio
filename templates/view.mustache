@@ -28,6 +28,20 @@
                     <th class="cell c0" scope="row">{{#str}}groupgradingmode, mod_evokeportfolio{{/str}}</th>
                     <td class="cell c1 lastcol">{{groupgradingmodetext}}</td>
                 </tr>
+                <tr>
+                    <th class="cell c0" scope="row">{{#str}}group{{/str}}</th>
+                    <td class="cell c1 lastcol">{{groupname}}</td>
+                </tr>
+                <tr>
+                    <th class="cell c0" scope="row">{{#str}}groupmembers{{/str}}</th>
+                    <td class="cell c1 lastcol">
+                        {{#groupmembers}}
+                            <div class="groupmember">
+                                <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
+                            </div>
+                        {{/groupmembers}}
+                    </td>
+                </tr>
             {{/groupactivity}}
             <tr>
                 <th class="cell c0" scope="row">{{#str}}page_view_timeremaining, mod_evokeportfolio{{/str}}</th>
@@ -47,7 +61,7 @@
 
 {{#hassubmission}}
     <div class="submissionlinks text-center">
-        <a class="btn btn-primary" href="{{{config.wwwroot}}}/mod/evokeportfolio/review.php?id={{{cmid}}}">{{#str}}page_view_reviewsubmission, mod_evokeportfolio{{/str}}</a>
+        <a class="btn btn-primary" href="{{{config.wwwroot}}}/mod/evokeportfolio/submissions.php?id={{{cmid}}}">{{#str}}page_view_submissions, mod_evokeportfolio{{/str}}</a>
     </div>
 {{/hassubmission}}
 {{^hassubmission}}
