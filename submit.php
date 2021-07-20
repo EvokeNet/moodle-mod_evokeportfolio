@@ -66,11 +66,18 @@ if ($form->is_cancelled()) {
         $data = new \stdClass();
         $data->cmid = $cm->id;
         $data->userid = $USER->id;
-        $data->groupid = $formdata->groupid;
         $data->role = 1;
-        $data->comment = $formdata->comment['text'];
         $data->timecreated = time();
         $data->timemodified = time();
+
+        if (isset($formdata->groupid)) {
+            $data->groupid = $formdata->groupid;
+        }
+
+        if (isset($formdata->comment['text'])) {
+            $data->comment = $formdata->comment['text'];
+            $data->commentformat = $formdata->comment['format'];
+        }
 
         $DB->insert_record('evokeportfolio_entries', $data);
 

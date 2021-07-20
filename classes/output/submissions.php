@@ -30,7 +30,7 @@ use renderer_base;
  * @copyright  2021 Willian Mano <willianmanoaraujo@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view implements renderable, templatable {
+class submissions implements renderable, templatable {
 
     public $evokeportfolio;
     public $context;
@@ -60,53 +60,31 @@ class view implements renderable, templatable {
             $isdelayed = false;
         }
 
-        $groupgradingmodetext = get_string('groupgrading', 'mod_evokeportfolio');
-        if ($this->evokeportfolio->groupgradingmode == 2) {
-            $groupgradingmodetext = get_string('individualgrading', 'mod_evokeportfolio');
-        }
-
         $data = [
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,
             'intro' => format_module_intro('evokeportfolio', $this->evokeportfolio, $this->context->instanceid),
-            'datelimit' => userdate($this->evokeportfolio->datelimit),
-            'timeremaining' => format_time($timeremaining),
             'cmid' => $this->context->instanceid,
             'course' => $this->evokeportfolio->course,
             'groupactivity' => $this->evokeportfolio->groupactivity,
-            'groupgradingmodetext' => $groupgradingmodetext,
             'isdelayed' => $isdelayed
         ];
 
-        // Student.
-        if (has_capability('mod/evokeportfolio:submit', $this->context)) {
-            $evokeportfolioutil = new evokeportfolio();
+        $evokeportfolioutil = new evokeportfolio();
 
-            if ($this->evokeportfolio->groupactivity) {
-                $groupsutil = new groups();
-                $usercoursegroup = $groupsutil->get_user_group($this->evokeportfolio->course);
+        if ($this->evokeportfolio->groupactivity) {
+            $groupsutil = new groups();
+            $usercoursegroup = $groupsutil->get_user_group($this->evokeportfolio->course);
 
-                $data['hasgroup'] = !empty($usercoursegroup);
-                $data['hassubmission'] = false;
-                if ($usercoursegroup) {
-                    $data['groupname'] = $usercoursegroup->name;
-                    $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
+            $data['hasgroup'] = !empty($usercoursegroup);
 
-                    $data['hassubmission'] = $evokeportfolioutil->has_submission($this->context->instanceid, $USER->id, $usercoursegroup->id);
-                }
-            } else {
-                $data['hassubmission'] = $evokeportfolioutil->has_submission($this->context->instanceid, $USER->id);
+            $data['hassubmission'] = false;
+            if ($usercoursegroup) {
+                $data['groupname'] = $usercoursegroup->name;
+                $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
+
+                $data['hassubmission'] = $evokeportfolioutil->has_submission($this->context->instanceid, $USER->id, $usercoursegroup->id);
             }
-        }
-
-        // Teacher.
-        if (has_capability('mod/evokeportfolio:grade', $this->context)) {
-            $coursemodule = get_coursemodule_from_instance('evokeportfolio', $this->evokeportfolio->id);
-
-            $participants = count_enrolled_users($this->context, 'mod/evokeportfolio:submit');
-
-            $data['hide'] = $coursemodule->visible;
-            $data['participants'] = $participants;
         }
 
         return $data;

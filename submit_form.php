@@ -41,7 +41,7 @@ class mod_evokeportfolio_submit_form extends moodleform {
     public function definition() {
         $mform = $this->_form;
 
-        if ($this->_customdata['groupid']) {
+        if (isset($this->_customdata['groupid'])) {
             $mform->addElement('hidden', 'groupid', $this->_customdata['groupid']);
             $mform->setType('groupid', PARAM_INT);
         }
@@ -58,7 +58,7 @@ class mod_evokeportfolio_submit_form extends moodleform {
         ];
 
         $mform->addElement('editor', 'comment', get_string('page_submit_comment', 'mod_evokeportfolio', $options));
-        $mform->setType('comment', PARAM_RAW);
+        $mform->setType('comment', PARAM_CLEANHTML);
 
         $mform->addElement('filemanager', 'attachments', get_string('page_submit_attachments', 'mod_evokeportfolio'), null,
             array('subdirs' => 0, 'areamaxbytes' => 10485760, 'maxfiles' => 1,

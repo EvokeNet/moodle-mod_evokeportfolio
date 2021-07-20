@@ -47,4 +47,19 @@ class renderer extends plugin_renderer_base {
 
         return parent::render_from_template('mod_evokeportfolio/view', $data);
     }
+
+    /**
+     * Defer the instance in course to template.
+     *
+     * @param renderable $page
+     *
+     * @return bool|string
+     *
+     * @throws \moodle_exception
+     */
+    public function render_submissions(renderable $page) {
+        $data = $page->export_for_template($this);
+
+        return parent::render_from_template('mod_evokeportfolio/submissions', $data);
+    }
 }

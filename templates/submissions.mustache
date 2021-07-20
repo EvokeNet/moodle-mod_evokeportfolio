@@ -1,0 +1,24 @@
+<h2>{{{name}}}</h2>
+
+<div id="intro" class="box py-3 generalbox boxaligncenter">{{{intro}}}</div>
+
+<div class="submissions">
+    {{#groupactivity}}
+        <h3>{{#str}}groupactivity, mod_evokeportfolio{{/str}}</h3>
+        {{#hasgroup}}
+            <hr>
+            <h5>{{#str}}group{{/str}}: {{groupname}}</h5>
+            <p>
+                <b>{{#str}}groupmembers{{/str}}</b>:
+                {{#groupmembers}}
+                    <div class="groupmember">
+                        <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
+                    </div>
+                {{/groupmembers}}
+            </p>
+        {{/hasgroup}}
+    {{/groupactivity}}
+    {{^groupactivity}}
+        <h3>{{#str}}individualctivity, mod_evokeportfolio{{/str}}</h3>
+    {{/groupactivity}}
+</div>

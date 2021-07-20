@@ -41,6 +41,7 @@ $string['view'] = 'View';
 $string['datelimit'] = 'Date limit';
 $string['datelimit_help'] = 'Before this date, student cant send their responses.';
 $string['groupactivity'] = 'Group activity';
+$string['individualctivity'] = 'Individual activity';
 $string['groupgradingmode'] = 'Group grading mode';
 $string['groupgradingmode_help'] = '<b>Group grading: </b> all users from the group will receive the same grade.<br><b>Individual grading:</b> users will receive their grades individually.';
 $string['groupgrading'] = 'Group grading';
@@ -56,6 +57,8 @@ $string['page_view_submission_status'] = 'Submission status';
 $string['page_view_addsubmission'] = 'Add submission';
 $string['page_view_youhavenotsent'] = 'You have not made a submission yet.';
 $string['page_view_submissions'] = 'View submissions';
+$string['page_view_usernotingroup_title'] = 'Sorry!';
+$string['page_view_usernotingroup_text'] = 'You need to be part of a group to do this activity.';
 
 $string['page_submit_comment'] = 'Your comment';
 $string['page_submit_attachments'] = 'Attachments';

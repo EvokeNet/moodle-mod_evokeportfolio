@@ -34,15 +34,7 @@ require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-$event = \mod_evokeportfolio\event\course_module_viewed::create([
-    'objectid' => $evokeportfolio->id,
-    'context' => $context
-]);
-$event->add_record_snapshot('course', $course);
-$event->add_record_snapshot('evokeportfolio', $evokeportfolio);
-$event->trigger();
-
-$PAGE->set_url('/mod/evokeportfolio/view.php', ['id' => $cm->id]);
+$PAGE->set_url('/mod/evokeportfolio/submissions.php', ['id' => $cm->id]);
 $PAGE->set_title(format_string($evokeportfolio->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
@@ -51,7 +43,7 @@ echo $OUTPUT->header();
 
 $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-$contentrenderable = new \mod_evokeportfolio\output\view($evokeportfolio, $context);
+$contentrenderable = new \mod_evokeportfolio\output\submissions($evokeportfolio, $context);
 
 echo $renderer->render($contentrenderable);
 
