@@ -1,0 +1,61 @@
+<h2>{{{name}}}</h2>
+
+<div id="intro" class="box py-3 generalbox boxaligncenter">{{{intro}}}</div>
+
+<div class="gradingsummary">
+    <h3>{{#str}}page_view_submission_status, mod_evokeportfolio{{/str}}</h3>
+
+    <div class="box py-3 boxaligncenter gradingsummarytable">
+        <table class="generaltable">
+            <tbody>
+            <tr>
+                <th class="cell c0" scope="row">{{#str}}datelimit, mod_evokeportfolio{{/str}}</th>
+                <td class="cell c1 lastcol">{{{datelimit}}}</td>
+            </tr>
+            <tr>
+                <th class="cell c0" scope="row">{{#str}}groupactivity, mod_evokeportfolio{{/str}}</th>
+                <td class="cell c1 lastcol">
+                    {{#groupactivity}}
+                        {{#str}}yes{{/str}}
+                    {{/groupactivity}}
+                    {{^groupactivity}}
+                        {{#str}}no{{/str}}
+                    {{/groupactivity}}
+                </td>
+            </tr>
+            {{#groupactivity}}
+                <tr>
+                    <th class="cell c0" scope="row">{{#str}}groupgradingmode, mod_evokeportfolio{{/str}}</th>
+                    <td class="cell c1 lastcol">{{groupgradingmodetext}}</td>
+                </tr>
+            {{/groupactivity}}
+            <tr>
+                <th class="cell c0" scope="row">{{#str}}page_view_timeremaining, mod_evokeportfolio{{/str}}</th>
+                <td class="cell c1 lastcol">
+                    {{#isdelayed}}
+                        <span class="badge badge-danger">{{{timeremaining}}}</span>
+                    {{/isdelayed}}
+                    {{^isdelayed}}
+                        {{{timeremaining}}}
+                    {{/isdelayed}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{#hassubmission}}
+    <div class="submissionlinks text-center">
+        <a class="btn btn-primary" href="{{{config.wwwroot}}}/mod/evokeportfolio/review.php?id={{{cmid}}}">{{#str}}page_view_reviewsubmission, mod_evokeportfolio{{/str}}</a>
+    </div>
+{{/hassubmission}}
+{{^hassubmission}}
+    {{^isdelayed}}
+        <div class="submissionlinks text-center">
+            <a class="btn btn-primary" href="{{{config.wwwroot}}}/mod/evokeportfolio/submit.php?id={{{cmid}}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
+
+            <p class="py-3 submithelp">{{#str}}page_view_youhavenotsent, mod_evokeportfolio{{/str}}</p>
+        </div>
+    {{/isdelayed}}
+{{/hassubmission}}
