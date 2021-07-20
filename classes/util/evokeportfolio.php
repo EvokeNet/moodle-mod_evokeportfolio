@@ -40,4 +40,52 @@ class evokeportfolio {
 
         return false;
     }
+
+    public function get_submissions($cmid, $userid, $groupid = null) {
+        global $DB, $PAGE;
+
+        $sql = 'SELECT
+                    e.*,
+                    u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
+                FROM mdl_evokeportfolio_entries e
+                INNER JOIN mdl_user u ON u.id = e.userid
+                WHERE e.cmid = :cmid';
+
+        if ($groupid) {
+            $sql .= ' AND e.groupid = :groupid ORDER BY e.id desc';
+            $entries = $DB->get_records_sql($sql, ['cmid' => $cmid, 'groupid' => $groupid]);
+
+            if ($entries) {
+                return $this->populate_data_with_user_info($entries);
+            }
+
+            return false;
+        }
+
+        $sql .= ' AND e.userid = :userid ORDER BY e.id desc';
+        $entries = $DB->get_records_sql($sql, ['cmid' => $cmid, 'userid' => $userid]);
+
+        if ($entries) {
+            return $this->populate_data_with_user_info($entries);
+        }
+
+        return false;
+    }
+
+    private function populate_data_with_user_info($data) {
+        global $PAGE;
+
+        foreach ($data as $key => $entry) {
+            $user = $entry;
+            $user->id = $entry->uid;
+
+            $userpicture = new \user_picture($user);
+
+            $data[$key]->userpicture = $userpicture->get_url($PAGE)->out();
+
+            $data[$key]->fullname = fullname($user);
+        }
+
+        return array_values($data);
+    }
 }

@@ -78,27 +78,6 @@ class view implements renderable, templatable {
             'isdelayed' => $isdelayed
         ];
 
-        // Student.
-        if (has_capability('mod/evokeportfolio:submit', $this->context)) {
-            $evokeportfolioutil = new evokeportfolio();
-
-            if ($this->evokeportfolio->groupactivity) {
-                $groupsutil = new groups();
-                $usercoursegroup = $groupsutil->get_user_group($this->evokeportfolio->course);
-
-                $data['hasgroup'] = !empty($usercoursegroup);
-                $data['hassubmission'] = false;
-                if ($usercoursegroup) {
-                    $data['groupname'] = $usercoursegroup->name;
-                    $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
-
-                    $data['hassubmission'] = $evokeportfolioutil->has_submission($this->context->instanceid, $USER->id, $usercoursegroup->id);
-                }
-            } else {
-                $data['hassubmission'] = $evokeportfolioutil->has_submission($this->context->instanceid, $USER->id);
-            }
-        }
-
         // Teacher.
         if (has_capability('mod/evokeportfolio:grade', $this->context)) {
             $coursemodule = get_coursemodule_from_instance('evokeportfolio', $this->evokeportfolio->id);
@@ -107,7 +86,30 @@ class view implements renderable, templatable {
 
             $data['hide'] = $coursemodule->visible;
             $data['participants'] = $participants;
+
+            return $data;
         }
+
+        // Student.
+        $evokeportfolioutil = new evokeportfolio();
+
+        if ($this->evokeportfolio->groupactivity) {
+            $groupsutil = new groups();
+            $usercoursegroup = $groupsutil->get_user_group($this->evokeportfolio->course);
+
+            $data['hasgroup'] = !empty($usercoursegroup);
+            $data['hassubmission'] = false;
+            if ($usercoursegroup) {
+                $data['groupname'] = $usercoursegroup->name;
+                $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
+
+                $data['hassubmission'] = $evokeportfolioutil->has_submission($this->context->instanceid, $USER->id, $usercoursegroup->id);
+            }
+
+            return $data;
+        }
+
+        $data['hassubmission'] = $evokeportfolioutil->has_submission($this->context->instanceid, $USER->id);
 
         return $data;
     }

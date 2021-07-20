@@ -63,14 +63,20 @@ class submissions implements renderable, templatable {
         $data = [
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,
-            'intro' => format_module_intro('evokeportfolio', $this->evokeportfolio, $this->context->instanceid),
             'cmid' => $this->context->instanceid,
             'course' => $this->evokeportfolio->course,
             'groupactivity' => $this->evokeportfolio->groupactivity,
-            'isdelayed' => $isdelayed
+            'isdelayed' => $isdelayed,
+            'isteacher' => false
         ];
 
         $evokeportfolioutil = new evokeportfolio();
+
+        if (has_capability('mod/evokeportfolio:grade', $this->context)) {
+            $data['isteacher'] = true;
+
+            return $data;
+        }
 
         if ($this->evokeportfolio->groupactivity) {
             $groupsutil = new groups();
@@ -79,13 +85,19 @@ class submissions implements renderable, templatable {
             $data['hasgroup'] = !empty($usercoursegroup);
 
             $data['hassubmission'] = false;
+            $data['submissions'] = false;
             if ($usercoursegroup) {
                 $data['groupname'] = $usercoursegroup->name;
                 $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
 
                 $data['hassubmission'] = $evokeportfolioutil->has_submission($this->context->instanceid, $USER->id, $usercoursegroup->id);
+                $data['submissions'] = $evokeportfolioutil->get_submissions($this->context->instanceid, $USER->id, $usercoursegroup->id);
             }
+
+            return $data;
         }
+
+        $data['submissions'] = $evokeportfolioutil->get_submissions($this->context->instanceid, $USER->id);
 
         return $data;
     }

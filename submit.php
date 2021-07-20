@@ -81,7 +81,7 @@ if ($form->is_cancelled()) {
 
         $DB->insert_record('evokeportfolio_entries', $data);
 
-        $url = new moodle_url('/mod/evokeportfolio/view.php', $urlparams);
+        $url = new moodle_url('/mod/evokeportfolio/submissions.php', $urlparams);
 
         redirect($url, 'Avaliação enviada com sucesso.', null, \core\output\notification::NOTIFY_SUCCESS);
     } catch (\Exception $e) {

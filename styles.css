@@ -14,3 +14,20 @@
 .path-mod-evokeportfolio .groupmember img {
     border-radius: 50%;
 }
+
+.border-white {
+    border: 2px solid #fff;
+    padding: .5rem;
+}
+
+.img-rounded {
+    border-radius: 50%;
+}
+
+.img-bordered {
+    border: 2px solid #fff;
+}
+
+.img-24 {
+    width: 24px;
+}

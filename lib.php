@@ -24,6 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+DEFINE('ROLE_STUDENT', 1);
+DEFINE('ROLE_TEACHER', 2);
+
 /**
  * Return if the plugin supports $feature.
  *

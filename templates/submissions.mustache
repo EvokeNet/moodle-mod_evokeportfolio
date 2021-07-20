@@ -2,7 +2,7 @@
 
 <div id="intro" class="box py-3 generalbox boxaligncenter">{{{intro}}}</div>
 
-<div class="submissions">
+<div class="submissionssummary">
     {{#groupactivity}}
         <h3>{{#str}}groupactivity, mod_evokeportfolio{{/str}}</h3>
         {{#hasgroup}}
@@ -21,4 +21,29 @@
     {{^groupactivity}}
         <h3>{{#str}}individualctivity, mod_evokeportfolio{{/str}}</h3>
     {{/groupactivity}}
+</div>
+
+<div class="submissions">
+    {{#submissions}}
+        <div class="jumbotron p-2 mb-2">
+            <h3><img src="{{userpicture}}" alt="{{fullname}}" class="img-rounded img-24 img-bordered"> {{fullname}}</h3>
+
+            <h4 class="mb-0">{{#str}}page_submissions_portfoliotext, mod_evokeportfolio{{/str}}</h4>
+            {{#comment}}
+                <div class="border-white">
+                    {{{.}}}
+                </div>
+            {{/comment}}
+
+            <h4 class="mb-0 mt-2">{{#str}}page_submissions_portfolioattachment, mod_evokeportfolio{{/str}}</h4>
+            <div class="border-white row mx-0">
+                <div class="col-6 mx-0">
+                    <i class="fa fa-file-pdf-o"></i> Attachment file
+                </div>
+                <div class="col-6 mx-0 text-right">
+                    <a href="#" class="btn btn-primary btn-sm">Download file</a>
+                </div>
+            </div>
+        </div>
+    {{/submissions}}
 </div>
