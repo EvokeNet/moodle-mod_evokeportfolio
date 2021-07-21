@@ -78,14 +78,19 @@ class view implements renderable, templatable {
             'isdelayed' => $isdelayed
         ];
 
+        $groupsutil = new groups();
+
         // Teacher.
         if (has_capability('mod/evokeportfolio:grade', $this->context)) {
             $coursemodule = get_coursemodule_from_instance('evokeportfolio', $this->evokeportfolio->id);
+            $data['hide'] = $coursemodule->visible;
 
             $participants = count_enrolled_users($this->context, 'mod/evokeportfolio:submit');
-
-            $data['hide'] = $coursemodule->visible;
             $data['participants'] = $participants;
+
+            if ($this->evokeportfolio->groupactivity) {
+                $data['groupscount'] = $groupsutil->get_total_groups_in_course($this->evokeportfolio->course);
+            }
 
             return $data;
         }
@@ -94,7 +99,6 @@ class view implements renderable, templatable {
         $evokeportfolioutil = new evokeportfolio();
 
         if ($this->evokeportfolio->groupactivity) {
-            $groupsutil = new groups();
             $usercoursegroup = $groupsutil->get_user_group($this->evokeportfolio->course);
 
             $data['hasgroup'] = !empty($usercoursegroup);

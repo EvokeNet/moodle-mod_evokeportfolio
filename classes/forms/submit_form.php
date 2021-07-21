@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
+namespace mod_evokeportfolio\forms;
+
 /**
  * The main mod_evokeportfolio submit form.
  *
@@ -33,13 +35,18 @@ require_once($CFG->libdir. '/formslib.php');
  * @copyright   2021 Willian Mano <willianmanoaraujo@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_evokeportfolio_submit_form extends moodleform {
+class submit_form extends moodleform {
 
     /**
      * Defines forms elements
      */
     public function definition() {
         $mform = $this->_form;
+
+        if (isset($this->_customdata['userid'])) {
+            $mform->addElement('hidden', 'userid', $this->_customdata['userid']);
+            $mform->setType('userid', PARAM_INT);
+        }
 
         if (isset($this->_customdata['groupid'])) {
             $mform->addElement('hidden', 'groupid', $this->_customdata['groupid']);

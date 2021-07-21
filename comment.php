@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Submits an portfolio entry.
+ * Submits an portfolio comment.
  *
  * @package     mod_evokeportfolio
  * @copyright   2021 Willian Mano <willianmanoaraujo@gmail.com>
@@ -26,9 +26,19 @@ require(__DIR__.'/../../config.php');
 
 // Course module id.
 $id = required_param('id', PARAM_INT);
+$userid = optional_param('userid', '', PARAM_INT);
+$groupid = optional_param('groupid', '', PARAM_INT);
 
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
+
+if ($userid) {
+    $evaluateduser = $DB->get_record('user', ['id' => $userid], '*', MUST_EXIST);
+}
+
+if ($groupid) {
+    $evaluatedgroup = $DB->get_record('groups', ['id' => $groupid], '*', MUST_EXIST);
+}
 
 require_course_login($course, true, $cm);
 
@@ -47,15 +57,12 @@ $formdata = [
 ];
 
 if ($evokeportfolio->groupactivity) {
-    $groupsutil = new \mod_evokeportfolio\util\groups();
-    $usercoursegroup = $groupsutil->get_user_group($course->id);
-
-    $formdata['groupid'] = $usercoursegroup->id;
+    $formdata['groupid'] = $groupid;
 } else {
-    $formdata['userid'] = $USER->id;
+    $formdata['userid'] = $userid;
 }
 
-$form = new \mod_evokeportfolio\forms\submit_form($url, $formdata);
+$form = new \mod_evokeportfolio\forms\comment_form($url, $formdata);
 
 if ($form->is_cancelled()) {
     redirect(new moodle_url('/mod/evokeportfolio/view.php', $urlparams));
@@ -87,7 +94,7 @@ if ($form->is_cancelled()) {
 
         $url = new moodle_url('/mod/evokeportfolio/submissions.php', $urlparams);
 
-        redirect($url, 'Avaliação enviada com sucesso.', null, \core\output\notification::NOTIFY_SUCCESS);
+        redirect($url, 'Comentário enviada com sucesso.', null, \core\output\notification::NOTIFY_SUCCESS);
     } catch (\Exception $e) {
         redirect($url, $e->getMessage(), null, \core\output\notification::NOTIFY_ERROR);
     }

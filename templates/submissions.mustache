@@ -23,6 +23,18 @@
     {{/groupactivity}}
 </div>
 
+<div class="mb-3 text-center">
+    {{#isteacher}}
+        <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/addcomment.php?id={{course}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
+        <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/addgrade.php?id={{course}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
+    {{/isteacher}}
+    {{^isteacher}}
+        {{^isdelayed}}
+            <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
+        {{/isdelayed}}
+    {{/isteacher}}
+</div>
+
 <div class="submissions">
     {{#submissions}}
         <div class="jumbotron p-2 mb-2">
@@ -41,7 +53,7 @@
                     <i class="fa fa-file-pdf-o"></i> Attachment file
                 </div>
                 <div class="col-6 mx-0 text-right">
-                    <a href="#" class="btn btn-primary btn-sm">Download file</a>
+                    <a href="#" class="btn btn-secondary btn-sm">Download file</a>
                 </div>
             </div>
         </div>

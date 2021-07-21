@@ -65,4 +65,10 @@ class groups {
 
         return array_values($groupmembers);
     }
+
+    public function get_total_groups_in_course($courseid) {
+        global $DB;
+
+        return $DB->count_records('groups', ['courseid' => $courseid]);
+    }
 }

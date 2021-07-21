@@ -42,13 +42,13 @@ class evokeportfolio {
     }
 
     public function get_submissions($cmid, $userid, $groupid = null) {
-        global $DB, $PAGE;
+        global $DB;
 
         $sql = 'SELECT
                     e.*,
                     u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
                 FROM mdl_evokeportfolio_entries e
-                INNER JOIN mdl_user u ON u.id = e.userid
+                INNER JOIN mdl_user u ON u.id = e.postedby
                 WHERE e.cmid = :cmid';
 
         if ($groupid) {
