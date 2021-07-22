@@ -71,4 +71,10 @@ class groups {
 
         return $DB->count_records('groups', ['courseid' => $courseid]);
     }
+
+    public function is_group_member($groupid, $userid) {
+        global $DB;
+
+        return $DB->count_records('groups_members', ['groupid' => $groupid, 'userid' => $userid]);
+    }
 }

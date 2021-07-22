@@ -36,23 +36,21 @@ require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-if (!empty($userid) && $userid != $USER->id && !has_capability('mod/evokeportfolio:grade', $context)) {
-    $url = new moodle_url('/course/view', ['id' => $course->id]);
-
+if (!has_capability('mod/evokeportfolio:grade', $context)) {
     redirect($url, 'Acesso ilegal.', null, \core\output\notification::NOTIFY_ERROR);
 }
 
-if ($groupid) {
-    $grouputil = new \mod_evokeportfolio\util\groups();
+$urlparams = ['id' => $cm->id];
 
-    if (!$grouputil->is_group_member($groupid, $USER->id) && !has_capability('mod/evokeportfolio:grade', $context)) {
-        $url = new moodle_url('/course/view', ['id' => $course->id]);
-
-        redirect($url, 'Acesso ilegal.', null, \core\output\notification::NOTIFY_ERROR);
-    }
+if ($userid) {
+    $urlparams['userid'] = $userid;
 }
 
-$PAGE->set_url('/mod/evokeportfolio/submissions.php', ['id' => $cm->id]);
+if ($groupid) {
+    $urlparams['groupid'] = $groupid;
+}
+
+$PAGE->set_url('/mod/evokeportfolio/viewsubmission.php', $urlparams);
 $PAGE->set_title(format_string($evokeportfolio->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
@@ -61,7 +59,7 @@ echo $OUTPUT->header();
 
 $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-$contentrenderable = new \mod_evokeportfolio\output\submissions($evokeportfolio, $context);
+$contentrenderable = new \mod_evokeportfolio\output\viewsubmission($evokeportfolio, $context, $userid, $groupid);
 
 echo $renderer->render($contentrenderable);
 

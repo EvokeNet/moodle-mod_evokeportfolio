@@ -5,34 +5,33 @@
 <div class="submissionssummary">
     {{#groupactivity}}
         <h3>{{#str}}groupactivity, mod_evokeportfolio{{/str}}</h3>
-        {{#hasgroup}}
-            <hr>
-            <h5>{{#str}}group{{/str}}: {{groupname}}</h5>
-            <p>
-                <b>{{#str}}groupmembers{{/str}}</b>:
-                {{#groupmembers}}
-                    <div class="groupmember">
-                        <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
-                    </div>
-                {{/groupmembers}}
-            </p>
-        {{/hasgroup}}
+        <hr>
+        <h5>{{#str}}group{{/str}}: {{groupname}}</h5>
+        <p>
+            <b>{{#str}}groupmembers{{/str}}</b>:
+            {{#groupmembers}}
+                <div class="groupmember">
+                    <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
+                </div>
+            {{/groupmembers}}
+        </p>
     {{/groupactivity}}
     {{^groupactivity}}
         <h3>{{#str}}individualctivity, mod_evokeportfolio{{/str}}</h3>
+        <hr>
+        <h5>{{#str}}user{{/str}}: {{userfullname}}</h5>
     {{/groupactivity}}
 </div>
 
 <div class="mb-3 text-center">
-    {{#isteacher}}
-        <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/addcomment.php?id={{course}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
-        <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/addgrade.php?id={{course}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
-    {{/isteacher}}
-    {{^isteacher}}
-        {{^isdelayed}}
-            <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
-        {{/isdelayed}}
-    {{/isteacher}}
+    {{#groupactivity}}
+        <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/comment.php?id={{cmid}}&groupid={{groupid}}">{{#str}}page_viewsubmission_addcomment, mod_evokeportfolio{{/str}}</a>
+        <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/grade.php?id={{cmid}}&groupid={{groupid}}">{{#str}}page_viewsubmission_addgrade, mod_evokeportfolio{{/str}}</a>
+    {{/groupactivity}}
+    {{^groupactivity}}
+        <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/comment.php?id={{cmid}}&userid={{userid}}">{{#str}}page_viewsubmission_addcomment, mod_evokeportfolio{{/str}}</a>
+        <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/grade.php?id={{cmid}}&userid={{userid}}">{{#str}}page_viewsubmission_addgrade, mod_evokeportfolio{{/str}}</a>
+    {{/groupactivity}}
 </div>
 
 <div class="submissions">

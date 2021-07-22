@@ -65,3 +65,6 @@ $string['page_submit_attachments'] = 'Attachments';
 
 $string['page_submissions_portfoliotext'] = 'Portfolio\'s text';
 $string['page_submissions_portfolioattachment'] = 'Portfolio\'s attachment';
+
+$string['page_viewsubmission_addcomment'] = 'Add comment';
+$string['page_viewsubmission_addgrade'] = 'Add grade';

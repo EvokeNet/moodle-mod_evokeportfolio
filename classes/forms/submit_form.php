@@ -35,7 +35,7 @@ require_once($CFG->libdir. '/formslib.php');
  * @copyright   2021 Willian Mano <willianmanoaraujo@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class submit_form extends moodleform {
+class submit_form extends \moodleform {
 
     /**
      * Defines forms elements

@@ -66,7 +66,7 @@ if ($form->is_cancelled()) {
         $data = new \stdClass();
         $data->cmid = $cm->id;
         $data->postedby = $USER->id;
-        $data->role = 1;
+        $data->role = ROLE_STUDENT;
         $data->timecreated = time();
         $data->timemodified = time();
 

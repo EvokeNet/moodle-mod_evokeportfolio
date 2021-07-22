@@ -26,26 +26,37 @@ require(__DIR__.'/../../config.php');
 
 // Course module id.
 $id = required_param('id', PARAM_INT);
-$userid = optional_param('userid', '', PARAM_INT);
-$groupid = optional_param('groupid', '', PARAM_INT);
+$userid = optional_param('userid', null, PARAM_INT);
+$groupid = optional_param('groupid', null, PARAM_INT);
 
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
 
+if (!$userid && !$groupid) {
+    $url = new moodle_url('/mod/evokeportfolio/view.php', ['id' => $id]);
+
+    redirect($url, 'Acesso ilegal.', null, \core\output\notification::NOTIFY_ERROR);
+}
+
+$urlparams = ['id' => $cm->id];
+
 if ($userid) {
     $evaluateduser = $DB->get_record('user', ['id' => $userid], '*', MUST_EXIST);
+
+    $urlparams['userid'] = $userid;
 }
 
 if ($groupid) {
     $evaluatedgroup = $DB->get_record('groups', ['id' => $groupid], '*', MUST_EXIST);
+
+    $urlparams['groupid'] = $groupid;
 }
 
 require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-$urlparams = ['id' => $cm->id];
-$url = new moodle_url('/mod/evokeportfolio/submit.php', $urlparams);
+$url = new moodle_url('/mod/evokeportfolio/comment.php', $urlparams);
 
 $PAGE->set_url($url);
 $PAGE->set_title(format_string($evokeportfolio->name));
@@ -73,7 +84,7 @@ if ($form->is_cancelled()) {
         $data = new \stdClass();
         $data->cmid = $cm->id;
         $data->postedby = $USER->id;
-        $data->role = 1;
+        $data->role = ROLE_TEACHER;
         $data->timecreated = time();
         $data->timemodified = time();
 
@@ -92,7 +103,7 @@ if ($form->is_cancelled()) {
 
         $DB->insert_record('evokeportfolio_entries', $data);
 
-        $url = new moodle_url('/mod/evokeportfolio/submissions.php', $urlparams);
+        $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', $urlparams);
 
         redirect($url, 'Comentário enviada com sucesso.', null, \core\output\notification::NOTIFY_SUCCESS);
     } catch (\Exception $e) {

@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/tablelib.php');
 
+use mod_evokeportfolio\util\evokeportfolio;
 use table_sql;
 use moodle_url;
 use html_writer;
@@ -81,14 +82,23 @@ class entries extends table_sql {
         $this->set_sql($fields, $from, $capjoin->wheres, $capjoin->params);
     }
 
-    public function col_status($user) {
-//        $hassubmission = $gradegrade->has_submission('competencyself', $this->coursemodule->instance, $user->id);
-//
-//        if ($hassubmission) {
-//            $url = new moodle_url('/mod/competencyself/review.php', ['id' => $this->coursemodule->id, 'user' => $user->id]);
-//
-//            return html_writer::link($url, 'Ver envio', ['class' => 'btn btn-primary btn-sm']);
-//        }
+    public function col_status($data) {
+        $evokeportfolioutil = new evokeportfolio();
+        if ($this->evokeportfolio->groupactivity) {
+            if ($evokeportfolioutil->has_submission($this->coursemodule->id, null, $data->id)) {
+                $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', ['id' => $this->coursemodule->id, 'groupid' => $data->id]);
+
+                return html_writer::link($url, 'Ver envio', ['class' => 'btn btn-primary btn-sm']);
+            }
+        }
+
+        if (!$this->evokeportfolio->groupactivity) {
+            if ($evokeportfolioutil->has_submission($this->coursemodule->id, $data->id)) {
+                $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', ['id' => $this->coursemodule->id, 'userid' => $data->id]);
+
+                return html_writer::link($url, 'Ver envio', ['class' => 'btn btn-primary btn-sm']);
+            }
+        }
 
         return html_writer::span('Não enviado', 'badge badge-dark');
     }

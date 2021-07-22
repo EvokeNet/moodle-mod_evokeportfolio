@@ -19,7 +19,7 @@ namespace mod_evokeportfolio\util;
 defined('MOODLE_INTERNAL') || die();
 
 class evokeportfolio {
-    public function has_submission($cmid, $userid, $groupid = null) {
+    public function has_submission($cmid, $userid = false, $groupid = null) {
         global $DB;
 
         if ($groupid) {
@@ -32,22 +32,24 @@ class evokeportfolio {
             return false;
         }
 
-        $entries = $DB->count_records('evokeportfolio_entries', ['cmid' => $cmid, 'userid' => $userid]);
+        if ($userid) {
+            $entries = $DB->count_records('evokeportfolio_entries', ['cmid' => $cmid, 'userid' => $userid]);
 
-        if ($entries) {
-            return true;
+            if ($entries) {
+                return true;
+            }
         }
 
         return false;
     }
 
-    public function get_submissions($cmid, $userid, $groupid = null) {
+    public function get_submissions($cmid, $userid = null, $groupid = null) {
         global $DB;
 
         $sql = 'SELECT
                     e.*,
                     u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
-                FROM mdl_evokeportfolio_entries e
+                FROM {evokeportfolio_entries} e
                 INNER JOIN mdl_user u ON u.id = e.postedby
                 WHERE e.cmid = :cmid';
 
@@ -62,11 +64,13 @@ class evokeportfolio {
             return false;
         }
 
-        $sql .= ' AND e.userid = :userid ORDER BY e.id desc';
-        $entries = $DB->get_records_sql($sql, ['cmid' => $cmid, 'userid' => $userid]);
+        if ($userid) {
+            $sql .= ' AND e.userid = :userid ORDER BY e.id desc';
+            $entries = $DB->get_records_sql($sql, ['cmid' => $cmid, 'userid' => $userid]);
 
-        if ($entries) {
-            return $this->populate_data_with_user_info($entries);
+            if ($entries) {
+                return $this->populate_data_with_user_info($entries);
+            }
         }
 
         return false;
@@ -84,6 +88,11 @@ class evokeportfolio {
             $data[$key]->userpicture = $userpicture->get_url($PAGE)->out();
 
             $data[$key]->fullname = fullname($user);
+
+            $data[$key]->isteacher = false;
+            if ($entry->role == ROLE_TEACHER) {
+                $data[$key]->isteacher = true;
+            }
         }
 
         return array_values($data);
