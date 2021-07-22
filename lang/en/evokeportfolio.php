@@ -46,7 +46,7 @@ $string['groupgradingmode'] = 'Group grading mode';
 $string['groupgradingmode_help'] = '<b>Group grading: </b> all users from the group will receive the same grade.<br><b>Individual grading:</b> users will receive their grades individually.';
 $string['groupgrading'] = 'Group grading';
 $string['individualgrading'] = 'Individual grading';
-
+$string['illegalaccess'] = 'Illegal access';
 $string['page_view_gradingsummary'] = 'Grading summary';
 $string['page_view_hidden'] = 'Hidden from students';
 $string['page_view_participants'] = 'Participants';
@@ -68,3 +68,10 @@ $string['page_submissions_portfolioattachment'] = 'Portfolio\'s attachment';
 
 $string['page_viewsubmission_addcomment'] = 'Add comment';
 $string['page_viewsubmission_addgrade'] = 'Add grade';
+
+$string['save_comment_success'] = 'Comment successfully added';
+
+$string['grade'] = 'Grade';
+$string['grade_help'] = 'Enter the grade for the student\'s portfolio here.';
+$string['onlynumbers'] = 'Only numbers are accepted.';
+$string['gradefor'] = 'Grade for: {$a}';

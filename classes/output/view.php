@@ -61,7 +61,7 @@ class view implements renderable, templatable {
         }
 
         $groupgradingmodetext = get_string('groupgrading', 'mod_evokeportfolio');
-        if ($this->evokeportfolio->groupgradingmode == 2) {
+        if ($this->evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_INDIVIDUAL) {
             $groupgradingmodetext = get_string('individualgrading', 'mod_evokeportfolio');
         }
 

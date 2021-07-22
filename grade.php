@@ -15,30 +15,111 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Redirect the user to the appropiate submission related page.
+ * Submits an portfolio comment.
  *
  * @package     mod_evokeportfolio
- * @category    grade
  * @copyright   2021 Willian Mano <willianmanoaraujo@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(__DIR__.'/../../config.php');
 
-// Course module ID.
+// Course module id.
 $id = required_param('id', PARAM_INT);
+$userid = optional_param('userid', null, PARAM_INT);
+$groupid = optional_param('groupid', null, PARAM_INT);
 
-$cm = get_coursemodule_from_id('evokeportfolio', $id, 0, false, MUST_EXIST);
-$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-$moduleinstance = $DB->get_record('evokeportfolio', array('id' => $cm->instance), '*', MUST_EXIST);
+list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
+$evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
 
-require_login($course, true, $cm);
+if (!$userid && !$groupid) {
+    $url = new moodle_url('/mod/evokeportfolio/view.php', ['id' => $id]);
 
-// Item number may be != 0 for activities that allow more than one grade per user.
-$itemnumber = optional_param('itemnumber', 0, PARAM_INT);
+    redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
+}
 
-// Graded user ID (optional).
-$userid = optional_param('userid', 0, PARAM_INT);
+$urlparams = ['id' => $cm->id];
 
-// In the simplest case just redirect to the view page.
-redirect('view.php?id='.$id);
+if ($userid) {
+    $evaluateduser = $DB->get_record('user', ['id' => $userid], '*', MUST_EXIST);
+
+    $urlparams['userid'] = $userid;
+}
+
+if ($groupid) {
+    $evaluatedgroup = $DB->get_record('groups', ['id' => $groupid], '*', MUST_EXIST);
+
+    $urlparams['groupid'] = $groupid;
+}
+
+require_course_login($course, true, $cm);
+
+$context = context_module::instance($cm->id);
+
+$url = new moodle_url('/mod/evokeportfolio/comment.php', $urlparams);
+
+$PAGE->set_url($url);
+$PAGE->set_title(format_string($evokeportfolio->name));
+$PAGE->set_heading(format_string($course->fullname));
+$PAGE->set_context($context);
+
+$formdata = [
+    'cmid' => $cm->id,
+    'groupactivity' => $evokeportfolio->groupactivity,
+    'groupgradingmode' => $evokeportfolio->groupgradingmode,
+    'instanceid' => $evokeportfolio->id
+];
+
+if ($evokeportfolio->groupactivity) {
+    $formdata['groupid'] = $groupid;
+} else {
+    $formdata['userid'] = $userid;
+}
+
+$form = new \mod_evokeportfolio\forms\grade_form($url, $formdata);
+
+if ($form->is_cancelled()) {
+    redirect(new moodle_url('/mod/evokeportfolio/view.php', $urlparams));
+} else if ($formdata = $form->get_data()) {
+    try {
+        unset($formdata->submitbutton);
+
+        $data = new \stdClass();
+        $data->cmid = $cm->id;
+        $data->postedby = $USER->id;
+        $data->role = ROLE_TEACHER;
+        $data->timecreated = time();
+        $data->timemodified = time();
+
+        if (isset($formdata->groupid)) {
+            $data->groupid = $formdata->groupid;
+        }
+
+        if (isset($formdata->userid)) {
+            $data->userid = $formdata->userid;
+        }
+
+        if (isset($formdata->comment['text'])) {
+            $data->comment = $formdata->comment['text'];
+            $data->commentformat = $formdata->comment['format'];
+        }
+
+        $DB->insert_record('evokeportfolio_entries', $data);
+
+        $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', $urlparams);
+
+        redirect($url, 'Comentário enviada com sucesso.', null, \core\output\notification::NOTIFY_SUCCESS);
+    } catch (\Exception $e) {
+        redirect($url, $e->getMessage(), null, \core\output\notification::NOTIFY_ERROR);
+    }
+} else {
+    echo $OUTPUT->header();
+
+    $renderer = $PAGE->get_renderer('mod_evokeportfolio');
+
+    $contentrenderable = new \mod_evokeportfolio\output\grade($evokeportfolio, $context, $form, $userid, $groupid);
+
+    echo $renderer->render($contentrenderable);
+
+    echo $OUTPUT->footer();
+}

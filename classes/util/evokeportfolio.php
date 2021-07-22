@@ -19,6 +19,12 @@ namespace mod_evokeportfolio\util;
 defined('MOODLE_INTERNAL') || die();
 
 class evokeportfolio {
+    public function get_instance($id) {
+        global $DB;
+
+        return $DB->get_record('evokeportfolio', ['id' => $id], '*', MUST_EXIST);
+    }
+
     public function has_submission($cmid, $userid = false, $groupid = null) {
         global $DB;
 
@@ -50,7 +56,7 @@ class evokeportfolio {
                     e.*,
                     u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
                 FROM {evokeportfolio_entries} e
-                INNER JOIN mdl_user u ON u.id = e.postedby
+                INNER JOIN {user} u ON u.id = e.postedby
                 WHERE e.cmid = :cmid';
 
         if ($groupid) {
@@ -90,7 +96,7 @@ class evokeportfolio {
             $data[$key]->fullname = fullname($user);
 
             $data[$key]->isteacher = false;
-            if ($entry->role == ROLE_TEACHER) {
+            if ($entry->role == MOD_EVOKEPORTFOLIO_ROLE_TEACHER) {
                 $data[$key]->isteacher = true;
             }
         }

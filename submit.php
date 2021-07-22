@@ -66,7 +66,7 @@ if ($form->is_cancelled()) {
         $data = new \stdClass();
         $data->cmid = $cm->id;
         $data->postedby = $USER->id;
-        $data->role = ROLE_STUDENT;
+        $data->role = MOD_EVOKEPORTFOLIO_ROLE_STUDENT;
         $data->timecreated = time();
         $data->timemodified = time();
 

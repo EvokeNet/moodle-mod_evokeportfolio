@@ -24,8 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-DEFINE('ROLE_STUDENT', 1);
-DEFINE('ROLE_TEACHER', 2);
+DEFINE('MOD_EVOKEPORTFOLIO_ROLE_STUDENT', 1);
+DEFINE('MOD_EVOKEPORTFOLIO_ROLE_TEACHER', 2);
+DEFINE('MOD_EVOKEPORTFOLIO_GRADING_GROUP', 1);
+DEFINE('MOD_EVOKEPORTFOLIO_GRADING_INDIVIDUAL', 2);
 
 /**
  * Return if the plugin supports $feature.
@@ -72,6 +74,10 @@ function evokeportfolio_add_instance($moduleinstance, $mform = null) {
 
     $id = $DB->insert_record('evokeportfolio', $moduleinstance);
 
+    $moduleinstance->id = $id;
+
+    evokeportfolio_grade_item_update($moduleinstance);
+
     return $id;
 }
 
@@ -91,6 +97,8 @@ function evokeportfolio_update_instance($moduleinstance, $mform = null) {
     $moduleinstance->timemodified = time();
     $moduleinstance->id = $moduleinstance->instance;
 
+    evokeportfolio_grade_item_update($moduleinstance);
+
     return $DB->update_record('evokeportfolio', $moduleinstance);
 }
 
@@ -103,12 +111,18 @@ function evokeportfolio_update_instance($moduleinstance, $mform = null) {
 function evokeportfolio_delete_instance($id) {
     global $DB;
 
-    $exists = $DB->get_record('evokeportfolio', array('id' => $id));
-    if (!$exists) {
+    $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $id]);
+    if (!$evokeportfolio) {
         return false;
     }
 
-    $DB->delete_records('evokeportfolio', array('id' => $id));
+    $coursemodule = get_coursemodule_from_instance('evokeportfolio', $id);
+
+    $DB->delete_records('evokeportfolio', ['id' => $id]);
+
+    $DB->delete_records('evokeportfolio_entries', ['cmid' => $coursemodule->id]);
+
+    attendance_grade_item_delete($evokeportfolio);
 
     return true;
 }
@@ -182,7 +196,7 @@ function evokeportfolio_grade_item_update($moduleinstance, $reset=false) {
         $item['reset'] = true;
     }
 
-    grade_update('/mod/evokeportfolio', $moduleinstance->course, 'mod', 'mod_evokeportfolio', $moduleinstance->id, 0, null, $item);
+    grade_update('/mod/evokeportfolio', $moduleinstance->course, 'mod', 'evokeportfolio', $moduleinstance->id, 0, null, $item);
 }
 
 /**
@@ -213,7 +227,7 @@ function evokeportfolio_update_grades($moduleinstance, $userid = 0) {
 
     // Populate array of grade objects indexed by userid.
     $grades = array();
-    grade_update('/mod/evokeportfolio', $moduleinstance->course, 'mod', 'mod_evokeportfolio', $moduleinstance->id, 0, $grades);
+    grade_update('/mod/evokeportfolio', $moduleinstance->course, 'mod', 'evokeportfolio', $moduleinstance->id, 0, $grades);
 }
 
 /**

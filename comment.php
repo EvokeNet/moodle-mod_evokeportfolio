@@ -35,7 +35,7 @@ $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*'
 if (!$userid && !$groupid) {
     $url = new moodle_url('/mod/evokeportfolio/view.php', ['id' => $id]);
 
-    redirect($url, 'Acesso ilegal.', null, \core\output\notification::NOTIFY_ERROR);
+    redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
 }
 
 $urlparams = ['id' => $cm->id];
@@ -84,7 +84,7 @@ if ($form->is_cancelled()) {
         $data = new \stdClass();
         $data->cmid = $cm->id;
         $data->postedby = $USER->id;
-        $data->role = ROLE_TEACHER;
+        $data->role = MOD_EVOKEPORTFOLIO_ROLE_TEACHER;
         $data->timecreated = time();
         $data->timemodified = time();
 
@@ -105,7 +105,7 @@ if ($form->is_cancelled()) {
 
         $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', $urlparams);
 
-        redirect($url, 'Comentário enviada com sucesso.', null, \core\output\notification::NOTIFY_SUCCESS);
+        redirect($url, get_string('save_comment_success', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_SUCCESS);
     } catch (\Exception $e) {
         redirect($url, $e->getMessage(), null, \core\output\notification::NOTIFY_ERROR);
     }

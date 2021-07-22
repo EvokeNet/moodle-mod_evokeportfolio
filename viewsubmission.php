@@ -37,7 +37,9 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 
 if (!has_capability('mod/evokeportfolio:grade', $context)) {
-    redirect($url, 'Acesso ilegal.', null, \core\output\notification::NOTIFY_ERROR);
+    $url = new moodle_url('/mod/evokeportfolio/view.php', ['id' => $id]);
+
+    redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
 }
 
 $urlparams = ['id' => $cm->id];

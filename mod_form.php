@@ -68,8 +68,8 @@ class mod_evokeportfolio_mod_form extends moodleform_mod {
         $mform->setDefault('groupactivity', 0);
 
         $options = [
-            1 => 'Group grading',
-            2 => 'Individual grading'
+            MOD_EVOKEPORTFOLIO_GRADING_GROUP => 'Group grading',
+            MOD_EVOKEPORTFOLIO_GRADING_INDIVIDUAL => 'Individual grading'
         ];
         $mform->addElement('select', 'groupgradingmode', get_string('groupgradingmode', 'mod_evokeportfolio'), $options);
         $mform->addHelpButton('groupgradingmode', 'groupgradingmode', 'mod_evokeportfolio');
