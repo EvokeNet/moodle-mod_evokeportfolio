@@ -56,7 +56,7 @@ require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-$url = new moodle_url('/mod/evokeportfolio/comment.php', $urlparams);
+$url = new moodle_url('/mod/evokeportfolio/grade.php', $urlparams);
 
 $PAGE->set_url($url);
 $PAGE->set_title(format_string($evokeportfolio->name));
@@ -84,31 +84,12 @@ if ($form->is_cancelled()) {
     try {
         unset($formdata->submitbutton);
 
-        $data = new \stdClass();
-        $data->cmid = $cm->id;
-        $data->postedby = $USER->id;
-        $data->role = ROLE_TEACHER;
-        $data->timecreated = time();
-        $data->timemodified = time();
-
-        if (isset($formdata->groupid)) {
-            $data->groupid = $formdata->groupid;
-        }
-
-        if (isset($formdata->userid)) {
-            $data->userid = $formdata->userid;
-        }
-
-        if (isset($formdata->comment['text'])) {
-            $data->comment = $formdata->comment['text'];
-            $data->commentformat = $formdata->comment['format'];
-        }
-
-        $DB->insert_record('evokeportfolio_entries', $data);
+        $gradeutil = new \mod_evokeportfolio\util\grade();
+        $gradeutil->process_grade_form($evokeportfolio, $formdata);
 
         $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', $urlparams);
 
-        redirect($url, 'Comentário enviada com sucesso.', null, \core\output\notification::NOTIFY_SUCCESS);
+        redirect($url, 'Nota adicionada com sucesso.', null, \core\output\notification::NOTIFY_SUCCESS);
     } catch (\Exception $e) {
         redirect($url, $e->getMessage(), null, \core\output\notification::NOTIFY_ERROR);
     }

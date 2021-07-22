@@ -19,5 +19,81 @@ namespace mod_evokeportfolio\util;
 defined('MOODLE_INTERNAL') || die();
 
 class grade {
-    
+    public function process_grade_form($evokeportfolio, $formdata) {
+        global $CFG;
+
+        $grades = $this->get_grades_from_form($evokeportfolio, $formdata);
+
+        if (!$grades) {
+            return;
+        }
+
+        require_once($CFG->libdir . '/gradelib.php');
+
+        grade_update('mod/evokeportfolio', $evokeportfolio->course, 'mod', 'evokeportfolio', $evokeportfolio->id, 0, $grades);
+    }
+
+    private function get_grades_from_form($evokeportfolio, $formdata) {
+        $grades = [];
+
+        if (!$evokeportfolio->groupactivity) {
+            $finalgrade = $formdata->grade;
+            if ($finalgrade > $evokeportfolio->grade) {
+                $finalgrade = $evokeportfolio->grade;
+            }
+
+            $grades[$formdata->userid] = new \stdClass();
+            $grades[$formdata->userid]->userid = $formdata->userid;
+            $grades[$formdata->userid]->rawgrade = $finalgrade;
+
+            return $grades;
+        }
+
+        if ($evokeportfolio->groupactivity) {
+            if ($evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_GROUP) {
+                $groupsutil = new groups();
+                $groupmembers = $groupsutil->get_group_members($formdata->groupid);
+
+                if (!$groupmembers) {
+                    return false;
+                }
+
+                $finalgrade = $formdata->grade;
+                if ($finalgrade > $evokeportfolio->grade) {
+                    $finalgrade = $evokeportfolio->grade;
+                }
+
+                foreach ($groupmembers as $user) {
+                    $grades[$user->id] = new \stdClass();
+                    $grades[$user->id]->userid = $user->id;
+                    $grades[$user->id]->rawgrade = $finalgrade;
+                }
+
+                return $grades;
+            }
+
+            if ($evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_INDIVIDUAL) {
+                unset($formdata->groupid);
+
+                foreach ($formdata as $key => $usergrade) {
+                    $userid = substr(strrchr($key, "gradeuserid-"), 12);
+
+                    if (!$userid) {
+                        continue;
+                    }
+
+                    $finalgrade = $usergrade;
+                    if ($finalgrade > $evokeportfolio->grade) {
+                        $finalgrade = $evokeportfolio->grade;
+                    }
+
+                    $grades[$userid] = new \stdClass();
+                    $grades[$userid]->userid = $userid;
+                    $grades[$userid]->rawgrade = $finalgrade;
+                }
+
+                return $grades;
+            }
+        }
+    }
 }
