@@ -24,15 +24,9 @@
 </div>
 
 <div class="mb-3 text-center">
-    {{#isteacher}}
-        <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/addcomment.php?id={{course}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
-        <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/addgrade.php?id={{course}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
-    {{/isteacher}}
-    {{^isteacher}}
-        {{^isdelayed}}
-            <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
-        {{/isdelayed}}
-    {{/isteacher}}
+    {{^isdelayed}}
+        <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
+    {{/isdelayed}}
 </div>
 
 <div class="submissions">
@@ -47,15 +41,25 @@
                 </div>
             {{/comment}}
 
-            <h4 class="mb-0 mt-2">{{#str}}page_submissions_portfolioattachment, mod_evokeportfolio{{/str}}</h4>
-            <div class="border-white row mx-0">
-                <div class="col-6 mx-0">
-                    <i class="fa fa-file-pdf-o"></i> Attachment file
-                </div>
-                <div class="col-6 mx-0 text-right">
-                    <a href="#" class="btn btn-secondary btn-sm">Download file</a>
-                </div>
-            </div>
+            {{#hasattachments}}
+                <h4 class="mb-0 mt-2">{{#str}}page_submissions_portfolioattachment, mod_evokeportfolio{{/str}}</h4>
+
+                {{#attachments}}
+                    <div class="border-white row mx-0">
+                        {{#isimage}}
+                            <img src="{{fileurl}}" class="img-responsive">
+                        {{/isimage}}
+                        {{^isimage}}
+                            <div class="col-6 mx-0">
+                                <i class="fa fa-file-pdf-o"></i> {{#str}}attachmentfile, mod_evokeportfolio{{/str}}
+                            </div>
+                            <div class="col-6 mx-0 text-right">
+                                <a href="{{fileurl}}" class="btn btn-secondary btn-sm">{{#str}}downloadfile, mod_evokeportfolio{{/str}}</a>
+                            </div>
+                        {{/isimage}}
+                    </div>
+                {{/attachments}}
+            {{/hasattachments}}
         </div>
     {{/submissions}}
 </div>

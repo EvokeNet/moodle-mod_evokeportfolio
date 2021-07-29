@@ -83,7 +83,12 @@ if ($form->is_cancelled()) {
             $data->commentformat = $formdata->comment['format'];
         }
 
-        $DB->insert_record('evokeportfolio_entries', $data);
+        $portfolioid = $DB->insert_record('evokeportfolio_entries', $data);
+        $data->id = $portfolioid;
+
+        $draftitemid = file_get_submitted_draft_itemid('attachments');
+
+        file_save_draft_area_files($draftitemid, $context->id, 'mod_evokeportfolio', 'attachments', $data->id, ['subdirs' => 0, 'maxfiles' => 1]);
 
         $url = new moodle_url('/mod/evokeportfolio/submissions.php', $urlparams);
 

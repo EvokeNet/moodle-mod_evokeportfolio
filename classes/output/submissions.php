@@ -91,13 +91,13 @@ class submissions implements renderable, templatable {
                 $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
 
                 $data['hassubmission'] = $evokeportfolioutil->has_submission($this->context->instanceid, $USER->id, $usercoursegroup->id);
-                $data['submissions'] = $evokeportfolioutil->get_submissions($this->context->instanceid, $USER->id, $usercoursegroup->id);
+                $data['submissions'] = $evokeportfolioutil->get_submissions($this->context, $USER->id, $usercoursegroup->id);
             }
 
             return $data;
         }
 
-        $data['submissions'] = $evokeportfolioutil->get_submissions($this->context->instanceid, $USER->id);
+        $data['submissions'] = $evokeportfolioutil->get_submissions($this->context, $USER->id);
 
         return $data;
     }

@@ -47,6 +47,9 @@ $string['groupgradingmode_help'] = '<b>Group grading: </b> all users from the gr
 $string['groupgrading'] = 'Group grading';
 $string['individualgrading'] = 'Individual grading';
 $string['illegalaccess'] = 'Illegal access';
+$string['attachmentfile'] = 'Attachment file';
+$string['downloadfile'] = 'Download file';
+
 $string['page_view_gradingsummary'] = 'Grading summary';
 $string['page_view_hidden'] = 'Hidden from students';
 $string['page_view_participants'] = 'Participants';
@@ -68,6 +71,7 @@ $string['page_submissions_portfolioattachment'] = 'Portfolio\'s attachment';
 
 $string['page_viewsubmission_addcomment'] = 'Add comment';
 $string['page_viewsubmission_addgrade'] = 'Add grade';
+$string['page_entries_title'] = 'Portfolio\'s submissions';
 
 $string['save_comment_success'] = 'Comment successfully added';
 

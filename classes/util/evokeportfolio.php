@@ -49,7 +49,7 @@ class evokeportfolio {
         return false;
     }
 
-    public function get_submissions($cmid, $userid = null, $groupid = null) {
+    public function get_submissions($context, $userid = null, $groupid = null) {
         global $DB;
 
         $sql = 'SELECT
@@ -61,22 +61,32 @@ class evokeportfolio {
 
         if ($groupid) {
             $sql .= ' AND e.groupid = :groupid ORDER BY e.id desc';
-            $entries = $DB->get_records_sql($sql, ['cmid' => $cmid, 'groupid' => $groupid]);
+            $entries = $DB->get_records_sql($sql, ['cmid' => $context->instanceid, 'groupid' => $groupid]);
 
-            if ($entries) {
-                return $this->populate_data_with_user_info($entries);
+            if (!$entries) {
+                return false;
             }
 
-            return false;
+            $this->populate_data_with_user_info($entries);
+
+            $this->populate_data_with_attachments($entries, $context);
+
+            return array_values($entries);
         }
 
         if ($userid) {
             $sql .= ' AND e.userid = :userid ORDER BY e.id desc';
-            $entries = $DB->get_records_sql($sql, ['cmid' => $cmid, 'userid' => $userid]);
+            $entries = $DB->get_records_sql($sql, ['cmid' => $context->instanceid, 'userid' => $userid]);
 
-            if ($entries) {
-                return $this->populate_data_with_user_info($entries);
+            if (!$entries) {
+                return false;
             }
+
+            $this->populate_data_with_user_info($entries);
+
+            $this->populate_data_with_attachments($entries, $context);
+
+            return array_values($entries);
         }
 
         return false;
@@ -86,7 +96,7 @@ class evokeportfolio {
         global $PAGE;
 
         foreach ($data as $key => $entry) {
-            $user = $entry;
+            $user = clone($entry);
             $user->id = $entry->uid;
 
             $userpicture = new \user_picture($user);
@@ -101,6 +111,46 @@ class evokeportfolio {
             }
         }
 
-        return array_values($data);
+        return $data;
+    }
+
+    private function populate_data_with_attachments($data, $context) {
+
+        $fs = get_file_storage();
+
+        foreach ($data as $key => $entry) {
+            $files = $fs->get_area_files($context->id,
+                'mod_evokeportfolio',
+                'attachments',
+                $entry->id,
+                'timemodified',
+                false);
+
+            $data[$key]->hasattachments = false;
+
+            if ($files) {
+                $entryfiles = [];
+
+                foreach ($files as $file) {
+                    $path = [
+                        '',
+                        $file->get_contextid(),
+                        $file->get_component(),
+                        $file->get_filearea(),
+                        $entry->id .$file->get_filepath() . $file->get_filename()
+                    ];
+
+                    $fileurl = \moodle_url::make_file_url('/pluginfile.php', implode('/', $path), true);
+
+                    $entryfiles[] = [
+                        'isimage' => $file->is_valid_image(),
+                        'fileurl' => $fileurl
+                    ];
+                }
+
+                $data[$key]->attachments = $entryfiles;
+                $data[$key]->hasattachments = true;
+            }
+        }
     }
 }

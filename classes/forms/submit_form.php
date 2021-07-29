@@ -67,9 +67,8 @@ class submit_form extends \moodleform {
         $mform->addElement('editor', 'comment', get_string('page_submit_comment', 'mod_evokeportfolio', $options));
         $mform->setType('comment', PARAM_CLEANHTML);
 
-//        $mform->addElement('filemanager', 'attachments', get_string('page_submit_attachments', 'mod_evokeportfolio'), null,
-//            array('subdirs' => 0, 'areamaxbytes' => 10485760, 'maxfiles' => 1,
-//                'accepted_types' => ['document', 'image'], 'return_types'=> FILE_INTERNAL | FILE_EXTERNAL));
+        $mform->addElement('filemanager', 'attachments', get_string('page_submit_attachments', 'mod_evokeportfolio'), null,
+            ['subdirs' => 0, 'maxfiles' => 1, 'accepted_types' => ['document', 'image'], 'return_types'=> FILE_INTERNAL | FILE_EXTERNAL]);
 
         $this->add_action_buttons(true);
     }

@@ -39,7 +39,7 @@ $context = context_module::instance($cm->id);
 if (!empty($userid) && $userid != $USER->id && !has_capability('mod/evokeportfolio:grade', $context)) {
     $url = new moodle_url('/course/view', ['id' => $course->id]);
 
-    redirect($url, 'Acesso ilegal.', null, \core\output\notification::NOTIFY_ERROR);
+    redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
 }
 
 if ($groupid) {
@@ -48,7 +48,7 @@ if ($groupid) {
     if (!$grouputil->is_group_member($groupid, $USER->id) && !has_capability('mod/evokeportfolio:grade', $context)) {
         $url = new moodle_url('/course/view', ['id' => $course->id]);
 
-        redirect($url, 'Acesso ilegal.', null, \core\output\notification::NOTIFY_ERROR);
+        redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
     }
 }
 
