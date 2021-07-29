@@ -120,7 +120,7 @@ function evokeportfolio_delete_instance($id) {
 
     $DB->delete_records('evokeportfolio', ['id' => $id]);
 
-    $DB->delete_records('evokeportfolio_entries', ['cmid' => $coursemodule->id]);
+    $DB->delete_records('evokeportfolio_submissions', ['cmid' => $coursemodule->id]);
 
     attendance_grade_item_delete($evokeportfolio);
 

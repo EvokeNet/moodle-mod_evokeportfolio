@@ -69,6 +69,10 @@ if ($form->is_cancelled()) {
         $data->role = MOD_EVOKEPORTFOLIO_ROLE_STUDENT;
         $data->timecreated = time();
         $data->timemodified = time();
+        $data->groupid = null;
+        $data->userid = null;
+        $data->comment = null;
+        $data->commentformat = null;
 
         if (isset($formdata->groupid)) {
             $data->groupid = $formdata->groupid;
@@ -83,12 +87,23 @@ if ($form->is_cancelled()) {
             $data->commentformat = $formdata->comment['format'];
         }
 
-        $portfolioid = $DB->insert_record('evokeportfolio_entries', $data);
-        $data->id = $portfolioid;
+        $submissionid = $DB->insert_record('evokeportfolio_submissions', $data);
+        $data->id = $submissionid;
 
+        // Process attachments.
         $draftitemid = file_get_submitted_draft_itemid('attachments');
 
         file_save_draft_area_files($draftitemid, $context->id, 'mod_evokeportfolio', 'attachments', $data->id, ['subdirs' => 0, 'maxfiles' => 1]);
+
+        // Processe event.
+        $params = array(
+            'context' => $context,
+            'objectid' => $submissionid,
+            'relateduserid' => $data->postedby
+        );
+        $event = \mod_evokeportfolio\event\submission_sent::create($params);
+        $event->add_record_snapshot('evokeportfolio_submissions', $data);
+        $event->trigger();
 
         $url = new moodle_url('/mod/evokeportfolio/submissions.php', $urlparams);
 

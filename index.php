@@ -34,7 +34,7 @@ require_course_login($course);
 $coursecontext = context_course::instance($course->id);
 
 $event = \mod_evokeportfolio\event\course_module_instance_list_viewed::create(array(
-    'context' => $modulecontext
+    'context' => $coursecontext
 ));
 $event->add_record_snapshot('course', $course);
 $event->trigger();
@@ -43,6 +43,8 @@ $PAGE->set_url('/mod/evokeportfolio/index.php', array('id' => $id));
 $PAGE->set_title(format_string($course->fullname));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($coursecontext);
+
+$PAGE->navbar->add(get_string('modulenameplural', 'mod_evokeportfolio'));
 
 echo $OUTPUT->header();
 

@@ -29,7 +29,7 @@ class evokeportfolio {
         global $DB;
 
         if ($groupid) {
-            $entries = $DB->count_records('evokeportfolio_entries', ['cmid' => $cmid, 'groupid' => $groupid]);
+            $entries = $DB->count_records('evokeportfolio_submissions', ['cmid' => $cmid, 'groupid' => $groupid]);
 
             if ($entries) {
                 return true;
@@ -39,7 +39,7 @@ class evokeportfolio {
         }
 
         if ($userid) {
-            $entries = $DB->count_records('evokeportfolio_entries', ['cmid' => $cmid, 'userid' => $userid]);
+            $entries = $DB->count_records('evokeportfolio_submissions', ['cmid' => $cmid, 'userid' => $userid]);
 
             if ($entries) {
                 return true;
@@ -55,7 +55,7 @@ class evokeportfolio {
         $sql = 'SELECT
                     e.*,
                     u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
-                FROM {evokeportfolio_entries} e
+                FROM {evokeportfolio_submissions} e
                 INNER JOIN {user} u ON u.id = e.postedby
                 WHERE e.cmid = :cmid';
 

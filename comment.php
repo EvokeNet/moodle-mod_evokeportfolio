@@ -101,7 +101,7 @@ if ($form->is_cancelled()) {
             $data->commentformat = $formdata->comment['format'];
         }
 
-        $DB->insert_record('evokeportfolio_entries', $data);
+        $DB->insert_record('evokeportfolio_submissions', $data);
 
         $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', $urlparams);
 

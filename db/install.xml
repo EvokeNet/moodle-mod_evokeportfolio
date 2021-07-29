@@ -23,7 +23,7 @@
         <KEY NAME="fk_course" TYPE="foreign" FIELDS="course" REFTABLE="course" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="evokeportfolio_entries" COMMENT="Stores the portfolio entries.">
+    <TABLE NAME="evokeportfolio_submissions" COMMENT="Stores the portfolio submissions.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course module ID."/>

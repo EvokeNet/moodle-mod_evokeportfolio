@@ -30,13 +30,14 @@ $string['evokeportfolio:view'] = 'View portfolio';
 $string['missingidandcmid'] = 'Missing ID or Course Module ID';
 $string['modulename'] = 'Portfolio';
 $string['modulename_help'] = 'Use the portfolio module for manage users creations...';
-$string['modulenameplural'] = 'New Portfolios';
+$string['modulenameplural'] = 'Portfolios';
 $string['noportfolioinstances'] = 'No porfolio instances were found';
 $string['pluginadministration'] = 'Portfolio administration';
 $string['pluginname'] = 'Portfolio';
 $string['fieldset'] = 'Portfolio';
 $string['name'] = 'Name';
 $string['view'] = 'View';
+$string['eventsubmissionsent'] = 'Submission sent';
 
 $string['datelimit'] = 'Date limit';
 $string['datelimit_help'] = 'Before this date, student cant send their responses.';
