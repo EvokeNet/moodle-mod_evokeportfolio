@@ -56,10 +56,14 @@ require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
+$redirecturl = new moodle_url('/course/view', ['id' => $course->id]);
 if (!has_capability('mod/evokeportfolio:grade', $context)) {
-    $url = new moodle_url('/course/view', ['id' => $course->id]);
+    redirect($redirecturl, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
+}
 
-    redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
+$gradeutil = new \mod_evokeportfolio\util\grade();
+if ($gradeutil->is_gradeitem_locked($evokeportfolio->id, $evokeportfolio->course)) {
+    redirect($redirecturl, get_string('gradinglocked', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
 }
 
 $url = new moodle_url('/mod/evokeportfolio/grade.php', $urlparams);
@@ -95,7 +99,7 @@ if ($form->is_cancelled()) {
 
         $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', $urlparams);
 
-        redirect($url, 'Nota adicionada com sucesso.', null, \core\output\notification::NOTIFY_SUCCESS);
+        redirect($url, get_string('save_grade_success', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_SUCCESS);
     } catch (\Exception $e) {
         redirect($url, $e->getMessage(), null, \core\output\notification::NOTIFY_ERROR);
     }

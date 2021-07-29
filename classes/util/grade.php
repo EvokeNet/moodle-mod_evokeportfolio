@@ -38,7 +38,7 @@ class grade {
 
         if (!$evokeportfolio->groupactivity) {
             $finalgrade = $formdata->grade;
-            if ($finalgrade > $evokeportfolio->grade) {
+            if ($evokeportfolio->grade > 0 && $finalgrade > $evokeportfolio->grade) {
                 $finalgrade = $evokeportfolio->grade;
             }
 
@@ -59,7 +59,7 @@ class grade {
                 }
 
                 $finalgrade = $formdata->grade;
-                if ($finalgrade > $evokeportfolio->grade) {
+                if ($evokeportfolio->grade > 0 && $finalgrade > $evokeportfolio->grade) {
                     $finalgrade = $evokeportfolio->grade;
                 }
 
@@ -83,7 +83,7 @@ class grade {
                     }
 
                     $finalgrade = $usergrade;
-                    if ($finalgrade > $evokeportfolio->grade) {
+                    if ($evokeportfolio->grade > 0 && $finalgrade > $evokeportfolio->grade) {
                         $finalgrade = $evokeportfolio->grade;
                     }
 
@@ -95,5 +95,86 @@ class grade {
                 return $grades;
             }
         }
+    }
+
+    public function get_grade_item($iteminstance, $courseid) {
+        global $CFG;
+
+        require_once($CFG->libdir . '/gradelib.php');
+        require_once($CFG->libdir . '/grade/grade_item.php');
+
+        $gradeitem = \grade_item::fetch_all([
+            'itemtype' => 'mod',
+            'itemmodule' => 'evokeportfolio',
+            'iteminstance' => $iteminstance,
+            'courseid' => $courseid
+        ]);
+
+        if (empty($gradeitem)) {
+            return false;
+        }
+
+        return current($gradeitem);
+    }
+
+    public function is_gradeitem_locked($iteminstance, $courseid) {
+        $gradeitem = $this->get_grade_item($iteminstance, $courseid);
+
+        if (!$gradeitem) {
+            return false;
+        }
+
+        return $gradeitem->is_locked();
+    }
+
+    public function student_has_grade($evokeportfolio, $userid) {
+        $usergrade = $this->get_student_grade($evokeportfolio, $userid);
+
+        if ($usergrade) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function get_student_grade($evokeportfolio, $userid) {
+        global $DB;
+
+        $gradeitem = $this->get_grade_item($evokeportfolio->id, $evokeportfolio->course);
+
+        if (!$gradeitem) {
+            return false;
+        }
+
+        $gradegrade = $DB->get_record('grade_grades',
+            [
+                'itemid' => $gradeitem->id,
+                'userid' => $userid
+            ]
+        );
+
+        if (!$gradegrade) {
+            return false;
+        }
+
+        return $gradegrade->finalgrade;
+    }
+
+    public function group_has_grade($evokeportfolio, $groupid) {
+        $groupsutil = new groups();
+        $groupmembers = $groupsutil->get_group_members($groupid, false);
+
+        if (!$groupmembers) {
+            return false;
+        }
+
+        foreach ($groupmembers as $user) {
+            // All users from the group need to have a grade.
+            if (!$this->student_has_grade($evokeportfolio, $user->id)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

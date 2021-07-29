@@ -26,11 +26,29 @@
 <div class="mb-3 text-center">
     {{#groupactivity}}
         <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/comment.php?id={{cmid}}&groupid={{groupid}}">{{#str}}page_viewsubmission_addcomment, mod_evokeportfolio{{/str}}</a>
-        <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/grade.php?id={{cmid}}&groupid={{groupid}}">{{#str}}page_viewsubmission_addgrade, mod_evokeportfolio{{/str}}</a>
+        {{^isgradinglocked}}
+            <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/grade.php?id={{cmid}}&groupid={{groupid}}">
+                {{#grouphasgrade}}
+                    {{#str}}page_viewsubmission_editgrade, mod_evokeportfolio{{/str}}
+                {{/grouphasgrade}}
+                {{^grouphasgrade}}
+                    {{#str}}page_viewsubmission_addgrade, mod_evokeportfolio{{/str}}
+                {{/grouphasgrade}}
+            </a>
+        {{/isgradinglocked}}
     {{/groupactivity}}
     {{^groupactivity}}
         <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/comment.php?id={{cmid}}&userid={{userid}}">{{#str}}page_viewsubmission_addcomment, mod_evokeportfolio{{/str}}</a>
-        <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/grade.php?id={{cmid}}&userid={{userid}}">{{#str}}page_viewsubmission_addgrade, mod_evokeportfolio{{/str}}</a>
+        {{^isgradinglocked}}
+            <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/grade.php?id={{cmid}}&userid={{userid}}">
+                {{#userhasgrade}}
+                    {{#str}}page_viewsubmission_editgrade, mod_evokeportfolio{{/str}}
+                {{/userhasgrade}}
+                {{^userhasgrade}}
+                    {{#str}}page_viewsubmission_addgrade, mod_evokeportfolio{{/str}}
+                {{/userhasgrade}}
+            </a>
+        {{/isgradinglocked}}
     {{/groupactivity}}
 </div>
 

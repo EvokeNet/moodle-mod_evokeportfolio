@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 
 use mod_evokeportfolio\util\evokeportfolio;
+use mod_evokeportfolio\util\grade;
 use table_sql;
 use moodle_url;
 use html_writer;
@@ -84,11 +85,19 @@ class entries extends table_sql {
 
     public function col_status($data) {
         $evokeportfolioutil = new evokeportfolio();
+        $gradeutil = new grade();
+
         if ($this->evokeportfolio->groupactivity) {
             if ($evokeportfolioutil->has_submission($this->coursemodule->id, null, $data->id)) {
                 $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', ['id' => $this->coursemodule->id, 'groupid' => $data->id]);
 
-                return html_writer::link($url, 'Ver envio', ['class' => 'btn btn-primary btn-sm']);
+                $statuscontent = html_writer::link($url, get_string('viewsubmission', 'mod_evokeportfolio'), ['class' => 'btn btn-primary btn-sm']);
+
+                if ($gradeutil->group_has_grade($this->evokeportfolio, $data->id)) {
+                    $statuscontent .= html_writer::span(get_string('evaluated', 'mod_evokeportfolio'), 'badge badge-success ml-2 p-2');
+                }
+
+                return $statuscontent;
             }
         }
 
@@ -96,11 +105,17 @@ class entries extends table_sql {
             if ($evokeportfolioutil->has_submission($this->coursemodule->id, $data->id)) {
                 $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', ['id' => $this->coursemodule->id, 'userid' => $data->id]);
 
-                return html_writer::link($url, 'Ver envio', ['class' => 'btn btn-primary btn-sm']);
+                $statuscontent = html_writer::link($url, get_string('viewsubmission', 'mod_evokeportfolio'), ['class' => 'btn btn-primary btn-sm']);
+
+                if ($gradeutil->student_has_grade($this->evokeportfolio, $data->id)) {
+                    $statuscontent .= html_writer::span(get_string('evaluated', 'mod_evokeportfolio'), 'badge badge-success ml-2 p-2');
+                }
+
+                return $statuscontent;
             }
         }
 
-        return html_writer::span('Não enviado', 'badge badge-dark');
+        return html_writer::span(get_string('notsubmitted', 'mod_evokeportfolio'), 'badge badge-dark');
     }
 
     private function get_evokeportfolio_columns() {

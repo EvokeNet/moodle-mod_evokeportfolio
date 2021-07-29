@@ -41,7 +41,7 @@ class groups {
         return $usergroup;
     }
 
-    public function get_group_members($groupid) {
+    public function get_group_members($groupid, $withfulluserinfo = true) {
         global $DB, $PAGE;
 
         $sql = "SELECT u.*
@@ -55,12 +55,14 @@ class groups {
             return false;
         }
 
-        foreach ($groupmembers as $key => $groupmember) {
-            $userpicture = new \user_picture($groupmember);
+        if ($withfulluserinfo) {
+            foreach ($groupmembers as $key => $groupmember) {
+                $userpicture = new \user_picture($groupmember);
 
-            $groupmembers[$key]->userpicture = $userpicture->get_url($PAGE)->out();
+                $groupmembers[$key]->userpicture = $userpicture->get_url($PAGE)->out();
 
-            $groupmembers[$key]->fullname = fullname($groupmember);
+                $groupmembers[$key]->fullname = fullname($groupmember);
+            }
         }
 
         return array_values($groupmembers);

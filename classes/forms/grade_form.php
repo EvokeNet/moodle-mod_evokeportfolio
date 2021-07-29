@@ -17,6 +17,7 @@
 namespace mod_evokeportfolio\forms;
 
 use mod_evokeportfolio\util\evokeportfolio;
+use mod_evokeportfolio\util\grade;
 use mod_evokeportfolio\util\groups;
 
 /**
@@ -40,6 +41,9 @@ require_once($CFG->libdir. '/formslib.php');
  */
 class grade_form extends \moodleform {
 
+    private $userid = null;
+    private $groupid = null;
+
     /**
      * Defines forms elements
      */
@@ -47,11 +51,15 @@ class grade_form extends \moodleform {
         $mform = $this->_form;
 
         if (isset($this->_customdata['userid'])) {
+            $this->userid = $this->_customdata['userid'];
+
             $mform->addElement('hidden', 'userid', $this->_customdata['userid']);
             $mform->setType('userid', PARAM_INT);
         }
 
         if (isset($this->_customdata['groupid'])) {
+            $this->groupid = $this->_customdata['groupid'];
+
             $mform->addElement('hidden', 'groupid', $this->_customdata['groupid']);
             $mform->setType('groupid', PARAM_INT);
         }
@@ -66,45 +74,58 @@ class grade_form extends \moodleform {
 
     private function get_grade_form_fields($mform, $evokeportfolio) {
         if (!$evokeportfolio->groupactivity) {
-            $this->fill_form_with_individual_grade_fields($mform, $evokeportfolio->grade);
+            $this->fill_form_with_individual_grade_fields($mform, $evokeportfolio);
 
             return;
         }
 
         if ($evokeportfolio->groupactivity) {
             if ($evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_GROUP) {
-                $this->fill_form_with_individual_grade_fields($mform, $evokeportfolio->grade);
+                $this->fill_form_with_individual_grade_fields($mform, $evokeportfolio);
 
                 return;
             }
 
             if ($evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_INDIVIDUAL) {
-                $this->fill_form_with_group_grade_fields($mform, $evokeportfolio->grade);
+                $this->fill_form_with_group_grade_fields($mform, $evokeportfolio);
 
                 return;
             }
         }
     }
 
-    private function fill_form_with_individual_grade_fields($mform, $grade) {
-        if ($grade > 0) {
+    private function fill_form_with_individual_grade_fields($mform, $evokeportfolio) {
+        $usergradegrade = false;
+        if (!$evokeportfolio->groupactivity) {
+            $usergradegrade = $this->get_user_grade_grade($evokeportfolio, $this->userid);
+        }
+
+        if ($evokeportfolio->grade > 0) {
             $mform->addElement('text', 'grade', get_string('grade', 'mod_evokeportfolio'));
             $mform->addHelpButton('grade', 'grade', 'mod_evokeportfolio');
             $mform->addRule('grade', get_string('onlynumbers', 'mod_evokeportfolio'), 'numeric', null, 'client');
             $mform->addRule('grade', get_string('required'), 'required', null, 'client');
             $mform->setType('grade', PARAM_RAW);
+
+            if ($usergradegrade) {
+                $mform->setDefault('grade', $usergradegrade);
+            }
         }
 
-        if ($grade < 0) {
-            $grademenu = array(-1 => get_string("nograde")) + make_grades_menu($grade);
+        if ($evokeportfolio->grade < 0) {
+            $grademenu = array(-1 => get_string("nograde")) + make_grades_menu($evokeportfolio->grade);
 
             $mform->addElement('select', 'grade', get_string('gradenoun') . ':', $grademenu);
             $mform->setType('grade', PARAM_INT);
             $mform->addRule('grade', get_string('required'), 'required', null, 'client');
+
+            if ($usergradegrade) {
+                $mform->setDefault('grade', $usergradegrade);
+            }
         }
     }
 
-    private function fill_form_with_group_grade_fields($mform, $grade) {
+    private function fill_form_with_group_grade_fields($mform, $evokeportfolio) {
         $groupsutil = new groups();
         $groupmembers = $groupsutil->get_group_members($this->_customdata['groupid']);
 
@@ -116,25 +137,49 @@ class grade_form extends \moodleform {
             $gradeelementid = 'gradeuserid-' . $user->id;
             $gradeelementlabel = get_string('gradefor', 'mod_evokeportfolio', fullname($user));
 
-            if ($grade > 0) {
+            $usergradegrade = $this->get_user_grade_grade($evokeportfolio, $user->id);
+
+            if ($evokeportfolio->grade > 0) {
                 $mform->addElement('text', $gradeelementid, $gradeelementlabel);
                 $mform->addHelpButton($gradeelementid, 'grade', 'mod_evokeportfolio');
                 $mform->addRule($gradeelementid, get_string('onlynumbers', 'mod_evokeportfolio'), 'numeric', null, 'client');
                 $mform->addRule($gradeelementid, get_string('required'), 'required', null, 'client');
 
                 $mform->setType($gradeelementid, PARAM_RAW);
+
+                if ($usergradegrade) {
+                    $mform->setDefault($gradeelementid, $usergradegrade);
+                }
             }
 
-            if ($grade < 0) {
-                $grademenu = array(-1 => get_string("nograde")) + make_grades_menu($grade);
+            if ($evokeportfolio->grade < 0) {
+                $grademenu = array(-1 => get_string("nograde")) + make_grades_menu($evokeportfolio->grade);
 
                 $mform->addElement('select', $gradeelementid, $gradeelementlabel, $grademenu);
                 $mform->addRule($gradeelementid, get_string('required'), 'required', null, 'client');
                 $mform->setType($gradeelementid, PARAM_INT);
+
+                if ($usergradegrade) {
+                    $mform->setDefault($gradeelementid, $usergradegrade);
+                }
+            }
+        }
+    }
+
+    private function get_user_grade_grade($evokeportfolio, $userid) {
+        $gradeutil = new grade();
+        $gradegrade = $gradeutil->get_student_grade($evokeportfolio, $userid);
+
+        if ($gradegrade) {
+            $explodedgrade = explode('.', $gradegrade);
+            if ($explodedgrade[1] == '00000') {
+                return (int) $gradegrade;
+            } else {
+                return number_format($gradegrade, 1, '.', '');
             }
         }
 
-
+        return false;
     }
 
     public function validation($data, $files) {

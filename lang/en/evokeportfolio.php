@@ -38,6 +38,10 @@ $string['fieldset'] = 'Portfolio';
 $string['name'] = 'Name';
 $string['view'] = 'View';
 $string['eventsubmissionsent'] = 'Submission sent';
+$string['gradinglocked'] = 'The grading for this activity is currently locked.';
+$string['viewsubmission'] = 'View submission';
+$string['notsubmitted'] = 'Not submitted';
+$string['evaluated'] = 'Evaluated';
 
 $string['datelimit'] = 'Date limit';
 $string['datelimit_help'] = 'Before this date, student cant send their responses.';
@@ -72,9 +76,11 @@ $string['page_submissions_portfolioattachment'] = 'Portfolio\'s attachment';
 
 $string['page_viewsubmission_addcomment'] = 'Add comment';
 $string['page_viewsubmission_addgrade'] = 'Add grade';
+$string['page_viewsubmission_editgrade'] = 'Edit grade';
 $string['page_entries_title'] = 'Portfolio\'s submissions';
 
-$string['save_comment_success'] = 'Comment successfully added';
+$string['save_comment_success'] = 'Comment successfully added.';
+$string['save_grade_success'] = 'Grede successfully saved.';
 
 $string['grade'] = 'Grade';
 $string['grade_help'] = 'Enter the grade for the student\'s portfolio here.';
