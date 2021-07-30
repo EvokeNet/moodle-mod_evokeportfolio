@@ -122,7 +122,9 @@ function evokeportfolio_delete_instance($id) {
 
     $DB->delete_records('evokeportfolio_submissions', ['cmid' => $coursemodule->id]);
 
-    attendance_grade_item_delete($evokeportfolio);
+    $DB->delete_records('evokeportfolio_grades', ['portfolioid' => $id]);
+
+    evokeportfolio_grade_item_delete($evokeportfolio);
 
     return true;
 }
@@ -207,10 +209,11 @@ function evokeportfolio_grade_item_update($moduleinstance, $reset=false) {
  */
 function evokeportfolio_grade_item_delete($moduleinstance) {
     global $CFG;
+
     require_once($CFG->libdir.'/gradelib.php');
 
     return grade_update('/mod/evokeportfolio', $moduleinstance->course, 'mod', 'evokeportfolio',
-                        $moduleinstance->id, 0, null, array('deleted' => 1));
+                        $moduleinstance->id, 0, null, ['deleted' => 1]);
 }
 
 /**
@@ -222,11 +225,13 @@ function evokeportfolio_grade_item_delete($moduleinstance) {
  * @param int $userid Update grade of specific user only, 0 means all participants.
  */
 function evokeportfolio_update_grades($moduleinstance, $userid = 0) {
-    global $CFG, $DB;
+    global $CFG;
+
     require_once($CFG->libdir.'/gradelib.php');
 
     // Populate array of grade objects indexed by userid.
-    $grades = array();
+    $grades = [];
+
     grade_update('/mod/evokeportfolio', $moduleinstance->course, 'mod', 'evokeportfolio', $moduleinstance->id, 0, $grades);
 }
 
@@ -245,7 +250,7 @@ function evokeportfolio_update_grades($moduleinstance, $userid = 0) {
  * @return string[].
  */
 function evokeportfolio_get_file_areas($course, $cm, $context) {
-    return array();
+    return [];
 }
 
 /**
