@@ -107,7 +107,7 @@ class entries extends table_sql {
 
                 $statuscontent = html_writer::link($url, get_string('viewsubmission', 'mod_evokeportfolio'), ['class' => 'btn btn-primary btn-sm']);
 
-                if ($gradeutil->student_has_grade($this->evokeportfolio, $data->id)) {
+                if ($gradeutil->user_has_grade($this->evokeportfolio, $data->id)) {
                     $statuscontent .= html_writer::span(get_string('evaluated', 'mod_evokeportfolio'), 'badge badge-success ml-2 p-2');
                 }
 

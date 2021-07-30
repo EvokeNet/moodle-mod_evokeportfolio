@@ -97,7 +97,11 @@ class grade_form extends \moodleform {
     private function fill_form_with_individual_grade_fields($mform, $evokeportfolio) {
         $usergradegrade = false;
         if (!$evokeportfolio->groupactivity) {
-            $usergradegrade = $this->get_user_grade_grade($evokeportfolio, $this->userid);
+            $usergradegrade = $this->get_user_grade($evokeportfolio, $this->userid);
+        }
+
+        if ($evokeportfolio->groupactivity && $evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_GROUP) {
+            $usergradegrade = $this->get_group_grade($evokeportfolio, $this->groupid);
         }
 
         if ($evokeportfolio->grade > 0) {
@@ -127,7 +131,7 @@ class grade_form extends \moodleform {
 
     private function fill_form_with_group_grade_fields($mform, $evokeportfolio) {
         $groupsutil = new groups();
-        $groupmembers = $groupsutil->get_group_members($this->_customdata['groupid']);
+        $groupmembers = $groupsutil->get_group_members($this->groupid);
 
         if (!$groupmembers) {
             return;
@@ -137,7 +141,7 @@ class grade_form extends \moodleform {
             $gradeelementid = 'gradeuserid-' . $user->id;
             $gradeelementlabel = get_string('gradefor', 'mod_evokeportfolio', fullname($user));
 
-            $usergradegrade = $this->get_user_grade_grade($evokeportfolio, $user->id);
+            $usergradegrade = $this->get_user_grade($evokeportfolio, $user->id);
 
             if ($evokeportfolio->grade > 0) {
                 $mform->addElement('text', $gradeelementid, $gradeelementlabel);
@@ -166,17 +170,29 @@ class grade_form extends \moodleform {
         }
     }
 
-    private function get_user_grade_grade($evokeportfolio, $userid) {
+    private function get_user_grade($evokeportfolio, $userid) {
         $gradeutil = new grade();
-        $gradegrade = $gradeutil->get_student_grade($evokeportfolio, $userid);
+        $usergrade = $gradeutil->get_user_grade($evokeportfolio, $userid);
 
-        if ($gradegrade) {
-            $explodedgrade = explode('.', $gradegrade);
-            if ($explodedgrade[1] == '00000') {
-                return (int) $gradegrade;
-            } else {
-                return number_format($gradegrade, 1, '.', '');
-            }
+        return $this->process_grade($evokeportfolio->grade, $usergrade);
+    }
+
+    private function get_group_grade($evokeportfolio, $groupid) {
+        $gradeutil = new grade();
+        $groupgrade = $gradeutil->get_group_grade($evokeportfolio, $groupid);
+
+        return $this->process_grade($evokeportfolio->grade, $groupgrade);
+    }
+
+    private function process_grade($portfoliograde, $grade = null) {
+        // Grade in decimals.
+        if ($grade && $portfoliograde > 0) {
+            return number_format($grade, 1, '.', '');
+        }
+
+        // Grade in scale.
+        if ($grade && $portfoliograde < 0) {
+            return (int) $grade;
         }
 
         return false;

@@ -101,7 +101,7 @@ class viewsubmission implements renderable, templatable {
 
         $data['userid'] = $this->user->id;
         $data['userfullname'] = fullname($this->user);
-        $data['userhasgrade'] = $gradeutil->student_has_grade($this->evokeportfolio, $this->user->id);
+        $data['userhasgrade'] = $gradeutil->user_has_grade($this->evokeportfolio, $this->user->id);
 
         $data['submissions'] = $evokeportfolioutil->get_submissions($this->context, $this->user->id);
 

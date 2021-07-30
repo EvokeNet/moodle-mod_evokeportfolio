@@ -76,7 +76,7 @@ if ($evokeportfolio->groupactivity) {
 $form = new \mod_evokeportfolio\forms\comment_form($url, $formdata);
 
 if ($form->is_cancelled()) {
-    redirect(new moodle_url('/mod/evokeportfolio/view.php', $urlparams));
+    redirect(new moodle_url('/mod/evokeportfolio/viewsubmission.php', $urlparams));
 } else if ($formdata = $form->get_data()) {
     try {
         unset($formdata->submitbutton);

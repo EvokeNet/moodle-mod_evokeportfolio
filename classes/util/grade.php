@@ -28,7 +28,7 @@ class grade {
             return;
         }
 
-        $this->update_evokeportfolio_grades($evokeportfolio, $grades);
+        $this->update_evokeportfolio_grades($evokeportfolio->id, $grades);
 
         require_once($CFG->libdir . '/gradelib.php');
 
@@ -173,8 +173,8 @@ class grade {
         return $gradeitem->is_locked();
     }
 
-    public function student_has_grade($evokeportfolio, $userid) {
-        $usergrade = $this->get_student_grade($evokeportfolio, $userid);
+    public function user_has_grade($evokeportfolio, $userid) {
+        $usergrade = $this->get_user_grade($evokeportfolio, $userid);
 
         if ($usergrade) {
             return true;
@@ -183,27 +183,25 @@ class grade {
         return false;
     }
 
-    public function get_student_grade($evokeportfolio, $userid) {
+    public function get_user_grade($evokeportfolio, $userid) {
         global $DB;
 
-        $gradeitem = $this->get_grade_item($evokeportfolio->id, $evokeportfolio->course);
-
-        if (!$gradeitem) {
+        if ($evokeportfolio->grade == 0) {
             return false;
         }
 
-        $gradegrade = $DB->get_record('grade_grades',
+        $usergrade = $DB->get_record('evokeportfolio_grades',
             [
-                'itemid' => $gradeitem->id,
+                'portfolioid' => $evokeportfolio->id,
                 'userid' => $userid
             ]
         );
 
-        if (!$gradegrade) {
+        if (!$usergrade) {
             return false;
         }
 
-        return $gradegrade->finalgrade;
+        return $usergrade->grade;
     }
 
     public function group_has_grade($evokeportfolio, $groupid) {
@@ -216,11 +214,33 @@ class grade {
 
         foreach ($groupmembers as $user) {
             // All users from the group need to have a grade.
-            if (!$this->student_has_grade($evokeportfolio, $user->id)) {
+            if (!$this->user_has_grade($evokeportfolio, $user->id)) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    public function get_group_grade($evokeportfolio, $groupid) {
+        $groupsutil = new groups();
+        $groupmembers = $groupsutil->get_group_members($groupid, false);
+
+        if (!$groupmembers) {
+            return false;
+        }
+
+        $groupgrade = false;
+        foreach ($groupmembers as $user) {
+            // All users from the group need to have a grade.
+            $usergrade = $this->get_user_grade($evokeportfolio, $user->id);
+            if (!$usergrade) {
+                return false;
+            }
+
+            $groupgrade = $usergrade;
+        }
+
+        return $groupgrade;
     }
 }
