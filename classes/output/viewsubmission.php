@@ -65,13 +65,18 @@ class viewsubmission implements renderable, templatable {
     public function export_for_template(renderer_base $output) {
         $gradeutil = new \mod_evokeportfolio\util\grade();
 
+        $isgradinglocked = false;
+        if ($this->evokeportfolio->grade == 0 || $gradeutil->is_gradeitem_locked($this->evokeportfolio->id, $this->evokeportfolio->course)) {
+            $isgradinglocked = true;
+        }
+
         $data = [
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,
             'cmid' => $this->context->instanceid,
             'course' => $this->evokeportfolio->course,
             'groupactivity' => $this->evokeportfolio->groupactivity,
-            'isgradinglocked' => $gradeutil->is_gradeitem_locked($this->evokeportfolio->id, $this->evokeportfolio->course),
+            'isgradinglocked' => $isgradinglocked,
         ];
 
         $evokeportfolioutil = new evokeportfolio();
