@@ -28,6 +28,8 @@ class grade {
             return;
         }
 
+        $this->update_evokeportfolio_grades($evokeportfolio, $grades);
+
         require_once($CFG->libdir . '/gradelib.php');
 
         grade_update('mod/evokeportfolio', $evokeportfolio->course, 'mod', 'evokeportfolio', $evokeportfolio->id, 0, $grades);
@@ -96,6 +98,50 @@ class grade {
             }
         }
     }
+
+    private function update_evokeportfolio_grades($portfolioid, $grades) {
+        global $DB, $USER;
+
+        foreach ($grades as $grade) {
+            $usergrade = $this->get_evokeportfolio_grade($portfolioid, $grade->userid);
+
+            if ($usergrade) {
+                $usergrade->grader = $USER->id;
+                $usergrade->grade = $grade->rawgrade;
+                $usergrade->timemodified = time();
+
+                $DB->update_record('evokeportfolio_grades', $usergrade);
+
+                continue;
+            }
+
+            $usergrade = new \stdClass();
+            $usergrade->portfolioid = $portfolioid;
+            $usergrade->userid = $grade->userid;
+            $usergrade->grader = $USER->id;
+            $usergrade->grade = $grade->rawgrade;
+            $usergrade->timecreated = time();
+            $usergrade->timemodified = time();
+
+            $DB->insert_record('evokeportfolio_grades', $usergrade);
+        }
+    }
+
+    private function get_evokeportfolio_grade($portfolioid, $userid) {
+        global $DB;
+
+        $grade = $DB->get_record('evokeportfolio_grades', [
+            'portfolioid' => $portfolioid,
+            'userid' => $userid
+        ]);
+
+        if ($grade) {
+            return $grade;
+        }
+
+        return false;
+    }
+
 
     public function get_grade_item($iteminstance, $courseid) {
         global $CFG;
