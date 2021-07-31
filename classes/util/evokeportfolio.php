@@ -93,7 +93,7 @@ class evokeportfolio {
     }
 
     private function populate_data_with_user_info($data) {
-        global $PAGE;
+        global $PAGE, $USER;
 
         foreach ($data as $key => $entry) {
             $user = clone($entry);
@@ -109,6 +109,8 @@ class evokeportfolio {
             if ($entry->role == MOD_EVOKEPORTFOLIO_ROLE_TEACHER) {
                 $data[$key]->isteacher = true;
             }
+
+            $data[$key]->isowner = $user->id == $USER->id;
         }
 
         return $data;
@@ -143,6 +145,7 @@ class evokeportfolio {
                     $fileurl = \moodle_url::make_file_url('/pluginfile.php', implode('/', $path), true);
 
                     $entryfiles[] = [
+                        'filename' => $file->get_filename(),
                         'isimage' => $file->is_valid_image(),
                         'fileurl' => $fileurl
                     ];

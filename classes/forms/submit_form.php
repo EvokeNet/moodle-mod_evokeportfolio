@@ -43,6 +43,11 @@ class submit_form extends \moodleform {
     public function definition() {
         $mform = $this->_form;
 
+        if (isset($this->_customdata['submissionid'])) {
+            $mform->addElement('hidden', 'submissionid', $this->_customdata['submissionid']);
+            $mform->setType('submissionid', PARAM_INT);
+        }
+
         if (isset($this->_customdata['userid'])) {
             $mform->addElement('hidden', 'userid', $this->_customdata['userid']);
             $mform->setType('userid', PARAM_INT);
@@ -71,6 +76,28 @@ class submit_form extends \moodleform {
             ['subdirs' => 0, 'maxfiles' => 1, 'accepted_types' => ['document', 'image'], 'return_types'=> FILE_INTERNAL | FILE_EXTERNAL]);
 
         $this->add_action_buttons(true);
+    }
+
+    public function definition_after_data() {
+        global $DB;
+
+        $mform = $this->_form;
+
+        if (isset($this->_customdata['submissionid'])) {
+            $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $this->_customdata['submissionid']], '*', MUST_EXIST);
+
+            $mform->getElement('comment')->setValue([
+                'text' => $submission->comment,
+                'format' => $submission->commentformat
+            ]);
+
+            $context = \context_module::instance($submission->cmid);
+            $draftitemid = file_get_submitted_draft_itemid('attachments');
+
+            file_prepare_draft_area($draftitemid, $context->id, 'mod_evokeportfolio', 'attachments', $submission->id, ['subdirs' => 0, 'maxfiles' => 1]);
+
+            $mform->getElement('attachments')->setValue($draftitemid);
+        }
     }
 
     public function validation($data, $files) {

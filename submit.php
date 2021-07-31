@@ -26,9 +26,20 @@ require(__DIR__.'/../../config.php');
 
 // Course module id.
 $id = required_param('id', PARAM_INT);
+$submissionid = optional_param('submissionid', null, PARAM_INT);
 
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
+
+if ($submissionid) {
+    $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $submissionid, 'userid' => $USER->id], '*');
+
+    if (!$submission) {
+        $url = new moodle_url('/course/view', ['id' => $course->id]);
+
+        redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
+    }
+}
 
 require_course_login($course, true, $cm);
 
@@ -55,59 +66,92 @@ if ($evokeportfolio->groupactivity) {
     $formdata['userid'] = $USER->id;
 }
 
+if ($submissionid) {
+    $formdata['submissionid'] = $submissionid;
+}
+
 $form = new \mod_evokeportfolio\forms\submit_form($url, $formdata);
 
 if ($form->is_cancelled()) {
-    redirect(new moodle_url('/mod/evokeportfolio/view.php', $urlparams));
+    redirect(new moodle_url('/mod/evokeportfolio/submissions.php', $urlparams));
 } else if ($formdata = $form->get_data()) {
     try {
         unset($formdata->submitbutton);
 
-        $data = new \stdClass();
-        $data->cmid = $cm->id;
-        $data->postedby = $USER->id;
-        $data->role = MOD_EVOKEPORTFOLIO_ROLE_STUDENT;
-        $data->timecreated = time();
-        $data->timemodified = time();
-        $data->groupid = null;
-        $data->userid = null;
-        $data->comment = null;
-        $data->commentformat = null;
+        if ($formdata->submissionid) {
+            $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $formdata->submissionid, 'userid' => $USER->id], '*', MUST_EXIST);
 
-        if (isset($formdata->groupid)) {
-            $data->groupid = $formdata->groupid;
+            $submission->comment = null;
+            $submission->commentformat = null;
+            $submission->timemodified = time();
+
+            if (isset($formdata->comment['text'])) {
+                $submission->comment = $formdata->comment['text'];
+                $submission->commentformat = $formdata->comment['format'];
+            }
+
+            $DB->update_record('evokeportfolio_submissions', $submission);
+
+            // Process event.
+            $params = array(
+                'context' => $context,
+                'objectid' => $submission->id,
+                'relateduserid' => $submission->postedby
+            );
+            $event = \mod_evokeportfolio\event\submission_updated::create($params);
+            $event->add_record_snapshot('evokeportfolio_submissions', $submission);
+            $event->trigger();
+
+            $redirectstring = get_string('update_submission_success', 'mod_evokeportfolio');
+        } else {
+            $submission = new \stdClass();
+            $submission->cmid = $cm->id;
+            $submission->postedby = $USER->id;
+            $submission->role = MOD_EVOKEPORTFOLIO_ROLE_STUDENT;
+            $submission->timecreated = time();
+            $submission->timemodified = time();
+            $submission->groupid = null;
+            $submission->userid = null;
+            $submission->comment = null;
+            $submission->commentformat = null;
+
+            if (isset($formdata->groupid)) {
+                $submission->groupid = $formdata->groupid;
+            }
+
+            if (isset($formdata->userid)) {
+                $submission->userid = $formdata->userid;
+            }
+
+            if (isset($formdata->comment['text'])) {
+                $submission->comment = $formdata->comment['text'];
+                $submission->commentformat = $formdata->comment['format'];
+            }
+
+            $submissionid = $DB->insert_record('evokeportfolio_submissions', $submission);
+            $submission->id = $submissionid;
+
+            // Processe event.
+            $params = array(
+                'context' => $context,
+                'objectid' => $submissionid,
+                'relateduserid' => $submission->postedby
+            );
+            $event = \mod_evokeportfolio\event\submission_sent::create($params);
+            $event->add_record_snapshot('evokeportfolio_submissions', $submission);
+            $event->trigger();
+
+            $redirectstring = get_string('save_submission_success', 'mod_evokeportfolio');
         }
-
-        if (isset($formdata->userid)) {
-            $data->userid = $formdata->userid;
-        }
-
-        if (isset($formdata->comment['text'])) {
-            $data->comment = $formdata->comment['text'];
-            $data->commentformat = $formdata->comment['format'];
-        }
-
-        $submissionid = $DB->insert_record('evokeportfolio_submissions', $data);
-        $data->id = $submissionid;
 
         // Process attachments.
         $draftitemid = file_get_submitted_draft_itemid('attachments');
 
-        file_save_draft_area_files($draftitemid, $context->id, 'mod_evokeportfolio', 'attachments', $data->id, ['subdirs' => 0, 'maxfiles' => 1]);
-
-        // Processe event.
-        $params = array(
-            'context' => $context,
-            'objectid' => $submissionid,
-            'relateduserid' => $data->postedby
-        );
-        $event = \mod_evokeportfolio\event\submission_sent::create($params);
-        $event->add_record_snapshot('evokeportfolio_submissions', $data);
-        $event->trigger();
+        file_save_draft_area_files($draftitemid, $context->id, 'mod_evokeportfolio', 'attachments', $submission->id, ['subdirs' => 0, 'maxfiles' => 1]);
 
         $url = new moodle_url('/mod/evokeportfolio/submissions.php', $urlparams);
 
-        redirect($url, 'Avaliação enviada com sucesso.', null, \core\output\notification::NOTIFY_SUCCESS);
+        redirect($url, $redirectstring, null, \core\output\notification::NOTIFY_SUCCESS);
     } catch (\Exception $e) {
         redirect($url, $e->getMessage(), null, \core\output\notification::NOTIFY_ERROR);
     }

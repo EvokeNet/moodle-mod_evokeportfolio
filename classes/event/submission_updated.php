@@ -17,21 +17,21 @@
 namespace mod_evokeportfolio\event;
 
 /**
- * The submission_sent event class.
+ * The submission_updated event class.
  *
  * @package     mod_evokeportfolio
  * @category    event
  * @copyright   2021 Willian Mano <willianmanoaraujo@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class submission_sent extends \core\event\base {
+class submission_updated extends \core\event\base {
     /**
      * Returns description of what happened.
      *
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->relateduserid' has sent a submission in the course module id
+        return "The user with id '$this->relateduserid' has updated a submission in the course module id
             '$this->contextinstanceid'.";
     }
 
@@ -41,7 +41,7 @@ class submission_sent extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventsubmissionsent', 'mod_evokeportfolio');
+        return get_string('eventsubmissionupdated', 'mod_evokeportfolio');
     }
 
     /**
@@ -57,7 +57,7 @@ class submission_sent extends \core\event\base {
      * Init method.
      */
     protected function init() {
-        $this->data['crud'] = 'c';
+        $this->data['crud'] = 'u';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'evokeportfolio_submissions';
     }

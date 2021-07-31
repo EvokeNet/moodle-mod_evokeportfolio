@@ -32,7 +32,18 @@
 <div class="submissions">
     {{#submissions}}
         <div class="jumbotron p-2 mb-2 {{#isteacher}}isteacher{{/isteacher}}">
-            <h3><img src="{{userpicture}}" alt="{{fullname}}" class="img-rounded img-24 img-bordered"> {{fullname}}</h3>
+            <div class="header">
+                <div class="userinfo">
+                    <img src="{{userpicture}}" alt="{{fullname}}" class="img-rounded img-24 img-bordered"> <h3>{{fullname}}</h3>
+                </div>
+                {{#isowner}}
+                <div class="actions">
+                    <a class="btn btn-primary btn-sm" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&submissionid={{id}}">
+                        <i class="fa fa-pencil"></i> {{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}
+                    </a>
+                </div>
+                {{/isowner}}
+            </div>
 
             <h4 class="mb-0">{{#str}}page_submissions_portfoliotext, mod_evokeportfolio{{/str}}</h4>
             {{#comment}}
@@ -47,11 +58,11 @@
                 {{#attachments}}
                     <div class="border-white row mx-0">
                         {{#isimage}}
-                            <img src="{{fileurl}}" class="img-responsive">
+                            <img src="{{fileurl}}" class="img-responsive" alt="{{filename}}">
                         {{/isimage}}
                         {{^isimage}}
                             <div class="col-6 mx-0">
-                                <i class="fa fa-file-pdf-o"></i> {{#str}}attachmentfile, mod_evokeportfolio{{/str}}
+                                <i class="fa fa-file-pdf-o"></i> {{filename}}
                             </div>
                             <div class="col-6 mx-0 text-right">
                                 <a href="{{fileurl}}" class="btn btn-secondary btn-sm">{{#str}}downloadfile, mod_evokeportfolio{{/str}}</a>
