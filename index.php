@@ -54,7 +54,7 @@ echo $OUTPUT->heading($modulenameplural);
 $evokeportfolios = get_all_instances_in_course('evokeportfolio', $course);
 
 if (empty($evokeportfolios)) {
-    notice(get_string('no$evokeportfolioinstances', 'mod_evokeportfolio'), new moodle_url('/course/view.php', array('id' => $course->id)));
+    notice(get_string('noportfolioinstances', 'mod_evokeportfolio'), new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
 $table = new html_table();

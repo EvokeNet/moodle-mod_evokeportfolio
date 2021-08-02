@@ -32,7 +32,7 @@ list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
 
 if ($submissionid) {
-    $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $submissionid, 'userid' => $USER->id], '*');
+    $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $submissionid, 'postedby' => $USER->id], '*');
 
     if (!$submission) {
         $url = new moodle_url('/course/view', ['id' => $course->id]);
