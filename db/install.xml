@@ -26,7 +26,7 @@
     <TABLE NAME="evokeportfolio_submissions" COMMENT="Stores the portfolio submissions.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course module ID."/>
+        <FIELD NAME="portfolioid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Portfolio ID."/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="User ID."/>
         <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Group ID."/>
         <FIELD NAME="postedby" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The user ID of the person who made the post."/>
