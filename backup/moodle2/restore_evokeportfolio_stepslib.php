@@ -42,8 +42,13 @@ class restore_evokeportfolio_activity_structure_step extends restore_activity_st
         $paths = array();
         $userinfo = $this->get_setting_value('userinfo');
 
-        $paths[] = new restore_path_element('elt', '/path/to/file');
+        $paths[] = new restore_path_element('evokeportfolio', '/activity/evokeportfolio');
+        if ($userinfo) {
+            $paths[] = new restore_path_element('evokeportfolio_submissions', '/activity/evokeportfolio/submissions/submission');
+            $paths[] = new restore_path_element('evokeportfolio_grades', '/activity/evokeportfolio/grades/grade');
+        }
 
+        // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
     }
 
@@ -52,8 +57,40 @@ class restore_evokeportfolio_activity_structure_step extends restore_activity_st
      *
      * @param array $data Parsed element data.
      */
-    protected function process_elt($data) {
-        return;
+    protected function process_evokeportfolio($data) {
+        global $DB;
+
+        $data = (object)$data;
+        $data->course = $this->get_courseid();
+
+        $newitemid = $DB->insert_record('evokeportfolio', $data);
+
+        $this->apply_activity_instance($newitemid);
+    }
+
+    protected function process_evokeportfolio_submissions($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->portfolioid = $this->get_new_parentid('evokeportfolio');
+        $data->userid = $this->get_mappingid('user', $data->userid);
+        $data->groupid = $this->get_mappingid('group', $data->groupid);
+        $data->postedby = $this->get_mappingid('user', $data->postedby);
+
+        $DB->insert_record('evokeportfolio_submissions', $data);
+    }
+
+    protected function process_evokeportfolio_grades($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->portfolioid = $this->get_new_parentid('evokeportfolio');
+        $data->userid = $this->get_mappingid('user', $data->userid);
+        $data->grader = $this->get_mappingid('user', $data->grader);
+
+        $DB->insert_record('evokeportfolio_grades', $data);
     }
 
     /**

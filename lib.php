@@ -116,11 +116,9 @@ function evokeportfolio_delete_instance($id) {
         return false;
     }
 
-    $coursemodule = get_coursemodule_from_instance('evokeportfolio', $id);
-
     $DB->delete_records('evokeportfolio', ['id' => $id]);
 
-    $DB->delete_records('evokeportfolio_submissions', ['cmid' => $coursemodule->id]);
+    $DB->delete_records('evokeportfolio_submissions', ['portfolioid' => $id]);
 
     $DB->delete_records('evokeportfolio_grades', ['portfolioid' => $id]);
 

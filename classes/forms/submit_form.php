@@ -91,7 +91,9 @@ class submit_form extends \moodleform {
                 'format' => $submission->commentformat
             ]);
 
-            $context = \context_module::instance($submission->cmid);
+            $cm = get_coursemodule_from_instance('evokeportfolio', $this->_customdata['portfolioid']);
+
+            $context = \context_module::instance($cm->id);
             $draftitemid = file_get_submitted_draft_itemid('attachments');
 
             file_prepare_draft_area($draftitemid, $context->id, 'mod_evokeportfolio', 'attachments', $submission->id, ['subdirs' => 0, 'maxfiles' => 1]);

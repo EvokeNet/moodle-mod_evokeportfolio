@@ -91,8 +91,8 @@ class viewsubmission implements renderable, templatable {
             $data['groupname'] = $this->group->name;
             $data['groupmembers'] = $groupsutil->get_group_members($this->group->id);
 
-            $data['hassubmission'] = $evokeportfolioutil->has_submission($this->context->instanceid, null, $this->group->id);
-            $data['submissions'] = $evokeportfolioutil->get_submissions($this->context, null, $this->group->id);
+            $data['hassubmission'] = $evokeportfolioutil->has_submission($this->evokeportfolio->id, null, $this->group->id);
+            $data['submissions'] = $evokeportfolioutil->get_submissions($this->context, $this->evokeportfolio->id, null, $this->group->id);
 
             $data['grouphasgrade'] = $gradeutil->group_has_grade($this->evokeportfolio, $this->group->id);
 
@@ -103,7 +103,7 @@ class viewsubmission implements renderable, templatable {
         $data['userfullname'] = fullname($this->user);
         $data['userhasgrade'] = $gradeutil->user_has_grade($this->evokeportfolio, $this->user->id);
 
-        $data['submissions'] = $evokeportfolioutil->get_submissions($this->context, $this->user->id);
+        $data['submissions'] = $evokeportfolioutil->get_submissions($this->context, $this->evokeportfolio->id, $this->user->id);
 
         return $data;
     }

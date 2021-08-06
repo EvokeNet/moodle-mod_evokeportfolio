@@ -88,7 +88,7 @@ class entries extends table_sql {
         $gradeutil = new grade();
 
         if ($this->evokeportfolio->groupactivity) {
-            if ($evokeportfolioutil->has_submission($this->coursemodule->id, null, $data->id)) {
+            if ($evokeportfolioutil->has_submission($this->evokeportfolio->id, null, $data->id)) {
                 $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', ['id' => $this->coursemodule->id, 'groupid' => $data->id]);
 
                 $statuscontent = html_writer::link($url, get_string('viewsubmission', 'mod_evokeportfolio'), ['class' => 'btn btn-primary btn-sm']);
@@ -102,7 +102,7 @@ class entries extends table_sql {
         }
 
         if (!$this->evokeportfolio->groupactivity) {
-            if ($evokeportfolioutil->has_submission($this->coursemodule->id, $data->id)) {
+            if ($evokeportfolioutil->has_submission($this->evokeportfolio->id, $data->id)) {
                 $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', ['id' => $this->coursemodule->id, 'userid' => $data->id]);
 
                 $statuscontent = html_writer::link($url, get_string('viewsubmission', 'mod_evokeportfolio'), ['class' => 'btn btn-primary btn-sm']);

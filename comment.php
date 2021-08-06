@@ -64,7 +64,7 @@ $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
 $formdata = [
-    'cmid' => $cm->id
+    'evokeportfolio' => $evokeportfolio->id
 ];
 
 if ($evokeportfolio->groupactivity) {
@@ -82,7 +82,7 @@ if ($form->is_cancelled()) {
         unset($formdata->submitbutton);
 
         $data = new \stdClass();
-        $data->cmid = $cm->id;
+        $data->portfolioid = $evokeportfolio->id;
         $data->postedby = $USER->id;
         $data->role = MOD_EVOKEPORTFOLIO_ROLE_TEACHER;
         $data->timecreated = time();

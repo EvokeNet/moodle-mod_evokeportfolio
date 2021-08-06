@@ -54,7 +54,7 @@ $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
 $formdata = [
-    'cmid' => $cm->id
+    'portfolioid' => $evokeportfolio->id
 ];
 
 if ($evokeportfolio->groupactivity) {
@@ -78,8 +78,8 @@ if ($form->is_cancelled()) {
     try {
         unset($formdata->submitbutton);
 
-        if ($formdata->submissionid) {
-            $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $formdata->submissionid, 'userid' => $USER->id], '*', MUST_EXIST);
+        if (isset($formdata->submissionid)) {
+            $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $formdata->submissionid, 'postedby' => $USER->id], '*', MUST_EXIST);
 
             $submission->comment = null;
             $submission->commentformat = null;
@@ -105,7 +105,7 @@ if ($form->is_cancelled()) {
             $redirectstring = get_string('update_submission_success', 'mod_evokeportfolio');
         } else {
             $submission = new \stdClass();
-            $submission->cmid = $cm->id;
+            $submission->portfolioid = $evokeportfolio->id;
             $submission->postedby = $USER->id;
             $submission->role = MOD_EVOKEPORTFOLIO_ROLE_STUDENT;
             $submission->timecreated = time();

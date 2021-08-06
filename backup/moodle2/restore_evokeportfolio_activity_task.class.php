@@ -59,7 +59,7 @@ class restore_evokeportfolio_activity_task extends restore_activity_task {
     public static function define_decode_contents() {
         $contents = array();
 
-        // Define the contents.
+        $contents[] = new restore_decode_content('evokeportfolio', array('intro'), 'evokeportfolio');
 
         return $contents;
     }
@@ -72,7 +72,8 @@ class restore_evokeportfolio_activity_task extends restore_activity_task {
     public static function define_decode_rules() {
         $rules = array();
 
-        // Define the rules.
+        $rules[] = new restore_decode_rule('EVOKEPORTFOLIOVIEWBYID', '/mod/evokeportfolio/view.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('EVOKEPORTFOLIOINDEX', '/mod/evokeportfolio/index.php?id=$1', 'course');
 
         return $rules;
     }

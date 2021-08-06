@@ -25,11 +25,11 @@ class evokeportfolio {
         return $DB->get_record('evokeportfolio', ['id' => $id], '*', MUST_EXIST);
     }
 
-    public function has_submission($cmid, $userid = false, $groupid = null) {
+    public function has_submission($portfolioid, $userid = false, $groupid = null) {
         global $DB;
 
         if ($groupid) {
-            $entries = $DB->count_records('evokeportfolio_submissions', ['cmid' => $cmid, 'groupid' => $groupid]);
+            $entries = $DB->count_records('evokeportfolio_submissions', ['portfolioid' => $portfolioid, 'groupid' => $groupid]);
 
             if ($entries) {
                 return true;
@@ -39,7 +39,7 @@ class evokeportfolio {
         }
 
         if ($userid) {
-            $entries = $DB->count_records('evokeportfolio_submissions', ['cmid' => $cmid, 'userid' => $userid]);
+            $entries = $DB->count_records('evokeportfolio_submissions', ['portfolioid' => $portfolioid, 'userid' => $userid]);
 
             if ($entries) {
                 return true;
@@ -49,19 +49,19 @@ class evokeportfolio {
         return false;
     }
 
-    public function get_submissions($context, $userid = null, $groupid = null) {
+    public function get_submissions($context, $portfolioid, $userid = null, $groupid = null) {
         global $DB;
 
         $sql = 'SELECT
-                    e.*,
+                    es.*,
                     u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
-                FROM {evokeportfolio_submissions} e
-                INNER JOIN {user} u ON u.id = e.postedby
-                WHERE e.cmid = :cmid';
+                FROM {evokeportfolio_submissions} es
+                INNER JOIN {user} u ON u.id = es.postedby
+                WHERE es.portfolioid = :portfolioid';
 
         if ($groupid) {
-            $sql .= ' AND e.groupid = :groupid ORDER BY e.id desc';
-            $entries = $DB->get_records_sql($sql, ['cmid' => $context->instanceid, 'groupid' => $groupid]);
+            $sql .= ' AND es.groupid = :groupid ORDER BY es.id desc';
+            $entries = $DB->get_records_sql($sql, ['portfolioid' => $portfolioid, 'groupid' => $groupid]);
 
             if (!$entries) {
                 return false;
@@ -75,8 +75,8 @@ class evokeportfolio {
         }
 
         if ($userid) {
-            $sql .= ' AND e.userid = :userid ORDER BY e.id desc';
-            $entries = $DB->get_records_sql($sql, ['cmid' => $context->instanceid, 'userid' => $userid]);
+            $sql .= ' AND es.userid = :userid ORDER BY es.id desc';
+            $entries = $DB->get_records_sql($sql, ['portfolioid' => $portfolioid, 'userid' => $userid]);
 
             if (!$entries) {
                 return false;
