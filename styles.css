@@ -53,7 +53,7 @@
 }
 
 .img-bordered {
-    border: 2px solid #fff;
+    border: 2px solid #00f0a6;
 }
 
 .img-24 {
@@ -81,7 +81,7 @@
     color: #00f0a6;
 }
 
-.submissionheader img {
+.submissionheader img:not('.groupmember') {
     border-radius: 50%;
     border: 1px solid #00f0a6;
     width: 48px;

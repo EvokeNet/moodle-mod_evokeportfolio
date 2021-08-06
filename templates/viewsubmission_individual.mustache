@@ -2,42 +2,32 @@
 
 <div id="intro" class="box py-3 generalbox boxaligncenter">{{{intro}}}</div>
 
-<div class="submissionheader">
-    {{#hasgroup}}
-        <h5>{{#str}}group{{/str}}: {{groupname}}</h5>
-        <p>
-            <b>{{#str}}groupmembers{{/str}}</b>:
-            {{#groupmembers}}
-                <div class="groupmember">
-                    <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
-                </div>
-            {{/groupmembers}}
-        </p>
-    {{/hasgroup}}
+<div class="submissionheader row">
+    <div class="col-md-9">
+        <h3>{{#str}}user{{/str}}: {{userfullname}}</h3>
+    </div>
+    <div class="col-md-3 text-right">
+        <img src="{{userpicture}}" alt="{{userfullname}}" class="img-responsive">
+    </div>
 </div>
 
 <div class="mb-3 text-center">
-    {{^isdelayed}}
-        <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
-    {{/isdelayed}}
+    <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/comment.php?id={{cmid}}&userid={{userid}}">{{#str}}page_viewsubmission_addcomment, mod_evokeportfolio{{/str}}</a>
+    {{^isgradinglocked}}
+        <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/grade.php?id={{cmid}}&userid={{userid}}">
+            {{#userhasgrade}}
+                {{#str}}page_viewsubmission_editgrade, mod_evokeportfolio{{/str}}
+            {{/userhasgrade}}
+            {{^userhasgrade}}
+                {{#str}}page_viewsubmission_addgrade, mod_evokeportfolio{{/str}}
+            {{/userhasgrade}}
+        </a>
+    {{/isgradinglocked}}
 </div>
 
 <div class="submissions">
     {{#submissions}}
         <div class="submission p-2 {{#isteacher}}isteacher{{/isteacher}}">
-            <div class="header">
-                <div class="userinfo">
-                    <img src="{{userpicture}}" alt="{{fullname}}" class="img-rounded img-24 img-bordered"> <h3>{{fullname}}</h3>
-                </div>
-                {{#isowner}}
-                <div class="actions">
-                    <a class="btn btn-primary btn-sm" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&submissionid={{id}}">
-                        <i class="fa fa-pencil"></i> {{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}
-                    </a>
-                </div>
-                {{/isowner}}
-            </div>
-
             <div class="content">
                 {{#comment}}
                     <p class="comment">{{#str}}page_submissions_portfoliocomment, mod_evokeportfolio{{/str}}</p>

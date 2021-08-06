@@ -60,14 +60,29 @@ class renderer extends plugin_renderer_base {
     public function render_submissions(renderable $page) {
         $data = $page->export_for_template($this);
 
-//        echo "<pre>";
-//        print_r($data);
-//        exit;
-
         if ($data['groupactivity']) {
             return parent::render_from_template('mod_evokeportfolio/submission_group', $data);
         }
 
         return parent::render_from_template('mod_evokeportfolio/submission_individual', $data);
+    }
+
+    /**
+     * Defer the instance in course to template.
+     *
+     * @param renderable $page
+     *
+     * @return bool|string
+     *
+     * @throws \moodle_exception
+     */
+    public function render_viewsubmission(renderable $page) {
+        $data = $page->export_for_template($this);
+
+        if ($data['groupactivity']) {
+            return parent::render_from_template('mod_evokeportfolio/viewsubmission_group', $data);
+        }
+
+        return parent::render_from_template('mod_evokeportfolio/viewsubmission_individual', $data);
     }
 }
