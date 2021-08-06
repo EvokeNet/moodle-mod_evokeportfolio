@@ -26,10 +26,12 @@ require(__DIR__.'/../../config.php');
 
 // Course module id.
 $id = required_param('id', PARAM_INT);
+$sectionid = required_param('sectionid', PARAM_INT);
 $submissionid = optional_param('submissionid', null, PARAM_INT);
 
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
+$section = $DB->get_record('evokeportfolio_sections', ['id' => $sectionid], '*', MUST_EXIST);
 
 if ($submissionid) {
     $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $submissionid, 'postedby' => $USER->id], '*');
@@ -45,7 +47,7 @@ require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-$urlparams = ['id' => $cm->id];
+$urlparams = ['id' => $cm->id, 'sectionid' => $section->id];
 $url = new moodle_url('/mod/evokeportfolio/submit.php', $urlparams);
 
 $PAGE->set_url($url);
@@ -54,7 +56,8 @@ $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
 $formdata = [
-    'portfolioid' => $evokeportfolio->id
+    'portfolioid' => $evokeportfolio->id,
+    'sectionid' => $section->id
 ];
 
 if ($evokeportfolio->groupactivity) {
@@ -105,7 +108,7 @@ if ($form->is_cancelled()) {
             $redirectstring = get_string('update_submission_success', 'mod_evokeportfolio');
         } else {
             $submission = new \stdClass();
-            $submission->portfolioid = $evokeportfolio->id;
+            $submission->sectionid = $section->id;
             $submission->postedby = $USER->id;
             $submission->role = MOD_EVOKEPORTFOLIO_ROLE_STUDENT;
             $submission->timecreated = time();

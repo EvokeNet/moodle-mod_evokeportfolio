@@ -97,7 +97,7 @@ class submissions implements renderable, templatable {
             return $data;
         }
 
-        $data['submissions'] = $evokeportfolioutil->get_submissions($this->context, $this->evokeportfolio->id, $USER->id);
+        $data['sectionssubmissions'] = $evokeportfolioutil->get_sections_submissions($this->context, $this->evokeportfolio->id, $USER->id);
 
         $userpicture = new \user_picture($USER);
         $userpicture->size = 1;

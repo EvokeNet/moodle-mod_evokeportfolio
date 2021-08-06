@@ -51,8 +51,6 @@ class view implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $USER;
-
         $timeremaining = $this->evokeportfolio->datelimit - time();
 
         $isdelayed = true;
@@ -95,9 +93,6 @@ class view implements renderable, templatable {
             return $data;
         }
 
-        // Student.
-        $evokeportfolioutil = new evokeportfolio();
-
         if ($this->evokeportfolio->groupactivity) {
             $usercoursegroup = $groupsutil->get_user_group($this->evokeportfolio->course);
 
@@ -106,14 +101,10 @@ class view implements renderable, templatable {
             if ($usercoursegroup) {
                 $data['groupname'] = $usercoursegroup->name;
                 $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
-
-                $data['hassubmission'] = $evokeportfolioutil->has_submission($this->evokeportfolio->id, $USER->id, $usercoursegroup->id);
             }
 
             return $data;
         }
-
-        $data['hassubmission'] = $evokeportfolioutil->has_submission($this->evokeportfolio->id, $USER->id);
 
         return $data;
     }

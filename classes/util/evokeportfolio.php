@@ -29,7 +29,10 @@ class evokeportfolio {
         global $DB;
 
         if ($groupid) {
-            $entries = $DB->count_records('evokeportfolio_submissions', ['portfolioid' => $portfolioid, 'groupid' => $groupid]);
+            $sql = 'SELECT COUNT(*) FROM {evokeportfolio_submissions} sub
+                    INNER JOIN {evokeportfolio_sections} sec ON sec.id = sub.sectionid
+                    WHERE sec.portfolioid = :portfolioid AND sub.groupid = :groupid';
+            $entries = $DB->count_records_sql($sql, ['portfolioid' => $portfolioid, 'groupid' => $groupid]);
 
             if ($entries) {
                 return true;
@@ -39,7 +42,10 @@ class evokeportfolio {
         }
 
         if ($userid) {
-            $entries = $DB->count_records('evokeportfolio_submissions', ['portfolioid' => $portfolioid, 'userid' => $userid]);
+            $sql = 'SELECT COUNT(*) FROM {evokeportfolio_submissions} sub
+                    INNER JOIN {evokeportfolio_sections} sec ON sec.id = sub.sectionid
+                    WHERE sec.portfolioid = :portfolioid AND sub.userid = :userid';
+            $entries = $DB->count_records_sql($sql, ['portfolioid' => $portfolioid, 'userid' => $userid]);
 
             if ($entries) {
                 return true;
@@ -49,47 +55,79 @@ class evokeportfolio {
         return false;
     }
 
-    public function get_submissions($context, $portfolioid, $userid = null, $groupid = null) {
+    public function get_sections($portfolioid) {
         global $DB;
+
+        $sections = $DB->get_records('evokeportfolio_sections', ['portfolioid' => $portfolioid], 'id DESC');
+
+        if (!$sections) {
+            return false;
+        }
+
+        return array_values($sections);
+    }
+
+    public function get_section_submissions($sectionid, $userid = null, $groupid = null) {
+        global $DB;
+
+        if (!$userid && !$groupid) {
+            throw new \Exception('You need to inform an user id or group id');
+        }
 
         $sql = 'SELECT
                     es.*,
                     u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
                 FROM {evokeportfolio_submissions} es
                 INNER JOIN {user} u ON u.id = es.postedby
-                WHERE es.portfolioid = :portfolioid';
+                WHERE es.sectionid = :sectionid';
 
         if ($groupid) {
             $sql .= ' AND es.groupid = :groupid ORDER BY es.id desc';
-            $entries = $DB->get_records_sql($sql, ['portfolioid' => $portfolioid, 'groupid' => $groupid]);
+            $entries = $DB->get_records_sql($sql, ['sectionid' => $sectionid, 'groupid' => $groupid]);
 
             if (!$entries) {
                 return false;
             }
-
-            $this->populate_data_with_user_info($entries);
-
-            $this->populate_data_with_attachments($entries, $context);
 
             return array_values($entries);
         }
 
         if ($userid) {
             $sql .= ' AND es.userid = :userid ORDER BY es.id desc';
-            $entries = $DB->get_records_sql($sql, ['portfolioid' => $portfolioid, 'userid' => $userid]);
+            $entries = $DB->get_records_sql($sql, ['sectionid' => $sectionid, 'userid' => $userid]);
 
             if (!$entries) {
                 return false;
             }
 
-            $this->populate_data_with_user_info($entries);
-
-            $this->populate_data_with_attachments($entries, $context);
-
             return array_values($entries);
         }
+    }
 
-        return false;
+    public function get_sections_submissions($context, $portfolioid, $userid = null, $groupid = null) {
+        $sections = $this->get_sections($portfolioid);
+
+        if (!$sections) {
+            return false;
+        }
+
+        foreach ($sections as $key => $section) {
+            $submissions = $this->get_section_submissions($section->id, $userid, $groupid);
+
+            if (!$submissions) {
+                $sections[$key]->submissions = [];
+
+                continue;
+            }
+
+            $this->populate_data_with_user_info($submissions);
+
+            $this->populate_data_with_attachments($submissions, $context);
+
+            $sections[$key]->submissions = $submissions;
+        }
+
+        return $sections;
     }
 
     private function populate_data_with_user_info($data) {

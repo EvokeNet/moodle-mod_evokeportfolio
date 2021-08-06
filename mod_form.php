@@ -64,6 +64,14 @@ class mod_evokeportfolio_mod_form extends moodleform_mod {
         $mform->addHelpButton('datelimit', 'datelimit', 'mod_evokeportfolio');
         $mform->addRule('datelimit', null, 'required', null, 'client');
 
+        $sectionsoptions = [];
+        for ($i = 1; $i <= 10; $i++) {
+            $sectionsoptions[$i] = $i . ' ' . get_string('sections', 'mod_evokeportfolio');
+        }
+
+        $mform->addElement('select', 'sections', get_string('sections', 'mod_evokeportfolio'), $sectionsoptions);
+        $mform->addRule('sections', null, 'required', null, 'client');
+
         $mform->addElement('selectyesno', 'groupactivity', get_string('groupactivity', 'mod_evokeportfolio'), get_string('groupactivity', 'mod_evokeportfolio'));
         $mform->setDefault('groupactivity', 0);
 
