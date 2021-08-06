@@ -74,9 +74,6 @@ class restore_evokeportfolio_activity_structure_step extends restore_activity_st
         $data = (object)$data;
 
         $data->portfolioid = $this->get_new_parentid('evokeportfolio');
-        $data->userid = $this->get_mappingid('user', $data->userid);
-        $data->groupid = $this->get_mappingid('group', $data->groupid);
-        $data->postedby = $this->get_mappingid('user', $data->postedby);
 
         $DB->insert_record('evokeportfolio_submissions', $data);
     }
@@ -87,8 +84,6 @@ class restore_evokeportfolio_activity_structure_step extends restore_activity_st
         $data = (object)$data;
 
         $data->portfolioid = $this->get_new_parentid('evokeportfolio');
-        $data->userid = $this->get_mappingid('user', $data->userid);
-        $data->grader = $this->get_mappingid('user', $data->grader);
 
         $DB->insert_record('evokeportfolio_grades', $data);
     }

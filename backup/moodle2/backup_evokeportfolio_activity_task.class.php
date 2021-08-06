@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 // More information about the restore process: {@link https://docs.moodle.org/dev/Restore_API}.
 
 require_once($CFG->dirroot.'//mod/evokeportfolio/backup/moodle2/backup_evokeportfolio_stepslib.php');
-require_once($CFG->dirroot.'//mod/evokeportfolio/backup/moodle2/backup_evokeportfolio_settingslib.php');
 
 /**
  * Provides all the settings and steps to perform a complete backup of mod_evokeportfolio.
@@ -62,11 +61,11 @@ class backup_evokeportfolio_activity_task extends backup_activity_task {
         $base = preg_quote($CFG->wwwroot, '/');
 
         // Link to the list of choices.
-        $search = "/(".$base."\//mod\/evokeportfolio\/index.php\?id\=)([0-9]+)/";
+        $search = "/(".$base."\/mod\/evokeportfolio\/index.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@EVOKEPORTFOLIOINDEX*$2@$', $content);
 
         // Link to choice view by moduleid.
-        $search = "/(".$base."\//mod\/evokeportfolio\/view.php\?id\=)([0-9]+)/";
+        $search = "/(".$base."\/mod\/evokeportfolio\/view.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@EVOKEPORTFOLIOVIEWBYID*$2@$', $content);
 
         return $content;

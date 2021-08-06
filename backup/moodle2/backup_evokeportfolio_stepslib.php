@@ -70,13 +70,6 @@ class backup_evokeportfolio_activity_structure_step extends backup_activity_stru
             $grade->set_source_table('evokeportfolio_grades', ['portfolioid' => backup::VAR_PARENTID]);
         }
 
-        // Define id annotations
-        $submission->annotate_ids('user', 'userid');
-        $submission->annotate_ids('group', 'groupid');
-        $submission->annotate_ids('user', 'postedby');
-        $grade->annotate_ids('user', 'userid');
-        $grade->annotate_ids('user', 'grader');
-
         // Define file annotations.
 
         return $this->prepare_activity_structure($evokeportfolio);

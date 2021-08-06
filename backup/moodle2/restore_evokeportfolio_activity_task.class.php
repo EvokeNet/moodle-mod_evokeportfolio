@@ -59,7 +59,8 @@ class restore_evokeportfolio_activity_task extends restore_activity_task {
     public static function define_decode_contents() {
         $contents = array();
 
-        $contents[] = new restore_decode_content('evokeportfolio', array('intro'), 'evokeportfolio');
+        $contents[] = new restore_decode_content('evokeportfolio', ['intro'], 'evokeportfolio');
+        $contents[] = new restore_decode_content('evokeportfolio_submissions', ['comment'], 'submission');
 
         return $contents;
     }
