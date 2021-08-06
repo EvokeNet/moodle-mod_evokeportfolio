@@ -81,7 +81,7 @@
     color: #00f0a6;
 }
 
-.submissionheader img:not('.groupmember') {
+.submissionheader img.userpicture {
     border-radius: 50%;
     border: 1px solid #00f0a6;
     width: 48px;
