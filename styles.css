@@ -60,6 +60,56 @@
     width: 24px;
 }
 
-.jumbotron.isteacher {
-    background-color: #27c0e3;
+.submission {
+    border-top: 1px solid #c3c3c3;
+}
+
+.submission:hover {
+    background-color: #f1f1f1;
+}
+
+.submission.isteacher {
+    background-color: #cbfced;
+    border-top: 1px solid #00f0a6;
+}
+
+.submission.isteacher:hover {
+    background-color: #c3f1e3;
+}
+
+.submissionheader h3 {
+    color: #00f0a6;
+}
+
+.submissionheader img {
+    border-radius: 50%;
+    border: 1px solid #00f0a6;
+    width: 48px;
+}
+
+.submission .content {
+    padding: .5rem 1rem;
+}
+
+.submission .content .comment {
+    font-size: 75%;
+    font-weight: 700;
+}
+
+.submission .content .attachment {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+}
+
+.submission .content .attachment .fileinfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submission .content .attachment .filedownload {
+    flex-direction: row;
+    margin-left: auto;
+    flex-wrap: wrap;
 }

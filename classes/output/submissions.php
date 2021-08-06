@@ -51,7 +51,7 @@ class submissions implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $USER;
+        global $USER, $PAGE;
 
         $timeremaining = $this->evokeportfolio->datelimit - time();
 
@@ -98,6 +98,12 @@ class submissions implements renderable, templatable {
         }
 
         $data['submissions'] = $evokeportfolioutil->get_submissions($this->context, $this->evokeportfolio->id, $USER->id);
+
+        $userpicture = new \user_picture($USER);
+        $userpicture->size = 1;
+
+        $data['userpicture'] = $userpicture->get_url($PAGE)->out();
+        $data['userfullname'] = fullname($USER);
 
         return $data;
     }

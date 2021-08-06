@@ -73,8 +73,9 @@ $string['page_view_usernotingroup_text'] = 'You need to be part of a group to do
 $string['page_submit_comment'] = 'Your comment';
 $string['page_submit_attachments'] = 'Attachments';
 
-$string['page_submissions_portfoliotext'] = 'Portfolio\'s text';
-$string['page_submissions_portfolioattachment'] = 'Portfolio\'s attachment';
+$string['page_submissions_portfoliocomment'] = 'Message';
+$string['page_submissions_portfoliomentorcomment'] = 'Mentor\'s Message';
+$string['page_submissions_portfolioattachment'] = 'Attachment';
 
 $string['page_viewsubmission_addcomment'] = 'Add comment';
 $string['page_viewsubmission_addgrade'] = 'Add grade';

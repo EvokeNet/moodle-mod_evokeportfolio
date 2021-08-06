@@ -60,6 +60,14 @@ class renderer extends plugin_renderer_base {
     public function render_submissions(renderable $page) {
         $data = $page->export_for_template($this);
 
-        return parent::render_from_template('mod_evokeportfolio/submissions', $data);
+//        echo "<pre>";
+//        print_r($data);
+//        exit;
+
+        if ($data['groupactivity']) {
+            return parent::render_from_template('mod_evokeportfolio/submission_group', $data);
+        }
+
+        return parent::render_from_template('mod_evokeportfolio/submission_individual', $data);
     }
 }
