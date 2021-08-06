@@ -31,9 +31,7 @@
 <div class="submissions">
     {{#submissions}}
         <div class="submission p-2 {{#isteacher}}isteacher{{/isteacher}}">
-            {{^isteacher}}
-                <h3><img src="{{userpicture}}" alt="{{fullname}}" class="img-rounded img-24 img-bordered"> {{fullname}}</h3>
-            {{/isteacher}}
+            <h3><img src="{{userpicture}}" alt="{{fullname}}" class="img-rounded img-24 img-bordered"> {{fullname}}</h3>
 
             <div class="content">
                 {{#comment}}
