@@ -46,6 +46,10 @@ class backup_evokeportfolio_activity_structure_step extends backup_activity_stru
             'course', 'name', 'intro', 'introformat', 'grade', 'datelimit',
             'groupactivity', 'groupgradingmode', 'timecreated', 'timemodified']);
 
+        $sections = new backup_nested_element('sections');
+        $section = new backup_nested_element('section', ['id'], [
+            'name', 'timecreated', 'timemodified']);
+
         $submissions = new backup_nested_element('submissions');
         $submission = new backup_nested_element('submission', ['id'], [
             'userid', 'groupid', 'postedby', 'role', 'comment', 'commentformat',
@@ -55,22 +59,33 @@ class backup_evokeportfolio_activity_structure_step extends backup_activity_stru
         $grade = new backup_nested_element('grade', ['id'], [
             'userid', 'grader', 'grade', 'timecreated', 'timemodified']);
 
-        $evokeportfolio->add_child($submissions);
+        $evokeportfolio->add_child($sections);
+        $sections->add_child($section);
+        $section->add_child($submissions);
         $submissions->add_child($submission);
         $evokeportfolio->add_child($grades);
         $grades->add_child($grade);
 
         // Define the source tables for the elements.
         $evokeportfolio->set_source_table('evokeportfolio', ['id' => backup::VAR_ACTIVITYID]);
+        $section->set_source_table('evokeportfolio_sections', ['portfolioid' => backup::VAR_ACTIVITYID]);
 
         // User views are included only if we are including user info.
         if ($userinfo) {
             // Define sources.
-            $submission->set_source_table('evokeportfolio_submissions', ['portfolioid' => backup::VAR_PARENTID]);
-            $grade->set_source_table('evokeportfolio_grades', ['portfolioid' => backup::VAR_PARENTID]);
+            $submission->set_source_table('evokeportfolio_submissions', ['sectionid' => backup::VAR_PARENTID]);
+            $grade->set_source_table('evokeportfolio_grades', ['portfolioid' => backup::VAR_ACTIVITYID]);
         }
 
+        $submission->annotate_ids('user', 'userid');
+        $submission->annotate_ids('group', 'groupid');
+        $submission->annotate_ids('user', 'postedby');
+
+        $grade->annotate_ids('user', 'userid');
+        $grade->annotate_ids('user', 'grader');
+
         // Define file annotations.
+        $submission->annotate_files('mod_evokeportfolio', 'attachments', 'id');
 
         return $this->prepare_activity_structure($evokeportfolio);
     }

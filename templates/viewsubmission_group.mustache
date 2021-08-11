@@ -14,8 +14,7 @@
     </p>
 </div>
 
-<div class="mb-3 text-center">
-    <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/comment.php?id={{cmid}}&groupid={{groupid}}">{{#str}}page_viewsubmission_addcomment, mod_evokeportfolio{{/str}}</a>
+<div class="mb-3">
     {{^isgradinglocked}}
         <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/grade.php?id={{cmid}}&groupid={{groupid}}">
             {{#grouphasgrade}}
@@ -29,36 +28,118 @@
 </div>
 
 <div class="submissions">
-    {{#submissions}}
-        <div class="submission p-2 {{#isteacher}}isteacher{{/isteacher}}">
-            <h3><img src="{{userpicture}}" alt="{{fullname}}" class="img-rounded img-24 img-bordered"> {{fullname}}</h3>
-
-            <div class="content">
-                {{#comment}}
-                    <p class="comment">{{#str}}page_submissions_portfoliocomment, mod_evokeportfolio{{/str}}</p>
-                    <div>
-                        {{{.}}}
-                    </div>
-                {{/comment}}
-
-                {{#hasattachments}}
-                    {{#attachments}}
-                        <div class="attachment">
-                            {{#isimage}}
-                                <img src="{{fileurl}}" class="img-responsive" alt="{{filename}}">
-                            {{/isimage}}
-                            {{^isimage}}
-                                <div class="fileinfo">
-                                    <i class="fa fa-file-pdf-o"></i>&nbsp;{{#str}}page_submissions_portfolioattachment, mod_evokeportfolio{{/str}}
-                                </div>
-                                <div class="filedownload">
-                                    <a href="{{fileurl}}" class="btn btn-secondary btn-sm">{{#str}}downloadfile, mod_evokeportfolio{{/str}}</a>
-                                </div>
-                            {{/isimage}}
-                        </div>
-                    {{/attachments}}
-                {{/hasattachments}}
+    {{#sectionssubmissions}}
+        {{#issinglesection}}
+            <div class="mb-3">
+                <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/comment.php?id={{cmid}}&groupid={{groupid}}&sectionid={{id}}">{{#str}}page_viewsubmission_addcomment, mod_evokeportfolio{{/str}}</a>
             </div>
-        </div>
-    {{/submissions}}
+
+            {{#submissions}}
+                <div class="submission p-2 {{#isteacher}}isteacher{{/isteacher}}">
+                    <div class="header">
+                        <div class="userinfo">
+                            <img src="{{userpicture}}" alt="{{fullname}}" class="img-rounded img-24 img-bordered"> <h3>{{fullname}}</h3>
+                        </div>
+                        {{#isowner}}
+                            <div class="actions">
+                                <a class="btn btn-primary btn-sm" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&submissionid={{id}}&sectionid={{sectionid}}">
+                                <i class="fa fa-pencil"></i> {{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}
+                                </a>
+                            </div>
+                        {{/isowner}}
+                    </div>
+                    <div class="content">
+                        {{#comment}}
+                            <p class="comment">{{#str}}page_submissions_portfoliocomment, mod_evokeportfolio{{/str}}</p>
+                            <div>
+                                {{{.}}}
+                            </div>
+                        {{/comment}}
+
+                        {{#hasattachments}}
+                            {{#attachments}}
+                                <div class="attachment">
+                                    {{#isimage}}
+                                        <img src="{{fileurl}}" class="img-responsive" alt="{{filename}}">
+                                    {{/isimage}}
+                                    {{^isimage}}
+                                        <div class="fileinfo">
+                                            <i class="fa fa-file-pdf-o"></i>&nbsp;{{#str}}page_submissions_portfolioattachment, mod_evokeportfolio{{/str}}
+                                        </div>
+                                        <div class="filedownload">
+                                            <a href="{{fileurl}}" class="btn btn-secondary btn-sm">{{#str}}downloadfile, mod_evokeportfolio{{/str}}</a>
+                                        </div>
+                                    {{/isimage}}
+                                </div>
+                            {{/attachments}}
+                        {{/hasattachments}}
+                    </div>
+                </div>
+            {{/submissions}}
+        {{/issinglesection}}
+        {{^issinglesection}}
+            <div class="accordion mb-2" id="sectionssubmissions-accordion">
+                <div class="card">
+                    <div class="card-header" id="heading-{{id}}">
+                        <h2 class="mb-0">
+                            <button class="accordion-button" type="button" data-toggle="collapse" data-target="#collapse-{{id}}" aria-expanded="true" aria-controls="collapse-{{id}}">
+                                {{name}}
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-{{id}}" class="collapse" aria-labelledby="heading-{{id}}" data-parent="#sectionssubmissions-accordion">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/comment.php?id={{cmid}}&groupid={{groupid}}&sectionid={{id}}">{{#str}}page_viewsubmission_addcomment, mod_evokeportfolio{{/str}}</a>
+                            </div>
+
+                            {{#submissions}}
+                                <div class="submission p-2 {{#isteacher}}isteacher{{/isteacher}}">
+                                    <div class="header">
+                                        <div class="userinfo">
+                                            <img src="{{userpicture}}" alt="{{fullname}}" class="img-rounded img-24 img-bordered"> <h3>{{fullname}}</h3>
+                                        </div>
+                                        {{#isowner}}
+                                            <div class="actions">
+                                                <a class="btn btn-primary btn-sm" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&submissionid={{id}}&sectionid={{sectionid}}">
+                                                <i class="fa fa-pencil"></i> {{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}
+                                                </a>
+                                            </div>
+                                        {{/isowner}}
+                                    </div>
+                                    <div class="content">
+                                        {{#comment}}
+                                            <p class="comment">{{#str}}page_submissions_portfoliocomment, mod_evokeportfolio{{/str}}</p>
+                                            <div>
+                                                {{{.}}}
+                                            </div>
+                                        {{/comment}}
+
+                                        {{#hasattachments}}
+                                            {{#attachments}}
+                                                <div class="attachment">
+                                                    {{#isimage}}
+                                                        <img src="{{fileurl}}" class="img-responsive" alt="{{filename}}">
+                                                    {{/isimage}}
+                                                    {{^isimage}}
+                                                        <div class="fileinfo">
+                                                            <i class="fa fa-file-pdf-o"></i>&nbsp;{{#str}}page_submissions_portfolioattachment, mod_evokeportfolio{{/str}}
+                                                        </div>
+                                                        <div class="filedownload">
+                                                            <a href="{{fileurl}}" class="btn btn-secondary btn-sm">{{#str}}downloadfile, mod_evokeportfolio{{/str}}</a>
+                                                        </div>
+                                                    {{/isimage}}
+                                                </div>
+                                            {{/attachments}}
+                                        {{/hasattachments}}
+                                    </div>
+                                </div>
+                            {{/submissions}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/issinglesection}}
+    {{/sectionssubmissions}}
 </div>

@@ -125,7 +125,15 @@ function evokeportfolio_delete_instance($id) {
 
     $DB->delete_records('evokeportfolio', ['id' => $id]);
 
-    $DB->delete_records('evokeportfolio_submissions', ['portfolioid' => $id]);
+    $sections = $DB->get_records('evokeportfolio_sections', ['portfolioid' => $id]);
+
+    if ($sections) {
+        foreach ($sections as $section) {
+            $DB->delete_records('evokeportfolio_submissions', ['sectionid' => $section->id]);
+        }
+    }
+
+    $DB->delete_records('evokeportfolio_sections', ['portfolioid' => $id]);
 
     $DB->delete_records('evokeportfolio_grades', ['portfolioid' => $id]);
 

@@ -26,11 +26,13 @@ require(__DIR__.'/../../config.php');
 
 // Course module id.
 $id = required_param('id', PARAM_INT);
+$sectionid = required_param('sectionid', PARAM_INT);
 $userid = optional_param('userid', null, PARAM_INT);
 $groupid = optional_param('groupid', null, PARAM_INT);
 
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
+$section = $DB->get_record('evokeportfolio_sections', ['id' => $sectionid], '*', MUST_EXIST);
 
 if (!$userid && !$groupid) {
     $url = new moodle_url('/mod/evokeportfolio/view.php', ['id' => $id]);
@@ -38,7 +40,7 @@ if (!$userid && !$groupid) {
     redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
 }
 
-$urlparams = ['id' => $cm->id];
+$urlparams = ['id' => $cm->id, 'sectionid' => $section->id];
 
 if ($userid) {
     $evaluateduser = $DB->get_record('user', ['id' => $userid], '*', MUST_EXIST);
@@ -64,7 +66,8 @@ $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
 $formdata = [
-    'evokeportfolio' => $evokeportfolio->id
+    'evokeportfolio' => $evokeportfolio->id,
+    'sectionid' => $section->id
 ];
 
 if ($evokeportfolio->groupactivity) {
@@ -82,7 +85,7 @@ if ($form->is_cancelled()) {
         unset($formdata->submitbutton);
 
         $data = new \stdClass();
-        $data->portfolioid = $evokeportfolio->id;
+        $data->sectionid = $section->id;
         $data->postedby = $USER->id;
         $data->role = MOD_EVOKEPORTFOLIO_ROLE_TEACHER;
         $data->timecreated = time();
