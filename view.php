@@ -34,13 +34,17 @@ require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-$event = \mod_evokeportfolio\event\course_module_viewed::create([
+$event = \mod_evokeportfolio\event\course_module_viewed::create(array(
+    'context' => $context,
     'objectid' => $evokeportfolio->id,
-    'context' => $context
-]);
+));
+$event->add_record_snapshot('course_modules', $cm);
 $event->add_record_snapshot('course', $course);
 $event->add_record_snapshot('evokeportfolio', $evokeportfolio);
 $event->trigger();
+
+$completion = new completion_info($course);
+$completion->set_module_viewed($cm);
 
 $PAGE->set_url('/mod/evokeportfolio/view.php', ['id' => $cm->id]);
 $PAGE->set_title(format_string($evokeportfolio->name));
