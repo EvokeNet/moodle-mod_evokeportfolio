@@ -90,14 +90,19 @@ class submissions implements renderable, templatable {
                 $data['groupname'] = $usercoursegroup->name;
                 $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
 
-                $data['hassubmission'] = $evokeportfolioutil->has_submission($this->evokeportfolio->id, $USER->id, $usercoursegroup->id);
-                $data['submissions'] = $evokeportfolioutil->get_submissions($this->context, $this->evokeportfolio->id, $USER->id, $usercoursegroup->id);
+                $sectionssubmissions = $evokeportfolioutil->get_sections_submissions($this->context, $this->evokeportfolio->id, null, $usercoursegroup->id);
+
+                $data['sectionssubmissions'] = $sectionssubmissions;
+                $data['issinglesection'] = count($sectionssubmissions) == 1;
             }
 
             return $data;
         }
 
-        $data['sectionssubmissions'] = $evokeportfolioutil->get_sections_submissions($this->context, $this->evokeportfolio->id, $USER->id);
+        $sectionssubmissions = $evokeportfolioutil->get_sections_submissions($this->context, $this->evokeportfolio->id, $USER->id);
+
+        $data['sectionssubmissions'] = $sectionssubmissions;
+        $data['issinglesection'] = count($sectionssubmissions) == 1;
 
         $userpicture = new \user_picture($USER);
         $userpicture->size = 1;

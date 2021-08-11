@@ -52,7 +52,6 @@ $string['groupgradingmode'] = 'Group grading mode';
 $string['groupgradingmode_help'] = '<b>Group grading: </b> all users from the group will receive the same grade.<br><b>Individual grading:</b> users will receive their grades individually.';
 $string['groupgrading'] = 'Group grading';
 $string['individualgrading'] = 'Individual grading';
-$string['sections'] = 'Sections';
 $string['section'] = 'Section';
 $string['illegalaccess'] = 'Illegal access';
 $string['attachmentfile'] = 'Attachment file';

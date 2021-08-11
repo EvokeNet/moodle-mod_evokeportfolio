@@ -65,10 +65,6 @@ function evokeportfolio_supports($feature) {
 function evokeportfolio_add_instance($moduleinstance, $mform = null) {
     global $DB;
 
-    $sections = $moduleinstance->sections;
-
-    unset($moduleinstance->sections);
-
     $moduleinstance->timecreated = time();
     $moduleinstance->timemodified = time();
 
@@ -82,14 +78,12 @@ function evokeportfolio_add_instance($moduleinstance, $mform = null) {
 
     evokeportfolio_grade_item_update($moduleinstance);
 
-    for ($i = 1; $i <= $sections; $i++) {
-        $DB->insert_record('evokeportfolio_sections', [
-            'portfolioid' => $id,
-            'name' => get_string('section', 'mod_evokeportfolio') . ' ' . $i,
-            'timecreated' => time(),
-            'timemodified' => time()
-        ]);
-    }
+    $DB->insert_record('evokeportfolio_sections', [
+        'portfolioid' => $id,
+        'name' => get_string('section', 'mod_evokeportfolio') . ' ' . 1,
+        'timecreated' => time(),
+        'timemodified' => time()
+    ]);
 
     return $id;
 }
