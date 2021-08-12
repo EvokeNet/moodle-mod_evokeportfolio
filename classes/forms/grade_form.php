@@ -147,7 +147,7 @@ class grade_form extends \moodleform {
                 $mform->addElement('text', $gradeelementid, $gradeelementlabel);
                 $mform->addHelpButton($gradeelementid, 'grade', 'mod_evokeportfolio');
                 $mform->addRule($gradeelementid, get_string('onlynumbers', 'mod_evokeportfolio'), 'numeric', null, 'client');
-                $mform->addRule($gradeelementid, get_string('required'), 'required', null, 'client');
+//                $mform->addRule($gradeelementid, get_string('required'), 'required', null, 'client');
 
                 $mform->setType($gradeelementid, PARAM_RAW);
 
@@ -201,7 +201,34 @@ class grade_form extends \moodleform {
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 
-        // TODO: To validate.
+        $evokeportfolioutil = new evokeportfolio();
+        $evokeportfolio = $evokeportfolioutil->get_instance($this->_customdata['instanceid']);
+
+        if (!$evokeportfolio->groupactivity && empty($data['grade'])) {
+            $errors['grade'] = get_string('validation:graderequired', 'mod_evokeportfolio');
+        }
+
+        if ($evokeportfolio->groupactivity) {
+            if ($evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_GROUP && empty($data['grade'])) {
+                $errors['grade'] = get_string('validation:graderequired', 'mod_evokeportfolio');
+            }
+
+            if ($evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_INDIVIDUAL) {
+                unset($data['groupid']);
+
+                foreach ($data as $key => $usergrade) {
+                    $userid = substr(strrchr($key, "gradeuserid-"), 12);
+
+                    if (!$userid) {
+                        continue;
+                    }
+
+                    if (empty($usergrade)) {
+                        $errors[$key] = get_string('validation:graderequired', 'mod_evokeportfolio');
+                    }
+                }
+            }
+        }
 
         return $errors;
     }

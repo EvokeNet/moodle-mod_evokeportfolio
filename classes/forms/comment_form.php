@@ -73,7 +73,13 @@ class comment_form extends \moodleform {
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 
-        // TODO: To validate.
+        if ($data['comment'] && empty($data['comment']['text'])) {
+            $errors['comment'] = get_string('validation:commentrequired', 'mod_evokeportfolio');
+        }
+
+        if ($data['comment'] && !empty($data['comment']['text']) && mb_strlen(strip_tags($data['comment']['text'])) < 10) {
+            $errors['comment'] = get_string('validation:commentlen', 'mod_evokeportfolio');
+        }
 
         return $errors;
     }

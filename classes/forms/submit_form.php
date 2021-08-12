@@ -103,9 +103,26 @@ class submit_form extends \moodleform {
     }
 
     public function validation($data, $files) {
+        global $USER;
+
         $errors = parent::validation($data, $files);
 
-        // TODO: To validate.
+        $usercontext = \context_user::instance($USER->id);
+
+        $files = array();
+        if(isset($data['attachments'])) {
+            $fs = get_file_storage();
+            $files = $fs->get_area_files($usercontext->id, 'user', 'draft', $data['attachments']);
+        }
+
+        if (empty($files) && ($data['comment'] && empty($data['comment']['text']))) {
+            $errors['attachments'] = get_string('validation:commentattachmentsrequired', 'mod_evokeportfolio');
+            $errors['comment'] = get_string('validation:commentattachmentsrequired', 'mod_evokeportfolio');
+        }
+
+        if ($data['comment'] && !empty($data['comment']['text']) && mb_strlen(strip_tags($data['comment']['text'])) < 10) {
+            $errors['comment'] = get_string('validation:commentlen', 'mod_evokeportfolio');
+        }
 
         return $errors;
     }

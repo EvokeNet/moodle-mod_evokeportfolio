@@ -92,3 +92,8 @@ $string['grade'] = 'Grade';
 $string['grade_help'] = 'Enter the grade for the student\'s portfolio here.';
 $string['onlynumbers'] = 'Only numbers are accepted.';
 $string['gradefor'] = 'Grade for: {$a}';
+
+$string['validation:commentrequired'] = 'Comment is required';
+$string['validation:commentlen'] = 'Comment needs to have at least 10 characters';
+$string['validation:graderequired'] = 'Grade is required';
+$string['validation:commentattachmentsrequired'] = 'You need to at least add a comment or submit a file.';
