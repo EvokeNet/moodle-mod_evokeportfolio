@@ -58,13 +58,30 @@ class evokeportfolio {
     public function get_sections($portfolioid) {
         global $DB;
 
-        $sections = $DB->get_records('evokeportfolio_sections', ['portfolioid' => $portfolioid], 'id DESC');
+        $sections = $DB->get_records('evokeportfolio_sections', ['portfolioid' => $portfolioid]);
 
         if (!$sections) {
             return false;
         }
 
+        $evokeportfolioutil = new evokeportfolio();
+        foreach ($sections as $key => $section) {
+            $sections[$key]->hassubmission = $evokeportfolioutil->section_has_submissions($section->id);
+        }
+
         return array_values($sections);
+    }
+
+    public function section_has_submissions($sectionid) {
+        global $DB;
+
+        $counter = $DB->count_records('evokeportfolio_submissions', ['sectionid' => $sectionid]);
+
+        if ($counter) {
+            return true;
+        }
+
+        return false;
     }
 
     public function get_section_submissions($sectionid, $userid = null, $groupid = null) {

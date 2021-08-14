@@ -97,3 +97,17 @@ $string['validation:commentrequired'] = 'Comment is required';
 $string['validation:commentlen'] = 'Comment needs to have at least 10 characters';
 $string['validation:graderequired'] = 'Grade is required';
 $string['validation:commentattachmentsrequired'] = 'You need to at least add a comment or submit a file.';
+$string['validation:namelen'] = 'Name needs to have at least 3 characters';
+
+$string['managesections'] = 'Manage sections';
+$string['createsection'] = 'Create section';
+$string['editsection'] = 'Edit section';
+$string['actions'] = 'Actions';
+$string['deleteitem_confirm_title'] = 'Are you sure?';
+$string['deleteitem_confirm_msg'] = 'Once deleted, this item cannot be recovered!';
+$string['deleteitem_confirm_yes'] = 'Yes, delete it!';
+$string['deleteitem_confirm_no'] = 'Cancel';
+$string['deletesection_success'] = 'Section successfully deleted.';
+$string['createsection_success'] = 'Section successfully created.';
+$string['editsection_success'] = 'Section successfully edited.';
+$string['deletesection_hassubmissions'] = 'It is not possible to delete this section because it has are submissions.';
