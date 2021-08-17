@@ -12,7 +12,6 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 /**
  * Plugin strings are defined here.
- * Las cadenas de Plugin se definen a continuación.
  * @package     mod_evokeportfolio
  * @category    string
  * @copyright   2021 World Bank Group <https://worldbank.org>
