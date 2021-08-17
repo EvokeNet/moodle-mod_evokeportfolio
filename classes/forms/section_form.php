@@ -9,7 +9,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 /**
  * The mform class for creating a section
  *
- * @copyright   2021 onwards World Bank Group
+ * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 class section_form extends \moodleform {

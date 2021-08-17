@@ -10,7 +10,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package     mod_evokeportfolio
  * @category    backup
- * @copyright   2021 onwards World Bank Group
+ * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 class restore_evokeportfolio_activity_structure_step extends restore_activity_structure_step {

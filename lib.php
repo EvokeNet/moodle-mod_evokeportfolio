@@ -4,7 +4,7 @@
  * Library of interface functions and constants.
  *
  * @package     mod_evokeportfolio
- * @copyright   2021 onwards World Bank Group
+ * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 

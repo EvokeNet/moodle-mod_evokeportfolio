@@ -8,7 +8,7 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
  * Module instance settings form.
  *
  * @package     mod_evokeportfolio
- * @copyright   2021 onwards World Bank Group
+ * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 class mod_evokeportfolio_mod_form extends moodleform_mod {

@@ -12,7 +12,7 @@ require_once($CFG->dirroot.'//mod/evokeportfolio/backup/moodle2/restore_evokepor
  *
  * @package     mod_evokeportfolio
  * @category    backup
- * @copyright   2021 onwards World Bank Group
+ * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 class restore_evokeportfolio_activity_task extends restore_activity_task {

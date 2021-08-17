@@ -10,7 +10,7 @@ require_once($CFG->libdir. '/formslib.php');
  * Portfolio comment form.
  *
  * @package     mod_evokeportfolio
- * @copyright   2021 onwards World Bank Group
+ * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 class comment_form extends \moodleform {

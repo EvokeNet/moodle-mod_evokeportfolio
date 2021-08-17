@@ -15,7 +15,7 @@ use html_writer;
 /**
  * Entries table class
  *
- * @copyright   2021 onwards World Bank Group
+ * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 class entries extends table_sql {

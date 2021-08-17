@@ -13,7 +13,7 @@ use renderer_base;
 /**
  * View renderable class.
  *
- * @copyright   2021 onwards World Bank Group
+ * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 class view implements renderable, templatable {
