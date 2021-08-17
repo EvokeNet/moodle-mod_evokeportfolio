@@ -29,7 +29,7 @@ $string['evokeportfolio:addinstance'] = 'Add a portfolio';
 $string['evokeportfolio:view'] = 'View portfolio';
 $string['missingidandcmid'] = 'Missing ID or Course Module ID';
 $string['modulename'] = 'Portfolio';
-$string['modulename_help'] = 'The portfolio module may be used to manage collections of agent work';
+$string['modulename_help'] = 'The portfolio module may be used to manage collections of agent work'; // agent = student
 $string['modulenameplural'] = 'Portfolios';
 $string['noportfolioinstances'] = 'No porfolios were found';
 $string['pluginadministration'] = 'Portfolio administration';
@@ -46,7 +46,7 @@ $string['evaluated'] = 'Evaluated';
 
 $string['datelimit'] = 'Submission deadline';
 $string['datelimit_help'] = 'After this date, agents cannot submit responses.';
-$string['groupactivity'] = 'Team mission';
+$string['groupactivity'] = 'Team mission'; // team = group; mission = activity
 $string['individualctivity'] = 'Individual mission';
 $string['groupgradingmode'] = 'Team grading mode';
 $string['groupgradingmode_help'] = '<b>Team grading: </b> all users in the team will receive the same grade.<br><b>Individual grading:</b> users will receive their grades individually.';
