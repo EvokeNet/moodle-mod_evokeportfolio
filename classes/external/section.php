@@ -10,6 +10,13 @@ use external_function_parameters;
 use mod_evokeportfolio\forms\section_form;
 use mod_evokeportfolio\util\evokeportfolio;
 
+/**
+ * Section external api class.
+ *
+ * @package     mod_evokeportfolio
+ * @copyright   2021 onwards World Bank Group
+ * @author      Willian Mano <willianmanoaraujo@gmail.com>
+ */
 class section extends external_api {
     /**
      * Create section parameters
