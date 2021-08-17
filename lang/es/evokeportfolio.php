@@ -6,18 +6,11 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-//Moodle es un software libre: puede re-distrubuidlo y/o modificarlo
- bajo los mismos términos de la licencia GNU (General Public License) como está publicado por 
-la Free Software Foundation, tanto en la versión 3 de la Licencia, como en cualquier versión posterior.
 
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// Moodle se distribuye con la esperanza de que sea útil,
-pero SIN NINGUNA GARANTÍA; sin siquiera la garantía implícita de
-// COMERCIABILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Ver la
-// Licencia pública general GNU para más detalles.
 
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
@@ -30,7 +23,7 @@ pero SIN NINGUNA GARANTÍA; sin siquiera la garantía implícita de
  * @package     mod_evokeportfolio
  * @category    string
  * @copyright   2021 World Bank Group <https://worldbank.org>
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.  <--NEED TO CHANGE THIS
+ * @license     TBD
  */
 
 defined('MOODLE_INTERNAL') || die();
