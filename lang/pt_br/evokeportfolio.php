@@ -97,3 +97,6 @@ $string['deletesection_success'] = 'Seção deletada com sucesso.';
 $string['createsection_success'] = 'Seção criada com sucesso.';
 $string['editsection_success'] = 'Seção editada com sucesso.';
 $string['deletesection_hassubmissions'] = 'Não é possível deletar esta seção porque ela já possui envios feitos nela.';
+
+$string['evokeportfolio:grade'] = 'Permissão para avaliar usuários';
+$string['evokeportfolio:submit'] = 'Permissão para fazer um envio no portfólio';

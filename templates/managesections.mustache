@@ -21,7 +21,7 @@
             <th scope="row">{{{id}}}</th>
             <td>{{{name}}}</td>
             <td style="width: 120px; text-align: center;">
-                <a href="#" data-id="{{id}}" data-name="{{name}}" class="btn btn-warning btn-sm edit-evokeportfolio-section"><i class="fa fa-pencil-square-o text-white"></i></a>
+                <a href="#" data-id="{{id}}" data-name="{{name}}" data-dependentsections="{{dependentsections}}" class="btn btn-warning btn-sm edit-evokeportfolio-section"><i class="fa fa-pencil-square-o text-white"></i></a>
                 {{^hassubmission}}
                     <a href="#" data-id="{{id}}" class="btn btn-danger btn-sm delete-evokeportfolio-section"><i class="fa fa-trash-o"></i></a>
                 {{/hassubmission}}
@@ -35,7 +35,7 @@
     require(['mod_evokeportfolio/createsection', 'mod_evokeportfolio/editsection', 'mod_evokeportfolio/deletesection'], function(CreateSection, EditSection, DeleteSection) {
         CreateSection.init('[data-action=create-section-modal]', {{{contextid}}}, {{{id}}});
 
-        EditSection.init({{{contextid}}}, {{{id}}});
+        EditSection.init({{{contextid}}});
 
         DeleteSection.init();
     });

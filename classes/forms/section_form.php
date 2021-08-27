@@ -2,6 +2,8 @@
 
 namespace mod_evokeportfolio\forms;
 
+use mod_evokeportfolio\util\evokeportfolio;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
@@ -37,6 +39,7 @@ class section_form extends \moodleform {
 
         $id = !(empty($this->_customdata['id'])) ? $this->_customdata['id'] : null;
         $name = !(empty($this->_customdata['name'])) ? $this->_customdata['name'] : null;
+        $dependentsections = !(empty($this->_customdata['dependentsections'])) ? $this->_customdata['dependentsections'] : null;
 
         if (!empty($this->_customdata['portfolioid'])) {
             $mform->addElement('hidden', 'portfolioid', $this->_customdata['portfolioid']);
@@ -47,6 +50,16 @@ class section_form extends \moodleform {
         $mform->addElement('text', 'name', get_string('name', 'mod_evokeportfolio'));
         $mform->addRule('name', get_string('required'), 'required', null, 'client');
         $mform->setType('name', PARAM_TEXT);
+
+        $portfolioutil = new evokeportfolio();
+
+        $sections = $portfolioutil->get_course_sections($this->_customdata['portfolioid'], $this->_customdata['id']);
+        $mform->addElement('select', 'dependentsections', 'Course sections', $sections);
+        $mform->getElement('dependentsections')->setMultiple(true);
+
+        if ($dependentsections) {
+            $mform->getElement('dependentsections')->setSelected(explode(",", $dependentsections));
+        }
 
         if ($name) {
             $mform->setDefault('name', $name);

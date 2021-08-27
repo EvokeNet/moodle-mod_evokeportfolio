@@ -7,6 +7,7 @@ use external_api;
 use external_value;
 use external_single_structure;
 use external_function_parameters;
+use Matrix\Exception;
 use mod_evokeportfolio\forms\section_form;
 use mod_evokeportfolio\util\evokeportfolio;
 
@@ -70,20 +71,30 @@ class section extends external_api {
             throw new \moodle_exception('invalidformdata');
         }
 
-        $data = new \stdClass();
-        $data->portfolioid = $portfolioid;
-        $data->name = $validateddata->name;
-        $data->timecreated = time();
-        $data->timemodified = time();
+        $dependentsections = null;
+        if ($data['dependentsections']) {
+            foreach ($data['dependentsections'] as $section) {
+                $dependentsections[] = $section;
+            }
 
-        $sectionid = $DB->insert_record('evokeportfolio_sections', $data);
+            $dependentsections = implode(",", $dependentsections);
+        }
 
-        $data->id = $sectionid;
+        $section = new \stdClass();
+        $section->portfolioid = $portfolioid;
+        $section->name = $validateddata->name;
+        $section->dependentsections = $dependentsections;
+        $section->timecreated = time();
+        $section->timemodified = time();
+
+        $sectionid = $DB->insert_record('evokeportfolio_sections', $section);
+
+        $section->id = $sectionid;
 
         return [
             'status' => 'ok',
             'message' => get_string('createsection_success', 'mod_evokeportfolio'),
-            'data' => json_encode($data)
+            'data' => json_encode($section)
         ];
     }
 
@@ -152,17 +163,27 @@ class section extends external_api {
             throw new \moodle_exception('invalidformdata');
         }
 
-        $data = new \stdClass();
-        $data->id = $validateddata->id;
-        $data->name = $validateddata->name;
-        $data->timemodified = time();
+        $dependentsections = null;
+        if ($data['dependentsections']) {
+            foreach ($data['dependentsections'] as $section) {
+                $dependentsections[] = $section;
+            }
 
-        $DB->update_record('evokeportfolio_sections', $data);
+            $dependentsections = implode(",", $dependentsections);
+        }
+
+        $section = new \stdClass();
+        $section->id = $validateddata->id;
+        $section->name = $validateddata->name;
+        $section->dependentsections = $dependentsections;
+        $section->timemodified = time();
+
+        $DB->update_record('evokeportfolio_sections', $section);
 
         return [
             'status' => 'ok',
             'message' => get_string('editsection_success', 'mod_evokeportfolio'),
-            'data' => json_encode($data)
+            'data' => json_encode($section)
         ];
     }
 

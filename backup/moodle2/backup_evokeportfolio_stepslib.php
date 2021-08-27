@@ -69,6 +69,8 @@ class backup_evokeportfolio_activity_structure_step extends backup_activity_stru
         // Define file annotations.
         $submission->annotate_files('mod_evokeportfolio', 'attachments', 'id');
 
+        $evokeportfolio->annotate_files('mod_evokeportfolio', 'intro', null);
+
         return $this->prepare_activity_structure($evokeportfolio);
     }
 }

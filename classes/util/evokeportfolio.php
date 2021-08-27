@@ -64,6 +64,39 @@ class evokeportfolio {
         return array_values($sections);
     }
 
+    public function get_course_sections($portfolioid = null, $sectionid = null) {
+        global $DB;
+
+        if ($portfolioid) {
+            $portfolio = $DB->get_record('evokeportfolio', ['id' => $portfolioid], '*', MUST_EXIST);
+        }
+
+        if (!$portfolioid && $sectionid) {
+            $section = $DB->get_record('evokeportfolio_sections', ['id' => $sectionid], '*', MUST_EXIST);
+
+            $portfolio = $DB->get_record('evokeportfolio', ['id' => $section->portfolioid], '*', MUST_EXIST);
+        }
+
+        $sections = $DB->get_records('course_sections', ['course' => $portfolio->course, 'visible' => 1]);
+
+        if (!$sections) {
+            return [];
+        }
+
+        $coursesections = [];
+        foreach ($sections as $section) {
+            $sectionname = $section->name;
+
+            if (!$section->name) {
+                $sectionname = 'Section ' . $section->section;
+            }
+
+            $coursesections[$section->id] = $sectionname;
+        }
+
+        return $coursesections;
+    }
+
     public function section_has_submissions($sectionid) {
         global $DB;
 
@@ -121,6 +154,16 @@ class evokeportfolio {
         }
 
         foreach ($sections as $key => $section) {
+            if ($section->dependentsections) {
+                $dependentsections = explode(",", $section->dependentsections);
+
+                if (!$this->has_section_access($dependentsections, $context)) {
+                    unset($sections[$key]);
+
+                    continue;
+                }
+            }
+
             $submissions = $this->get_section_submissions($section->id, $userid, $groupid);
 
             if (!$submissions) {
@@ -137,6 +180,39 @@ class evokeportfolio {
         }
 
         return $sections;
+    }
+
+    public function has_section_access($dependentsections, $context) {
+        global $DB;
+
+        $canviewhidden = has_capability('moodle/course:viewhiddensections', $context);
+
+        $courseid = $context->get_course_context()->instanceid;
+        $cachecoursemodinfo = \cache::make('core', 'coursemodinfo');
+        $coursemodinfo = $cachecoursemodinfo->get($courseid);
+
+        $modinfo = get_fast_modinfo($courseid);
+
+        $sectionsinfo = [];
+        foreach ($coursemodinfo->sectioncache as $number => $data) {
+            $sectionsinfo[$number] = new \section_info($data, $number, null, null, $modinfo, null);
+        }
+
+        foreach ($dependentsections as $dependentsection) {
+            $coursesection = $DB->get_record('course_sections', ['id' => $dependentsection], '*', MUST_EXIST);
+
+            if (!$coursesection->visible && !$canviewhidden) {
+                return false;
+            }
+
+            $sectioninfo = $sectionsinfo[$coursesection->section];
+
+            if (!$sectioninfo->available) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function populate_data_with_user_info($data) {

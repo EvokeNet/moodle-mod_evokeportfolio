@@ -97,6 +97,8 @@ class restore_evokeportfolio_activity_structure_step extends restore_activity_st
     protected function after_execute() {
         global $DB;
 
+        $this->add_related_files('mod_evokeportfolio', 'intro', null);
+
         // Fixes userid and groupid assigned with 0 to null.
         $sql = 'SELECT su.* FROM {evokeportfolio_submissions} su
                 INNER JOIN {evokeportfolio_sections} se ON se.id = su.sectionid

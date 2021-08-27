@@ -54,7 +54,11 @@ define([
                     return ModalFactory.create({
                         type: ModalFactory.types.SAVE_CANCEL,
                         title: title,
-                        body: this.getBody({id: this.eventtarget.data('id'), name: this.eventtarget.data('name')})
+                        body: this.getBody({
+                            id: this.eventtarget.data('id'),
+                            name: this.eventtarget.data('name'),
+                            dependentsections: this.eventtarget.data('dependentsections')
+                        })
                     });
                 }.bind(this)).then(function(modal) {
                     // Keep a reference to the modal.
@@ -62,7 +66,11 @@ define([
 
                     // We want to reset the form every time it is opened.
                     this.modal.getRoot().on(ModalEvents.hidden, function() {
-                        this.modal.setBody(this.getBody({id: this.eventtarget.data('id'), name: this.eventtarget.data('name')}));
+                        this.modal.setBody(this.getBody({
+                            id: this.eventtarget.data('id'),
+                            name: this.eventtarget.data('name'),
+                            dependentsections: this.eventtarget.data('dependentsections')
+                        }));
                     }.bind(this));
 
                     // We want to hide the submit buttons every time it is opened.
@@ -114,14 +122,15 @@ define([
                 M.core_formchangechecker.reset_form_dirty_state();
             });
 
-            var competency = JSON.parse(data.data);
+            var section = JSON.parse(data.data);
 
             var tablenamecolumn = this.eventtarget.closest('tr').find('td:first');
 
-            tablenamecolumn.html(competency.name);
+            tablenamecolumn.html(section.name);
 
-            this.eventtarget.data('id', competency.id);
-            this.eventtarget.data('name', competency.name);
+            this.eventtarget.data('id', section.id);
+            this.eventtarget.data('name', section.name);
+            this.eventtarget.data('dependentsections', section.dependentsections);
 
             this.eventtarget.closest('tr').hide('normal').show('normal');
 

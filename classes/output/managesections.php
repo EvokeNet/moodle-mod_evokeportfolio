@@ -44,6 +44,7 @@ class managesections implements renderable, templatable {
             'name' => $this->evokeportfolio->name,
             'cmid' => $this->context->instanceid,
             'contextid' => $this->context->id,
+            'courseid' =>  $this->evokeportfolio->course,
             'sections' => $sections
         ];
 

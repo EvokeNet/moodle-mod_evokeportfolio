@@ -127,7 +127,7 @@ define([
                 '<th scope="row">'+item.id+'</th>' +
                 '<td>'+item.name+'</td>' +
                 '<td style="width: 120px; text-align: center;">' +
-                '<a href="#" data-id="'+item.id+'" data-name="'+item.name+'"' +
+                '<a href="#" data-id="'+item.id+'" data-name="'+item.name+'" data-dependentsections="'+item.dependentsections+'"' +
                 'class="btn btn-warning btn-sm edit-evokeportfolio-section">' +
                 '<i class="fa fa-pencil-square-o text-white"></i>' +
                 '</a> ' +

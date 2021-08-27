@@ -97,3 +97,6 @@ $string['deletesection_success'] = 'Section successfully deleted.';
 $string['createsection_success'] = 'Section successfully created.';
 $string['editsection_success'] = 'Section successfully edited.';
 $string['deletesection_hassubmissions'] = 'It is not possible to delete this section because it contains submissions.';
+
+$string['evokeportfolio:grade'] = 'Permission to grade users';
+$string['evokeportfolio:submit'] = 'Permission to send a portfolio submission';

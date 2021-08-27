@@ -356,7 +356,12 @@ function mod_evokeportfolio_output_fragment_section_form($args) {
         parse_str($serialiseddata, $formdata);
     }
 
-    $mform = new \mod_evokeportfolio\forms\section_form($formdata, ['id' => $serialiseddata->id, 'name' => $serialiseddata->name]);
+    $mform = new \mod_evokeportfolio\forms\section_form($formdata, [
+        'id' => $serialiseddata->id,
+        'portfolioid' => $serialiseddata->portfolioid,
+        'name' => $serialiseddata->name,
+        'dependentsections' => $serialiseddata->dependentsections,
+    ]);
 
     if (!empty($args->jsonformdata)) {
         // If we were passed non-empty form data we want the mform to call validation functions and show errors.
