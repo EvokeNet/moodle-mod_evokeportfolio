@@ -118,3 +118,14 @@ $string['evokeportfolio:submit'] = 'Permission to send a portfolio submission';
 $string['dependentcoursesections'] = 'Dependent course sections';
 $string['nosectionsavailable'] = 'No sections available';
 $string['nosectionsavailable_desc'] = 'There is no sections available for you in this portfolio yet.';
+
+$string['privacy:metadata:evokeportfolio_submissions'] = 'Information about the user\'s submissions for a given portfolio activity';
+$string['privacy:metadata:evokeportfolio_submissions:sectionid'] = 'The ID of the potfolio\'s section';
+$string['privacy:metadata:evokeportfolio_submissions:userid'] = 'The ID of the user related to this portfolio activity';
+$string['privacy:metadata:evokeportfolio_submissions:groupid'] = 'The ID of the group related to this portfolio activity';
+$string['privacy:metadata:evokeportfolio_submissions:postedby'] = 'The ID of the user who posted a submission to this portfolio activity';
+$string['privacy:metadata:evokeportfolio_submissions:role'] = 'The role of the user who posted a submission';
+$string['privacy:metadata:evokeportfolio_submissions:comment'] = 'The submission comment';
+$string['privacy:metadata:evokeportfolio_submissions:commentformat'] = 'The submission comment format';
+$string['privacy:metadata:evokeportfolio_submissions:timecreated'] = 'The timestamp indicating when the submission was posted by the user';
+$string['privacy:metadata:evokeportfolio_submissions:timemodified'] = 'The timestamp indicating when the submission was modified by the user';
