@@ -54,7 +54,7 @@ class section_form extends \moodleform {
         $portfolioutil = new evokeportfolio();
 
         $sections = $portfolioutil->get_course_sections($this->_customdata['portfolioid'], $this->_customdata['id']);
-        $mform->addElement('select', 'dependentsections', 'Course sections', $sections);
+        $mform->addElement('select', 'dependentsections', get_string('dependentcoursesections', 'mod_evokeportfolio'), $sections);
         $mform->getElement('dependentsections')->setMultiple(true);
 
         if ($dependentsections) {

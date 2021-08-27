@@ -30,7 +30,7 @@ class backup_evokeportfolio_activity_structure_step extends backup_activity_stru
 
         $sections = new backup_nested_element('sections');
         $section = new backup_nested_element('section', ['id'], [
-            'name', 'timecreated', 'timemodified']);
+            'name', 'dependentsections', 'timecreated', 'timemodified']);
 
         $submissions = new backup_nested_element('submissions');
         $submission = new backup_nested_element('submission', ['id'], [

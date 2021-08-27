@@ -11,6 +11,14 @@
     </div>
 </div>
 
+{{^hassectionsavailable}}
+   <div class="alert alert-info" role="alert">
+       <h3>{{#str}}nosectionsavailable, mod_evokeportfolio{{/str}}</h3>
+       <hr>
+       <p>{{#str}}nosectionsavailable_desc, mod_evokeportfolio{{/str}}</p>
+   </div>
+{{/hassectionsavailable}}
+
 <div class="submissions mt-2">
     {{#sectionssubmissions}}
         {{#issinglesection}}

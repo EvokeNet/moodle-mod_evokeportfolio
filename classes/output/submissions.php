@@ -70,8 +70,6 @@ class submissions implements renderable, templatable {
 
             $data['hasgroup'] = !empty($usercoursegroup);
 
-            $data['hassubmission'] = false;
-            $data['submissions'] = false;
             if ($usercoursegroup) {
                 $data['groupname'] = $usercoursegroup->name;
                 $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
@@ -80,6 +78,8 @@ class submissions implements renderable, templatable {
 
                 $data['sectionssubmissions'] = $sectionssubmissions;
                 $data['issinglesection'] = count($sectionssubmissions) == 1;
+
+                $data['hassectionsavailable'] = count($sectionssubmissions) ? true : false;
             }
 
             return $data;
@@ -89,6 +89,7 @@ class submissions implements renderable, templatable {
 
         $data['sectionssubmissions'] = $sectionssubmissions;
         $data['issinglesection'] = count($sectionssubmissions) == 1;
+        $data['hassectionsavailable'] = count($sectionssubmissions) ? true : false;
 
         $userpicture = new \user_picture($USER);
         $userpicture->size = 1;

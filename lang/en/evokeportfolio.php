@@ -114,3 +114,7 @@ $string['deletesection_hassubmissions'] = 'It is not possible to delete this sec
 
 $string['evokeportfolio:grade'] = 'Permission to grade users';
 $string['evokeportfolio:submit'] = 'Permission to send a portfolio submission';
+
+$string['dependentcoursesections'] = 'Dependent course sections';
+$string['nosectionsavailable'] = 'No sections available';
+$string['nosectionsavailable_desc'] = 'There is no sections available for you in this portfolio yet.';
