@@ -1,18 +1,4 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Plugin strings are defined here.
@@ -20,7 +6,7 @@
  * @package     mod_evokeportfolio
  * @category    string
  * @copyright   2021 World Bank Group <https://worldbank.org>
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.  <--NEED TO CHANGE THIS
+ * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -130,6 +116,7 @@ $string['privacy:metadata:evokeportfolio_submissions:commentformat'] = 'The subm
 $string['privacy:metadata:evokeportfolio_submissions:timecreated'] = 'The timestamp indicating when the submission was posted by the user';
 $string['privacy:metadata:evokeportfolio_submissions:timemodified'] = 'The timestamp indicating when the submission was modified by the user';
 
+$string['indicator:cognitivedepth'] = 'Evoke portfolio cognitive';
 $string['indicator:cognitivedepth_help'] = 'This indicator is based on the cognitive depth reached by the student in a Evoke portfolio activity.';
 $string['indicator:cognitivedepthdef'] = 'Evoke portfolio cognitive';
 $string['indicator:cognitivedepthdef_help'] = 'The participant has reached this percentage of the cognitive engagement offered by the Evoke portfolio activities during this analysis interval (Levels = No view, View, Submit, View feedback)';

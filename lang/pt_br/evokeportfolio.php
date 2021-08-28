@@ -104,3 +104,25 @@ $string['evokeportfolio:submit'] = 'Permissão para fazer um envio no portfólio
 $string['dependentcoursesections'] = 'Seções do curso dependentes';
 $string['nosectionsavailable'] = 'Seções não disponíveis';
 $string['nosectionsavailable_desc'] = 'Não existem seções disponíveis para você neste portfolio ainda..';
+
+$string['privacy:metadata:evokeportfolio_submissions'] = 'Informações sobre os envios de um usuário em um portfolio';
+$string['privacy:metadata:evokeportfolio_submissions:sectionid'] = 'O ID da seção do curso onde o portfolio está';
+$string['privacy:metadata:evokeportfolio_submissions:userid'] = 'O ID do usuário relacionado a este portfolio';
+$string['privacy:metadata:evokeportfolio_submissions:groupid'] = 'O ID do grupo relacionado a este portfolio';
+$string['privacy:metadata:evokeportfolio_submissions:postedby'] = 'O ID do usuário que fez um envio neste portfolio';
+$string['privacy:metadata:evokeportfolio_submissions:role'] = 'O papel do usuário que fez um envio';
+$string['privacy:metadata:evokeportfolio_submissions:comment'] = 'O comentário do envio';
+$string['privacy:metadata:evokeportfolio_submissions:commentformat'] = 'O formato do comentário do envio';
+$string['privacy:metadata:evokeportfolio_submissions:timecreated'] = 'O timestamp indicando quando o envio foi feito pelo usuário';
+$string['privacy:metadata:evokeportfolio_submissions:timemodified'] = 'O timestamp indicando quando o envio foi modificado pelo usuário';
+
+$string['indicator:cognitivedepth'] = 'Evoke portfolio cognitivo';
+$string['indicator:cognitivedepth_help'] = 'Este indicador baseia-se na profundidade cognitiva alcançada pelo estudante em uma atividade Portfolio.';
+$string['indicator:cognitivedepthdef'] = 'Evoke portfolio cognitivo';
+$string['indicator:cognitivedepthdef_help'] = 'O participante alcançou essa porcentagem do engajamento cognitivo oferecido pelas atividades Portfolio durante esse intervalo de análise (Níveis = Sem visualização, Visualizar, Enviar)';
+$string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Cognitive_depth';
+$string['indicator:socialbreadth'] = 'Evoke portfolio social';
+$string['indicator:socialbreadth_help'] = 'Este indicador baseia-se na amplitude social alcançada pelo estudante em uma atividade Portfolio.';
+$string['indicator:socialbreadthdef'] = 'Evoke portfolio social';
+$string['indicator:socialbreadthdef_help'] = 'O participante alcançou essa porcentagem do engajamento social oferecido pelos recursos Portfolio durante esse intervalo de análise (Níveis = Sem participação, Participante único)';
+$string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
