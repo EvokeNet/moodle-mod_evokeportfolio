@@ -25,8 +25,8 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Implementation of the privacy subsystem plugin provider for the evokeportfolio activity module.
  *
- * @copyright  2018 Jun Pataleta
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright   2021 World Bank Group <https://worldbank.org>
+ * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 class provider implements
         // This plugin stores personal data.

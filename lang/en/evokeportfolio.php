@@ -129,3 +129,13 @@ $string['privacy:metadata:evokeportfolio_submissions:comment'] = 'The submission
 $string['privacy:metadata:evokeportfolio_submissions:commentformat'] = 'The submission comment format';
 $string['privacy:metadata:evokeportfolio_submissions:timecreated'] = 'The timestamp indicating when the submission was posted by the user';
 $string['privacy:metadata:evokeportfolio_submissions:timemodified'] = 'The timestamp indicating when the submission was modified by the user';
+
+$string['indicator:cognitivedepth_help'] = 'This indicator is based on the cognitive depth reached by the student in a Evoke portfolio activity.';
+$string['indicator:cognitivedepthdef'] = 'Evoke portfolio cognitive';
+$string['indicator:cognitivedepthdef_help'] = 'The participant has reached this percentage of the cognitive engagement offered by the Evoke portfolio activities during this analysis interval (Levels = No view, View, Submit, View feedback)';
+$string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Cognitive_depth';
+$string['indicator:socialbreadth'] = 'Evoke portfolio social';
+$string['indicator:socialbreadth_help'] = 'This indicator is based on the social breadth reached by the student in a Evoke portfolio activity.';
+$string['indicator:socialbreadthdef'] = 'Evoke portfolio social';
+$string['indicator:socialbreadthdef_help'] = 'The participant has reached this percentage of the social engagement offered by the Evoke portfolio activities during this analysis interval (Levels = No participation, Participant alone, Participant with others)';
+$string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
