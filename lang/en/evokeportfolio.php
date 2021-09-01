@@ -13,7 +13,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['evokeportfolio:addinstance'] = 'Add a portfolio';
 $string['evokeportfolio:view'] = 'View portfolio';
-$string['missingidandcmid'] = 'Missing ID or Course Module ID';
+$string['missingidandcmid'] = 'Missing ID or Module ID';
 $string['modulename'] = 'Portfolio';
 $string['modulename_help'] = 'The portfolio module may be used to manage collections of agent work'; // agent = student
 $string['modulenameplural'] = 'Portfolios';
@@ -101,7 +101,7 @@ $string['deletesection_hassubmissions'] = 'It is not possible to delete this sec
 $string['evokeportfolio:grade'] = 'Permission to grade agents';
 $string['evokeportfolio:submit'] = 'Permission to send a portfolio submission';
 
-$string['dependentcoursesections'] = 'Dependent course sections';
+$string['dependentcoursesections'] = 'Dependent campaign sections';
 $string['nosectionsavailable'] = 'No sections available';
 $string['nosectionsavailable_desc'] = 'There are no sections available for you in this portfolio yet.';
 
