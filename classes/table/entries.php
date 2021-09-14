@@ -37,6 +37,8 @@ class entries extends table_sql {
 
         $this->no_sorting('status');
 
+        $this->no_sorting('group');
+
         $this->define_baseurl(new moodle_url('/mod/evokeportfolio/entries.php', ['id' => $coursemodule->id]));
 
         $this->base_sql();
@@ -66,6 +68,34 @@ class entries extends table_sql {
         $from = ' {user} u ' . $capjoin->joins;
 
         $this->set_sql($fields, $from, $capjoin->wheres, $capjoin->params);
+    }
+
+    public function col_group($data) {
+        $groupname = $this->get_user_group($data->id, $this->evokeportfolio->course);
+
+        if (!$groupname) {
+            return '';
+        }
+
+        return $groupname;
+    }
+
+    private function get_user_group($userid, $courseid) {
+        global $DB;
+
+        $sql = 'SELECT g.name FROM {groups_members} gm
+                INNER JOIN {groups} g ON g.id = gm.groupid
+                WHERE gm.userid = :userid AND g.courseid = :courseid';
+
+        $records = $DB->get_records_sql($sql, ['userid' => $userid, 'courseid' => $courseid]);
+
+        if (!$records) {
+            return false;
+        }
+
+        $firstgroup = current($records);
+
+        return $firstgroup->name;
     }
 
     public function col_status($data) {
@@ -108,7 +138,7 @@ class entries extends table_sql {
             return ['id', 'name', 'status'];
         }
 
-        return ['id', 'firstname', 'lastname', 'email', 'status'];
+        return ['id', 'firstname', 'lastname', 'email', 'group', 'status'];
     }
 
     private function get_evokeportfolio_headers() {
@@ -116,6 +146,6 @@ class entries extends table_sql {
             return ['ID', get_string('group'), 'Status'];
         }
 
-        return ['ID', get_string('firstname'), get_string('lastname'), 'E-mail', 'Status'];
+        return ['ID', get_string('firstname'), get_string('lastname'), 'E-mail', get_string('group'), get_string('status', 'mod_evokeportfolio')];
     }
 }

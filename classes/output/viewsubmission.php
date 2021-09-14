@@ -6,6 +6,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\groups;
+use mod_evokeportfolio\util\user;
 use renderable;
 use templatable;
 use renderer_base;
@@ -103,6 +104,10 @@ class viewsubmission implements renderable, templatable {
 
         $data['sectionssubmissions'] = $sectionssubmissions;
         $data['issinglesection'] = count($sectionssubmissions) == 1;
+
+        $userutil = new user();
+        $usergroup = $userutil->get_user_group($this->user->id, $this->evokeportfolio->course);
+        $data['usergroup'] = $usergroup ? $usergroup->name : false;
 
         return $data;
     }
