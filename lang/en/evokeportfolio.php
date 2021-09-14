@@ -13,7 +13,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['evokeportfolio:addinstance'] = 'Add a portfolio';
 $string['evokeportfolio:view'] = 'View portfolio';
-$string['missingidandcmid'] = 'Missing ID or Module ID';
+$string['missingidandcmid'] = 'Missing ID or Course Module ID';
 $string['modulename'] = 'Portfolio';
 $string['modulename_help'] = 'The portfolio module may be used to manage collections of agent work'; // agent = student
 $string['modulenameplural'] = 'Portfolios';
@@ -98,33 +98,33 @@ $string['createsection_success'] = 'Section successfully created.';
 $string['editsection_success'] = 'Section successfully edited.';
 $string['deletesection_hassubmissions'] = 'It is not possible to delete this section because it contains submissions.';
 
-$string['evokeportfolio:grade'] = 'Permission to grade agents';
+$string['evokeportfolio:grade'] = 'Permission to grade users';
 $string['evokeportfolio:submit'] = 'Permission to send a portfolio submission';
 
-$string['dependentcoursesections'] = 'Dependent campaign sections';
+$string['dependentcoursesections'] = 'Dependent course sections';
 $string['nosectionsavailable'] = 'No sections available';
-$string['nosectionsavailable_desc'] = 'There are no sections available for you in this portfolio yet.';
+$string['nosectionsavailable_desc'] = 'There is no sections available for you in this portfolio yet.';
 
-$string['privacy:metadata:evokeportfolio_submissions'] = 'Information about the submissions for a given portfolio activity from an agent';
-$string['privacy:metadata:evokeportfolio_submissions:sectionid'] = 'The ID of the potfolio section';
-$string['privacy:metadata:evokeportfolio_submissions:userid'] = 'The ID of the agent related to this portfolio activity';
-$string['privacy:metadata:evokeportfolio_submissions:groupid'] = 'The ID of the team related to this portfolio activity';
-$string['privacy:metadata:evokeportfolio_submissions:postedby'] = 'The ID of the agent who posted a submission to this portfolio activity';
-$string['privacy:metadata:evokeportfolio_submissions:role'] = 'The role of the agent who posted a submission';
-$string['privacy:metadata:evokeportfolio_submissions:comment'] = 'Submission comment';
-$string['privacy:metadata:evokeportfolio_submissions:commentformat'] = 'Submission comment format';
+$string['privacy:metadata:evokeportfolio_submissions'] = 'Information about the user\'s submissions for a given portfolio activity';
+$string['privacy:metadata:evokeportfolio_submissions:sectionid'] = 'The ID of the potfolio\'s section';
+$string['privacy:metadata:evokeportfolio_submissions:userid'] = 'The ID of the user related to this portfolio activity';
+$string['privacy:metadata:evokeportfolio_submissions:groupid'] = 'The ID of the group related to this portfolio activity';
+$string['privacy:metadata:evokeportfolio_submissions:postedby'] = 'The ID of the user who posted a submission to this portfolio activity';
+$string['privacy:metadata:evokeportfolio_submissions:role'] = 'The role of the user who posted a submission';
+$string['privacy:metadata:evokeportfolio_submissions:comment'] = 'The submission comment';
+$string['privacy:metadata:evokeportfolio_submissions:commentformat'] = 'The submission comment format';
 $string['privacy:metadata:evokeportfolio_submissions:timecreated'] = 'The timestamp indicating when the submission was posted by the user';
 $string['privacy:metadata:evokeportfolio_submissions:timemodified'] = 'The timestamp indicating when the submission was modified by the user';
 
-$string['indicator:cognitivedepth'] = 'Evoke portfolio engagement';
-$string['indicator:cognitivedepth_help'] = 'This indicator is based on the cognitive depth reached by the agent in a Evoke portfolio activity.';
-$string['indicator:cognitivedepthdef'] = 'Evoke portfolio engagement';
-$string['indicator:cognitivedepthdef_help'] = 'The participant has reached this percentage of the cognitive engagement offered by the Evoke portfolio activities during this analysis interval (Levels = No view, $
-$string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Engagement_depth';
-$string['indicator:socialbreadth'] = 'Evoke portfolio social engagement';
-$string['indicator:socialbreadth_help'] = 'This indicator is based on the social breadth reached by the agent in a Evoke portfolio activity.';
-$string['indicator:socialbreadthdef'] = 'Evoke portfolio social engagement';
-$string['indicator:socialbreadthdef_help'] = 'The participant has reached this percentage of the social engagement offered by the Evoke portfolio activities during this analysis interval (Levels = No participat$
+$string['indicator:cognitivedepth'] = 'Evoke portfolio cognitive';
+$string['indicator:cognitivedepth_help'] = 'This indicator is based on the cognitive depth reached by the student in a Evoke portfolio activity.';
+$string['indicator:cognitivedepthdef'] = 'Evoke portfolio cognitive';
+$string['indicator:cognitivedepthdef_help'] = 'The participant has reached this percentage of the cognitive engagement offered by the Evoke portfolio activities during this analysis interval (Levels = No view, View, Submit, View feedback)';
+$string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Cognitive_depth';
+$string['indicator:socialbreadth'] = 'Evoke portfolio social';
+$string['indicator:socialbreadth_help'] = 'This indicator is based on the social breadth reached by the student in a Evoke portfolio activity.';
+$string['indicator:socialbreadthdef'] = 'Evoke portfolio social';
+$string['indicator:socialbreadthdef_help'] = 'The participant has reached this percentage of the social engagement offered by the Evoke portfolio activities during this analysis interval (Levels = No participation, Participant alone, Participant with others)';
 $string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
 
 $string['status'] = 'Status';
