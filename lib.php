@@ -311,6 +311,66 @@ function evokeportfolio_pluginfile($course, $cm, $context, $filearea, $args, $fo
     send_stored_file($file, 0, 0, $forcedownload, $options);
 }
 
+function mod_evokeportfolio_output_fragment_section_form($args) {
+    $args = (object) $args;
+    $o = '';
+
+    $formdata = [];
+    if (!empty($args->jsonformdata)) {
+        $serialiseddata = json_decode($args->jsonformdata);
+        parse_str($serialiseddata, $formdata);
+    }
+
+    $mform = new \mod_evokeportfolio\forms\section_form($formdata, [
+        'id' => $serialiseddata->id,
+        'portfolioid' => $serialiseddata->portfolioid,
+        'name' => $serialiseddata->name,
+        'dependentsections' => $serialiseddata->dependentsections,
+    ]);
+
+    if (!empty($args->jsonformdata)) {
+        // If we were passed non-empty form data we want the mform to call validation functions and show errors.
+        $mform->is_validated();
+    }
+
+    ob_start();
+    $mform->display();
+    $o .= ob_get_contents();
+    ob_end_clean();
+
+    return $o;
+}
+
+function mod_evokeportfolio_output_fragment_chapter_form($args) {
+    $args = (object) $args;
+    $o = '';
+
+    $formdata = [];
+    if (!empty($args->jsonformdata)) {
+        $serialiseddata = json_decode($args->jsonformdata);
+        parse_str($serialiseddata, $formdata);
+    }
+
+    $mform = new \mod_evokeportfolio\forms\chapter_form($formdata, [
+        'id' => $serialiseddata->id,
+        'course' => $serialiseddata->course,
+        'name' => $serialiseddata->name,
+        'portfolios' => $serialiseddata->portfolios,
+    ]);
+
+    if (!empty($args->jsonformdata)) {
+        // If we were passed non-empty form data we want the mform to call validation functions and show errors.
+        $mform->is_validated();
+    }
+
+    ob_start();
+    $mform->display();
+    $o .= ob_get_contents();
+    ob_end_clean();
+
+    return $o;
+}
+
 /**
  * This function extends the settings navigation block for the site.
  *
@@ -346,32 +406,30 @@ function evokeportfolio_extend_settings_navigation($settings, $modnode) {
     $modnode->add_node($node, $beforekey);
 }
 
-function mod_evokeportfolio_output_fragment_section_form($args) {
-    $args = (object) $args;
-    $o = '';
+function mod_evokeportfolio_extend_navigation_course($navigation, $course, $context) {
+    $url = new moodle_url('/mod/evokeportfolio/managechapters.php',['id' => $course->id]);
 
-    $formdata = [];
-    if (!empty($args->jsonformdata)) {
-        $serialiseddata = json_decode($args->jsonformdata);
-        parse_str($serialiseddata, $formdata);
-    }
+    $node = navigation_node::create(
+        get_string('portfoliochapters', 'mod_evokeportfolio'),
+        $url,
+        navigation_node::NODETYPE_LEAF,
+        null,
+        null,
+        new pix_icon('t/edit', '')
+    );
 
-    $mform = new \mod_evokeportfolio\forms\section_form($formdata, [
-        'id' => $serialiseddata->id,
-        'portfolioid' => $serialiseddata->portfolioid,
-        'name' => $serialiseddata->name,
-        'dependentsections' => $serialiseddata->dependentsections,
-    ]);
+    $navigation->add_node($node);
 
-    if (!empty($args->jsonformdata)) {
-        // If we were passed non-empty form data we want the mform to call validation functions and show errors.
-        $mform->is_validated();
-    }
+    $url = new moodle_url('/mod/evokeportfolio/index.php', array('id' => $course->id));
 
-    ob_start();
-    $mform->display();
-    $o .= ob_get_contents();
-    ob_end_clean();
+    $node = navigation_node::create(
+        get_string('portfoliograding', 'mod_evokeportfolio'),
+        $url,
+        navigation_node::NODETYPE_LEAF,
+        null,
+        null,
+        new pix_icon('t/edit', '')
+    );
 
-    return $o;
+    $navigation->add_node($node);
 }

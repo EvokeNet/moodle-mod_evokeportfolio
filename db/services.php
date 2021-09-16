@@ -34,5 +34,29 @@ $functions = [
         'description' => 'Deletes a section',
         'type' => 'write',
         'ajax' => true
+    ],
+    'mod_evokeportfolio_createchapter' => [
+        'classname' => 'mod_evokeportfolio\external\chapter',
+        'classpath' => 'mod/evokeportfolio/classes/external/chapter.php',
+        'methodname' => 'create',
+        'description' => 'Creates a new chapter',
+        'type' => 'write',
+        'ajax' => true
+    ],
+    'mod_evokeportfolio_editchapter' => [
+        'classname' => 'mod_evokeportfolio\external\chapter',
+        'classpath' => 'mod/evokeportfolio/classes/external/chapter.php',
+        'methodname' => 'edit',
+        'description' => 'Edits a chapter',
+        'type' => 'write',
+        'ajax' => true
+    ],
+    'mod_evokeportfolio_deletechapter' => [
+        'classname' => 'mod_evokeportfolio\external\chapter',
+        'classpath' => 'mod/evokeportfolio/classes/external/chapter.php',
+        'methodname' => 'delete',
+        'description' => 'Deletes a chapter',
+        'type' => 'write',
+        'ajax' => true
     ]
 ];

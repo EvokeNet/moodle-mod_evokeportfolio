@@ -37,5 +37,27 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021082500, 'mod', 'evokeportfolio');
     }
 
+    if ($oldversion < 2021091500) {
+        $dbman = $DB->get_manager();
+
+        $table = new xmldb_table('evokeportfolio_chapters');
+
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null, null);
+        $table->add_field('course', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, null);
+        $table->add_field('name', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, null, 'default name');
+        $table->add_field('portfolios', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, null, 'default name');
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, null);
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, null);
+
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'), null, null);
+        $table->add_key('fk_course', XMLDB_KEY_FOREIGN, array('course'), 'course', array('id'));
+
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        upgrade_plugin_savepoint(true, 2021091500, 'mod', 'evokeportfolio');
+    }
+
     return true;
 }

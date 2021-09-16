@@ -128,3 +128,11 @@ $string['indicator:socialbreadthdef_help'] = 'The participant has reached this p
 $string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
 
 $string['status'] = 'Status';
+$string['portfoliochapters'] = 'Portfolio chapters';
+$string['portfoliograding'] = 'Portfolio grading';
+$string['chaptersportfolios'] = 'Chapters\'s portfolios';
+$string['createchapter'] = 'Create chapter';
+$string['courseportfolios'] = 'Course\'s portfolios';
+$string['deletechapter_success'] = 'Chapter successfully deleted.';
+$string['createchapter_success'] = 'Chapter successfully created.';
+$string['editchapter_success'] = 'Chapter successfully edited.';

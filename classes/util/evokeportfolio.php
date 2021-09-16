@@ -279,4 +279,85 @@ class evokeportfolio {
             }
         }
     }
+
+    public function get_course_chapters($courseid) {
+        global $DB;
+
+        $sql = 'SELECT *
+                FROM {evokeportfolio_chapters}
+                WHERE course = :courseid';
+
+        $chapters = $DB->get_records_sql($sql, ['courseid' => $courseid]);
+
+        if (!$chapters) {
+            return false;
+        }
+
+        return array_values($chapters);
+    }
+
+    public function get_used_course_portfolios_instances($courseid) {
+        global $DB;
+
+        $sql = 'SELECT id, portfolios
+                FROM {evokeportfolio_chapters}
+                WHERE course = :courseid';
+
+        $chapters = $DB->get_records_sql($sql, ['courseid' => $courseid]);
+
+        if (!$chapters) {
+            return false;
+        }
+
+        $portfolios = [];
+        foreach ($chapters as $chapter) {
+            $portfoliosarr = explode(',', $chapter->portfolios);
+
+            $portfolios = array_merge($portfolios, $portfoliosarr);
+        }
+
+        return $portfolios;
+    }
+
+    public function get_unused_course_portfolio_instances_select($courseid, $chapterid = null) {
+        $portfolios = $this->get_course_portfolio_instances($courseid);
+
+        if (!$portfolios) {
+            return [];
+        }
+
+//        $usedcoureportfolios = $this->get_used_course_portfolios_instances($courseid);
+//
+//        foreach ($portfolios as $key => $portfolio) {
+//            foreach ($usedcoureportfolios as $usedcoureportfolio) {
+//                if ($portfolio->id == $usedcoureportfolio) {
+//                    unset($portfolios[$key]);
+//
+//                    continue 2;
+//                }
+//            }
+//        }
+//
+//        if (!$portfolios) {
+//            return [];
+//        }
+
+        $data = [];
+        foreach ($portfolios as $portfolio) {
+            $data[$portfolio->id] = $portfolio->name;
+        }
+
+        return $data;
+    }
+
+    public function get_course_portfolio_instances($courseid) {
+        global $DB;
+
+        $sql = 'SELECT e.*
+                FROM {evokeportfolio} e
+                INNER JOIN {grade_items} gi ON gi.iteminstance = e.id AND gi.itemmodule = "evokeportfolio"
+                WHERE e.course = :courseid';
+
+        return $DB->get_records_sql($sql, ['courseid' => $courseid]);
+    }
 }

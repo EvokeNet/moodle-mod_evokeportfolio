@@ -1,0 +1,40 @@
+<div class="text-right mb-3">
+    <a href="#"
+       class="btn btn-primary" data-action="create-chapter-modal">
+        <i class="fa fa-plus-circle"></i> {{#str}}createchapter, mod_evokeportfolio{{/str}}
+    </a>
+</div>
+
+<table class="table table-bordered table-hover table-evokeportfolio-chapters">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">{{#str}}name, mod_evokeportfolio{{/str}}</th>
+        <th scope="col">{{#str}}actions, mod_evokeportfolio{{/str}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#chapters}}
+        <tr>
+            <th scope="row">{{{id}}}</th>
+            <td>{{{name}}}</td>
+            <td style="width: 120px; text-align: center;">
+                <a href="#" data-id="{{id}}" data-name="{{name}}" data-portfolios="{{portfolios}}" class="btn btn-warning btn-sm edit-evokeportfolio-chapter">
+                    <i class="fa fa-pencil-square-o text-white"></i>
+                </a>
+                <a href="#" data-id="{{id}}" class="btn btn-danger btn-sm delete-evokeportfolio-chapter"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+    {{/chapters}}
+    </tbody>
+</table>
+
+{{#js}}
+    require(['mod_evokeportfolio/createchapter', 'mod_evokeportfolio/editchapter', 'mod_evokeportfolio/deletechapter'], function(CreateChapter, EditChapter, DeleteChapter) {
+        CreateChapter.init('[data-action=create-chapter-modal]', {{{contextid}}}, {{{courseid}}});
+
+        EditChapter.init({{{contextid}}});
+
+        DeleteChapter.init();
+    });
+{{/js}}
