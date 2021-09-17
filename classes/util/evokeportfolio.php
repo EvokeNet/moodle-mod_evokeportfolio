@@ -280,6 +280,52 @@ class evokeportfolio {
         }
     }
 
+    public function get_course_chapters_with_portfolios($courseid) {
+        global $DB;
+
+        $chapters = $this->get_course_chapters($courseid);
+
+        if (!$chapters) {
+            return false;
+        }
+
+        $data = [];
+        foreach ($chapters as $chapter) {
+            if (!$chapter->portfolios) {
+                continue;
+            }
+
+            list($insql, $params) = $DB->get_in_or_equal(explode(',', $chapter->portfolios), SQL_PARAMS_NAMED);
+
+            $sql = "SELECT *                       
+                    FROM {evokeportfolio}
+                    WHERE id {$insql}";
+
+            $portfolios = $DB->get_records_sql($sql, $params);
+
+            if (!$portfolios) {
+                $data[] = [
+                    'id' => $chapter->id,
+                    'name' => $chapter->name
+                ];
+
+                continue;
+            }
+
+            $portfoliosdata = [];
+            foreach ($portfolios as $portfolio) {
+                $portfoliosdata[]['name'] = $portfolio->name;
+            }
+
+            $data[] = [
+                'id' => $chapter->id,
+                'name' => $chapter->name,
+                'portfolios' => $portfoliosdata
+            ];
+        }
+
+        return $data;
+    }
     public function get_course_chapters($courseid) {
         global $DB;
 

@@ -407,29 +407,50 @@ function evokeportfolio_extend_settings_navigation($settings, $modnode) {
 }
 
 function mod_evokeportfolio_extend_navigation_course($navigation, $course, $context) {
-    $url = new moodle_url('/mod/evokeportfolio/managechapters.php',['id' => $course->id]);
+    if (has_capability('mod/evokeportfolio:addinstance', $context)) {
+        $url = new moodle_url('/mod/evokeportfolio/managechapters.php',['id' => $course->id]);
 
-    $node = navigation_node::create(
-        get_string('portfoliochapters', 'mod_evokeportfolio'),
-        $url,
-        navigation_node::NODETYPE_LEAF,
-        null,
-        null,
-        new pix_icon('t/edit', '')
-    );
+        $node = navigation_node::create(
+            get_string('portfoliochapters', 'mod_evokeportfolio'),
+            $url,
+            navigation_node::NODETYPE_LEAF,
+            null,
+            null,
+            new pix_icon('t/edit', '')
+        );
 
-    $navigation->add_node($node);
+        $navigation->add_node($node);
+    }
 
-    $url = new moodle_url('/mod/evokeportfolio/index.php', array('id' => $course->id));
+    if (has_capability('mod/evokeportfolio:grade', $context)) {
+        $url = new moodle_url('/mod/evokeportfolio/gradingchapters.php', array('id' => $course->id));
 
-    $node = navigation_node::create(
-        get_string('portfoliograding', 'mod_evokeportfolio'),
-        $url,
-        navigation_node::NODETYPE_LEAF,
-        null,
-        null,
-        new pix_icon('t/edit', '')
-    );
+        $node = navigation_node::create(
+            get_string('portfoliograding', 'mod_evokeportfolio'),
+            $url,
+            navigation_node::NODETYPE_LEAF,
+            null,
+            null,
+            new pix_icon('e/special_character', '')
+        );
 
-    $navigation->add_node($node);
+        $navigation->add_node($node);
+    }
+}
+
+function evokeportfolio_extend_navigation(navigation_node $navigation, $course, $module, $cm) {
+    if (has_capability('mod/evokeportfolio:grade', $cm->context)) {
+        $url = new moodle_url('/mod/evokeportfolio/gradingchapters.php', array('id' => $course->id));
+
+        $node = $navigation->add(
+            get_string('portfoliograding', 'mod_evokeportfolio'),
+            $url,
+            navigation_node::TYPE_CUSTOM,
+            null,
+            'portfoliograding',
+            new pix_icon('e/special_character', '')
+        );
+
+        $node->showinflatnavigation = true;
+    }
 }
