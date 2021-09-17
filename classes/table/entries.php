@@ -70,6 +70,10 @@ class entries extends table_sql {
         $this->set_sql($fields, $from, $capjoin->wheres, $capjoin->params);
     }
 
+    public function col_fullname($user) {
+        return $user->firstname . ' ' . $user->lastname;
+    }
+
     public function col_group($data) {
         $groupname = $this->get_user_group($data->id, $this->evokeportfolio->course);
 
@@ -138,7 +142,7 @@ class entries extends table_sql {
             return ['id', 'name', 'status'];
         }
 
-        return ['id', 'firstname', 'lastname', 'email', 'group', 'status'];
+        return ['id', 'fullname', 'email', 'group', 'status'];
     }
 
     private function get_evokeportfolio_headers() {
@@ -146,6 +150,6 @@ class entries extends table_sql {
             return ['ID', get_string('group'), 'Status'];
         }
 
-        return ['ID', get_string('firstname'), get_string('lastname'), 'E-mail', get_string('group'), get_string('status', 'mod_evokeportfolio')];
+        return ['ID', get_string('fullname'), 'E-mail', get_string('group'), get_string('status', 'mod_evokeportfolio')];
     }
 }

@@ -70,7 +70,7 @@ $string['page_viewsubmission_editgrade'] = 'Edit grade';
 $string['page_entries_title'] = 'Portfolio submissions';
 
 $string['save_comment_success'] = 'Comment successfully added.';
-$string['save_grade_success'] = 'Grede successfully saved.';
+$string['save_grade_success'] = 'Grade successfully saved.';
 $string['save_submission_success'] = 'Submission successfully added.';
 $string['update_submission_success'] = 'Submission successfully updated.';
 
@@ -136,3 +136,5 @@ $string['courseportfolios'] = 'Course\'s portfolios';
 $string['deletechapter_success'] = 'Chapter successfully deleted.';
 $string['createchapter_success'] = 'Chapter successfully created.';
 $string['editchapter_success'] = 'Chapter successfully edited.';
+$string['grading_success'] = 'Grading successfully finished.';
+$string['graded'] = 'Graded';

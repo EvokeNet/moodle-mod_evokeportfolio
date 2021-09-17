@@ -6,7 +6,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/tablelib.php');
 
-use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\grade;
 use table_sql;
 use moodle_url;
@@ -87,13 +86,16 @@ class users extends table_sql {
     }
 
     public function col_status($data) {
-        $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php');
+        $url = new moodle_url('/mod/evokeportfolio/gradingusersubmissions.php', ['id' => $this->chapter->id, 'userid' => $data->id]);
 
-        $statuscontent = html_writer::link($url, get_string('viewsubmission', 'mod_evokeportfolio'), ['class' => 'btn btn-primary btn-sm']);
+        $statuscontent = html_writer::link($url, get_string('page_view_submissions', 'mod_evokeportfolio'), ['class' => 'btn btn-primary btn-sm']);
+
+        $gradeutil = new grade();
+        if ($gradeutil->user_has_chapter_grade($data->id, $this->chapter->id)) {
+            $statuscontent .= html_writer::span(get_string('graded', 'mod_evokeportfolio'), 'badge badge-success ml-2 p-2');
+        }
 
         return $statuscontent;
-
-        return html_writer::span(get_string('notsubmitted', 'mod_evokeportfolio'), 'badge badge-dark');
     }
 
     private function get_columns() {

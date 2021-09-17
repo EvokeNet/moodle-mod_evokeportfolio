@@ -59,5 +59,28 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021091500, 'mod', 'evokeportfolio');
     }
 
+    if ($oldversion < 2021091700) {
+        $dbman = $DB->get_manager();
+
+        $table = new xmldb_table('evokeportfolio_chaptergrades');
+
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null, null);
+        $table->add_field('chapterid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, null);
+        $table->add_field('grade', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, null);
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, null);
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, null);
+
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'), null, null);
+        $table->add_key('fk_chapterid', XMLDB_KEY_FOREIGN, array('chapterid'), 'evokeportfolio_chapters', array('id'));
+        $table->add_key('fk_userid', XMLDB_KEY_FOREIGN, array('userid'), 'user', array('id'));
+
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        upgrade_plugin_savepoint(true, 2021091700, 'mod', 'evokeportfolio');
+    }
+
     return true;
 }

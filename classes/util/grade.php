@@ -134,7 +134,6 @@ class grade {
         return false;
     }
 
-
     public function get_grade_item($iteminstance, $courseid) {
         global $CFG;
 
@@ -234,5 +233,93 @@ class grade {
         }
 
         return $groupgrade;
+    }
+
+    public function get_user_chapter_grade($userid, $chapterid) {
+        global $DB;
+
+        $grade = $DB->get_record('evokeportfolio_chaptergrades', [
+            'userid' => $userid,
+            'chapterid' => $chapterid
+        ]);
+
+        if (!$grade) {
+            return false;
+        }
+
+        return $grade;
+    }
+
+    public function user_has_chapter_grade($userid, $chapterid) {
+        $grade = $this->get_user_chapter_grade($userid, $chapterid);
+
+        if (!$grade) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function process_user_chapter_grade($userid, $chapterid, $grade) {
+        global $DB;
+
+        $chapter = $DB->get_record('evokeportfolio_chapters', ['id' => $chapterid], '*', MUST_EXIST);
+
+        $chapterutil = new chapter();
+
+        $portfolios = $chapterutil->get_chapter_portfolios($chapter);
+
+        if (!$portfolios) {
+            return false;
+        }
+
+        $dbgrade = $this->add_update_user_chapter_grade($userid, $chapterid, $grade);
+
+        $this->update_chapter_portfolios_moodle_grades($portfolios, $userid, $grade);
+
+        return $dbgrade;
+    }
+
+    public function add_update_user_chapter_grade($userid, $chapterid, $grade) {
+        global $DB;
+
+        $dbgrade = $this->get_user_chapter_grade($userid, $chapterid);
+
+        if ($dbgrade) {
+            $dbgrade->grade = $grade;
+
+            $DB->update_record('evokeportfolio_chaptergrades', $dbgrade);
+
+            return $dbgrade;
+        }
+
+        $grade = new \stdClass();
+        $grade->chapterid = $chapterid;
+        $grade->userid = $userid;
+        $grade->grade = $grade;
+        $grade->timecreated = time();
+        $grade->timemodified = time();
+
+        $gradeid = $DB->insert_record('evokeportfolio_chaptergrades', $grade);
+
+        $grade->id = $gradeid;
+
+        return $grade;
+    }
+
+    public function update_chapter_portfolios_moodle_grades($portfolios, $userid, $grade) {
+        global $CFG;
+
+        $grades[$userid] = new \stdClass();
+        $grades[$userid]->userid = $userid;
+        $grades[$userid]->rawgrade = $grade;
+
+        require_once($CFG->libdir . '/gradelib.php');
+
+        foreach ($portfolios as $portfolio) {
+            $this->update_evokeportfolio_grades($portfolio->id, $grades);
+
+            grade_update('mod/evokeportfolio', $portfolio->course, 'mod', 'evokeportfolio', $portfolio->id, 0, $grades);
+        }
     }
 }

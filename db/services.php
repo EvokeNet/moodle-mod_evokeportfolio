@@ -58,5 +58,13 @@ $functions = [
         'description' => 'Deletes a chapter',
         'type' => 'write',
         'ajax' => true
-    ]
+    ],
+    'mod_evokeportfolio_gradeuserchapter' => [
+        'classname' => 'mod_evokeportfolio\external\grade',
+        'classpath' => 'mod/evokeportfolio/classes/external/grade.php',
+        'methodname' => 'grade',
+        'description' => 'Add a new grade',
+        'type' => 'write',
+        'ajax' => true
+    ],
 ];

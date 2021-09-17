@@ -165,9 +165,11 @@ class evokeportfolio {
             }
 
             $submissions = $this->get_section_submissions($section->id, $userid, $groupid);
+            $sections[$key]->nosubmissions = false;
 
             if (!$submissions) {
                 $sections[$key]->submissions = [];
+                $sections[$key]->nosubmissions = true;
 
                 continue;
             }
@@ -283,6 +285,8 @@ class evokeportfolio {
     public function get_course_chapters_with_portfolios($courseid) {
         global $DB;
 
+        $chapterutil = new chapter();
+
         $chapters = $this->get_course_chapters($courseid);
 
         if (!$chapters) {
@@ -295,13 +299,7 @@ class evokeportfolio {
                 continue;
             }
 
-            list($insql, $params) = $DB->get_in_or_equal(explode(',', $chapter->portfolios), SQL_PARAMS_NAMED);
-
-            $sql = "SELECT *                       
-                    FROM {evokeportfolio}
-                    WHERE id {$insql}";
-
-            $portfolios = $DB->get_records_sql($sql, $params);
+            $portfolios = $chapterutil->get_chapter_portfolios($chapter);
 
             if (!$portfolios) {
                 $data[] = [
