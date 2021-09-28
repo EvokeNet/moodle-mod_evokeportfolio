@@ -141,3 +141,20 @@
     background-size: 1.25rem;
     transition: transform .2s ease-in-out;
 }
+
+.path-mod-evokeportfolio .card-header.chapter-header {
+    background-color: #ff0540;
+    color: #fff;
+}
+
+.path-mod-evokeportfolio .card-header.chapter-header .accordion-button {
+    color: #fff;
+}
+
+.path-mod-evokeportfolio .card-header.portfolio-header {
+    background-color: #cce6ea;
+}
+
+.path-mod-evokeportfolio .card-header.portfolio-header .accordion-button {
+    color: #140f3f;
+}

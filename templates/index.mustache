@@ -1,9 +1,7 @@
-<h2>{{#str}}myportfolios, mod_evokeportfolio{{/str}}</h2>
-
 <div class="accordion" id="chapters">
     {{#chapters}}
         <div class="card mb-2">
-            <div class="card-header" id="chapter-heading-{{id}}">
+            <div class="card-header chapter-header" id="chapter-heading-{{id}}">
                 <h2 class="mb-0">
                     <button class="accordion-button" type="button" data-toggle="collapse" data-target="#chapter-collapse-{{id}}" aria-expanded="false" aria-controls="chapter-collapse-{{id}}">
                         {{name}}
@@ -16,7 +14,7 @@
                     <div class="accordion" id="chapter-portfolios-{{id}}">
                         {{#portfolios}}
                             <div class="card mb-2">
-                                <div class="card-header" id="portfolio-heading-{{portfolioid}}">
+                                <div class="card-header portfolio-header" id="portfolio-heading-{{portfolioid}}">
                                     <h2 class="mb-0">
                                         <button class="accordion-button" type="button" data-toggle="collapse" data-target="#portfolio-collapse-{{portfolioid}}" aria-expanded="false" aria-controls="portfolio-collapse-{{portfolioid}}">
                                             {{name}}
@@ -28,16 +26,17 @@
                                     <div class="card-body">
                                         {{#sections}}
                                             {{#issinglesection}}
-                                                    <div class="mb-3">
-                                                        <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/view.php?id={{coursemoduleid}}">{{#str}}gototheportfolio, mod_evokeportfolio{{/str}}</a>
-                                                    </div>
-                                                {{> mod_evokeportfolio/submissions }}
-
                                                 {{^hassubmission}}
-                                                    <div class="alert alert-info" role="alert">
-                                                        You have no submissions for this portfolio yet.
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{#str}}page_view_youhavenotsent, mod_evokeportfolio{{/str}}
                                                     </div>
                                                 {{/hassubmission}}
+
+                                                <div class="mb-3">
+                                                    <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/view.php?id={{coursemoduleid}}">{{#str}}gototheportfolio, mod_evokeportfolio{{/str}}</a>
+                                                </div>
+
+                                                {{> mod_evokeportfolio/submissions }}
                                             {{/issinglesection}}
                                         {{/sections}}
                                     </div>
