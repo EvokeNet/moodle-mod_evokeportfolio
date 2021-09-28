@@ -4,7 +4,7 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_evokeportfolio\util\evokeportfolio;
+use mod_evokeportfolio\util\chapter;
 use renderable;
 use templatable;
 use renderer_base;
@@ -36,12 +36,12 @@ class managechapters implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        $util = new evokeportfolio();
+        $chapterutil = new chapter();
 
         $data = [
             'courseid' => $this->course->id,
             'contextid' => $this->context->id,
-            'chapters' => $util->get_course_chapters($this->course->id)
+            'chapters' => $chapterutil->get_course_chapters($this->course->id)
         ];
 
         return $data;
