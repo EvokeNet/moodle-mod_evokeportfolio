@@ -4,7 +4,7 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_evokeportfolio\util\evokeportfolio;
+use mod_evokeportfolio\util\chapter;
 use renderable;
 use templatable;
 use renderer_base;
@@ -36,7 +36,7 @@ class gradingchapters implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        $util = new evokeportfolio();
+        $util = new chapter();
 
         $data = [
             'courseid' => $this->course->id,

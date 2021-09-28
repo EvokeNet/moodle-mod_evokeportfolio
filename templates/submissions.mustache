@@ -7,11 +7,13 @@
                 </div>
             {{/isteacher}}
             {{#isowner}}
-                <div class="actions">
-                    <a class="btn btn-primary btn-sm" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&submissionid={{id}}&sectionid={{sectionid}}">
-                    <i class="fa fa-pencil"></i> {{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}
-                    </a>
-                </div>
+                {{#cmid}}
+                    <div class="actions">
+                        <a class="btn btn-primary btn-sm" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&submissionid={{id}}&sectionid={{sectionid}}">
+                        <i class="fa fa-pencil"></i> {{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}
+                        </a>
+                    </div>
+                {{/cmid}}
             {{/isowner}}
         </div>
         <div class="content">

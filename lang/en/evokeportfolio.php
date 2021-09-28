@@ -138,3 +138,6 @@ $string['createchapter_success'] = 'Chapter successfully created.';
 $string['editchapter_success'] = 'Chapter successfully edited.';
 $string['grading_success'] = 'Grading successfully finished.';
 $string['graded'] = 'Graded';
+
+$string['myportfolios'] = 'My Portfolios';
+$string['gototheportfolio'] = 'Go to the portfolio';

@@ -242,7 +242,6 @@ class evokeportfolio {
     }
 
     private function populate_data_with_attachments($data, $context) {
-
         $fs = get_file_storage();
 
         foreach ($data as $key => $entry) {
@@ -280,64 +279,6 @@ class evokeportfolio {
                 $data[$key]->hasattachments = true;
             }
         }
-    }
-
-    public function get_course_chapters_with_portfolios($courseid) {
-        global $DB;
-
-        $chapterutil = new chapter();
-
-        $chapters = $this->get_course_chapters($courseid);
-
-        if (!$chapters) {
-            return false;
-        }
-
-        $data = [];
-        foreach ($chapters as $chapter) {
-            if (!$chapter->portfolios) {
-                continue;
-            }
-
-            $portfolios = $chapterutil->get_chapter_portfolios($chapter);
-
-            if (!$portfolios) {
-                $data[] = [
-                    'id' => $chapter->id,
-                    'name' => $chapter->name
-                ];
-
-                continue;
-            }
-
-            $portfoliosdata = [];
-            foreach ($portfolios as $portfolio) {
-                $portfoliosdata[]['name'] = $portfolio->name;
-            }
-
-            $data[] = [
-                'id' => $chapter->id,
-                'name' => $chapter->name,
-                'portfolios' => $portfoliosdata
-            ];
-        }
-
-        return $data;
-    }
-    public function get_course_chapters($courseid) {
-        global $DB;
-
-        $sql = 'SELECT *
-                FROM {evokeportfolio_chapters}
-                WHERE course = :courseid';
-
-        $chapters = $DB->get_records_sql($sql, ['courseid' => $courseid]);
-
-        if (!$chapters) {
-            return false;
-        }
-
-        return array_values($chapters);
     }
 
     public function get_used_course_portfolios_instances($courseid) {
