@@ -27,6 +27,13 @@
                     <h2 class="mb-0">
                         <button class="accordion-button" type="button" data-toggle="collapse" data-target="#collapse-{{id}}" aria-expanded="true" aria-controls="collapse-{{id}}">
                             {{name}}
+                            {{#issinglesection}}
+                                {{#sections}}
+                                    {{#nosubmissions}}
+                                        <span class="badge badge-info ml-2">{{#str}}nosubmissions, mod_evokeportfolio{{/str}}</span>
+                                    {{/nosubmissions}}
+                                {{/sections}}
+                            {{/issinglesection}}
                         </button>
                     </h2>
                 </div>
@@ -37,9 +44,7 @@
                                 {{#sections}}
                                     {{#nosubmissions}}
                                         <div class="alert alert-info" role="alert">
-                                            <h3>No submissions</h3>
-                                            <hr>
-                                            <p class="mb-0">This user did not made a submission for this portfolio yet.</p>
+                                            <p class="mb-0">{{#str}}nosubmissions_desc, mod_evokeportfolio{{/str}}</p>
                                         </div>
                                     {{/nosubmissions}}
 

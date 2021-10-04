@@ -138,6 +138,8 @@ $string['createchapter_success'] = 'Chapter successfully created.';
 $string['editchapter_success'] = 'Chapter successfully edited.';
 $string['grading_success'] = 'Grading successfully finished.';
 $string['graded'] = 'Graded';
+$string['nosubmissions'] = 'No submissions';
+$string['nosubmissions_desc'] = 'This user did not made a submission for this portfolio yet.';
 
 $string['myportfolios'] = 'My Portfolios';
 $string['gototheportfolio'] = 'Go to the portfolio';
