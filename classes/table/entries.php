@@ -8,6 +8,7 @@ require_once($CFG->libdir.'/tablelib.php');
 
 use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\grade;
+use mod_evokeportfolio\util\user;
 use table_sql;
 use moodle_url;
 use html_writer;
@@ -47,12 +48,24 @@ class entries extends table_sql {
     }
 
     public function base_sql() {
+        global $USER;
+
+        $userutil = new user();
+
+        $usergroup = $userutil->get_user_group($USER->id, $this->evokeportfolio->course);
+
         if ($this->evokeportfolio->groupactivity) {
             $fields = 'DISTINCT g.id, g.name';
 
             $from = ' {groups} g ';
 
             $where = ' g.courseid = :courseid';
+
+            if ($usergroup) {
+                $where = ' g.id = :groupid';
+
+                $params['groupid'] = $usergroup->id;
+            }
 
             $params['courseid'] = $this->evokeportfolio->course;
 
@@ -67,7 +80,15 @@ class entries extends table_sql {
 
         $from = ' {user} u ' . $capjoin->joins;
 
-        $this->set_sql($fields, $from, $capjoin->wheres, $capjoin->params);
+        $params = $capjoin->params;
+
+        if ($usergroup) {
+            $from .= ' INNER JOIN {groups_members} gm ON gm.userid = u.id AND gm.groupid = :groupid ';
+
+            $params['groupid'] = $usergroup->id;
+        }
+
+        $this->set_sql($fields, $from, $capjoin->wheres, $params);
     }
 
     public function col_fullname($user) {
