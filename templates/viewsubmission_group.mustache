@@ -30,10 +30,6 @@
 <div class="submissions">
     {{#sectionssubmissions}}
         {{#issinglesection}}
-            <div class="mb-3">
-                <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/comment.php?id={{cmid}}&groupid={{groupid}}&sectionid={{id}}">{{#str}}page_viewsubmission_addcomment, mod_evokeportfolio{{/str}}</a>
-            </div>
-
             {{#submissions}}
                 <div class="submission p-2 {{#isteacher}}isteacher{{/isteacher}}">
                     <div class="header">
@@ -90,10 +86,6 @@
 
                     <div id="collapse-{{id}}" class="collapse" aria-labelledby="heading-{{id}}" data-parent="#sectionssubmissions-accordion">
                         <div class="card-body">
-                            <div class="mb-3">
-                                <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/comment.php?id={{cmid}}&groupid={{groupid}}&sectionid={{id}}">{{#str}}page_viewsubmission_addcomment, mod_evokeportfolio{{/str}}</a>
-                            </div>
-
                             {{#submissions}}
                                 <div class="submission p-2 {{#isteacher}}isteacher{{/isteacher}}">
                                     <div class="header">

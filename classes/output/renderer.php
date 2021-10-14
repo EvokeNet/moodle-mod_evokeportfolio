@@ -43,14 +43,14 @@ class renderer extends plugin_renderer_base {
      *
      * @throws \moodle_exception
      */
-    public function render_submissions(renderable $page) {
+    public function render_section(renderable $page) {
         $data = $page->export_for_template($this);
 
         if ($data['groupactivity']) {
-            return parent::render_from_template('mod_evokeportfolio/submission_group', $data);
+            return parent::render_from_template('mod_evokeportfolio/section_group', $data);
         }
 
-        return parent::render_from_template('mod_evokeportfolio/submission_individual', $data);
+        return parent::render_from_template('mod_evokeportfolio/section_individual', $data);
     }
 
     /**

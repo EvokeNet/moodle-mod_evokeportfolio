@@ -12,11 +12,13 @@ require(__DIR__.'/../../config.php');
 
 // Course module id.
 $id = required_param('id', PARAM_INT);
+$sectionid = required_param('sectionid', PARAM_INT);
 $userid = optional_param('userid', null, PARAM_INT);
 $groupid = optional_param('groupid', null, PARAM_INT);
 
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
+$section = $DB->get_record('evokeportfolio_sections', ['id' => $sectionid], '*', MUST_EXIST);
 
 require_course_login($course, true, $cm);
 
@@ -47,7 +49,7 @@ echo $OUTPUT->header();
 
 $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-$contentrenderable = new \mod_evokeportfolio\output\submissions($evokeportfolio, $context);
+$contentrenderable = new \mod_evokeportfolio\output\section($context, $evokeportfolio, $section);
 
 echo $renderer->render($contentrenderable);
 

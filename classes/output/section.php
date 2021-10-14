@@ -4,8 +4,8 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\group;
+use mod_evokeportfolio\util\section as sectionutil;
 use renderable;
 use templatable;
 use renderer_base;
@@ -16,14 +16,15 @@ use renderer_base;
  * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
-class submissions implements renderable, templatable {
-
-    public $evokeportfolio;
+class section implements renderable, templatable {
     public $context;
+    public $evokeportfolio;
+    public $section;
 
-    public function __construct($evokeportfolio, $context) {
-        $this->evokeportfolio = $evokeportfolio;
+    public function __construct($context, $evokeportfolio, $section) {
         $this->context = $context;
+        $this->evokeportfolio = $evokeportfolio;
+        $this->section = $section;
     }
 
     /**
@@ -53,16 +54,18 @@ class submissions implements renderable, templatable {
             'course' => $this->evokeportfolio->course,
             'groupactivity' => $this->evokeportfolio->groupactivity,
             'isdelayed' => $isdelayed,
+            'sectionid' => $this->section->id,
+            'sectionname' => $this->section->name,
             'isteacher' => false
         ];
-
-        $evokeportfolioutil = new evokeportfolio();
 
         if (has_capability('mod/evokeportfolio:grade', $this->context)) {
             $data['isteacher'] = true;
 
             return $data;
         }
+
+        $sectionutil = new sectionutil();
 
         if ($this->evokeportfolio->groupactivity) {
             $groupsutil = new group();
@@ -74,22 +77,16 @@ class submissions implements renderable, templatable {
                 $data['groupname'] = $usercoursegroup->name;
                 $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
 
-                $sectionssubmissions = $evokeportfolioutil->get_sections_submissions($this->context, $this->evokeportfolio->id, null, $usercoursegroup->id);
+                $submissions = $sectionutil->get_section_submissions($this->context, $this->section->id, null, $usercoursegroup->id);
 
-                $data['sectionssubmissions'] = $sectionssubmissions;
-                $data['issinglesection'] = count($sectionssubmissions) == 1;
+                $data['submissions'] = $submissions;
 
-                $data['hassectionsavailable'] = count($sectionssubmissions) ? true : false;
             }
 
             return $data;
         }
 
-        $sectionssubmissions = $evokeportfolioutil->get_sections_submissions($this->context, $this->evokeportfolio->id, $USER->id);
-
-        $data['sectionssubmissions'] = $sectionssubmissions;
-        $data['issinglesection'] = count($sectionssubmissions) == 1;
-        $data['hassectionsavailable'] = count($sectionssubmissions) ? true : false;
+        $data['submissions'] = $sectionutil->get_section_submissions($this->context, $this->section->id, $USER->id);
 
         $userpicture = new \user_picture($USER);
         $userpicture->size = 1;

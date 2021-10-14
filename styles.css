@@ -60,101 +60,49 @@
     width: 24px;
 }
 
-.submission {
-    border-top: 1px solid #c3c3c3;
+/* Timeline posts. */
+.path-mod-evokeportfolio .submissions .card {
+    margin-top: 1rem;
+    border: 1px solid #d7dfe3;
 }
 
-.submission:hover {
-    background-color: #f1f1f1;
+.path-mod-evokeportfolio .submissions .post .userinfo {
+    display: flex;
+    margin-bottom: 1rem;
 }
 
-.submission.isteacher {
-    background-color: #cbfced;
-    border-top: 1px solid #00f0a6;
-}
-
-.submission.isteacher:hover {
-    background-color: #c3f1e3;
-}
-
-.submissionheader h3 {
-    color: #00f0a6;
-}
-
-.submissionheader img.userpicture {
+.path-mod-evokeportfolio .submissions .post .userinfo .userimg img {
+    display: inline;
+    width: 42px;
     border-radius: 50%;
-    border: 1px solid #00f0a6;
-    width: 48px;
+    border: 1px solid #ededed;
 }
 
-.submission .content {
-    padding: .5rem 1rem;
+.path-mod-evokeportfolio .submissions .post .userinfo .nameanddate {
+    margin-left: .5rem;
 }
 
-.submission .content .comment {
-    font-size: 75%;
+.path-mod-evokeportfolio .submissions .post .userinfo .nameanddate .username {
     font-weight: 700;
+    margin-bottom: 0;
 }
 
-.submission .content .attachment {
+.path-mod-evokeportfolio .submissions .post .content .attachment {
+    border: 1px solid #d7dfe3;
+    padding: .5rem;
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
 }
 
-.submission .content .attachment .fileinfo {
+.path-mod-evokeportfolio .submissions .post .content .attachment .fileinfo {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.submission .content .attachment .filedownload {
+.path-mod-evokeportfolio .submissions .post .content .attachment .filedownload {
     flex-direction: row;
     margin-left: auto;
     flex-wrap: wrap;
-}
-
-.accordion-button {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 1rem 1.25rem;
-    font-size: 1rem;
-    color: #ff0540;
-    background-color: initial;
-    text-align: left;
-    border: 0;
-    border-radius: 0;
-    overflow-anchor: none;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,border-radius .15s ease;
-}
-
-.accordion-button:after {
-    flex-shrink: 0;
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-left: auto;
-    content: "";
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-size: 1.25rem;
-    transition: transform .2s ease-in-out;
-}
-
-.path-mod-evokeportfolio .card-header.chapter-header {
-    background-color: #ff0540;
-    color: #fff;
-}
-
-.path-mod-evokeportfolio .card-header.chapter-header .accordion-button {
-    color: #fff;
-}
-
-.path-mod-evokeportfolio .card-header.portfolio-header {
-    background-color: #cce6ea;
-}
-
-.path-mod-evokeportfolio .card-header.portfolio-header .accordion-button {
-    color: #140f3f;
 }
