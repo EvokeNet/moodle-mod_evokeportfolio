@@ -29,7 +29,7 @@ if (!empty($userid) && $userid != $USER->id && !has_capability('mod/evokeportfol
 }
 
 if ($groupid) {
-    $grouputil = new \mod_evokeportfolio\util\groups();
+    $grouputil = new \mod_evokeportfolio\util\group();
 
     if (!$grouputil->is_group_member($groupid, $USER->id) && !has_capability('mod/evokeportfolio:grade', $context)) {
         $url = new moodle_url('/course/view', ['id' => $course->id]);

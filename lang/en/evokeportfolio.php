@@ -59,6 +59,7 @@ $string['page_view_usernotingroup_text'] = 'You need to be part of a team to do 
 
 $string['page_submit_comment'] = 'Your comment';
 $string['page_submit_attachments'] = 'Attachments';
+$string['nohavesectionaccess'] = 'You don\'t have access to that section yet.';
 
 $string['page_submissions_portfoliocomment'] = 'Comment';
 $string['page_submissions_portfoliomentorcomment'] = 'Mentor Comments';

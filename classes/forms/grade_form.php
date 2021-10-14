@@ -4,7 +4,7 @@ namespace mod_evokeportfolio\forms;
 
 use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\grade;
-use mod_evokeportfolio\util\groups;
+use mod_evokeportfolio\util\group;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -108,7 +108,7 @@ class grade_form extends \moodleform {
     }
 
     private function fill_form_with_group_grade_fields($mform, $evokeportfolio) {
-        $groupsutil = new groups();
+        $groupsutil = new group();
         $groupmembers = $groupsutil->get_group_members($this->groupid);
 
         if (!$groupmembers) {

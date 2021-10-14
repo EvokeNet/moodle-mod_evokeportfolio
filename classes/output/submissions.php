@@ -5,7 +5,7 @@ namespace mod_evokeportfolio\output;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_evokeportfolio\util\evokeportfolio;
-use mod_evokeportfolio\util\groups;
+use mod_evokeportfolio\util\group;
 use renderable;
 use templatable;
 use renderer_base;
@@ -65,7 +65,7 @@ class submissions implements renderable, templatable {
         }
 
         if ($this->evokeportfolio->groupactivity) {
-            $groupsutil = new groups();
+            $groupsutil = new group();
             $usercoursegroup = $groupsutil->get_user_group($this->evokeportfolio->course);
 
             $data['hasgroup'] = !empty($usercoursegroup);

@@ -47,7 +47,7 @@ $formdata = [
 ];
 
 if ($evokeportfolio->groupactivity) {
-    $groupsutil = new \mod_evokeportfolio\util\groups();
+    $groupsutil = new \mod_evokeportfolio\util\group();
     $usercoursegroup = $groupsutil->get_user_group($course->id);
 
     $formdata['groupid'] = $usercoursegroup->id;

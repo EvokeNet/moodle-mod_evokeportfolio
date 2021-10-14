@@ -10,7 +10,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
-class groups {
+class group {
     public function get_user_group($courseid, $userid = null) {
         global $DB, $USER;
 

@@ -5,7 +5,7 @@ namespace mod_evokeportfolio\output;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_evokeportfolio\util\evokeportfolio;
-use mod_evokeportfolio\util\groups;
+use mod_evokeportfolio\util\group;
 use renderable;
 use templatable;
 use renderer_base;
@@ -61,7 +61,7 @@ class grade implements renderable, templatable {
         ];
 
         if ($this->evokeportfolio->groupactivity) {
-            $groupsutil = new groups();
+            $groupsutil = new group();
 
             $data['groupid'] = $this->group->id;
             $data['groupname'] = $this->group->name;

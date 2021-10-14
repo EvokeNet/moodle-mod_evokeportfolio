@@ -45,7 +45,7 @@ class grade {
 
         if ($evokeportfolio->groupactivity) {
             if ($evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_GROUP) {
-                $groupsutil = new groups();
+                $groupsutil = new group();
                 $groupmembers = $groupsutil->get_group_members($formdata->groupid);
 
                 if (!$groupmembers) {
@@ -196,7 +196,7 @@ class grade {
     }
 
     public function group_has_grade($evokeportfolio, $groupid) {
-        $groupsutil = new groups();
+        $groupsutil = new group();
         $groupmembers = $groupsutil->get_group_members($groupid, false);
 
         if (!$groupmembers) {
@@ -214,7 +214,7 @@ class grade {
     }
 
     public function get_group_grade($evokeportfolio, $groupid) {
-        $groupsutil = new groups();
+        $groupsutil = new group();
         $groupmembers = $groupsutil->get_group_members($groupid, false);
 
         if (!$groupmembers) {

@@ -4,7 +4,7 @@ namespace mod_evokeportfolio\forms;
 
 use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\grade;
-use mod_evokeportfolio\util\groups;
+use mod_evokeportfolio\util\group;
 
 defined('MOODLE_INTERNAL') || die();
 

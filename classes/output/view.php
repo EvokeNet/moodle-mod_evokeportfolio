@@ -5,7 +5,8 @@ namespace mod_evokeportfolio\output;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_evokeportfolio\util\evokeportfolio;
-use mod_evokeportfolio\util\groups;
+use mod_evokeportfolio\util\group;
+use mod_evokeportfolio\util\section;
 use renderable;
 use templatable;
 use renderer_base;
@@ -62,7 +63,7 @@ class view implements renderable, templatable {
             'isdelayed' => $isdelayed
         ];
 
-        $groupsutil = new groups();
+        $groupsutil = new group();
 
         // Teacher.
         if (has_capability('mod/evokeportfolio:grade', $this->context)) {
@@ -79,11 +80,18 @@ class view implements renderable, templatable {
             return $data;
         }
 
+        $sectionutil = new section();
+
+        $sections = $sectionutil->get_portfolio_sections($this->evokeportfolio->id);
+        $sections = $sectionutil->add_sections_access_info($sections, $this->context);
+
+        $data['issinglesection'] = count($sections) == 1;
+        $data['sections'] = $sections;
+
         if ($this->evokeportfolio->groupactivity) {
             $usercoursegroup = $groupsutil->get_user_group($this->evokeportfolio->course);
 
             $data['hasgroup'] = !empty($usercoursegroup);
-            $data['hassubmission'] = false;
             if ($usercoursegroup) {
                 $data['groupname'] = $usercoursegroup->name;
                 $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
