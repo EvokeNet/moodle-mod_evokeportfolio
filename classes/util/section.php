@@ -40,40 +40,104 @@ class section {
 
         if ($groupid) {
             $sql .= ' AND es.groupid = :groupid ORDER BY es.id desc';
-            $entries = $DB->get_records_sql($sql, ['sectionid' => $sectionid, 'groupid' => $groupid]);
+            $submissions = $DB->get_records_sql($sql, ['sectionid' => $sectionid, 'groupid' => $groupid]);
 
-            if (!$entries) {
+            if (!$submissions) {
                 return false;
             }
 
-            foreach ($entries as $key => $entry) {
-                $entries[$key]->humantimecreated = userdate($entry->timecreated);
+            foreach ($submissions as $submission) {
+                $submission->humantimecreated = userdate($submission->timecreated);
+
+                $this->populate_submission_with_comments($submission);
             }
 
-            $this->populate_data_with_attachments($entries, $context);
+            $this->populate_submission_with_user_info($submissions);
 
-            return array_values($entries);
+            $this->populate_submission_with_attachments($submissions, $context);
+
+            return array_values($submissions);
         }
 
         if ($userid) {
             $sql .= ' AND es.userid = :userid ORDER BY es.id desc';
-            $entries = $DB->get_records_sql($sql, ['sectionid' => $sectionid, 'userid' => $userid]);
+            $submissions = $DB->get_records_sql($sql, ['sectionid' => $sectionid, 'userid' => $userid]);
 
-            if (!$entries) {
+            if (!$submissions) {
                 return false;
             }
 
-            foreach ($entries as $key => $entry) {
-                $entries[$key]->humantimecreated = userdate($entry->timecreated);
+            foreach ($submissions as $submission) {
+                $submission->humantimecreated = userdate($submission->timecreated);
+
+                $this->populate_submission_with_comments($submission);
             }
 
-            $this->populate_data_with_attachments($entries, $context);
+            $this->populate_submission_with_user_info($submissions);
 
-            return array_values($entries);
+            $this->populate_submission_with_attachments($submissions, $context);
+
+            return array_values($submissions);
         }
     }
 
-    private function populate_data_with_attachments($data, $context) {
+    public function populate_submission_with_comments($submission) {
+        global $DB, $PAGE;
+
+        $sql = 'SELECT c.id as commentid, c.text, u.*
+                FROM {evokeportfolio_comments} c
+                INNER JOIN {user} u ON u.id = c.userid
+                WHERE c.submissionid = :submissionid';
+
+        $comments = $DB->get_records_sql($sql, ['submissionid' => $submission->id]);
+
+        if (!$comments) {
+            $submission->comments = false;
+
+            return $submission;
+        }
+
+        $commentsdata = [];
+        foreach ($comments as $comment) {
+            $userpicture = new \user_picture($comment);
+
+            $commentsdata[] = [
+                'text' => $comment->text,
+                'commentuserpicture' => $userpicture->get_url($PAGE)->out(),
+                'commentuserfullname' => fullname($comment)
+            ];
+        }
+
+        $submission->comments = $commentsdata;
+
+        return $submission;
+    }
+
+    private function populate_submission_with_user_info($data) {
+        global $PAGE, $USER;
+
+        foreach ($data as $key => $entry) {
+            $user = clone($entry);
+            $user->id = $entry->uid;
+
+            $userpicture = new \user_picture($user);
+
+            $data[$key]->usersubmissionpicture = $userpicture->get_url($PAGE)->out();
+
+            $data[$key]->usersubmissionfullname = fullname($user);
+
+            $data[$key]->isteacher = false;
+            if ($entry->role == MOD_EVOKEPORTFOLIO_ROLE_TEACHER) {
+                $data[$key]->isteacher = true;
+            }
+
+            $data[$key]->isowner = $user->id == $USER->id;
+        }
+
+        return $data;
+    }
+
+    private function populate_submission_with_attachments($data, $context) {
         $fs = get_file_storage();
 
         foreach ($data as $key => $entry) {

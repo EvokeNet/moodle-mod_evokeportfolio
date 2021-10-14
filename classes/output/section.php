@@ -20,11 +20,21 @@ class section implements renderable, templatable {
     public $context;
     public $evokeportfolio;
     public $section;
+    public $user;
+    public $group;
 
-    public function __construct($context, $evokeportfolio, $section) {
+    public function __construct($context, $evokeportfolio, $section, $user = null, $group = null) {
+        global $USER;
+
         $this->context = $context;
         $this->evokeportfolio = $evokeportfolio;
         $this->section = $section;
+        $this->user = $user;
+        $this->group = $group;
+
+        if (!$user) {
+            $this->user = $USER;
+        }
     }
 
     /**
@@ -47,6 +57,12 @@ class section implements renderable, templatable {
             $isdelayed = false;
         }
 
+        $userpicture = new \user_picture($USER);
+        $userpicture->size = 1;
+
+        $data['userpicture'] = $userpicture->get_url($PAGE)->out();
+        $data['userfullname'] = fullname($USER);
+
         $data = [
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,
@@ -56,7 +72,10 @@ class section implements renderable, templatable {
             'isdelayed' => $isdelayed,
             'sectionid' => $this->section->id,
             'sectionname' => $this->section->name,
-            'isteacher' => false
+            'isteacher' => false,
+            'userpicture' => $userpicture->get_url($PAGE)->out(),
+            'userfullname' => fullname($USER),
+            'itsme' => $this->user->id === $USER->id
         ];
 
         if (has_capability('mod/evokeportfolio:grade', $this->context)) {
@@ -80,19 +99,12 @@ class section implements renderable, templatable {
                 $submissions = $sectionutil->get_section_submissions($this->context, $this->section->id, null, $usercoursegroup->id);
 
                 $data['submissions'] = $submissions;
-
             }
 
             return $data;
         }
 
-        $data['submissions'] = $sectionutil->get_section_submissions($this->context, $this->section->id, $USER->id);
-
-        $userpicture = new \user_picture($USER);
-        $userpicture->size = 1;
-
-        $data['userpicture'] = $userpicture->get_url($PAGE)->out();
-        $data['userfullname'] = fullname($USER);
+        $data['submissions'] = $sectionutil->get_section_submissions($this->context, $this->section->id, $this->user->id);
 
         return $data;
     }

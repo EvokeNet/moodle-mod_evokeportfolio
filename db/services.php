@@ -67,4 +67,12 @@ $functions = [
         'type' => 'write',
         'ajax' => true
     ],
+    'mod_evokeportfolio_addcomment' => [
+        'classname' => 'mod_evokeportfolio\external\comment',
+        'classpath' => 'mod/evokeportfolio/classes/external/comment.php',
+        'methodname' => 'add',
+        'description' => 'Add a new comment',
+        'type' => 'write',
+        'ajax' => true
+    ],
 ];

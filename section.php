@@ -20,25 +20,19 @@ list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
 $section = $DB->get_record('evokeportfolio_sections', ['id' => $sectionid], '*', MUST_EXIST);
 
+$user = null;
+if (!empty($userid)) {
+    $user = $DB->get_record('user', ['id' => $userid], '*', MUST_EXIST);
+}
+
+$group = null;
+if (!empty($group)) {
+    $user = $DB->get_record('group', ['id' => $groupid], '*', MUST_EXIST);
+}
+
 require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
-
-if (!empty($userid) && $userid != $USER->id && !has_capability('mod/evokeportfolio:grade', $context)) {
-    $url = new moodle_url('/course/view', ['id' => $course->id]);
-
-    redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
-}
-
-if ($groupid) {
-    $grouputil = new \mod_evokeportfolio\util\group();
-
-    if (!$grouputil->is_group_member($groupid, $USER->id) && !has_capability('mod/evokeportfolio:grade', $context)) {
-        $url = new moodle_url('/course/view', ['id' => $course->id]);
-
-        redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
-    }
-}
 
 $PAGE->set_url('/mod/evokeportfolio/submissions.php', ['id' => $cm->id]);
 $PAGE->set_title(format_string($evokeportfolio->name));
@@ -49,7 +43,7 @@ echo $OUTPUT->header();
 
 $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-$contentrenderable = new \mod_evokeportfolio\output\section($context, $evokeportfolio, $section);
+$contentrenderable = new \mod_evokeportfolio\output\section($context, $evokeportfolio, $section, $user, $group);
 
 echo $renderer->render($contentrenderable);
 

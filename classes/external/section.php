@@ -7,7 +7,6 @@ use external_api;
 use external_value;
 use external_single_structure;
 use external_function_parameters;
-use Matrix\Exception;
 use mod_evokeportfolio\forms\section_form;
 use mod_evokeportfolio\util\evokeportfolio;
 

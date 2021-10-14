@@ -1,4 +1,4 @@
-<?php
+1<?php
 
 /**
  * Submits an portfolio entry.
@@ -62,7 +62,7 @@ if ($submissionid) {
 $form = new \mod_evokeportfolio\forms\submit_form($url, $formdata);
 
 if ($form->is_cancelled()) {
-    redirect(new moodle_url('/mod/evokeportfolio/submissions.php', $urlparams));
+    redirect(new moodle_url('/mod/evokeportfolio/section.php', $urlparams));
 } else if ($formdata = $form->get_data()) {
     try {
         unset($formdata->submitbutton);
@@ -138,7 +138,7 @@ if ($form->is_cancelled()) {
 
         file_save_draft_area_files($draftitemid, $context->id, 'mod_evokeportfolio', 'attachments', $submission->id, ['subdirs' => 0, 'maxfiles' => 1]);
 
-        $url = new moodle_url('/mod/evokeportfolio/submissions.php', $urlparams);
+        $url = new moodle_url('/mod/evokeportfolio/section.php', $urlparams);
 
         redirect($url, $redirectstring, null, \core\output\notification::NOTIFY_SUCCESS);
     } catch (\Exception $e) {

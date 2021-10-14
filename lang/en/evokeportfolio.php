@@ -144,3 +144,5 @@ $string['nosubmissions_desc'] = 'This user did not made a submission for this po
 
 $string['myportfolios'] = 'My Portfolios';
 $string['gototheportfolio'] = 'Go to the portfolio';
+$string['comment'] = 'Comment';
+$string['writeacomment'] = 'Write a comment';

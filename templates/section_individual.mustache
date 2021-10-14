@@ -3,20 +3,22 @@
 
 <div class="submissions mt-2">
     {{^isdelayed}}
-        <div class="mb-3">
-            <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&sectionid={{id}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
-        </div>
+        {{#itsme}}
+            <div class="mb-3">
+                <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&sectionid={{id}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
+            </div>
+        {{/itsme}}
     {{/isdelayed}}
 
     {{#submissions}}
         <div class="card card-body">
-            <div class="post mainpost">
+            <div class="post mainpost" data-id="{{id}}">
                 <div class="userinfo">
                     <div class="userimg">
-                        <img src="{{{userpicture}}}" alt="{{{userfullname}}}">
+                        <img src="{{{usersubmissionpicture}}}" alt="{{{usersubmissionfullname}}}">
                     </div>
                     <div class="nameanddate">
-                        <p class="username">{{{userfullname}}}</p>
+                        <p class="username">{{{usersubmissionfullname}}}</p>
                         <span class="small">{{{humantimecreated}}}</span>
                     </div>
                 </div>
@@ -45,7 +47,42 @@
                         {{/attachments}}
                     {{/hasattachments}}
                 </div>
+
+                <hr>
+
+                {{#comments}}
+                    <div class="submissioncomment">
+                        <div class="userimg">
+                            <img src="{{{commentuserpicture}}}" alt="{{{commentuserfullname}}}">
+                        </div>
+                        <div class="entry">
+                            <div class="entry-content">
+                                <p class="name">{{{commentuserfullname}}}</p>
+                                <p class="text">{{{text}}}</p>
+                            </div>
+                        </div>
+                    </div>
+                {{/comments}}
+
+                <div class="add-comment">
+                    <img src="{{{userpicture}}}" class="userimg" alt="{{{userfullname}}}">
+
+                    <div class="input-group">
+                        <p class="post-comment-input" placeholder="{{#str}}writeacomment, mod_evokeportfolio{{/str}}" contenteditable="true" data-tribute="true"></p>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary post-comment-btn" type="button">
+                                <i class="fa fa-commenting-o"></i> {{#str}}comment, mod_evokeportfolio{{/str}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     {{/submissions}}
 </div>
+
+{{#js}}
+    require(['mod_evokeportfolio/addcomment'], function(AddComment) {
+        AddComment.init();
+    });
+{{/js}}
