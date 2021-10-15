@@ -325,6 +325,7 @@ function mod_evokeportfolio_output_fragment_section_form($args) {
         'id' => $serialiseddata->id,
         'portfolioid' => $serialiseddata->portfolioid,
         'name' => $serialiseddata->name,
+        'description' => $serialiseddata->description,
         'dependentsections' => $serialiseddata->dependentsections,
     ]);
 

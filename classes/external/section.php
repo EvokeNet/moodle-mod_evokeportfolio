@@ -82,6 +82,7 @@ class section extends external_api {
         $section = new \stdClass();
         $section->portfolioid = $portfolioid;
         $section->name = $validateddata->name;
+        $section->description = $validateddata->description;
         $section->dependentsections = $dependentsections;
         $section->timecreated = time();
         $section->timemodified = time();
@@ -174,6 +175,7 @@ class section extends external_api {
         $section = new \stdClass();
         $section->id = $validateddata->id;
         $section->name = $validateddata->name;
+        $section->description = $validateddata->description;
         $section->dependentsections = $dependentsections;
         $section->timemodified = time();
 

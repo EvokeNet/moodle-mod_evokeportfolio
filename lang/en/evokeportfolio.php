@@ -146,3 +146,4 @@ $string['myportfolios'] = 'My Portfolios';
 $string['gototheportfolio'] = 'Go to the portfolio';
 $string['comment'] = 'Comment';
 $string['writeacomment'] = 'Write a comment';
+$string['description'] = 'Description';

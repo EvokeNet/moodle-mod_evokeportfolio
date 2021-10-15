@@ -39,6 +39,7 @@ class section_form extends \moodleform {
 
         $id = !(empty($this->_customdata['id'])) ? $this->_customdata['id'] : null;
         $name = !(empty($this->_customdata['name'])) ? $this->_customdata['name'] : null;
+        $description = !(empty($this->_customdata['description'])) ? $this->_customdata['description'] : null;
         $dependentsections = !(empty($this->_customdata['dependentsections'])) ? $this->_customdata['dependentsections'] : null;
 
         if (!empty($this->_customdata['portfolioid'])) {
@@ -50,6 +51,9 @@ class section_form extends \moodleform {
         $mform->addElement('text', 'name', get_string('name', 'mod_evokeportfolio'));
         $mform->addRule('name', get_string('required'), 'required', null, 'client');
         $mform->setType('name', PARAM_TEXT);
+
+        $mform->addElement('textarea', 'description', get_string('description', 'mod_evokeportfolio'));
+        $mform->setType('description', PARAM_TEXT);
 
         $portfolioutil = new evokeportfolio();
 
@@ -63,6 +67,10 @@ class section_form extends \moodleform {
 
         if ($name) {
             $mform->setDefault('name', $name);
+        }
+
+        if ($description) {
+            $mform->setDefault('description', $description);
         }
     }
 

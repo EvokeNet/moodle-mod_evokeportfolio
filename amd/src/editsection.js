@@ -57,8 +57,10 @@ define([
                         body: this.getBody({
                             id: this.eventtarget.data('id'),
                             name: this.eventtarget.data('name'),
+                            description: this.eventtarget.data('description'),
                             dependentsections: this.eventtarget.data('dependentsections')
-                        })
+                        }),
+                        large: true
                     });
                 }.bind(this)).then(function(modal) {
                     // Keep a reference to the modal.
@@ -69,6 +71,7 @@ define([
                         this.modal.setBody(this.getBody({
                             id: this.eventtarget.data('id'),
                             name: this.eventtarget.data('name'),
+                            description: this.eventtarget.data('description'),
                             dependentsections: this.eventtarget.data('dependentsections')
                         }));
                     }.bind(this));
@@ -130,6 +133,7 @@ define([
 
             this.eventtarget.data('id', section.id);
             this.eventtarget.data('name', section.name);
+            this.eventtarget.data('description', section.description);
             this.eventtarget.data('dependentsections', section.dependentsections);
 
             this.eventtarget.closest('tr').hide('normal').show('normal');

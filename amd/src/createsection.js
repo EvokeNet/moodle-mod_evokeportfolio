@@ -63,7 +63,8 @@ define([
                 return ModalFactory.create({
                     type: ModalFactory.types.SAVE_CANCEL,
                     title: title,
-                    body: this.getBody({portfolioid: this.portfolioid})
+                    body: this.getBody({portfolioid: this.portfolioid}),
+                    large: true
                 }, triggers);
             }.bind(this)).then(function(modal) {
                 // Keep a reference to the modal.
@@ -127,7 +128,8 @@ define([
                 '<th scope="row">'+item.id+'</th>' +
                 '<td>'+item.name+'</td>' +
                 '<td style="width: 120px; text-align: center;">' +
-                '<a href="#" data-id="'+item.id+'" data-name="'+item.name+'" data-dependentsections="'+item.dependentsections+'"' +
+                '<a href="#" data-id="'+item.id+'" data-name="'+item.name+'" data-description="'+item.description+'"' +
+                'data-dependentsections="'+item.dependentsections+'"' +
                 'class="btn btn-warning btn-sm edit-evokeportfolio-section">' +
                 '<i class="fa fa-pencil-square-o text-white"></i>' +
                 '</a> ' +
