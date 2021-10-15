@@ -84,7 +84,7 @@ class section {
     public function populate_submission_with_comments($submission) {
         global $DB, $PAGE;
 
-        $sql = 'SELECT c.id as commentid, c.text, c.timecreated as commentdate, u.*
+        $sql = 'SELECT c.id as commentid, c.text, u.*
                 FROM {evokeportfolio_comments} c
                 INNER JOIN {user} u ON u.id = c.userid
                 WHERE c.submissionid = :submissionid';
@@ -103,7 +103,6 @@ class section {
 
             $commentsdata[] = [
                 'text' => $comment->text,
-                'commentdate' => userdate($comment->commentdate),
                 'commentuserpicture' => $userpicture->get_url($PAGE)->out(),
                 'commentuserfullname' => fullname($comment)
             ];
@@ -126,11 +125,6 @@ class section {
             $data[$key]->usersubmissionpicture = $userpicture->get_url($PAGE)->out();
 
             $data[$key]->usersubmissionfullname = fullname($user);
-
-            $data[$key]->isteacher = false;
-            if ($entry->role == MOD_EVOKEPORTFOLIO_ROLE_TEACHER) {
-                $data[$key]->isteacher = true;
-            }
 
             $data[$key]->isowner = $user->id == $USER->id;
         }

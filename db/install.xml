@@ -73,6 +73,7 @@
         <FIELD NAME="sectionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Section ID."/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="User ID."/>
         <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Group ID."/>
+        <FIELD NAME="postedby" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The user ID of the person who made the post."/>
         <FIELD NAME="comment" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Activity text."/>
         <FIELD NAME="commentformat" TYPE="int" LENGTH="4" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="The format of the comment field of the entry."/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Timestamp of when the entry was added to the activity."/>

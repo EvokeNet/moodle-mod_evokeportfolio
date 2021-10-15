@@ -72,6 +72,7 @@ class section implements renderable, templatable {
             'isdelayed' => $isdelayed,
             'sectionid' => $this->section->id,
             'sectionname' => $this->section->name,
+            'sectiondescription' => $this->section->description,
             'isteacher' => false,
             'userpicture' => $userpicture->get_url($PAGE)->out(),
             'userfullname' => fullname($USER),

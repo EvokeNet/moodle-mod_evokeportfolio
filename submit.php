@@ -96,7 +96,6 @@ if ($form->is_cancelled()) {
             $submission = new \stdClass();
             $submission->sectionid = $section->id;
             $submission->postedby = $USER->id;
-            $submission->role = MOD_EVOKEPORTFOLIO_ROLE_STUDENT;
             $submission->timecreated = time();
             $submission->timemodified = time();
             $submission->groupid = null;

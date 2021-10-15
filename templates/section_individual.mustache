@@ -1,11 +1,13 @@
 <h2>{{{name}}}</h2>
 <h3>{{sectionname}}</h3>
+<p>{{sectiondescription}}</p>
+<hr>
 
 <div class="submissions mt-2">
     {{^isdelayed}}
         {{#itsme}}
             <div class="mb-3">
-                <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&sectionid={{id}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
+                <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&sectionid={{sectionid}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
             </div>
         {{/itsme}}
     {{/isdelayed}}
@@ -57,8 +59,7 @@
                         </div>
                         <div class="entry">
                             <div class="entry-content">
-                                <p class="name">{{{commentuserfullname}}} <span class="small">{{{commentdate}}}</span>
-                                </p>
+                                <p class="name">{{{commentuserfullname}}}</p>
                                 <p class="text">{{{text}}}</p>
                             </div>
                         </div>
