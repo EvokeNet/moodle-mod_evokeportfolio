@@ -147,3 +147,8 @@ $string['gototheportfolio'] = 'Go to the portfolio';
 $string['comment'] = 'Comment';
 $string['writeacomment'] = 'Write a comment';
 $string['description'] = 'Description';
+
+$string['message_mentioned'] = 'You were mentioned in a comment';
+$string['message_mentionedinaportfolio'] = 'You were mentioned in a comment in the portfolio <b>{$a}</b>';
+$string['message_mentioncontextname'] = 'Mentioned in a comment.';
+$string['message_clicktoaccessportfolio'] = 'Click here to access the portfolio';

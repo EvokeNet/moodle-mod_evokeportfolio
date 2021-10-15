@@ -2,11 +2,15 @@
 
 namespace mod_evokeportfolio\external;
 
-use context;
 use external_api;
 use external_value;
 use external_single_structure;
 use external_function_parameters;
+use mod_evokeportfolio\notification\commentmention;
+use mod_evokeportfolio\util\user;
+use moodle_url;
+use html_writer;
+use context_course;
 
 /**
  * Section external api class.
@@ -49,14 +53,70 @@ class comment extends external_api {
 
         $comment = (object)$comment;
 
+        $sql = 'SELECT su.id, su.userid, p.id as portfolioid, p.course, p.name as portfolioname, se.id as sectionid, se.name as sectionname
+                FROM {evokeportfolio_submissions} su
+                INNER JOIN {evokeportfolio_sections} se ON se.id = su.sectionid
+                INNER JOIN {evokeportfolio} p ON p.id = se.portfolioid
+                WHERE su.id = :submissionid';
+
+        $utildata = $DB->get_record_sql($sql, ['submissionid' => $comment->submissionid], MUST_EXIST);
+        $cm = get_coursemodule_from_instance('evokeportfolio', $utildata->portfolioid);
+
+        $context = context_course::instance($utildata->course);
+
         $usercomment = new \stdClass();
         $usercomment->submissionid = $comment->submissionid;
         $usercomment->userid = $USER->id;
-        $usercomment->text = trim($comment->message);
         $usercomment->timecreated = time();
         $usercomment->timemodified = time();
 
+        // Handle the mentions.
+        $matches = [];
+        preg_match_all('/<span(.*?)<\/span>/s', $comment->message, $matches);
+        $replaces = [];
+        $userstonotifymention = [];
+        if (!empty($matches[0])) {
+            for ($i = 0; $i < count($matches[0]); $i++) {
+                $mention = $matches[0][$i];
+
+                $useridmatches = null;
+                preg_match( '@data-uid="([^"]+)"@' , $mention, $useridmatches);
+                $userid = array_pop($useridmatches);
+
+                if (!$userid) {
+                    continue;
+                }
+
+                $user = user::get_by_id($userid, $context);
+
+                if (!$user) {
+                    continue;
+                }
+
+                $userprofilelink = new moodle_url('/user/view.php',  ['id' => $user->id, 'course' => $utildata->course]);
+                $userprofilelink = html_writer::link($userprofilelink->out(false), fullname($user));
+
+                $comment->message = str_replace($mention, "[replace{$i}]", $comment->message);
+
+                $replaces['replace' . $i] = $userprofilelink;
+
+                $userstonotifymention[] = $user->id;
+            }
+        }
+
+        $usercomment->text = strip_tags($comment->message);
+
+        foreach ($replaces as $key => $replace) {
+            $usercomment->text = str_replace("[$key]", $replace, $usercomment->text);
+        }
+
         $DB->insert_record('evokeportfolio_comments', $usercomment);
+
+        $notification = new commentmention($context, $cm->id, $utildata->course, $utildata->sectionid, $utildata->portfolioname, $utildata->userid);
+
+        if (!empty($userstonotifymention)) {
+            $notification->send_mentions_notifications($userstonotifymention);
+        }
 
         return [
             'status' => 'ok',

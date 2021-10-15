@@ -1,4 +1,4 @@
-<div class="submissions mt-2">
+<div id="submissions" class="submissions mt-2" data-courseid="{{{course}}}">
     {{^isdelayed}}
         {{#itsme}}
             <div class="actions">
@@ -79,7 +79,9 @@
 </div>
 
 {{#js}}
-    require(['mod_evokeportfolio/addcomment'], function(AddComment) {
+    require(['mod_evokeportfolio/addcomment', 'mod_evokeportfolio/tribute_init'], function(AddComment, TributeInit) {
         AddComment.init();
+
+        TributeInit.init();
     });
 {{/js}}

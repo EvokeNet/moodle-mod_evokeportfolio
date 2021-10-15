@@ -75,4 +75,12 @@ $functions = [
         'type' => 'write',
         'ajax' => true
     ],
+    'mod_evokeportfolio_enrolledusers' => [
+        'classname' => 'mod_evokeportfolio\external\course',
+        'classpath' => 'mod/evokeportfolio/classes/external/course.php',
+        'methodname' => 'enrolledusers',
+        'description' => 'Get the list of users enrolled in a course',
+        'type' => 'read',
+        'ajax' => true
+    ]
 ];
