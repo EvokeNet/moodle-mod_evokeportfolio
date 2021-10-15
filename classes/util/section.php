@@ -84,7 +84,7 @@ class section {
     public function populate_submission_with_comments($submission) {
         global $DB, $PAGE;
 
-        $sql = 'SELECT c.id as commentid, c.text, u.*
+        $sql = 'SELECT c.id as commentid, c.text, c.timecreated as commentdate, u.*
                 FROM {evokeportfolio_comments} c
                 INNER JOIN {user} u ON u.id = c.userid
                 WHERE c.submissionid = :submissionid';
@@ -103,6 +103,7 @@ class section {
 
             $commentsdata[] = [
                 'text' => $comment->text,
+                'commentdate' => userdate($comment->commentdate),
                 'commentuserpicture' => $userpicture->get_url($PAGE)->out(),
                 'commentuserfullname' => fullname($comment)
             ];

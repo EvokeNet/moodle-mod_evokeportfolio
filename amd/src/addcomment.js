@@ -95,7 +95,8 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
         var userfullname = userimg.attr('alt');
         var loadallcomments = postdiv.find('.loadmore');
 
-        var comment = $("<div class='post fadeIn'><div class='userimg'>" + $('<div/>').append(userimg).html() + "</div>" +
+        var comment = $("<div class='submissioncomment fadeIn'>" +
+          "<div class='userimg'>" + $('<div/>').append(userimg).html() + "</div>" +
           "<div class='entry'><div class='entry-content'>" +
           "<p class='name'>" + userfullname + "</p>" +
           "<p class='text'>" + value + "</p>" +
