@@ -60,9 +60,6 @@ class section implements renderable, templatable {
         $userpicture = new \user_picture($USER);
         $userpicture->size = 1;
 
-        $data['userpicture'] = $userpicture->get_url($PAGE)->out();
-        $data['userfullname'] = fullname($USER);
-
         $data = [
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,

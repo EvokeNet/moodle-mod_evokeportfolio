@@ -38,6 +38,8 @@ class view implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
+        global $USER, $PAGE;
+
         $timeremaining = $this->evokeportfolio->datelimit - time();
 
         $isdelayed = true;
@@ -60,7 +62,8 @@ class view implements renderable, templatable {
             'course' => $this->evokeportfolio->course,
             'groupactivity' => $this->evokeportfolio->groupactivity,
             'groupgradingmodetext' => $groupgradingmodetext,
-            'isdelayed' => $isdelayed
+            'isdelayed' => $isdelayed,
+            'itsme' => true
         ];
 
         $groupsutil = new group();
@@ -85,8 +88,28 @@ class view implements renderable, templatable {
         $sections = $sectionutil->get_portfolio_sections($this->evokeportfolio->id);
         $sections = $sectionutil->add_sections_access_info($sections, $this->context);
 
-        $data['issinglesection'] = count($sections) == 1;
-        $data['sections'] = $sections;
+        // Single section.
+        $issinglesection = count($sections) == 1;
+        $submissions = null;
+        if ($issinglesection) {
+            $section = current($sections);
+            $data['issinglesection'] = true;
+            $data['sectionid'] = $section->id;
+
+            $userpicture = new \user_picture($USER);
+            $userpicture->size = 1;
+
+            $data['userpicture'] = $userpicture->get_url($PAGE)->out();
+            $data['userfullname'] = fullname($USER);
+
+            if (!$this->evokeportfolio->groupactivity) {
+                $submissions = $sectionutil->get_section_submissions($this->context, $section->id, $USER->id);
+            }
+        }
+
+        if (!$issinglesection) {
+            $data['sections'] = $sections;
+        }
 
         if ($this->evokeportfolio->groupactivity) {
             $usercoursegroup = $groupsutil->get_user_group($this->evokeportfolio->course);
@@ -95,10 +118,14 @@ class view implements renderable, templatable {
             if ($usercoursegroup) {
                 $data['groupname'] = $usercoursegroup->name;
                 $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
-            }
 
-            return $data;
+                if ($issinglesection) {
+                    $submissions = $sectionutil->get_section_submissions($this->context, $section->id, null, $usercoursegroup->id);
+                }
+            }
         }
+
+        $data['submissions'] = $submissions;
 
         return $data;
     }

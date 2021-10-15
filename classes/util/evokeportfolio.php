@@ -230,11 +230,6 @@ class evokeportfolio {
 
             $data[$key]->fullname = fullname($user);
 
-            $data[$key]->isteacher = false;
-            if ($entry->role == MOD_EVOKEPORTFOLIO_ROLE_TEACHER) {
-                $data[$key]->isteacher = true;
-            }
-
             $data[$key]->isowner = $user->id == $USER->id;
         }
 
