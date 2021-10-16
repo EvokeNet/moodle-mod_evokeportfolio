@@ -133,6 +133,12 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
+        $field = new xmldb_field('description', XMLDB_TYPE_TEXT);
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
         upgrade_plugin_savepoint(true, 2021092200, 'mod', 'evokeportfolio');
     }
 
