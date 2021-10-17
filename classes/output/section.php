@@ -64,7 +64,7 @@ class section implements renderable, templatable {
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,
             'cmid' => $this->context->instanceid,
-            'course' => $this->evokeportfolio->course,
+            'courseid' => $this->evokeportfolio->course,
             'groupactivity' => $this->evokeportfolio->groupactivity,
             'isdelayed' => $isdelayed,
             'sectionid' => $this->section->id,

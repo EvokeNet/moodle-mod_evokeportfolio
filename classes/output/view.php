@@ -59,7 +59,7 @@ class view implements renderable, templatable {
             'datelimit' => userdate($this->evokeportfolio->datelimit),
             'timeremaining' => format_time($timeremaining),
             'cmid' => $this->context->instanceid,
-            'course' => $this->evokeportfolio->course,
+            'courseid' => $this->evokeportfolio->course,
             'groupactivity' => $this->evokeportfolio->groupactivity,
             'groupgradingmodetext' => $groupgradingmodetext,
             'isdelayed' => $isdelayed,

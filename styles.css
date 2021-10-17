@@ -61,16 +61,20 @@
 }
 
 /* Timeline posts. */
+
+#page-blocks-evokehq-section .submissions .card,
 .path-mod-evokeportfolio .submissions .card {
     margin-top: 0.5rem;
     border: 1px solid #d7dfe3;
 }
 
+#page-blocks-evokehq-section .submissions .post .userinfo,
 .path-mod-evokeportfolio .submissions .post .userinfo {
     display: flex;
     margin-bottom: 1rem;
 }
 
+#page-blocks-evokehq-section .submissions .post .userinfo .userimg img,
 .path-mod-evokeportfolio .submissions .post .userinfo .userimg img {
     display: inline;
     width: 42px;
@@ -78,15 +82,18 @@
     border: 1px solid #ededed;
 }
 
+#page-blocks-evokehq-section .submissions .post .userinfo .nameanddate,
 .path-mod-evokeportfolio .submissions .post .userinfo .nameanddate {
     margin-left: .5rem;
 }
 
+#page-blocks-evokehq-section .submissions .post .userinfo .nameanddate .username,
 .path-mod-evokeportfolio .submissions .post .userinfo .nameanddate .username {
     font-weight: 700;
     margin-bottom: 0;
 }
 
+#page-blocks-evokehq-section .submissions .post .content .attachment,
 .path-mod-evokeportfolio .submissions .post .content .attachment {
     border: 1px solid #d7dfe3;
     padding: .5rem;
@@ -95,19 +102,21 @@
     justify-content: flex-start;
 }
 
+#page-blocks-evokehq-section .submissions .post .content .attachment .fileinfo,
 .path-mod-evokeportfolio .submissions .post .content .attachment .fileinfo {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+#page-blocks-evokehq-section .submissions .post .content .attachment .filedownload,
 .path-mod-evokeportfolio .submissions .post .content .attachment .filedownload {
     flex-direction: row;
     margin-left: auto;
     flex-wrap: wrap;
 }
 
-/* Timeline post add-comment. */
+#page-blocks-evokehq-section .submissions .post .add-comment,
 .path-mod-evokeportfolio .submissions .post .add-comment {
     display: flex;
     flex-direction: row;
@@ -117,6 +126,7 @@
 }
 
 
+#page-blocks-evokehq-section .submissions .post .add-comment .userimg,
 .path-mod-evokeportfolio .submissions .post .add-comment .userimg {
     border-radius: 50%;
     height: calc(1.5em + .75rem + 2px);
@@ -127,6 +137,7 @@
     margin-right: .5rem;
 }
 
+#page-blocks-evokehq-section .submissions .post .add-comment .post-comment-input,
 .path-mod-evokeportfolio .submissions .post .add-comment .post-comment-input {
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
@@ -152,6 +163,7 @@
     cursor: text;
 }
 
+#page-blocks-evokehq-section .submissions .post .add-comment .post-comment-input:focus,
 .path-mod-evokeportfolio .submissions .post .add-comment .post-comment-input:focus {
     color: #495057;
     background-color: #fff;
@@ -161,12 +173,14 @@
     box-shadow: 0 0 0 0.2rem rgba(17, 119, 209, .25);
 }
 
+#page-blocks-evokehq-section .submissions .post .add-comment .post-comment-input[contenteditable="true"]:empty:before,
 .path-mod-evokeportfolio .submissions .post .add-comment .post-comment-input[contenteditable="true"]:empty:before {
     content: attr(placeholder);
     display: block;
     color: #ccc;
 }
 
+#page-blocks-evokehq-section .submissions .post .add-comment .post-comment-input a.usermentioned,
 .path-mod-evokeportfolio .submissions .post .add-comment .post-comment-input a.usermentioned {
     padding: 0 .5rem;
     background-color: #d9edff;
@@ -174,12 +188,14 @@
     display: inline-block;
 }
 
+#page-blocks-evokehq-section .submissions .post .add-comment .input-group-append .btn,
 .path-mod-evokeportfolio .submissions .post .add-comment .input-group-append .btn {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
 }
 
-/* Timeline submission commments. */
+
+#page-blocks-evokehq-section .submissions .fadeIn,/* Timeline submission commments. */
 .path-mod-evokeportfolio .submissions .fadeIn {
     -webkit-animation: mod-evokeportfolio_fadein 1s ease-in-out;
     -moz-animation: mod-evokeportfolio_fadein 1s ease-in-out;
@@ -187,18 +203,21 @@
     animation: mod-evokeportfolio_fadein 1s ease-in-out;
 }
 
+#page-blocks-evokehq-section .submissions .post .submissioncomment,
 .path-mod-evokeportfolio .submissions .post .submissioncomment {
     margin-top: .5rem;
     display: flex;
     flex-direction: row;
 }
 
+#page-blocks-evokehq-section .submissions .post .submissioncomment .userimg,
 .path-mod-evokeportfolio .submissions .post .submissioncomment .userimg {
     align-self: flex-start;
     position: relative;
     display: block;
 }
 
+#page-blocks-evokehq-section .submissions .post .submissioncomment .userimg img,
 .path-mod-evokeportfolio .submissions .post .submissioncomment .userimg img {
     display: inline;
     width: 42px;
@@ -206,11 +225,13 @@
     border: 1px solid #ededed;
 }
 
+#page-blocks-evokehq-section .submissions .post .submissioncomment .entry,
 .path-mod-evokeportfolio .submissions .post .submissioncomment .entry {
     flex: 1;
     padding-left: .4rem;
 }
 
+#page-blocks-evokehq-section .submissions .post .submissioncomment .entry .entry-content,
 .path-mod-evokeportfolio .submissions .post .submissioncomment .entry .entry-content {
     padding: .5rem 1rem;
     border-radius: 1rem;
@@ -218,11 +239,13 @@
     display: inline-block;
 }
 
+#page-blocks-evokehq-section .submissions .post .submissioncomment .entry .entry-content .name,
 .path-mod-evokeportfolio .submissions .post .submissioncomment .entry .entry-content .name {
     font-weight: 700;
     margin-bottom: 0;
 }
 
+#page-blocks-evokehq-section .submissions .post .submissioncomment .entry .entry-content .name .small,
 .path-mod-evokeportfolio .submissions .post .submissioncomment .entry .entry-content .name .small {
     font-size: 70%;
     margin-bottom: 0;
@@ -231,10 +254,12 @@
     padding: 0 4px;
 }
 
+#page-blocks-evokehq-section .submissions .post .submissioncomment .entry .entry-content .text,
 .path-mod-evokeportfolio .submissions .post .submissioncomment .entry .entry-content .text {
     margin-bottom: 0;
 }
 
+#page-blocks-evokehq-section .submissions .post .submissioncomment .entry .entry-content .text a,
 .path-mod-evokeportfolio .submissions .post .submissioncomment .entry .entry-content .text a {
     font-weight: 700;
 }
@@ -281,6 +306,7 @@
 }
 
 /* Mentions */
+#page-blocks-evokehq-section .tribute-container,
 .path-mod-evokeportfolio .tribute-container {
     position: absolute;
     top: 0;
@@ -293,6 +319,7 @@
     z-index: 999999;
 }
 
+#page-blocks-evokehq-section .tribute-container ul,
 .path-mod-evokeportfolio .tribute-container ul {
     margin: 0;
     margin-top: 2px;
@@ -304,11 +331,13 @@
     overflow: hidden;
 }
 
+#page-blocks-evokehq-section .tribute-container li,
 .path-mod-evokeportfolio .tribute-container li {
     padding: .75rem .5rem;
     cursor: pointer;
 }
 
+#page-blocks-evokehq-section .tribute-container li img,
 .path-mod-evokeportfolio .tribute-container li img {
     width: 24px;
     height: 24px;
@@ -316,19 +345,23 @@
     margin-right: .5rem;
 }
 
+#page-blocks-evokehq-section .tribute-container li.highlight,
 .path-mod-evokeportfolio .tribute-container li.highlight {
     color: #fff !important; /* stylelint-disable-line declaration-no-important */
     background-color: #1177d1;
 }
 
+#page-blocks-evokehq-section .tribute-container li span,
 .path-mod-evokeportfolio .tribute-container li span {
     font-weight: bold;
 }
 
+#page-blocks-evokehq-section .tribute-container li.no-match,
 .path-mod-evokeportfolio .tribute-container li.no-match {
     cursor: default;
 }
 
+#page-blocks-evokehq-section .tribute-container .menu-highlighted,
 .path-mod-evokeportfolio .tribute-container .menu-highlighted {
     font-weight: bold;
 }

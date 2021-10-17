@@ -24,10 +24,10 @@ class section {
         return array_values($sections);
     }
 
-    public function get_section_submissions($context, $sectionid, $userid = null, $groupid = null) {
+    public function get_section_submissions($context, $sectionid, $userids = null, $groupid = null) {
         global $DB;
 
-        if (!$userid && !$groupid) {
+        if (!$userids && !$groupid) {
             throw new \Exception('You need to inform either an user or group id');
         }
 
@@ -59,9 +59,22 @@ class section {
             return array_values($submissions);
         }
 
-        if ($userid) {
-            $sql .= ' AND es.userid = :userid ORDER BY es.id desc';
-            $submissions = $DB->get_records_sql($sql, ['sectionid' => $sectionid, 'userid' => $userid]);
+        if ($userids) {
+            $params = ['sectionid' => $sectionid];
+
+            if (is_array($userids)) {
+                list($sqld, $paramsd) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
+
+                $sql .= ' AND es.userid '. $sqld .' ORDER BY es.id desc';
+
+                $params = $params + $paramsd;
+            } else {
+                $sql .= ' AND es.userid = :userid ORDER BY es.id desc';
+
+                $params = $params + ['userid' => $userids];
+            }
+
+            $submissions = $DB->get_records_sql($sql, $params);
 
             if (!$submissions) {
                 return false;
