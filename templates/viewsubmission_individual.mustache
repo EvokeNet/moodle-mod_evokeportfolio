@@ -4,13 +4,13 @@
 
 <div class="submissionheader row">
     <div class="col-md-9">
-        <h3>{{#str}}user{{/str}}: {{userfullname}}</h3>
+        <h3>{{#str}}user{{/str}}: {{targetuserfullname}}</h3>
         {{#usergroup}}
             <h4>{{#str}}group{{/str}}: {{usergroup}}</h4>
         {{/usergroup}}
     </div>
     <div class="col-md-3 text-right">
-        <img src="{{userpicture}}" alt="{{userfullname}}" class="img-responsive userpicture">
+        <img src="{{targetuserpicture}}" alt="{{targetuserfullname}}" class="img-responsive userpicture">
     </div>
 </div>
 
@@ -30,7 +30,7 @@
 <div class="submissions">
     {{#sectionssubmissions}}
         {{#issinglesection}}
-            {{>mod_evokeportfolio/submissions}}
+            {{>mod_evokeportfolio/sectionsubmissions}}
         {{/issinglesection}}
         {{^issinglesection}}
             <div class="accordion mb-2" id="sectionssubmissions-accordion">

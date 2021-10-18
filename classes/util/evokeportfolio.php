@@ -47,22 +47,7 @@ class evokeportfolio {
         return false;
     }
 
-    public function get_sections($portfolioid) {
-        global $DB;
 
-        $sections = $DB->get_records('evokeportfolio_sections', ['portfolioid' => $portfolioid]);
-
-        if (!$sections) {
-            return false;
-        }
-
-        $evokeportfolioutil = new evokeportfolio();
-        foreach ($sections as $key => $section) {
-            $sections[$key]->hassubmission = $evokeportfolioutil->section_has_submissions($section->id);
-        }
-
-        return array_values($sections);
-    }
 
     public function get_course_sections($portfolioid = null, $sectionid = null) {
         global $DB;
@@ -144,44 +129,6 @@ class evokeportfolio {
 
             return array_values($entries);
         }
-    }
-
-    public function get_sections_submissions($context, $portfolioid, $userid = null, $groupid = null) {
-        $sections = $this->get_sections($portfolioid);
-
-        if (!$sections) {
-            return false;
-        }
-
-        foreach ($sections as $key => $section) {
-            if ($section->dependentsections) {
-                $dependentsections = explode(",", $section->dependentsections);
-
-                if (!$this->has_section_access($dependentsections, $context)) {
-                    unset($sections[$key]);
-
-                    continue;
-                }
-            }
-
-            $submissions = $this->get_section_submissions($section->id, $userid, $groupid);
-            $sections[$key]->nosubmissions = false;
-
-            if (!$submissions) {
-                $sections[$key]->submissions = [];
-                $sections[$key]->nosubmissions = true;
-
-                continue;
-            }
-
-            $this->populate_data_with_user_info($submissions);
-
-            $this->populate_data_with_attachments($submissions, $context);
-
-            $sections[$key]->submissions = $submissions;
-        }
-
-        return $sections;
     }
 
     public function has_section_access($dependentsections, $context) {

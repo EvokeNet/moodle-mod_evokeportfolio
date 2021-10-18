@@ -24,6 +24,50 @@ class section {
         return array_values($sections);
     }
 
+    public function get_sections_submissions($context, $portfolioid, $userid = null, $groupid = null) {
+        $sections = $this->get_portfolio_sections($portfolioid);
+
+        if (!$sections) {
+            return false;
+        }
+
+        foreach ($sections as $key => $section) {
+            if ($section->dependentsections) {
+                $dependentsections = explode(",", $section->dependentsections);
+
+                if (!$this->has_section_access($dependentsections, $context)) {
+                    unset($sections[$key]);
+
+                    continue;
+                }
+            }
+
+            $submissions = $this->get_section_submissions($context, $section->id, $userid, $groupid);
+            $sections[$key]->nosubmissions = false;
+
+            if (!$submissions) {
+                $sections[$key]->submissions = [];
+                $sections[$key]->nosubmissions = true;
+
+                continue;
+            }
+
+            foreach ($submissions as $submission) {
+                $submission->humantimecreated = userdate($submission->timecreated);
+
+                $this->populate_submission_with_comments($submission);
+            }
+
+            $this->populate_submission_with_user_info($submissions);
+
+            $this->populate_submission_with_attachments($submissions, $context);
+
+            $sections[$key]->submissions = $submissions;
+        }
+
+        return $sections;
+    }
+
     public function get_section_submissions($context, $sectionid, $userids = null, $groupid = null) {
         global $DB;
 

@@ -5,6 +5,7 @@ namespace mod_evokeportfolio\output;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_evokeportfolio\util\evokeportfolio;
+use mod_evokeportfolio\util\section;
 use mod_evokeportfolio\util\group;
 use mod_evokeportfolio\util\user;
 use renderable;
@@ -50,7 +51,7 @@ class viewsubmission implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $PAGE;
+        global $PAGE, $USER;
 
         $gradeutil = new \mod_evokeportfolio\util\grade();
 
@@ -69,6 +70,7 @@ class viewsubmission implements renderable, templatable {
         ];
 
         $evokeportfolioutil = new evokeportfolio();
+        $sectionutil = new section();
 
         if ($this->evokeportfolio->groupactivity) {
             $groupsutil = new group();
@@ -82,7 +84,7 @@ class viewsubmission implements renderable, templatable {
 
             $data['hassubmission'] = $evokeportfolioutil->has_submission($this->evokeportfolio->id, null, $this->group->id);
 
-            $sectionssubmissions = $evokeportfolioutil->get_sections_submissions($this->context, $this->evokeportfolio->id, null, $this->group->id);
+            $sectionssubmissions = $sectionutil->get_sections_submissions($this->context, $this->evokeportfolio->id, null, $this->group->id);
 
             $data['sectionssubmissions'] = $sectionssubmissions;
             $data['issinglesection'] = count($sectionssubmissions) == 1;
@@ -92,15 +94,21 @@ class viewsubmission implements renderable, templatable {
             return $data;
         }
 
+        $userpicture = new \user_picture($USER);
+        $userpicture->size = 1;
+
+        $data['userfullname'] = fullname($USER);
+        $data['userpicture'] = $userpicture->get_url($PAGE)->out();
+
         $userpicture = new \user_picture($this->user);
         $userpicture->size = 1;
 
         $data['userid'] = $this->user->id;
-        $data['userfullname'] = fullname($this->user);
-        $data['userpicture'] = $userpicture->get_url($PAGE)->out();
+        $data['targetuserfullname'] = fullname($this->user);
+        $data['targetuserpicture'] = $userpicture->get_url($PAGE)->out();
         $data['userhasgrade'] = $gradeutil->user_has_grade($this->evokeportfolio, $this->user->id);
 
-        $sectionssubmissions = $evokeportfolioutil->get_sections_submissions($this->context, $this->evokeportfolio->id, $this->user->id);
+        $sectionssubmissions = $sectionutil->get_sections_submissions($this->context, $this->evokeportfolio->id, $this->user->id);
 
         $data['sectionssubmissions'] = $sectionssubmissions;
         $data['issinglesection'] = count($sectionssubmissions) == 1;
