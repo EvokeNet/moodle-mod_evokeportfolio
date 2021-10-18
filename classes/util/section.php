@@ -139,7 +139,7 @@ class section {
     }
 
     public function populate_submission_with_comments($submission) {
-        global $DB, $PAGE;
+        global $DB;
 
         $sql = 'SELECT c.id as commentid, c.text, u.*
                 FROM {evokeportfolio_comments} c
@@ -156,11 +156,11 @@ class section {
 
         $commentsdata = [];
         foreach ($comments as $comment) {
-            $userpicture = new \user_picture($comment);
+            $userpicture = theme_moove_get_user_avatar_or_image($comment);
 
             $commentsdata[] = [
                 'text' => $comment->text,
-                'commentuserpicture' => $userpicture->get_url($PAGE)->out(),
+                'commentuserpicture' => $userpicture,
                 'commentuserfullname' => fullname($comment)
             ];
         }
@@ -171,15 +171,15 @@ class section {
     }
 
     private function populate_submission_with_user_info($data) {
-        global $PAGE, $USER;
+        global $USER;
 
         foreach ($data as $key => $entry) {
             $user = clone($entry);
             $user->id = $entry->uid;
 
-            $userpicture = new \user_picture($user);
+            $userimage = theme_moove_get_user_avatar_or_image($user);
 
-            $data[$key]->usersubmissionpicture = $userpicture->get_url($PAGE)->out();
+            $data[$key]->usersubmissionpicture = $userimage;
 
             $data[$key]->usersubmissionfullname = fullname($user);
 

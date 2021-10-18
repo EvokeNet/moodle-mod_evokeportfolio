@@ -57,8 +57,7 @@ class section implements renderable, templatable {
             $isdelayed = false;
         }
 
-        $userpicture = new \user_picture($USER);
-        $userpicture->size = 1;
+        $userpicture = theme_moove_get_user_avatar_or_image($USER);
 
         $data = [
             'id' => $this->evokeportfolio->id,
@@ -71,7 +70,7 @@ class section implements renderable, templatable {
             'sectionname' => $this->section->name,
             'sectiondescription' => $this->section->description,
             'isteacher' => false,
-            'userpicture' => $userpicture->get_url($PAGE)->out(),
+            'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
             'itsme' => $this->user->id === $USER->id
         ];

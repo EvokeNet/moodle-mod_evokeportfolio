@@ -34,7 +34,7 @@ class group {
     }
 
     public function get_group_members($groupid, $withfulluserinfo = true) {
-        global $DB, $PAGE;
+        global $DB;
 
         $sql = "SELECT u.*
                 FROM {groups_members} gm
@@ -49,9 +49,9 @@ class group {
 
         if ($withfulluserinfo) {
             foreach ($groupmembers as $key => $groupmember) {
-                $userpicture = new \user_picture($groupmember);
+                $userpicture = theme_moove_get_user_avatar_or_image($groupmember);
 
-                $groupmembers[$key]->userpicture = $userpicture->get_url($PAGE)->out();
+                $groupmembers[$key]->userpicture = $userpicture;
 
                 $groupmembers[$key]->fullname = fullname($groupmember);
             }

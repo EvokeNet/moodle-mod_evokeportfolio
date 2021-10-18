@@ -13,6 +13,8 @@
 
 .path-mod-evokeportfolio .groupmember img {
     border-radius: 50%;
+    width: 42px;
+    height: 42px;
 }
 
 .path-mod-evokeportfolio .submissions .header {

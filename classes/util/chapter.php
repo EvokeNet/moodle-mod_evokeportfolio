@@ -78,7 +78,7 @@ class chapter {
             return false;
         }
 
-        $evokeportfolioutil = new evokeportfolio();
+        $sectionutil = new section();
 
         $userutil = new user();
         $usergroup = $userutil->get_user_group($user->id, $chapter->course);
@@ -91,7 +91,7 @@ class chapter {
                 $usergroupid = $usergroup->id;
             }
 
-            $sectionssubmissions = $evokeportfolioutil->get_sections_submissions($context, $portfolio->id, $user->id, $usergroupid);
+            $sectionssubmissions = $sectionutil->get_sections_submissions($context, $portfolio->id, $user->id, $usergroupid);
 
             $issinglesection = count($sectionssubmissions) == 1;
 
