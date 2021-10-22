@@ -140,7 +140,7 @@ $string['editchapter_success'] = 'Chapter successfully edited.';
 $string['grading_success'] = 'Grading successfully finished.';
 $string['graded'] = 'Graded';
 $string['nosubmissions'] = 'No submissions';
-$string['nosubmissions_desc'] = 'This user did not made a submission for this portfolio yet.';
+$string['nosubmissions_desc'] = 'There is no submissions for this portfolio yet.';
 
 $string['myportfolios'] = 'My Portfolios';
 $string['gototheportfolio'] = 'Go to the portfolio';
@@ -152,3 +152,7 @@ $string['message_mentioned'] = 'You were mentioned in a comment';
 $string['message_mentionedinaportfolio'] = 'You were mentioned in a comment in the portfolio <b>{$a}</b>';
 $string['message_mentioncontextname'] = 'Mentioned in a comment.';
 $string['message_clicktoaccessportfolio'] = 'Click here to access the portfolio';
+
+$string['coursenoportfolio'] = 'This course does not have a portfolio';
+$string['view'] = 'View';
+$string['page_portfolio_title'] = 'My submissions in a portfolio';

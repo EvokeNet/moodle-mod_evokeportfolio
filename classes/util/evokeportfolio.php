@@ -129,7 +129,7 @@ class evokeportfolio {
         }
     }
 
-    public function get_portfolio_submissions($portfolio, $context) {
+    public function get_portfolio_submissions($portfolio, $context, $userid = false) {
         global $DB;
 
         $sectionutil = new section();
@@ -145,7 +145,7 @@ class evokeportfolio {
             $sectionsdata[] = $section->id;
         }
 
-        list($sectioncondition, $sectionparams) = $DB->get_in_or_equal($sectionsdata, SQL_PARAMS_NAMED);
+        list($sectioncondition, $params) = $DB->get_in_or_equal($sectionsdata, SQL_PARAMS_NAMED);
 
         $sql = 'SELECT
                     es.*,
@@ -154,10 +154,19 @@ class evokeportfolio {
                 INNER JOIN {user} u ON u.id = es.postedby
                 WHERE es.sectionid ' . $sectioncondition;
 
-        $submissions = $DB->get_records_sql($sql, $sectionparams);
+        if ($userid) {
+            $sql .= ' AND u.id = :userid';
+            $params['userid'] = $userid;
+        }
+
+        $submissions = $DB->get_records_sql($sql, $params);
 
         if (!$submissions) {
             return false;
+        }
+
+        foreach ($submissions as $submission) {
+            $submission->humantimecreated = userdate($submission->timecreated);
         }
 
         $submissionsutil = new submission();
@@ -202,65 +211,6 @@ class evokeportfolio {
         }
 
         return true;
-    }
-
-    private function populate_data_with_user_info($data) {
-        global $PAGE, $USER;
-
-        foreach ($data as $key => $entry) {
-            $user = clone($entry);
-            $user->id = $entry->uid;
-
-            $userpicture = new \user_picture($user);
-
-            $data[$key]->userpicture = $userpicture->get_url($PAGE)->out();
-
-            $data[$key]->fullname = fullname($user);
-
-            $data[$key]->isowner = $user->id == $USER->id;
-        }
-
-        return $data;
-    }
-
-    private function populate_data_with_attachments($data, $context) {
-        $fs = get_file_storage();
-
-        foreach ($data as $key => $entry) {
-            $files = $fs->get_area_files($context->id,
-                'mod_evokeportfolio',
-                'attachments',
-                $entry->id,
-                'timemodified',
-                false);
-
-            $data[$key]->hasattachments = false;
-
-            if ($files) {
-                $entryfiles = [];
-
-                foreach ($files as $file) {
-                    $path = [
-                        '',
-                        $file->get_contextid(),
-                        $file->get_component(),
-                        $file->get_filearea(),
-                        $entry->id .$file->get_filepath() . $file->get_filename()
-                    ];
-
-                    $fileurl = \moodle_url::make_file_url('/pluginfile.php', implode('/', $path), true);
-
-                    $entryfiles[] = [
-                        'filename' => $file->get_filename(),
-                        'isimage' => $file->is_valid_image(),
-                        'fileurl' => $fileurl
-                    ];
-                }
-
-                $data[$key]->attachments = $entryfiles;
-                $data[$key]->hasattachments = true;
-            }
-        }
     }
 
     public function get_used_course_portfolios_instances($courseid) {

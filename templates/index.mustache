@@ -1,51 +1,20 @@
-<div class="accordion" id="chapters">
-    {{#chapters}}
-        <div class="card mb-2">
-            <div class="card-header chapter-header" id="chapter-heading-{{id}}">
-                <h2 class="mb-0">
-                    <button class="accordion-button" type="button" data-toggle="collapse" data-target="#chapter-collapse-{{id}}" aria-expanded="false" aria-controls="chapter-collapse-{{id}}">
-                        {{name}}
-                    </button>
-                </h2>
+{{#hasportfolios}}
+    {{#portfolios}}
+        <div class="card mb-2" style="border: 1px solid #d7dfe3;">
+            <div class="card-body">
+                <h5 class="card-title">{{{name}}}</h5>
+                {{#description}}
+                    <p class="mb-0">{{{description}}}</p>
+                {{/description}}
             </div>
-
-            <div id="chapter-collapse-{{id}}" class="collapse" aria-labelledby="chapter-heading-{{id}}" data-parent="#chapters">
-                <div class="card-body">
-                    <div class="accordion" id="chapter-portfolios-{{id}}">
-                        {{#portfolios}}
-                            <div class="card mb-2">
-                                <div class="card-header portfolio-header" id="portfolio-heading-{{portfolioid}}">
-                                    <h2 class="mb-0">
-                                        <button class="accordion-button" type="button" data-toggle="collapse" data-target="#portfolio-collapse-{{portfolioid}}" aria-expanded="false" aria-controls="portfolio-collapse-{{portfolioid}}">
-                                            {{name}}
-                                        </button>
-                                    </h2>
-                                </div>
-
-                                <div id="portfolio-collapse-{{portfolioid}}" class="collapse" aria-labelledby="portfolio-heading-{{portfolioid}}" data-parent="#chapter-portfolios-{{chapterid}}">
-                                    <div class="card-body">
-                                        {{#sections}}
-                                            {{#issinglesection}}
-                                                {{^hassubmission}}
-                                                    <div class="alert alert-danger" role="alert">
-                                                        {{#str}}page_view_youhavenotsent, mod_evokeportfolio{{/str}}
-                                                    </div>
-                                                {{/hassubmission}}
-
-                                                <div class="mb-3">
-                                                    <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/view.php?id={{coursemoduleid}}">{{#str}}gototheportfolio, mod_evokeportfolio{{/str}}</a>
-                                                </div>
-
-                                                {{> mod_evokeportfolio/submissions }}
-                                            {{/issinglesection}}
-                                        {{/sections}}
-                                    </div>
-                                </div>
-                            </div>
-                        {{/portfolios}}
-                    </div>
-                </div>
+            <div class="card-footer text-muted">
+                <a class="btn btn-primary" href="{{{config.wwwroot}}}/mod/evokeportfolio/view.php?id={{{id}}}">{{#str}}view, mod_evokeportfolio{{/str}}</a>
             </div>
         </div>
-    {{/chapters}}
-</div>
+    {{/portfolios}}
+{{/hasportfolios}}
+{{^hasportfolios}}
+    <div class="alert aler-danger" role="alert">
+        <h3>{{#str}}coursenoportfolio, mod_evokeportfolio{{/str}}</h3>
+    </div>
+{{/hasportfolios}}

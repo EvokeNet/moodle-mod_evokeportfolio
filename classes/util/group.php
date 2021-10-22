@@ -71,4 +71,32 @@ class group {
 
         return $DB->count_records('groups_members', ['groupid' => $groupid, 'userid' => $userid]);
     }
+
+    public function get_course_groups($course) {
+        global $DB;
+
+        $groups = $DB->get_records('groups', ['courseid' => $course->id]);
+
+        if (!$groups) {
+            return false;
+        }
+
+        foreach ($groups as $group) {
+            $group->groupimage = $this->get_group_image($group);
+        }
+
+        return array_values($groups);
+    }
+
+    public function get_group_image($group) {
+        global $CFG;
+
+        $pictureurl = get_group_picture_url($group, $group->courseid, true);
+
+        if ($pictureurl) {
+            return $pictureurl->out();
+        }
+
+        return $CFG->wwwroot . '/blocks/evokehq/pix/defaultgroupimg.png';
+    }
 }

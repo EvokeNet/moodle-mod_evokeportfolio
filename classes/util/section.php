@@ -52,16 +52,6 @@ class section {
                 continue;
             }
 
-            foreach ($submissions as $submission) {
-                $submission->humantimecreated = userdate($submission->timecreated);
-
-                $this->populate_submission_with_comments($submission);
-            }
-
-            $this->populate_submission_with_user_info($submissions);
-
-            $this->populate_submission_with_attachments($submissions, $context);
-
             $sections[$key]->submissions = $submissions;
         }
 
@@ -92,13 +82,15 @@ class section {
 
             foreach ($submissions as $submission) {
                 $submission->humantimecreated = userdate($submission->timecreated);
-
-                $this->populate_submission_with_comments($submission);
             }
 
-            $this->populate_submission_with_user_info($submissions);
+            $submissionsutil = new submission();
 
-            $this->populate_submission_with_attachments($submissions, $context);
+            $submissionsutil->populate_data_with_comments($submissions);
+
+            $submissionsutil->populate_data_with_user_info($submissions);
+
+            $submissionsutil->populate_data_with_attachments($submissions, $context);
 
             return array_values($submissions);
         }

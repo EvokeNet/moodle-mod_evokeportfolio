@@ -76,6 +76,12 @@
             </div>
         </div>
     {{/submissions}}
+    {{^submissions}}
+        <div class="alert alert-warning mt-2" role="alert">
+            <h3>{{#str}}nosubmissions, mod_evokeportfolio{{/str}}</h3>
+            <p class="mb-0">{{#str}}nosubmissions_desc, mod_evokeportfolio{{/str}}</p>
+        </div>
+    {{/submissions}}
 </div>
 
 {{#js}}

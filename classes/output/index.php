@@ -4,6 +4,7 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
+use block_evokehq\util\course;
 use mod_evokeportfolio\table\entries as entriestable;
 use mod_evokeportfolio\util\chapter;
 use renderable;
@@ -37,34 +38,17 @@ class index implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $USER;
+        $courseutil = new course();
 
-        $chapterutil = new chapter();
+        $portfolios = $courseutil->get_course_portfolios($this->course->id);
 
-        $chapters = $chapterutil->get_course_chapters($this->course->id);
-
-        foreach ($chapters as $key => $chapter) {
-            $portfolioswithusersubmissions = $chapterutil->get_portfolios_with_user_submissions($this->context, $chapter, $USER);
-
-            if (!$portfolioswithusersubmissions) {
-                $chapters[$key]->portfolios = false;
-
-                continue;
-            }
-
-            foreach ($portfolioswithusersubmissions as $pkey => $portfolioswithusersubmission) {
-                $cm = get_coursemodule_from_instance('evokeportfolio', $portfolioswithusersubmission['id'], $this->course->id, MUST_EXIST);
-
-                $portfolioswithusersubmissions[$pkey]['coursemoduleid'] = $cm->id;
-                $portfolioswithusersubmissions[$pkey]['chapterid'] = $chapter->id;
-                $portfolioswithusersubmissions[$pkey]['portfolioid'] = $portfolioswithusersubmission['id' ];
-            }
-
-            $chapters[$key]->portfolios = $portfolioswithusersubmissions;
+        if (!$portfolios) {
+            return ['hasportfolios' => false];
         }
 
         return [
-            'chapters' => $chapters
+            'hasportfolios' => true,
+            'portfolios' => $portfolios
         ];
     }
 }
