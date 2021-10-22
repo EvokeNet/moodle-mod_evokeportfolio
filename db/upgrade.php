@@ -142,5 +142,18 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021092200, 'mod', 'evokeportfolio');
     }
 
+    if ($oldversion < 2021102300) {
+        $dbman = $DB->get_manager();
+
+        $table = new xmldb_table('evokeportfolio_sections');
+        $field = new xmldb_field('backurl');
+
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        upgrade_plugin_savepoint(true, 2021102300, 'mod', 'evokeportfolio');
+    }
+
     return true;
 }

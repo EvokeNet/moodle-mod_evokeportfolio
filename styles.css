@@ -63,7 +63,6 @@
 }
 
 /* Timeline posts. */
-
 .path-blocks-evokehq .submissions .card,
 .path-mod-evokeportfolio .submissions .card {
     margin-top: 0.5rem;
@@ -126,7 +125,6 @@
     margin-top: 1rem;
     padding-top: 1rem;
 }
-
 
 .path-blocks-evokehq .submissions .post .add-comment .userimg,
 .path-mod-evokeportfolio .submissions .post .add-comment .userimg {
@@ -196,8 +194,43 @@
     border-bottom-right-radius: 20px;
 }
 
+/* Timeline submission reactions. */
+.path-blocks-evokehq .submissions .reactions,
+.path-mod-evokeportfolio .submissions .reactions {
+    border-top: 1px solid #ededed;
+    border-bottom: 1px solid #ededed;
+    padding: .5rem 0;
+}
 
-.path-blocks-evokehq .submissions .fadeIn,/* Timeline submission commments. */
+.path-blocks-evokehq .submissions .reactions hr,
+.path-mod-evokeportfolio .submissions .reactions hr {
+    margin: .5rem 0;
+    border-top: 1px solid #ededed;
+}
+
+.path-blocks-evokehq .submissions .reactions .actions,
+.path-mod-evokeportfolio .submissions .reactions .actions {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.path-blocks-evokehq .submissions .reactions .actions .button,
+.path-mod-evokeportfolio .submissions .reactions .actions .button {
+    text-align: center;
+    flex: 0 0 auto;
+    width: 50%;
+    cursor: pointer;
+    padding: .25rem 0;
+    border-radius: 5px;
+}
+
+.path-blocks-evokehq .submissions .reactions .actions .button:hover,
+.path-mod-evokeportfolio .submissions .reactions .actions .button:hover {
+    background-color: #ededed;
+}
+
+/* Timeline submission commments. */
+.path-blocks-evokehq .submissions .fadeIn,
 .path-mod-evokeportfolio .submissions .fadeIn {
     -webkit-animation: mod-evokeportfolio_fadein 1s ease-in-out;
     -moz-animation: mod-evokeportfolio_fadein 1s ease-in-out;
@@ -251,7 +284,7 @@
 .path-mod-evokeportfolio .submissions .post .submissioncomment .entry .entry-content .name .small {
     font-size: 70%;
     margin-bottom: 0;
-    border: 1px solid #c3c3c3;
+    border: 1px solid #ededed;
     border-radius: 20px;
     padding: 0 4px;
 }

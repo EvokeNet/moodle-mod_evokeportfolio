@@ -45,7 +45,22 @@
                     {{/hasattachments}}
                 </div>
 
-                <hr>
+                <div class="reactions">
+                    <div class="status">
+                        <i class="fa fa-thumbs-o-up"></i> 56 pessoas curtiram
+                    </div>
+
+                    <hr>
+
+                    <div class="actions">
+                        <div class="button likebutton">
+                            <i class="fa fa-thumbs-o-up"></i> Curtir
+                        </div>
+                        <div class="button commentbutton">
+                            <i class="fa fa-commenting-o"></i> Comentar
+                        </div>
+                    </div>
+                </div>
 
                 {{#comments}}
                     <div class="submissioncomment">
@@ -85,9 +100,15 @@
 </div>
 
 {{#js}}
-    require(['mod_evokeportfolio/addcomment', 'mod_evokeportfolio/tribute_init'], function(AddComment, TributeInit) {
-        AddComment.init();
+    require([
+            'mod_evokeportfolio/addcomment',
+            'mod_evokeportfolio/tribute_init',
+            'mod_evokeportfolio/comment'
+        ], function(AddComment, TributeInit, Comment) {
+            AddComment.init();
 
-        TributeInit.init();
+            TributeInit.init();
+
+            Comment.init();
     });
 {{/js}}

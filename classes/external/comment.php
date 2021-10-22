@@ -11,6 +11,7 @@ use mod_evokeportfolio\util\user;
 use moodle_url;
 use html_writer;
 use context_course;
+use context_module;
 
 /**
  * Section external api class.
@@ -62,7 +63,8 @@ class comment extends external_api {
         $utildata = $DB->get_record_sql($sql, ['submissionid' => $comment->submissionid], MUST_EXIST);
         $cm = get_coursemodule_from_instance('evokeportfolio', $utildata->portfolioid);
 
-        $context = context_course::instance($utildata->course);
+        $contextcourse = context_course::instance($utildata->course);
+        $contextmodule = context_module::instance($cm->id);
 
         $usercomment = new \stdClass();
         $usercomment->submissionid = $comment->submissionid;
@@ -87,7 +89,7 @@ class comment extends external_api {
                     continue;
                 }
 
-                $user = user::get_by_id($userid, $context);
+                $user = user::get_by_id($userid, $contextcourse);
 
                 if (!$user) {
                     continue;
@@ -110,9 +112,20 @@ class comment extends external_api {
             $usercomment->text = str_replace("[$key]", $replace, $usercomment->text);
         }
 
-        $DB->insert_record('evokeportfolio_comments', $usercomment);
+        $insertedid = $DB->insert_record('evokeportfolio_comments', $usercomment);
+        $usercomment->id = $usercomment;
 
-        $notification = new commentmention($context, $cm->id, $utildata->course, $utildata->sectionid, $utildata->portfolioname, $utildata->userid);
+        $params = array(
+            'context' => $contextmodule,
+            'objectid' => $insertedid,
+            'courseid' => $utildata->course,
+            'relateduserid' => $usercomment->userid
+        );
+        $event = \mod_evokeportfolio\event\comment_added::create($params);
+        $event->add_record_snapshot('evokeportfolio_comments', $usercomment);
+        $event->trigger();
+
+        $notification = new commentmention($contextmodule, $cm->id, $utildata->course, $utildata->sectionid, $utildata->portfolioname, $utildata->userid);
 
         if (!empty($userstonotifymention)) {
             $notification->send_mentions_notifications($userstonotifymention);
