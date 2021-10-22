@@ -126,3 +126,28 @@ $string['indicator:socialbreadth_help'] = 'Este indicador se basa en la amplitud
 $string['indicator:socialbreadthdef'] = 'Compromiso social del portafolio de Evoke';
 $string['indicator:socialbreadthdef_help'] = 'El agente ha alcanzado este porcentaje de compromiso social disponible en el portfolio de Evoke durante este intervalo de análisis  (Niveles = No participó, Participó individualmente, Participó de forma grupal)';
 $string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth'; 'Indicadores de analíticas de aprendizaje #Social_breadth';
+
+$string['status'] = 'Estado';  // need to double-check language from here on
+$string['portfoliochapters'] = 'Capítulos del portafolio';
+$string['portfoliograding'] = 'Calificación de portafolio';
+$string['chaptersportfolios'] = 'Portafolios de los capítulos';
+$string['createchapter'] = 'Crear capítulo';
+$string['courseportfolios'] = 'Portafolios del curso';
+$string['deletechapter_success'] = 'Capítulo eliminado correctamente.';
+$string['createchapter_success'] = 'Capítulo creado con éxito.';
+$string['editchapter_success'] = 'Capítulo editado exitosamente.';
+$string['grading_success'] = 'Calificación finalizada con éxito.';
+$string['graded'] = 'Calificada';
+$string['nosubmissions'] = 'No hay envíos';
+$string['nosubmissions_desc'] = 'Este usuario aún no ha realizado un envío para este portafolio.';
+
+$string['myportfolios'] = 'Mis portafolios';
+$string['gototheportfolio'] = 'Ir al portafolio';
+$string['comment'] = 'Comentario';
+$string['writeacomment'] = 'Escribir un comentario';
+$string['description'] = 'Descripción';
+
+$string['message_mentioned'] = 'Fuiste mencionado en un comentario';
+$string['message_mentionedinaportfolio'] = 'Se te mencionó en un comentario en el portafolio <b>{$a}</b>';
+$string['message_mentioncontextname'] = 'Mencionado en un comentario.';
+$string['message_clicktoaccessportfolio'] = 'Haga clic aquí para acceder al portafolio';
