@@ -4,7 +4,7 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_evokeportfolio\util\evokeportfolio;
+use mod_evokeportfolio\util\section;
 use renderable;
 use templatable;
 use renderer_base;
@@ -36,8 +36,8 @@ class managesections implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        $evokeportfolioutil = new evokeportfolio();
-        $sections = $evokeportfolioutil->get_sections($this->evokeportfolio->id);
+        $sectionutil = new section();
+        $sections = $sectionutil->get_portfolio_sections($this->evokeportfolio->id);
 
         $data = [
             'id' => $this->evokeportfolio->id,
