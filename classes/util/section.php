@@ -80,19 +80,7 @@ class section {
                 return false;
             }
 
-            foreach ($submissions as $submission) {
-                $submission->humantimecreated = userdate($submission->timecreated);
-            }
-
-            $submissionsutil = new submission();
-
-            $submissionsutil->populate_data_with_comments($submissions);
-
-            $submissionsutil->populate_data_with_user_info($submissions);
-
-            $submissionsutil->populate_data_with_attachments($submissions, $context);
-
-            return array_values($submissions);
+            return $this->populate_submission_with_data($submissions, $context);
         }
 
         if ($userids) {
@@ -116,16 +104,24 @@ class section {
                 return false;
             }
 
-            $submissionsutil = new submission();
-
-            $submissionsutil->populate_data_with_comments($submissions);
-
-            $submissionsutil->populate_data_with_user_info($submissions);
-
-            $submissionsutil->populate_data_with_attachments($submissions, $context);
-
-            return array_values($submissions);
+            return $this->populate_submission_with_data($submissions, $context);
         }
+    }
+
+    private function populate_submission_with_data($submissions, $context) {
+        foreach ($submissions as $submission) {
+            $submission->humantimecreated = userdate($submission->timecreated);
+        }
+
+        $submissionsutil = new submission();
+
+        $submissionsutil->populate_data_with_comments($submissions);
+
+        $submissionsutil->populate_data_with_user_info($submissions);
+
+        $submissionsutil->populate_data_with_attachments($submissions, $context);
+
+        return array_values($submissions);
     }
 
     public function add_sections_access_info($sections, $context) {
