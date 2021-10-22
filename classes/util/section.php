@@ -124,108 +124,15 @@ class section {
                 return false;
             }
 
-            foreach ($submissions as $submission) {
-                $submission->humantimecreated = userdate($submission->timecreated);
+            $submissionsutil = new submission();
 
-                $this->populate_submission_with_comments($submission);
-            }
+            $submissionsutil->populate_data_with_comments($submissions);
 
-            $this->populate_submission_with_user_info($submissions);
+            $submissionsutil->populate_data_with_user_info($submissions);
 
-            $this->populate_submission_with_attachments($submissions, $context);
+            $submissionsutil->populate_data_with_attachments($submissions, $context);
 
             return array_values($submissions);
-        }
-    }
-
-    public function populate_submission_with_comments($submission) {
-        global $DB;
-
-        $sql = 'SELECT c.id as commentid, c.text, u.*
-                FROM {evokeportfolio_comments} c
-                INNER JOIN {user} u ON u.id = c.userid
-                WHERE c.submissionid = :submissionid';
-
-        $comments = $DB->get_records_sql($sql, ['submissionid' => $submission->id]);
-
-        if (!$comments) {
-            $submission->comments = false;
-
-            return $submission;
-        }
-
-        $commentsdata = [];
-        foreach ($comments as $comment) {
-            $userpicture = theme_moove_get_user_avatar_or_image($comment);
-
-            $commentsdata[] = [
-                'text' => $comment->text,
-                'commentuserpicture' => $userpicture,
-                'commentuserfullname' => fullname($comment)
-            ];
-        }
-
-        $submission->comments = $commentsdata;
-
-        return $submission;
-    }
-
-    private function populate_submission_with_user_info($data) {
-        global $USER;
-
-        foreach ($data as $key => $entry) {
-            $user = clone($entry);
-            $user->id = $entry->uid;
-
-            $userimage = theme_moove_get_user_avatar_or_image($user);
-
-            $data[$key]->usersubmissionpicture = $userimage;
-
-            $data[$key]->usersubmissionfullname = fullname($user);
-
-            $data[$key]->isowner = $user->id == $USER->id;
-        }
-
-        return $data;
-    }
-
-    private function populate_submission_with_attachments($data, $context) {
-        $fs = get_file_storage();
-
-        foreach ($data as $key => $entry) {
-            $files = $fs->get_area_files($context->id,
-                'mod_evokeportfolio',
-                'attachments',
-                $entry->id,
-                'timemodified',
-                false);
-
-            $data[$key]->hasattachments = false;
-
-            if ($files) {
-                $entryfiles = [];
-
-                foreach ($files as $file) {
-                    $path = [
-                        '',
-                        $file->get_contextid(),
-                        $file->get_component(),
-                        $file->get_filearea(),
-                        $entry->id .$file->get_filepath() . $file->get_filename()
-                    ];
-
-                    $fileurl = \moodle_url::make_file_url('/pluginfile.php', implode('/', $path), true);
-
-                    $entryfiles[] = [
-                        'filename' => $file->get_filename(),
-                        'isimage' => $file->is_valid_image(),
-                        'fileurl' => $fileurl
-                    ];
-                }
-
-                $data[$key]->attachments = $entryfiles;
-                $data[$key]->hasattachments = true;
-            }
         }
     }
 

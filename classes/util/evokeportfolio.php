@@ -47,8 +47,6 @@ class evokeportfolio {
         return false;
     }
 
-
-
     public function get_course_sections($portfolioid = null, $sectionid = null) {
         global $DB;
 
@@ -129,6 +127,48 @@ class evokeportfolio {
 
             return array_values($entries);
         }
+    }
+
+    public function get_portfolio_submissions($portfolio, $context) {
+        global $DB;
+
+        $sectionutil = new section();
+
+        $sections = $sectionutil->get_portfolio_sections($portfolio->id);
+
+        if (!$sections) {
+            return false;
+        }
+
+        $sectionsdata = [];
+        foreach ($sections as $section) {
+            $sectionsdata[] = $section->id;
+        }
+
+        list($sectioncondition, $sectionparams) = $DB->get_in_or_equal($sectionsdata, SQL_PARAMS_NAMED);
+
+        $sql = 'SELECT
+                    es.*,
+                    u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
+                FROM {evokeportfolio_submissions} es
+                INNER JOIN {user} u ON u.id = es.postedby
+                WHERE es.sectionid ' . $sectioncondition;
+
+        $submissions = $DB->get_records_sql($sql, $sectionparams);
+
+        if (!$submissions) {
+            return false;
+        }
+
+        $submissionsutil = new submission();
+
+        $submissionsutil->populate_data_with_comments($submissions);
+
+        $submissionsutil->populate_data_with_user_info($submissions);
+
+        $submissionsutil->populate_data_with_attachments($submissions, $context);
+
+        return array_values($submissions);
     }
 
     public function has_section_access($dependentsections, $context) {
