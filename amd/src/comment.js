@@ -6,7 +6,6 @@
  * @author     Willian Mano <willianmanoaraujo@gmail.com>
  */
 
-/* eslint-disable no-console */
 define(['jquery'], function($) {
     var Comment = function() {
         this.registerEventListeners();

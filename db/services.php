@@ -82,5 +82,13 @@ $functions = [
         'description' => 'Get the list of users enrolled in a course',
         'type' => 'read',
         'ajax' => true
-    ]
+    ],
+    'mod_evokeportfolio_togglereaction' => [
+        'classname' => 'mod_evokeportfolio\external\reaction',
+        'classpath' => 'mod/evokeportfolio/classes/external/reaction.php',
+        'methodname' => 'toggle',
+        'description' => 'Toggle a user reaction',
+        'type' => 'write',
+        'ajax' => true
+    ],
 ];

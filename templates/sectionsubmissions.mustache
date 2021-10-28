@@ -47,17 +47,25 @@
 
                 <div class="reactions">
                     <div class="status">
-                        <i class="fa fa-thumbs-o-up"></i> 56 pessoas curtiram
+                        {{#reactionstring}}
+                            <i class="fa fa-thumbs-up"></i> {{{reactionstring}}}
+                        {{/reactionstring}}
                     </div>
 
                     <hr>
 
                     <div class="actions">
-                        <div class="button likebutton">
-                            <i class="fa fa-thumbs-o-up"></i> Curtir
+                        <div class="button likebutton {{#userreacted}}hasreacted{{/userreacted}}">
+                            {{#userreacted}}
+                                <i class="fa "></i>
+                            {{/userreacted}}
+                            {{^userreacted}}
+                                <i class="fa "></i>
+                            {{/userreacted}}
+                            {{#str}}reaction_like, mod_evokeportfolio{{/str}}
                         </div>
                         <div class="button commentbutton">
-                            <i class="fa fa-commenting-o"></i> Comentar
+                            <i class="fa fa-commenting-o"></i> {{#str}}reaction_comment, mod_evokeportfolio{{/str}}
                         </div>
                     </div>
                 </div>
@@ -103,12 +111,15 @@
     require([
             'mod_evokeportfolio/addcomment',
             'mod_evokeportfolio/tribute_init',
-            'mod_evokeportfolio/comment'
-        ], function(AddComment, TributeInit, Comment) {
+            'mod_evokeportfolio/comment',
+            'mod_evokeportfolio/togglelike'
+        ], function(AddComment, TributeInit, Comment, ToggleLike) {
             AddComment.init();
 
             TributeInit.init();
 
             Comment.init();
+
+            ToggleLike.init();
     });
 {{/js}}

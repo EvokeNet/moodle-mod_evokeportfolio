@@ -104,4 +104,15 @@ class submission {
             }
         }
     }
+
+    public function populate_data_with_reactions($submissions) {
+        $reactionutil = new reaction();
+
+        foreach ($submissions as $submission) {
+            $submission->reactionstring = $reactionutil->get_reactions_string($submission->id, reaction::LIKE);
+            $submission->userreacted = $reactionutil->user_reacted($submission->id, reaction::LIKE);
+        }
+
+        return $submissions;
+    }
 }

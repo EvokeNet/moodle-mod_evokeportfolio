@@ -156,3 +156,9 @@ $string['message_clicktoaccessportfolio'] = 'Click here to access the portfolio'
 $string['coursenoportfolio'] = 'This course does not have a portfolio';
 $string['view'] = 'View';
 $string['page_portfolio_title'] = 'My submissions in a portfolio';
+
+$string['reaction_like'] = 'Like';
+$string['reaction_comment'] = 'Comment';
+$string['reaction_youreacted'] = 'You reacted';
+$string['reaction_youandreacted'] = 'You and {$a} other people';
+$string['reaction_peoplereacted'] = '{$a} people reacted';

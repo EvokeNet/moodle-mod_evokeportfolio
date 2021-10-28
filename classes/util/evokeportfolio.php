@@ -177,6 +177,8 @@ class evokeportfolio {
 
         $submissionsutil->populate_data_with_attachments($submissions, $context);
 
+        $submissionsutil->populate_data_with_reactions($submissions);
+
         return array_values($submissions);
     }
 

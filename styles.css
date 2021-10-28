@@ -103,6 +103,12 @@
     justify-content: flex-start;
 }
 
+.path-blocks-evokehq .submissions .post .content .attachment img,
+.path-mod-evokeportfolio .submissions .post .content .attachment img {
+    max-width: 100%;
+    max-height: 460px;
+}
+
 .path-blocks-evokehq .submissions .post .content .attachment .fileinfo,
 .path-mod-evokeportfolio .submissions .post .content .attachment .fileinfo {
     display: flex;
@@ -208,6 +214,14 @@
     border-top: 1px solid #ededed;
 }
 
+.path-blocks-evokehq .submissions .reactions .status .fa,
+.path-mod-evokeportfolio .submissions .reactions .status .fa {
+    background-color: #ff0540;
+    padding: 0.35rem 0.4rem;
+    border-radius: 50%;
+    color: #fff;
+}
+
 .path-blocks-evokehq .submissions .reactions .actions,
 .path-mod-evokeportfolio .submissions .reactions .actions {
     display: flex;
@@ -224,9 +238,24 @@
     border-radius: 5px;
 }
 
+.path-blocks-evokehq .submissions .reactions .actions .button .fa:before,
+.path-mod-evokeportfolio .submissions .reactions .actions .button .fa:before {
+    content: "\f087";
+}
+
+.path-blocks-evokehq .submissions .reactions .actions .button.hasreacted .fa:before,
+.path-mod-evokeportfolio .submissions .reactions .actions .button.hasreacted .fa:before {
+    content: "\f164";
+}
+
 .path-blocks-evokehq .submissions .reactions .actions .button:hover,
 .path-mod-evokeportfolio .submissions .reactions .actions .button:hover {
     background-color: #ededed;
+}
+
+.path-blocks-evokehq .submissions .reactions .actions .button.hasreacted,
+.path-mod-evokeportfolio .submissions .reactions .actions .button.hasreacted {
+    color: #ff0540;
 }
 
 /* Timeline submission commments. */
