@@ -27,7 +27,7 @@ if (!empty($userid)) {
 
 $group = null;
 if (!empty($group)) {
-    $user = $DB->get_record('group', ['id' => $groupid], '*', MUST_EXIST);
+    $group = $DB->get_record('group', ['id' => $groupid], '*', MUST_EXIST);
 }
 
 require_course_login($course, true, $cm);

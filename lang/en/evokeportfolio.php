@@ -25,6 +25,7 @@ $string['name'] = 'Name';
 $string['view'] = 'View';
 $string['eventsubmissionsent'] = 'Submission sent';
 $string['eventsubmissionupdated'] = 'Submission updated';
+$string['eventcommentadded'] = 'Comment added';
 $string['gradinglocked'] = 'Grading for this mission is currently locked.';
 $string['viewsubmission'] = 'View submission';
 $string['notsubmitted'] = 'Not submitted';

@@ -48,7 +48,7 @@ class section implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $USER, $PAGE;
+        global $USER;
 
         $timeremaining = $this->evokeportfolio->datelimit - time();
 
