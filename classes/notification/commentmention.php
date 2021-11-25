@@ -86,7 +86,7 @@ class commentmention {
         global $USER;
 
         $youwerementioned = get_string('message_mentioned', 'mod_evokeportfolio');
-        $youwerementionedinaportfolio = get_string('message_mentionedinaportfolio', 'mod_evokeportfolio', $this->coursename);
+        $youwerementionedinaportfolio = get_string('message_mentionedinaportfolio', 'mod_evokeportfolio', $this->portfolioname);
         $clicktoaccessportfolio = get_string('message_clicktoaccessportfolio', 'mod_evokeportfolio');
 
         $urlparams = [

@@ -182,6 +182,70 @@ class evokeportfolio {
         return array_values($submissions);
     }
 
+    public function get_portfolio_group_submissions($portfolio, $context, $groupid) {
+        global $DB;
+
+        $grouputil = new group();
+
+        $groupmembers = $grouputil->get_group_members($groupid, false);
+
+        if (!$groupmembers) {
+            return false;
+        }
+
+        $groupmembersids = [];
+        foreach ($groupmembers as $groupmember) {
+            $groupmembersids[] = $groupmember->id;
+        }
+
+        $sectionutil = new section();
+
+        $sections = $sectionutil->get_portfolio_sections($portfolio->id);
+
+        if (!$sections) {
+            return false;
+        }
+
+        $sectionsdata = [];
+        foreach ($sections as $section) {
+            $sectionsdata[] = $section->id;
+        }
+
+        list($sectioncondition, $sectionparams) = $DB->get_in_or_equal($sectionsdata, SQL_PARAMS_NAMED);
+        list($groupmemberscondition, $groupmemberparams) = $DB->get_in_or_equal($groupmembersids, SQL_PARAMS_NAMED);
+
+        $sql = 'SELECT
+                    es.*,
+                    u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
+                FROM {evokeportfolio_submissions} es
+                INNER JOIN {user} u ON u.id = es.postedby
+                WHERE es.sectionid ' . $sectioncondition . ' AND u.id ' . $groupmemberscondition;
+
+        $params = $sectionparams + $groupmemberparams;
+
+        $submissions = $DB->get_records_sql($sql, $params);
+
+        if (!$submissions) {
+            return false;
+        }
+
+        foreach ($submissions as $submission) {
+            $submission->humantimecreated = userdate($submission->timecreated);
+        }
+
+        $submissionsutil = new submission();
+
+        $submissionsutil->populate_data_with_comments($submissions);
+
+        $submissionsutil->populate_data_with_user_info($submissions);
+
+        $submissionsutil->populate_data_with_attachments($submissions, $context);
+
+        $submissionsutil->populate_data_with_reactions($submissions);
+
+        return array_values($submissions);
+    }
+
     public function has_section_access($dependentsections, $context) {
         global $DB;
 
