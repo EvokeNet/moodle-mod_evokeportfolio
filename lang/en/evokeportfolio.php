@@ -163,3 +163,6 @@ $string['reaction_comment'] = 'Comment';
 $string['reaction_youreacted'] = 'You reacted';
 $string['reaction_youandreacted'] = 'You and {$a} other people';
 $string['reaction_peoplereacted'] = '{$a} people reacted';
+
+$string['completionrequiresubmit'] = 'Require submission';
+$string['completionrequiresubmit_help'] = 'The user needs to submit to complete this activity';

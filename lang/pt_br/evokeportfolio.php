@@ -126,3 +126,6 @@ $string['indicator:socialbreadth_help'] = 'Este indicador baseia-se na amplitude
 $string['indicator:socialbreadthdef'] = 'Evoke portfolio social';
 $string['indicator:socialbreadthdef_help'] = 'O participante alcançou essa porcentagem do engajamento social oferecido pelos recursos Portfolio durante esse intervalo de análise (Níveis = Sem participação, Participante único)';
 $string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
+
+$string['completionrequiresubmit'] = 'Requer envio';
+$string['completionrequiresubmit_help'] = 'O usuário precisa enviar a tarefa para concluir esta atividade';

@@ -101,7 +101,7 @@ $string['deletesection_hassubmissions'] = 'No es posible eliminar esta sección 
 $string['evokeportfolio:grade'] = 'Permisos para evaluar a los agentes';
 $string['evokeportfolio:submit'] = 'Permisos para enviar una evidencia de misión al portafolio';
 
-$string['dependentcoursesections'] = 'Secciones dependientes de la campaña'; 
+$string['dependentcoursesections'] = 'Secciones dependientes de la campaña';
 $string['nosectionsavailable'] = 'No sections available'; 'No hay secciones disponibles';
 $string['nosectionsavailable_desc'] = 'Aún no hay secciones disponibles en el portafolio.';
 
@@ -151,3 +151,6 @@ $string['message_mentioned'] = 'Fuiste mencionado en un comentario';
 $string['message_mentionedinaportfolio'] = 'Se te mencionó en un comentario en el portafolio <b>{$a}</b>';
 $string['message_mentioncontextname'] = 'Mencionado en un comentario.';
 $string['message_clicktoaccessportfolio'] = 'Haga clic aquí para acceder al portafolio';
+
+$string['completionrequiresubmit'] = 'Require submission';
+$string['completionrequiresubmit_help'] = 'The user needs to submit to complete this activity';

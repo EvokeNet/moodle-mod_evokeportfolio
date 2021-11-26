@@ -129,6 +129,10 @@ if ($form->is_cancelled()) {
             $event->add_record_snapshot('evokeportfolio_submissions', $submission);
             $event->trigger();
 
+            // Completion progress
+            $completion = new completion_info($course);
+            $completion->update_state($cm, COMPLETION_COMPLETE);
+
             $redirectstring = get_string('save_submission_success', 'mod_evokeportfolio');
         }
 

@@ -15,6 +15,8 @@ DEFINE('MOD_EVOKEPORTFOLIO_ROLE_TEACHER', 2);
 DEFINE('MOD_EVOKEPORTFOLIO_GRADING_GROUP', 1);
 DEFINE('MOD_EVOKEPORTFOLIO_GRADING_INDIVIDUAL', 2);
 
+require_once(__DIR__ . '/deprecatedlib.php');
+
 /**
  * Return if the plugin supports $feature.
  *
@@ -23,17 +25,17 @@ DEFINE('MOD_EVOKEPORTFOLIO_GRADING_INDIVIDUAL', 2);
  */
 function evokeportfolio_supports($feature) {
     switch ($feature) {
-        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_ASSIGNMENT;
-        case FEATURE_GROUPS:                  return false;
-        case FEATURE_GROUPINGS:               return false;
-        case FEATURE_MOD_INTRO:               return true;
-        case FEATURE_COMPLETION_TRACKS_VIEWS: return true;
-        case FEATURE_GRADE_HAS_GRADE:         return true;
-        case FEATURE_GRADE_OUTCOMES:          return false;
-        case FEATURE_BACKUP_MOODLE2:          return true;
-        case FEATURE_SHOW_DESCRIPTION:        return true;
-
-        default: return null;
+        case FEATURE_MOD_ARCHETYPE:
+            return MOD_ARCHETYPE_ASSIGNMENT;
+        case FEATURE_BACKUP_MOODLE2:
+        case FEATURE_GRADE_HAS_GRADE:
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+        case FEATURE_COMPLETION_HAS_RULES:
+        case FEATURE_SHOW_DESCRIPTION:
+        case FEATURE_MOD_INTRO:
+            return true;
+        default:
+            return null;
     }
 }
 
@@ -483,4 +485,68 @@ function evokeportfolio_extend_navigation(navigation_node $navigation, $course, 
 
         $node->showinflatnavigation = true;
     }
+}
+
+/**
+ * Add a get_coursemodule_info function in case any survey type wants to add 'extra' information
+ * for the course (see resource).
+ *
+ * Given a course_module object, this function returns any "extra" information that may be needed
+ * when printing this activity in a course listing.  See get_array_of_activities() in course/lib.php.
+ *
+ * @param stdClass $coursemodule The coursemodule object (record).
+ * @return cached_cm_info An object on information that the courses
+ *                        will know about (most noticeably, an icon).
+ */
+function evokeportfolio_get_coursemodule_info($coursemodule) {
+    global $DB;
+
+    $dbparams = ['id' => $coursemodule->instance];
+    $fields = 'id, name, intro, introformat, completionrequiresubmit';
+    if (!$evokeportfolio = $DB->get_record('evokeportfolio', $dbparams, $fields)) {
+        return false;
+    }
+
+    $result = new cached_cm_info();
+    $result->name = $evokeportfolio->name;
+
+    if ($coursemodule->showdescription) {
+        // Convert intro to html. Do not filter cached version, filters run at display time.
+        $result->content = format_module_intro('evokeportfolio', $evokeportfolio, $coursemodule->id, false);
+    }
+
+    // Populate the custom completion rules as key => value pairs, but only if the completion mode is 'automatic'.
+    if ($coursemodule->completion == COMPLETION_TRACKING_AUTOMATIC) {
+        $result->customdata['customcompletionrules']['completionrequiresubmit'] = $evokeportfolio->completionrequiresubmit;
+    }
+
+    return $result;
+}
+
+/**
+ * Callback which returns human-readable strings describing the active completion custom rules for the module instance.
+ *
+ * @param cm_info|stdClass $cm object with fields ->completion and ->customdata['customcompletionrules']
+ * @return array $descriptions the array of descriptions for the custom rules.
+ */
+function mod_evokeportfolio_get_completion_active_rule_descriptions($cm) {
+    // Values will be present in cm_info, and we assume these are up to date.
+    if (empty($cm->customdata['customcompletionrules']) || $cm->completion != COMPLETION_TRACKING_AUTOMATIC) {
+        return [];
+    }
+
+    $descriptions = [];
+    foreach ($cm->customdata['customcompletionrules'] as $key => $val) {
+        switch ($key) {
+            case 'completionrequiresubmit':
+                if (!empty($val)) {
+                    $descriptions[] = get_string('completionrequiresubmit', 'mod_evokeportfolio');
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    return $descriptions;
 }
