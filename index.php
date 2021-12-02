@@ -14,12 +14,24 @@ require_once(__DIR__.'/lib.php');
 
 $id = required_param('id', PARAM_INT);
 $chapterid = optional_param('chapter', null, PARAM_INT);
+$portfolioid = optional_param('portfolio', null, PARAM_INT);
+$groupid = optional_param('group', null, PARAM_INT);
 
 $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 
 $chapter = null;
 if ($chapterid) {
     $chapter = $DB->get_record('evokeportfolio_chapters', array('id' => $chapterid), '*', MUST_EXIST);
+}
+
+$portfolio = null;
+if ($portfolioid) {
+    $portfolio = $DB->get_record('evokeportfolio', array('id' => $portfolioid), '*', MUST_EXIST);
+}
+
+$group = null;
+if ($groupid) {
+    $group = $DB->get_record('groups', array('id' => $groupid), '*', MUST_EXIST);
 }
 
 require_course_login($course);
@@ -32,7 +44,14 @@ $event = \mod_evokeportfolio\event\course_module_instance_list_viewed::create(ar
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 
-$PAGE->set_url('/mod/evokeportfolio/index.php', array('id' => $id));
+$urlparams = ['id' => $id];
+if ($chapter) {
+    $urlparams['chapter'] = $chapter->id;
+}
+
+$url = new moodle_url('/mod/evokeportfolio/index.php', $urlparams);
+
+$PAGE->set_url($url);
 
 $pagetitle = format_string($course->fullname);
 $heading = format_string($course->fullname);
@@ -58,7 +77,7 @@ if (!has_capability('mod/evokeportfolio:grade', $context)) {
 } else {
     $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-    $contentrenderable = new \mod_evokeportfolio\output\indexadmin($course, $context, $chapter);
+    $contentrenderable = new \mod_evokeportfolio\output\indexadmin($course, $context, $chapter, $portfolio, $group);
 
     echo $renderer->render($contentrenderable);
 }

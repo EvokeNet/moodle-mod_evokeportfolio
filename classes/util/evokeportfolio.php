@@ -129,7 +129,7 @@ class evokeportfolio {
         }
     }
 
-    public function get_portfolio_submissions($portfolio, $context, $userid = false) {
+    public function get_portfolio_submissions($portfolio, $context, $userid = false, $groupid = null) {
         global $DB;
 
         $sectionutil = new section();
@@ -151,12 +151,22 @@ class evokeportfolio {
                     es.*,
                     u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
                 FROM {evokeportfolio_submissions} es
-                INNER JOIN {user} u ON u.id = es.postedby
-                WHERE es.sectionid ' . $sectioncondition;
+                INNER JOIN {user} u ON u.id = es.postedby';
+
+        if ($groupid) {
+            $sql .= ' INNER JOIN {groups_members} gm ON gm.userid = u.id';
+        }
+
+        $sql .= ' WHERE es.sectionid ' . $sectioncondition;
 
         if ($userid) {
             $sql .= ' AND u.id = :userid';
             $params['userid'] = $userid;
+        }
+
+        if ($groupid) {
+            $sql .= ' AND gm.groupid = :groupid';
+            $params['groupid'] = $groupid;
         }
 
         $submissions = $DB->get_records_sql($sql, $params);
