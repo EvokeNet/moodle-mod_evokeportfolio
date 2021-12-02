@@ -403,6 +403,34 @@ function mod_evokeportfolio_output_fragment_gradeuserchapter_form($args) {
     return $o;
 }
 
+function mod_evokeportfolio_output_fragment_grade_form($args) {
+    $args = (object) $args;
+    $o = '';
+
+    $formdata = [];
+    if (!empty($args->jsonformdata)) {
+        $serialiseddata = json_decode($args->jsonformdata);
+        parse_str($serialiseddata, $formdata);
+    }
+
+    $mform = new \mod_evokeportfolio\forms\grade_form($formdata, [
+        'userid' => $serialiseddata->userid,
+        'instanceid' => $serialiseddata->instanceid
+    ]);
+
+    if (!empty($args->jsonformdata)) {
+        // If we were passed non-empty form data we want the mform to call validation functions and show errors.
+        $mform->is_validated();
+    }
+
+    ob_start();
+    $mform->display();
+    $o .= ob_get_contents();
+    ob_end_clean();
+
+    return $o;
+}
+
 /**
  * This function extends the settings navigation block for the site.
  *

@@ -179,6 +179,8 @@ class evokeportfolio {
 
         $submissionsutil->populate_data_with_reactions($submissions);
 
+        $submissionsutil->populate_data_with_evaluation($submissions, $portfolio);
+
         return array_values($submissions);
     }
 

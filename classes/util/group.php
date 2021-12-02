@@ -72,7 +72,7 @@ class group {
         return $DB->count_records('groups_members', ['groupid' => $groupid, 'userid' => $userid]);
     }
 
-    public function get_course_groups($course) {
+    public function get_course_groups($course, $withimage = true) {
         global $DB;
 
         $groups = $DB->get_records('groups', ['courseid' => $course->id]);
@@ -81,8 +81,10 @@ class group {
             return false;
         }
 
-        foreach ($groups as $group) {
-            $group->groupimage = $this->get_group_image($group);
+        if ($withimage) {
+            foreach ($groups as $group) {
+                $group->groupimage = $this->get_group_image($group);
+            }
         }
 
         return array_values($groups);

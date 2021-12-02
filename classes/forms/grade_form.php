@@ -42,6 +42,11 @@ class grade_form extends \moodleform {
             $mform->setType('groupid', PARAM_INT);
         }
 
+        if (isset($this->_customdata['instanceid'])) {
+            $mform->addElement('hidden', 'instanceid', $this->_customdata['instanceid']);
+            $mform->setType('instanceid', PARAM_INT);
+        }
+
         $evokeportfolioutil = new evokeportfolio();
         $evokeportfolio = $evokeportfolioutil->get_instance($this->_customdata['instanceid']);
 

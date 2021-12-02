@@ -322,4 +322,18 @@ class grade {
             grade_update('mod/evokeportfolio', $portfolio->course, 'mod', 'evokeportfolio', $portfolio->id, 0, $grades);
         }
     }
+
+    public function grade_user_portfolio($portfolio, $userid, $grade) {
+        global $CFG;
+
+        $grades[$userid] = new \stdClass();
+        $grades[$userid]->userid = $userid;
+        $grades[$userid]->rawgrade = $grade;
+
+        $this->update_evokeportfolio_grades($portfolio->id, $grades);
+
+        require_once($CFG->libdir . '/gradelib.php');
+
+        grade_update('mod/evokeportfolio', $portfolio->course, 'mod', 'evokeportfolio', $portfolio->id, 0, $grades);
+    }
 }

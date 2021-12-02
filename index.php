@@ -13,8 +13,15 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/lib.php');
 
 $id = required_param('id', PARAM_INT);
+$chapterid = optional_param('chapter', null, PARAM_INT);
 
 $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
+
+$chapter = null;
+if ($chapterid) {
+    $chapter = $DB->get_record('evokeportfolio_chapters', array('id' => $chapterid), '*', MUST_EXIST);
+}
+
 require_course_login($course);
 
 $context = context_course::instance($course->id);
@@ -49,46 +56,11 @@ if (!has_capability('mod/evokeportfolio:grade', $context)) {
 
     echo $renderer->render($contentrenderable);
 } else {
-    $evokeportfolios = get_all_instances_in_course('evokeportfolio', $course);
+    $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-    if (empty($evokeportfolios)) {
-        notice(get_string('noportfolioinstances', 'mod_evokeportfolio'), new moodle_url('/course/view.php', array('id' => $course->id)));
-    }
+    $contentrenderable = new \mod_evokeportfolio\output\indexadmin($course, $context, $chapter);
 
-    $table = new html_table();
-    $table->attributes['class'] = 'generaltable mod_index';
-
-    if ($course->format == 'weeks') {
-        $table->head  = array(get_string('week'), get_string('name'));
-        $table->align = array('center', 'left');
-    } else if ($course->format == 'topics') {
-        $table->head  = array(get_string('topic'), get_string('name'));
-        $table->align = array('center', 'left', 'left', 'left');
-    } else {
-        $table->head  = array(get_string('name'));
-        $table->align = array('left', 'left', 'left');
-    }
-
-    foreach ($evokeportfolios as $evokeportfolio) {
-        if (!$evokeportfolio->visible) {
-            $link = html_writer::link(
-                new moodle_url('/mod/evokeportfolio/view.php', array('id' => $evokeportfolio->coursemodule)),
-                format_string($evokeportfolio->name, true),
-                array('class' => 'dimmed'));
-        } else {
-            $link = html_writer::link(
-                new moodle_url('/mod/evokeportfolio/view.php', array('id' => $evokeportfolio->coursemodule)),
-                format_string($evokeportfolio->name, true));
-        }
-
-        if ($course->format == 'weeks' or $course->format == 'topics') {
-            $table->data[] = array($evokeportfolio->section, $link);
-        } else {
-            $table->data[] = array($link);
-        }
-    }
-
-    echo html_writer::table($table);
+    echo $renderer->render($contentrenderable);
 }
 
 echo $OUTPUT->footer();

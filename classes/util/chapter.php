@@ -115,7 +115,7 @@ class chapter {
 
         list($insql, $params) = $DB->get_in_or_equal(explode(',', $chapter->portfolios), SQL_PARAMS_NAMED);
 
-        $sql = "SELECT *                       
+        $sql = "SELECT * 
                 FROM {evokeportfolio}
                 WHERE id {$insql}";
 

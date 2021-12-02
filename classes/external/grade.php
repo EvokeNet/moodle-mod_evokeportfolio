@@ -3,12 +3,12 @@
 namespace mod_evokeportfolio\external;
 
 use context;
-use core\notification;
 use external_api;
 use external_value;
 use external_single_structure;
 use external_function_parameters;
 use mod_evokeportfolio\forms\gradeuserchapter_form;
+use mod_evokeportfolio\forms\grade_form;
 
 /**
  * Grade external api class.
@@ -48,8 +48,6 @@ class grade extends external_api {
      * @throws \moodle_exception
      */
     public static function grade($contextid, $chapterid, $userid, $jsonformdata) {
-        global $DB, $SESSION;
-
         // We always must pass webservice params through validate_parameters.
         $params = self::validate_parameters(self::grade_parameters(), [
             'contextid' => $contextid,
@@ -111,7 +109,7 @@ class grade extends external_api {
      *
      * @return external_function_parameters
      */
-    public static function edit_parameters() {
+    public static function gradeportfolio_parameters() {
         return new external_function_parameters([
             'contextid' => new external_value(PARAM_INT, 'The context id for the course module'),
             'jsonformdata' => new external_value(PARAM_RAW, 'The data from the chapter form, encoded as a json array')
@@ -122,6 +120,8 @@ class grade extends external_api {
      * Create chapter method
      *
      * @param int $contextid
+     * @param int $chapterid
+     * @param int $userid
      * @param string $jsonformdata
      *
      * @return array
@@ -131,12 +131,14 @@ class grade extends external_api {
      * @throws \invalid_parameter_exception
      * @throws \moodle_exception
      */
-    public static function edit($contextid, $jsonformdata) {
+    public static function gradeportfolio($contextid, $jsonformdata) {
         global $DB;
 
         // We always must pass webservice params through validate_parameters.
-        $params = self::validate_parameters(self::edit_parameters(),
-            ['contextid' => $contextid, 'jsonformdata' => $jsonformdata]);
+        $params = self::validate_parameters(self::gradeportfolio_parameters(), [
+            'contextid' => $contextid,
+            'jsonformdata' => $jsonformdata
+        ]);
 
         $context = context::instance_by_id($params['contextid'], MUST_EXIST);
 
@@ -148,35 +150,15 @@ class grade extends external_api {
         $data = [];
         parse_str($serialiseddata, $data);
 
-        $mform = new chapter_form($data);
+        $portfolio = $DB->get_record('evokeportfolio', ['id' => $data['instanceid']], '*', MUST_EXIST);
 
-        $validateddata = $mform->get_data();
+        $gradeutil = new \mod_evokeportfolio\util\grade();
 
-        if (!$validateddata) {
-            throw new \moodle_exception('invalidformdata');
-        }
-
-        $portfolios = null;
-        if ($data['portfolios']) {
-            foreach ($data['portfolios'] as $portfolio) {
-                $portfolios[] = $portfolio;
-            }
-
-            $portfolios = implode(",", $portfolios);
-        }
-
-        $chapter = new \stdClass();
-        $chapter->id = $validateddata->id;
-        $chapter->name = $validateddata->name;
-        $chapter->portfolios = $portfolios;
-        $chapter->timemodified = time();
-
-        $DB->update_record('evokeportfolio_chapters', $chapter);
+        $gradeutil->grade_user_portfolio($portfolio, $data['userid'], $data['grade']);
 
         return [
             'status' => 'ok',
-            'message' => get_string('editchapter_success', 'mod_evokeportfolio'),
-            'data' => json_encode($chapter)
+            'message' => get_string('grading_success', 'mod_evokeportfolio')
         ];
     }
 
@@ -185,66 +167,11 @@ class grade extends external_api {
      *
      * @return external_single_structure
      */
-    public static function edit_returns() {
+    public static function gradeportfolio_returns() {
         return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_TEXT, 'Operation status'),
-                'message' => new external_value(PARAM_RAW, 'Return message'),
-                'data' => new external_value(PARAM_RAW, 'Return data')
-            )
-        );
-    }
-
-    /**
-     * Delete chapter parameters
-     *
-     * @return external_function_parameters
-     */
-    public static function delete_parameters() {
-        return new external_function_parameters([
-            'chapter' => new external_single_structure([
-                'id' => new external_value(PARAM_INT, 'The chapter id', VALUE_REQUIRED)
-            ])
-        ]);
-    }
-
-    /**
-     * Delete chapter method
-     *
-     * @param array $chapter
-     *
-     * @return array
-     *
-     * @throws \coding_exception
-     * @throws \dml_exception
-     * @throws \invalid_parameter_exception
-     * @throws \moodle_exception
-     */
-    public static function delete($chapter) {
-        global $DB;
-
-        self::validate_parameters(self::delete_parameters(), ['chapter' => $chapter]);
-
-        $chapter = (object)$chapter;
-
-        $DB->delete_records('evokeportfolio_chapters', ['id' => $chapter->id]);
-
-        return [
-            'status' => 'ok',
-            'message' => get_string('deletechapter_success', 'mod_evokeportfolio')
-        ];
-    }
-
-    /**
-     * Delete chapter return fields
-     *
-     * @return external_single_structure
-     */
-    public static function delete_returns() {
-        return new external_single_structure(
-            array(
-                'status' => new external_value(PARAM_TEXT, 'Operation status'),
-                'message' => new external_value(PARAM_TEXT, 'Return message')
+                'message' => new external_value(PARAM_RAW, 'Return message')
             )
         );
     }

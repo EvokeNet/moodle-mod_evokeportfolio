@@ -91,4 +91,12 @@ $functions = [
         'type' => 'write',
         'ajax' => true
     ],
+    'mod_evokeportfolio_gradeportfolio' => [
+        'classname' => 'mod_evokeportfolio\external\grade',
+        'classpath' => 'mod/evokeportfolio/classes/external/grade.php',
+        'methodname' => 'gradeportfolio',
+        'description' => 'Grade a user portfolio',
+        'type' => 'write',
+        'ajax' => true
+    ],
 ];
