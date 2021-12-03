@@ -6,6 +6,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_evokeportfolio\util\chapter;
 use mod_evokeportfolio\util\evokeportfolio;
+use mod_evokeportfolio\util\group;
 use renderable;
 use templatable;
 use renderer_base;
@@ -69,6 +70,7 @@ class index implements renderable, templatable {
 
         // Portfolios data.
         $portfolios = $chapterutil->get_chapter_portfolios($currentchapter);
+        $groupportfolios = $portfolios;
 
         if ($portfolios) {
             foreach ($portfolios as $portfolio) {
@@ -82,6 +84,18 @@ class index implements renderable, templatable {
 
         $userpicture = theme_moove_get_user_avatar_or_image($USER);
 
+        $groupsutil = new group();
+
+        $usercoursegroup = $groupsutil->get_user_group($this->course->id);
+
+        $groupmembers = $groupsutil->get_group_members($usercoursegroup->id);
+
+        if ($groupportfolios && $usercoursegroup) {
+            foreach ($groupportfolios as $portfolio) {
+                $portfolio->submissions = $portfolioutil->get_portfolio_submissions($portfolio, $this->context, null, $usercoursegroup->id);
+            }
+        }
+
         return [
             'contextid' => $this->context->id,
             'courseid' => $this->course->id,
@@ -89,6 +103,9 @@ class index implements renderable, templatable {
             'portfolios' => $portfolios,
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
+            'groupmembers' => $groupmembers,
+            'hasgroup' => !empty($usercoursegroup),
+            'groupportfolios' => $groupportfolios
         ];
     }
 }
