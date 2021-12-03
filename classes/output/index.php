@@ -70,7 +70,8 @@ class index implements renderable, templatable {
 
         // Portfolios data.
         $portfolios = $chapterutil->get_chapter_portfolios($currentchapter);
-        $groupportfolios = $portfolios;
+        // Workaround to clone portfolios array and its objects.
+        $groupportfolios = array_map(function ($object) { return clone $object; }, $portfolios);
 
         if ($portfolios) {
             foreach ($portfolios as $portfolio) {
