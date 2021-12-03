@@ -71,7 +71,7 @@ echo $OUTPUT->header();
 if (!has_capability('mod/evokeportfolio:grade', $context)) {
     $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-    $contentrenderable = new \mod_evokeportfolio\output\index($course, $context);
+    $contentrenderable = new \mod_evokeportfolio\output\index($course, $context, $chapter);
 
     echo $renderer->render($contentrenderable);
 } else {

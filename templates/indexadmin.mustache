@@ -2,15 +2,15 @@
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-        <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Not assessed</button>
+        <button class="nav-link active" id="notassessed-tab" data-toggle="tab" data-target="#notassessed" type="button" role="tab" aria-controls="notassessed" aria-selected="true">Not assessed</button>
     </li>
     <li class="nav-item">
-        <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Assessed</button>
+        <button class="nav-link" id="assessed-tab" data-toggle="tab" data-target="#assessed" type="button" role="tab" aria-controls="assessed" aria-selected="false">Assessed</button>
     </li>
 </ul>
 
 <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active p-2" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="tab-pane fade show active p-2" id="notassessed" role="tabpanel" aria-labelledby="notassessed-tab">
         {{#portfolios}}
             <fieldset class="fieldset" data-portfolioid="{{id}}">
                 <legend>{{name}}</legend>
@@ -117,7 +117,7 @@
             </fieldset>
         {{/portfolios}}
     </div>
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="tab-pane fade" id="assessed" role="tabpanel" aria-labelledby="assessed-tab">
         {{#portfolios}}
             <fieldset>
                 <legend>{{name}}</legend>
