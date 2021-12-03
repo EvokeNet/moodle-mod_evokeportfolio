@@ -77,7 +77,7 @@ $string['save_submission_success'] = 'Submission successfully added.';
 $string['update_submission_success'] = 'Submission successfully updated.';
 
 $string['grade'] = 'Grade';
-$string['grade_help'] = 'Enter the grade for the agent\'s portfolio here.';
+$string['grade_help'] = '<p><b>Done: </b>Student meet the required standards for this evidence<br><b>Not done: </b>Student didn\'t meet the required standards for this evidence</p>';
 $string['onlynumbers'] = 'Only numbers are accepted.';
 $string['gradefor'] = 'Grade for: {$a}';
 

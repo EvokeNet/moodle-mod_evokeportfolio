@@ -195,6 +195,28 @@ class grade {
         return $usergrade->grade;
     }
 
+    public function get_user_grade_string($evokeportfolio, $userid) {
+        global $DB;
+
+        $usergrade = $this->get_user_grade($evokeportfolio, $userid);
+
+        if (!$usergrade) {
+            return false;
+        }
+
+        if ($evokeportfolio->grade > 0) {
+            return (int)$usergrade;
+        }
+
+        $scale = $DB->get_record('scale', ['id' => abs($evokeportfolio->grade)], '*', MUST_EXIST);
+
+        $scales = explode(',', $scale->scale);
+
+        $scaleindex = (int)$usergrade - 1;
+
+        return $scales[$scaleindex];
+    }
+
     public function group_has_grade($evokeportfolio, $groupid) {
         $groupsutil = new group();
         $groupmembers = $groupsutil->get_group_members($groupid, false);

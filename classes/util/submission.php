@@ -120,9 +120,9 @@ class submission {
         $gradeutil = new grade();
 
         foreach ($submissions as $submission) {
-            $usergrade = $gradeutil->get_user_grade($portfolio, $submission->uid);
+            $usergrade = $gradeutil->get_user_grade_string($portfolio, $submission->uid);
             $submission->hasevaluation = !$usergrade == false;
-            $submission->grade = (int)$usergrade;
+            $submission->grade = $usergrade;
         }
 
         return $submissions;
