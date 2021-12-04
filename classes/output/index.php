@@ -73,6 +73,9 @@ class index implements renderable, templatable {
         // Workaround to clone portfolios array and its objects.
         $groupportfolios = array_map(function ($object) { return clone $object; }, $portfolios);
 
+        // Workaround to clone portfolios array and its objects.
+        $networkportfolios = array_map(function ($object) { return clone $object; }, $portfolios);
+
         if ($portfolios) {
             foreach ($portfolios as $portfolio) {
                 $portfolio->submissions = $portfolioutil->get_portfolio_submissions($portfolio, $this->context, $USER->id);
@@ -97,16 +100,23 @@ class index implements renderable, templatable {
             }
         }
 
+        if ($networkportfolios) {
+            foreach ($networkportfolios as $portfolio) {
+                $portfolio->submissions = $portfolioutil->get_portfolio_submissions($portfolio, $this->context);
+            }
+        }
+
         return [
             'contextid' => $this->context->id,
             'courseid' => $this->course->id,
             'filters' => $filters,
-            'portfolios' => $portfolios,
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
             'groupmembers' => $groupmembers,
             'hasgroup' => !empty($usercoursegroup),
-            'groupportfolios' => $groupportfolios
+            'portfolios' => $portfolios,
+            'groupportfolios' => $groupportfolios,
+            'networkportfolios' => $networkportfolios
         ];
     }
 }
