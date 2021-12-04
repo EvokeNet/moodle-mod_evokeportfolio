@@ -18,10 +18,12 @@ class indexfilters implements renderable, templatable {
 
     protected $courseid;
     protected $chaptersdata;
+    protected $portfoliosdata;
 
-    public function __construct($courseid, $chaptersdata = null) {
+    public function __construct($courseid, $chaptersdata = null, $portfoliosdata = null) {
         $this->courseid = $courseid;
         $this->chaptersdata = $chaptersdata;
+        $this->portfoliosdata = $portfoliosdata;
     }
 
     /**
@@ -43,6 +45,10 @@ class indexfilters implements renderable, templatable {
             $data['chapterid'] = $this->chaptersdata['currentchapterid'];
         }
 
+        if (isset($this->portfoliosdata['currentportfolioid'])) {
+            $data['portfolioid'] = $this->portfoliosdata['currentportfolioid'];
+        }
+
         $chapters = [];
         if ($this->chaptersdata['chapters']) {
             foreach ($this->chaptersdata['chapters'] as $chapter) {
@@ -57,6 +63,21 @@ class indexfilters implements renderable, templatable {
         }
 
         $data['chapters'] = $chapters;
+
+        $portfolios = [];
+        if ($this->portfoliosdata['portfolios']) {
+            foreach ($this->portfoliosdata['portfolios'] as $portfolio) {
+                $portfolio->selected = false;
+
+                if (isset($this->portfoliosdata['currentportfolioid']) && $portfolio->id == $this->portfoliosdata['currentportfolioid']) {
+                    $portfolio->selected = true;
+                }
+
+                $portfolios[] = $portfolio;
+            }
+        }
+
+        $data['portfolios'] = $portfolios;
 
         return $data;
     }

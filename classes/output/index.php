@@ -22,11 +22,13 @@ class index implements renderable, templatable {
     public $course;
     public $context;
     public $chapter;
+    public $portfolio;
 
-    public function __construct($course, $context, $chapter = null) {
+    public function __construct($course, $context, $chapter = null, $portfolio = null) {
         $this->course = $course;
         $this->context = $context;
         $this->chapter = $chapter;
+        $this->portfolio = $portfolio;
     }
 
     /**
@@ -69,7 +71,22 @@ class index implements renderable, templatable {
         ];
 
         // Portfolios data.
-        $portfolios = $chapterutil->get_chapter_portfolios($currentchapter);
+        $chapterportfolios = $chapterutil->get_chapter_portfolios($currentchapter);
+
+        $portfolios[] = $this->portfolio;
+        if (!$this->portfolio) {
+            $portfolios = $chapterportfolios;
+        }
+
+        $portfoliosdata = ['portfolios' => $chapterportfolios];
+        if ($this->portfolio) {
+            $portfoliosdata['currentportfolioid'] = $this->portfolio->id;
+        }
+
+        $filtersrenderer = new indexfilters($this->course->id, $chaptersdata, $portfoliosdata);
+
+        $filters = $output->render($filtersrenderer);
+
         // Workaround to clone portfolios array and its objects.
         $groupportfolios = array_map(function ($object) { return clone $object; }, $portfolios);
 
@@ -81,10 +98,6 @@ class index implements renderable, templatable {
                 $portfolio->submissions = $portfolioutil->get_portfolio_submissions($portfolio, $this->context, $USER->id);
             }
         }
-
-        $filtersrenderer = new indexfilters($this->course->id, $chaptersdata);
-
-        $filters = $output->render($filtersrenderer);
 
         $userpicture = theme_moove_get_user_avatar_or_image($USER);
 
