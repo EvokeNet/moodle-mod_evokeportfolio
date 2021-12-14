@@ -130,7 +130,9 @@
                     <h3>My team</h3>
                     {{#groupmembers}}
                         <div class="groupmember">
-                            <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
+                            <a href="{{config.wwwroot}}/local/evokegame/profile.php?id={{courseid}}&userid={{id}}">
+                                <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
+                            </a>
                         </div>
                     {{/groupmembers}}
                 </div>

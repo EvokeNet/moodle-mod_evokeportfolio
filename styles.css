@@ -11,6 +11,10 @@
     border-radius: 20px;
 }
 
+.path-mod-evokeportfolio .groupmember a {
+    color: #fff;
+}
+
 .path-mod-evokeportfolio .groupmember img {
     border-radius: 50%;
     width: 42px;
