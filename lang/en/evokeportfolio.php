@@ -31,6 +31,7 @@ $string['viewsubmission'] = 'View submission';
 $string['notsubmitted'] = 'Not submitted';
 $string['evaluated'] = 'Evaluated';
 
+$string['submissionsuccessmessage'] = 'Submission success message';
 $string['datelimit'] = 'Submission deadline';
 $string['datelimit_help'] = 'After this date, agents cannot submit responses.';
 $string['groupactivity'] = 'Team activity'; // team = group; mission = activity

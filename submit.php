@@ -134,6 +134,9 @@ if ($form->is_cancelled()) {
             $completion->update_state($cm, COMPLETION_COMPLETE);
 
             $redirectstring = get_string('save_submission_success', 'mod_evokeportfolio');
+            if (isset($evokeportfolio->submissionsuccessmessage) && $evokeportfolio->submissionsuccessmessage != "") {
+                $redirectstring = $evokeportfolio->submissionsuccessmessage;
+            }
         }
 
         // Process attachments.
@@ -141,7 +144,7 @@ if ($form->is_cancelled()) {
 
         file_save_draft_area_files($draftitemid, $context->id, 'mod_evokeportfolio', 'attachments', $submission->id, ['subdirs' => 0, 'maxfiles' => 1]);
 
-        $url = new moodle_url('/mod/evokeportfolio/section.php', $urlparams);
+        $url = new moodle_url('/course/view.php', ['id' => $evokeportfolio->course]);
 
         redirect($url, $redirectstring, null, \core\output\notification::NOTIFY_SUCCESS);
     } catch (\Exception $e) {

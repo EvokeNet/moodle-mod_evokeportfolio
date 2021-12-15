@@ -168,5 +168,18 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021112500, 'mod', 'evokeportfolio');
     }
 
+    if ($oldversion < 2021121400) {
+        $dbman = $DB->get_manager();
+
+        $table = new xmldb_table('evokeportfolio');
+        if ($dbman->table_exists($table)) {
+            $completionfield = new xmldb_field('submissionsuccessmessage', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'introformat');
+
+            $dbman->add_field($table, $completionfield);
+        }
+
+        upgrade_plugin_savepoint(true, 2021121400, 'mod', 'evokeportfolio');
+    }
+
     return true;
 }

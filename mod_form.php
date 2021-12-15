@@ -42,6 +42,10 @@ class mod_evokeportfolio_mod_form extends moodleform_mod {
         $mform->addHelpButton('datelimit', 'datelimit', 'mod_evokeportfolio');
         $mform->addRule('datelimit', null, 'required', null, 'client');
 
+        $mform->addElement('text', 'submissionsuccessmessage', get_string('submissionsuccessmessage', 'mod_evokeportfolio'), array('size' => '64'));
+        $mform->setType('submissionsuccessmessage', PARAM_TEXT);
+        $mform->addRule('submissionsuccessmessage', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
+
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();
 
