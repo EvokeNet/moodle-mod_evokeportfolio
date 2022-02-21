@@ -15,6 +15,7 @@ $id = required_param('id', PARAM_INT);
 $sectionid = required_param('sectionid', PARAM_INT);
 $userid = optional_param('userid', null, PARAM_INT);
 $groupid = optional_param('groupid', null, PARAM_INT);
+$embed = optional_param('embed', 0, PARAM_INT);
 
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
@@ -39,11 +40,15 @@ $PAGE->set_title(format_string($evokeportfolio->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
+if ($embed) {
+    $PAGE->set_pagelayout('embedded');
+}
+
 echo $OUTPUT->header();
 
 $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-$contentrenderable = new \mod_evokeportfolio\output\section($context, $evokeportfolio, $section, $user, $group);
+$contentrenderable = new \mod_evokeportfolio\output\section($context, $evokeportfolio, $section, $user, $group, $embed);
 
 echo $renderer->render($contentrenderable);
 

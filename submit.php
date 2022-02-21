@@ -14,6 +14,7 @@ require(__DIR__.'/../../config.php');
 $id = required_param('id', PARAM_INT);
 $sectionid = required_param('sectionid', PARAM_INT);
 $submissionid = optional_param('submissionid', null, PARAM_INT);
+$embed = optional_param('embed', 0, PARAM_INT);
 
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
@@ -34,6 +35,11 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 
 $urlparams = ['id' => $cm->id, 'sectionid' => $section->id];
+if ($embed) {
+    $PAGE->set_pagelayout('embedded');
+    $urlparams['embed'] = $embed;
+}
+
 $url = new moodle_url('/mod/evokeportfolio/submit.php', $urlparams);
 
 $PAGE->set_url($url);

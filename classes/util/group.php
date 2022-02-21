@@ -49,7 +49,7 @@ class group {
 
         if ($withfulluserinfo) {
             foreach ($groupmembers as $key => $groupmember) {
-                $userpicture = theme_moove_get_user_avatar_or_image($groupmember);
+                $userpicture = theme_evoke_get_user_avatar_or_image($groupmember);
 
                 $groupmembers[$key]->userpicture = $userpicture;
 

@@ -2,7 +2,9 @@
     {{^isdelayed}}
         {{#itsme}}
             <div class="actions">
-                <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&sectionid={{sectionid}}">{{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}</a>
+                <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}&sectionid={{sectionid}}{{#embed}}&embed=1{{/embed}}">
+                    {{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}
+                </a>
             </div>
         {{/itsme}}
     {{/isdelayed}}

@@ -21,10 +21,12 @@ class view implements renderable, templatable {
 
     public $evokeportfolio;
     public $context;
+    public $embed;
 
-    public function __construct($evokeportfolio, $context) {
+    public function __construct($evokeportfolio, $context, $embed = 0) {
         $this->evokeportfolio = $evokeportfolio;
         $this->context = $context;
+        $this->embed = $embed;
     }
 
     /**
@@ -63,7 +65,8 @@ class view implements renderable, templatable {
             'groupactivity' => $this->evokeportfolio->groupactivity,
             'groupgradingmodetext' => $groupgradingmodetext,
             'isdelayed' => $isdelayed,
-            'itsme' => true
+            'itsme' => true,
+            'embed' => $this->embed
         ];
 
         $groupsutil = new group();

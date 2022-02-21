@@ -106,7 +106,7 @@ class indexadmin implements renderable, templatable {
             }
         }
 
-        $userpicture = theme_moove_get_user_avatar_or_image($USER);
+        $userpicture = theme_evoke_get_user_avatar_or_image($USER);
 
         return [
             'contextid' => $this->context->id,

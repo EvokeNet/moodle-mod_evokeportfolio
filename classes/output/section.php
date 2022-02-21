@@ -22,8 +22,9 @@ class section implements renderable, templatable {
     public $section;
     public $user;
     public $group;
+    public $embed;
 
-    public function __construct($context, $evokeportfolio, $section, $user = null, $group = null) {
+    public function __construct($context, $evokeportfolio, $section, $user = null, $group = null, $embed = 0) {
         global $USER;
 
         $this->context = $context;
@@ -31,6 +32,7 @@ class section implements renderable, templatable {
         $this->section = $section;
         $this->user = $user;
         $this->group = $group;
+        $this->embed = $embed;
 
         if (!$user) {
             $this->user = $USER;
@@ -57,7 +59,7 @@ class section implements renderable, templatable {
             $isdelayed = false;
         }
 
-        $userpicture = theme_moove_get_user_avatar_or_image($USER);
+        $userpicture = theme_evoke_get_user_avatar_or_image($USER);
 
         $data = [
             'id' => $this->evokeportfolio->id,
@@ -72,7 +74,8 @@ class section implements renderable, templatable {
             'isteacher' => false,
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
-            'itsme' => $this->user->id === $USER->id
+            'itsme' => $this->user->id === $USER->id,
+            'embed' => $this->embed
         ];
 
         if (has_capability('mod/evokeportfolio:grade', $this->context)) {
