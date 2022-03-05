@@ -133,7 +133,8 @@ class comment extends external_api {
 
         return [
             'status' => 'ok',
-            'message' => $usercomment->text
+            'message' => $usercomment->text,
+            'humantimecreated' => userdate(time())
         ];
     }
 
@@ -146,7 +147,8 @@ class comment extends external_api {
         return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_TEXT, 'Operation status'),
-                'message' => new external_value(PARAM_RAW, 'Return message')
+                'message' => new external_value(PARAM_RAW, 'Return message'),
+                'humantimecreated' => new external_value(PARAM_TEXT, 'Human readable time created')
             )
         );
     }

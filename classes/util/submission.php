@@ -31,7 +31,7 @@ class submission {
 
             $commentsdata = [];
             foreach ($comments as $comment) {
-                $userpicture = theme_evoke_get_user_avatar_or_image($comment);
+                $userpicture = user::get_user_image_or_avatar($comment);
 
                 $commentsdata[] = [
                     'text' => $comment->text,
@@ -53,7 +53,7 @@ class submission {
             $user = clone($entry);
             $user->id = $entry->uid;
 
-            $userimage = theme_evoke_get_user_avatar_or_image($user);
+            $userimage = user::get_user_image_or_avatar($user);
 
             $data[$key]->usersubmissionpicture = $userimage;
 

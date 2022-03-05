@@ -147,4 +147,21 @@ class user {
 
         return [$ufields, $params, $wherecondition];
     }
+
+    public static function get_user_image_or_avatar($user) {
+        global $PAGE;
+
+        if (function_exists('theme_evoke_get_user_avatar_or_image')) {
+            return theme_evoke_get_user_avatar_or_image($user);
+        }
+
+        if (function_exists('theme_moove_get_user_avatar_or_image')) {
+            return theme_moove_get_user_avatar_or_image($user);
+        }
+
+        $userpicture = new \user_picture($user);
+        $userpicture->size = 1;
+
+        return $userpicture->get_url($PAGE);
+    }
 }

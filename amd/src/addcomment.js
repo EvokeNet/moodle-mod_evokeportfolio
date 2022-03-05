@@ -1,11 +1,13 @@
 /**
  * Add comment js logic.
  *
- * @package    mod_evokeportfolio
+ * @package
+ * @subpackage mod_evokeportfolio
  * @copyright  2021 World Bank Group <https://worldbank.org>
  * @author     Willian Mano <willianmanoaraujo@gmail.com>
  */
 
+/* eslint-disable */
 define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Ajax, Swal) {
     var AddComment = function() {
         this.registerEventListeners();
@@ -36,7 +38,7 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
             return;
         }
 
-        var postdiv = postinput.closest('.mainpost');
+        var postdiv = postinput.closest('.submission');
 
         postinput.empty();
 
@@ -59,7 +61,7 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
         }]);
 
         request[0].done(function(data) {
-            this.addCommentToPost(postdiv, data.message);
+            this.addCommentToPost(postdiv, data.message, data.humantimecreated);
         }.bind(this)).fail(function(error) {
             var message = error.message;
 
@@ -90,17 +92,21 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
         });
     };
 
-    AddComment.prototype.addCommentToPost = function(postdiv, value) {
+    AddComment.prototype.addCommentToPost = function(postdiv, text, timecreated) {
         var userimg = postdiv.find('.add-comment .userimg').clone();
         var userfullname = userimg.attr('alt');
         var loadallcomments = postdiv.find('.loadmore');
 
         var comment = $("<div class='submissioncomment fadeIn'>" +
-          "<div class='userimg'>" + $('<div/>').append(userimg).html() + "</div>" +
-          "<div class='entry'><div class='entry-content'>" +
-          "<p class='name'>" + userfullname + "</p>" +
-          "<p class='text'>" + value + "</p>" +
-          "</div></div></div>");
+          "<div class='userinfo'>" +
+            "<div class='userimg'>" + $('<div/>').append(userimg).html() + "</div>" +
+            "<div class='nameanddate'>" +
+                "<p class='username'>" + userfullname + "</p>" +
+                "<span class='small'>" + timecreated + "</span>"+
+            "</div>"+
+          "</div>"+
+          "<p class='text'>" + text + "</p>" +
+        "</div>");
 
         if (loadallcomments.length > 0) {
             comment.insertBefore(loadallcomments);

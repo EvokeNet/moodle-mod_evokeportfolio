@@ -4,11 +4,10 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use block_evokehq\util\course;
-use mod_evokeportfolio\table\entries as entriestable;
 use mod_evokeportfolio\util\chapter;
 use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\group;
+use mod_evokeportfolio\util\user;
 use renderable;
 use templatable;
 use renderer_base;
@@ -106,7 +105,7 @@ class indexadmin implements renderable, templatable {
             }
         }
 
-        $userpicture = theme_evoke_get_user_avatar_or_image($USER);
+        $userpicture = user::get_user_image_or_avatar($USER);
 
         return [
             'contextid' => $this->context->id,

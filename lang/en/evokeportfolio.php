@@ -147,7 +147,7 @@ $string['nosubmissions_desc'] = 'There is no submissions for this portfolio yet.
 $string['myportfolios'] = 'My Portfolios';
 $string['gototheportfolio'] = 'Go to the portfolio';
 $string['comment'] = 'Comment';
-$string['writeacomment'] = 'Write a comment';
+$string['writeacomment'] = '+ Share your thoughts...';
 $string['description'] = 'Description';
 
 $string['message_mentioned'] = 'You were mentioned in a comment';

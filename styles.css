@@ -35,18 +35,18 @@
     justify-content: flex-start;
 }
 
-.path-mod-evokeportfolio .submissions .header .userinfo {
+.path-mod-evokeportfolio .submissions .userinfo {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.path-mod-evokeportfolio .submissions .header .userinfo img,
-.path-mod-evokeportfolio .submissions .header .userinfo h3 {
+.path-mod-evokeportfolio .submissions .userinfo img,
+.path-mod-evokeportfolio .submissions .userinfo h3 {
     display: inline-block;
 }
 
-.path-mod-evokeportfolio .submissions .header .userinfo h3 {
+.path-mod-evokeportfolio .submissions .userinfo h3 {
     margin-left: .25rem;
     margin-bottom: 0;
 }
@@ -81,27 +81,27 @@
     border: 1px solid #d7dfe3;
 }
 
-.path-blocks-evokehq .submissions .post .userinfo,
-.path-mod-evokeportfolio .submissions .post .userinfo {
+.path-blocks-evokehq .submissions .userinfo,
+.path-mod-evokeportfolio .submissions .userinfo {
     display: flex;
     margin-bottom: 1rem;
 }
 
-.path-blocks-evokehq .submissions .post .userinfo .userimg img,
-.path-mod-evokeportfolio .submissions .post .userinfo .userimg img {
+.path-blocks-evokehq .submissions .userinfo .userimg img,
+.path-mod-evokeportfolio .submissions .userinfo .userimg img {
     display: inline;
     width: 42px;
     border-radius: 50%;
     border: 1px solid #ededed;
 }
 
-.path-blocks-evokehq .submissions .post .userinfo .nameanddate,
-.path-mod-evokeportfolio .submissions .post .userinfo .nameanddate {
+.path-blocks-evokehq .submissions .userinfo .nameanddate,
+.path-mod-evokeportfolio .submissions .userinfo .nameanddate {
     margin-left: .5rem;
 }
 
-.path-blocks-evokehq .submissions .post .userinfo .nameanddate .username,
-.path-mod-evokeportfolio .submissions .post .userinfo .nameanddate .username {
+.path-blocks-evokehq .submissions .userinfo .nameanddate .username,
+.path-mod-evokeportfolio .submissions .userinfo .nameanddate .username {
     font-weight: 700;
     margin-bottom: 0;
 }
@@ -135,17 +135,16 @@
     flex-wrap: wrap;
 }
 
-.path-blocks-evokehq .submissions .post .add-comment,
-.path-mod-evokeportfolio .submissions .post .add-comment {
+.path-blocks-evokehq .submissions .add-comment,
+.path-mod-evokeportfolio .submissions .add-comment {
     display: flex;
     flex-direction: row;
-    border-top: 1px solid #ededed;
-    margin-top: 1rem;
-    padding-top: 1rem;
+    padding: 1rem 4rem;
+    background-color: #f1f0f0;
 }
 
-.path-blocks-evokehq .submissions .post .add-comment .userimg,
-.path-mod-evokeportfolio .submissions .post .add-comment .userimg {
+.path-blocks-evokehq .submissions .add-comment .userimg,
+.path-mod-evokeportfolio .submissions .add-comment .userimg {
     border-radius: 50%;
     height: calc(1.5em + .75rem + 2px);
     align-self: flex-start;
@@ -155,16 +154,19 @@
     margin-right: .5rem;
 }
 
-.path-blocks-evokehq .submissions .post .add-comment .post-comment-input,
-.path-mod-evokeportfolio .submissions .post .add-comment .post-comment-input {
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+.path-blocks-evokehq .submissions .add-comment .input-group,
+.path-mod-evokeportfolio .submissions .add-comment .input-group {
+    display: block;
+    width: 100%;
+}
+
+.path-blocks-evokehq .submissions .add-comment .post-comment-input,
+.path-mod-evokeportfolio .submissions .add-comment .post-comment-input {
     position: relative;
-    flex: 1 1 auto;
-    width: 1%;
+    width: 100%;
     margin-bottom: 0;
     display: block;
-    height: calc(1.5em + .75rem + 2px);
+    height: 80px;
     padding: .375rem .75rem;
     font-size: .9375rem;
     font-weight: 400;
@@ -181,8 +183,8 @@
     cursor: text;
 }
 
-.path-blocks-evokehq .submissions .post .add-comment .post-comment-input:focus,
-.path-mod-evokeportfolio .submissions .post .add-comment .post-comment-input:focus {
+.path-blocks-evokehq .submissions .add-comment .post-comment-input:focus,
+.path-mod-evokeportfolio .submissions .add-comment .post-comment-input:focus {
     color: #495057;
     background-color: #fff;
     border-color: #6eb5f3;
@@ -191,39 +193,31 @@
     box-shadow: 0 0 0 0.2rem rgba(17, 119, 209, .25);
 }
 
-.path-blocks-evokehq .submissions .post .add-comment .post-comment-input[contenteditable="true"]:empty:before,
-.path-mod-evokeportfolio .submissions .post .add-comment .post-comment-input[contenteditable="true"]:empty:before {
+.path-blocks-evokehq .submissions .add-comment .post-comment-input[contenteditable="true"]:empty:before,
+.path-mod-evokeportfolio .submissions .add-comment .post-comment-input[contenteditable="true"]:empty:before {
     content: attr(placeholder);
     display: block;
     color: #ccc;
 }
 
-.path-blocks-evokehq .submissions .post .add-comment .post-comment-input a.usermentioned,
-.path-mod-evokeportfolio .submissions .post .add-comment .post-comment-input a.usermentioned {
+.path-blocks-evokehq .submissions .add-comment .post-comment-input a.usermentioned,
+.path-mod-evokeportfolio .submissions .add-comment .post-comment-input a.usermentioned {
     padding: 0 .5rem;
     background-color: #d9edff;
     border-radius: 12px;
     display: inline-block;
 }
 
-.path-blocks-evokehq .submissions .post .add-comment .input-group-append .btn,
-.path-mod-evokeportfolio .submissions .post .add-comment .input-group-append .btn {
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+/* Timeline submission reactions. */
+.path-blocks-evokehq .submissions .submission .post,
+.path-mod-evokeportfolio .submissions .submission .post {
+    background-color: #e5e7e6;
+    padding: 1.25rem;
 }
 
-/* Timeline submission reactions. */
 .path-blocks-evokehq .submissions .reactions,
 .path-mod-evokeportfolio .submissions .reactions {
-    border-top: 1px solid #ededed;
-    border-bottom: 1px solid #ededed;
     padding: .5rem 0;
-}
-
-.path-blocks-evokehq .submissions .reactions hr,
-.path-mod-evokeportfolio .submissions .reactions hr {
-    margin: .5rem 0;
-    border-top: 1px solid #ededed;
 }
 
 .path-blocks-evokehq .submissions .reactions .status .fa,
@@ -244,9 +238,8 @@
 .path-mod-evokeportfolio .submissions .reactions .actions .button {
     text-align: center;
     flex: 0 0 auto;
-    width: 50%;
     cursor: pointer;
-    padding: .25rem 0;
+    padding: .25rem .5rem;
     border-radius: 5px;
 }
 
@@ -279,65 +272,20 @@
     animation: mod-evokeportfolio_fadein 1s ease-in-out;
 }
 
-.path-blocks-evokehq .submissions .post .submissioncomment,
-.path-mod-evokeportfolio .submissions .post .submissioncomment {
-    margin-top: .5rem;
-    display: flex;
-    flex-direction: row;
+.path-blocks-evokehq .submissions .submissioncomment,
+.path-mod-evokeportfolio .submissions .submissioncomment {
+    padding: 1rem 4rem;
+    background-color: #f1f0f0;
 }
 
-.path-blocks-evokehq .submissions .post .submissioncomment .userimg,
-.path-mod-evokeportfolio .submissions .post .submissioncomment .userimg {
-    align-self: flex-start;
-    position: relative;
-    display: block;
+.path-mod-evokeportfolio .submissions .submissioncomment .userinfo {
+    justify-content: initial;
+    align-items: initial;
 }
 
-.path-blocks-evokehq .submissions .post .submissioncomment .userimg img,
-.path-mod-evokeportfolio .submissions .post .submissioncomment .userimg img {
-    display: inline;
-    width: 42px;
-    border-radius: 50%;
-    border: 1px solid #ededed;
-}
-
-.path-blocks-evokehq .submissions .post .submissioncomment .entry,
-.path-mod-evokeportfolio .submissions .post .submissioncomment .entry {
-    flex: 1;
-    padding-left: .4rem;
-}
-
-.path-blocks-evokehq .submissions .post .submissioncomment .entry .entry-content,
-.path-mod-evokeportfolio .submissions .post .submissioncomment .entry .entry-content {
-    padding: .5rem 1rem;
-    border-radius: 1rem;
-    background-color: #ededed;
-    display: inline-block;
-}
-
-.path-blocks-evokehq .submissions .post .submissioncomment .entry .entry-content .name,
-.path-mod-evokeportfolio .submissions .post .submissioncomment .entry .entry-content .name {
-    font-weight: 700;
-    margin-bottom: 0;
-}
-
-.path-blocks-evokehq .submissions .post .submissioncomment .entry .entry-content .name .small,
-.path-mod-evokeportfolio .submissions .post .submissioncomment .entry .entry-content .name .small {
-    font-size: 70%;
-    margin-bottom: 0;
-    border: 1px solid #ededed;
-    border-radius: 20px;
-    padding: 0 4px;
-}
-
-.path-blocks-evokehq .submissions .post .submissioncomment .entry .entry-content .text,
-.path-mod-evokeportfolio .submissions .post .submissioncomment .entry .entry-content .text {
-    margin-bottom: 0;
-}
-
-.path-blocks-evokehq .submissions .post .submissioncomment .entry .entry-content .text a,
-.path-mod-evokeportfolio .submissions .post .submissioncomment .entry .entry-content .text a {
-    font-weight: 700;
+.path-blocks-evokehq .submissions .submissioncomment .text a,
+.path-mod-evokeportfolio .submissions .submissioncomment .text a {
+font-weight: 700;
 }
 
 /* Some animations. */

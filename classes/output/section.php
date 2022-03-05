@@ -6,6 +6,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_evokeportfolio\util\group;
 use mod_evokeportfolio\util\section as sectionutil;
+use mod_evokeportfolio\util\user;
 use renderable;
 use templatable;
 use renderer_base;
@@ -59,7 +60,7 @@ class section implements renderable, templatable {
             $isdelayed = false;
         }
 
-        $userpicture = theme_evoke_get_user_avatar_or_image($USER);
+        $userpicture = user::get_user_image_or_avatar($USER);
 
         $data = [
             'id' => $this->evokeportfolio->id,
