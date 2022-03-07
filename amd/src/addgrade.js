@@ -1,7 +1,8 @@
 /**
  * Create chapter js logic.
  *
- * @package    mod_evokeportfolio
+ * @package
+ * @subpackage mod_evokeportfolio
  * @copyright  2021 World Bank Group <https://worldbank.org>
  * @author     Willian Mano <willianmanoaraujo@gmail.com>
  */
@@ -120,7 +121,7 @@ define([
                 M.core_formchangechecker.reset_form_dirty_state();
             });
 
-            this.gradebutton.closest('.card').fadeOut().remove();
+            this.gradebutton.closest('.submission').fadeOut().remove();
 
             var Toast = Swal.mixin({
                 toast: true,
