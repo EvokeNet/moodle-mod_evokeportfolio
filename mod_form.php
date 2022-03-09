@@ -38,6 +38,13 @@ class mod_evokeportfolio_mod_form extends moodleform_mod {
 
         $this->standard_intro_elements();
 
+        $mform->addElement('checkbox', 'evokation', get_string('evokation', 'mod_evokeportfolio'));
+        $mform->addHelpButton('evokation', 'evokation', 'mod_evokeportfolio');
+
+        $mform->addElement('date_time_selector', 'datestart', get_string('datestart', 'mod_evokeportfolio'));
+        $mform->addHelpButton('datestart', 'datestart', 'mod_evokeportfolio');
+        $mform->addRule('datestart', null, 'required', null, 'client');
+
         $mform->addElement('date_time_selector', 'datelimit', get_string('datelimit', 'mod_evokeportfolio'));
         $mform->addHelpButton('datelimit', 'datelimit', 'mod_evokeportfolio');
         $mform->addRule('datelimit', null, 'required', null, 'client');

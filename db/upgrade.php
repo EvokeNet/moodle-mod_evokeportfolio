@@ -181,5 +181,21 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021121400, 'mod', 'evokeportfolio');
     }
 
+    if ($oldversion < 2022030500) {
+        $dbman = $DB->get_manager();
+
+        $table = new xmldb_table('evokeportfolio');
+        if ($dbman->table_exists($table)) {
+            $datestartfield = new xmldb_field('datestart', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'grade');
+            $evokationfield = new xmldb_field('evokation', XMLDB_TYPE_INTEGER, '2', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'datelimit');
+
+            $dbman->add_field($table, $datestartfield);
+
+            $dbman->add_field($table, $evokationfield);
+        }
+
+        upgrade_plugin_savepoint(true, 2022030500, 'mod', 'evokeportfolio');
+    }
+
     return true;
 }

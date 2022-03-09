@@ -30,10 +30,42 @@ class reaction {
             $params['timecreated'] = time();
             $params['timemodified'] = time();
 
-            $DB->insert_record('evokeportfolio_reactions', $params);
+            $insertedid = $DB->insert_record('evokeportfolio_reactions', $params);
+
+            $params['id'] = $insertedid;
+
+            $reaction = (object) $params;
+
+            $this->dispatch_event($reaction);
         }
 
         return $this->get_reactions_string($submissionid, $reactionid);
+    }
+
+    private function dispatch_event($reaction) {
+        global $DB;
+
+        $sql = 'SELECT p.id, p.course, su.postedby
+                FROM {evokeportfolio_submissions} su
+                INNER JOIN {evokeportfolio_sections} se ON se.id = su.sectionid
+                INNER JOIN {evokeportfolio} p ON p.id = se.portfolioid
+                WHERE su.id = :submissionid';
+
+        $portfolio = $DB->get_record_sql($sql, ['submissionid' => $reaction->submissionid]);
+
+        $cm = get_coursemodule_from_instance('evokeportfolio', $portfolio->id);
+
+        $context = \context_module::instance($cm->id);
+
+        $eventparams = array(
+            'context' => $context,
+            'objectid' => $reaction->id,
+            'courseid' => $portfolio->course,
+            'relateduserid' => $portfolio->postedby
+        );
+        $event = \mod_evokeportfolio\event\like_sent::create($eventparams);
+        $event->add_record_snapshot('evokeportfolio_reactions', $reaction);
+        $event->trigger();
     }
 
     public function get_reactions_string($submissionid, $reactionid) {

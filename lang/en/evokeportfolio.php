@@ -23,15 +23,20 @@ $string['pluginname'] = 'Portfolio';
 $string['fieldset'] = 'Portfolio';
 $string['name'] = 'Name';
 $string['view'] = 'View';
-$string['eventsubmissionsent'] = 'Congratulations! Your submission has been recorded and engagement points awarded. Return to the mission map to continue your journey.';  // was 'submission sent'
+$string['eventsubmissionsent'] = 'Submission sent';
 $string['eventsubmissionupdated'] = 'Submission updated';
 $string['eventcommentadded'] = 'Comment added';
+$string['eventlikesent'] = 'Like sent';
 $string['gradinglocked'] = 'Grading for this mission is currently locked.';
 $string['viewsubmission'] = 'View submission';
 $string['notsubmitted'] = 'Not submitted';
 $string['evaluated'] = 'Evaluated';
 
 $string['submissionsuccessmessage'] = 'Submission success message';
+$string['evokation'] = 'Is an evokation';
+$string['evokation_help'] = 'Check this if it is an evokation activity.';
+$string['datestart'] = 'Submission start date';
+$string['datestart_help'] = 'Students can only submit their work after this date.';
 $string['datelimit'] = 'Submission deadline';
 $string['datelimit_help'] = 'After this date, agents cannot submit responses.';
 $string['groupactivity'] = 'Team activity'; // team = group; mission = activity

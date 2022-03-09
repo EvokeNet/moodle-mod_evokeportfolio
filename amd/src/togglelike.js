@@ -1,7 +1,8 @@
 /**
  * Add comment js logic.
  *
- * @package    mod_evokeportfolio
+ * @package
+ * @subpackage    mod_evokeportfolio
  * @copyright  2021 World Bank Group <https://worldbank.org>
  * @author     Willian Mano <willianmanoaraujo@gmail.com>
  */
@@ -14,15 +15,15 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
 
     ToggleLike.prototype.registerEventListeners = function() {
         $(".likebutton").click(function(event) {
-            var postdiv = $(event.currentTarget).closest('.mainpost');
+            var submissiondiv = $(event.currentTarget).closest('.submission');
 
-            if (postdiv.length === 0 || postdiv.length > 1) {
+            if (submissiondiv.length === 0 || submissiondiv.length > 1) {
                 this.showToast('error', 'Error trying to find the discussion for this comment.');
 
                 return;
             }
 
-            var id = postdiv.data('id');
+            var id = submissiondiv.data('id');
 
             var request = Ajax.call([{
                 methodname: 'mod_evokeportfolio_togglereaction',
@@ -34,8 +35,8 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
 
             request[0].done(function(data) {
 
-                var statusdiv = postdiv.find('.reactions .status');
-                var likebutton = postdiv.find('.actions .likebutton');
+                var statusdiv = submissiondiv.find('.reactions .status');
+                var likebutton = submissiondiv.find('.actions .likebutton');
 
                 statusdiv.empty();
 
@@ -55,46 +56,6 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
 
                 this.showToast('error', message);
             }.bind(this));
-        });
-    };
-
-    ToggleLike.prototype.saveComment = function(postinput, value) {
-        if (value === '') {
-            return;
-        }
-
-        var postdiv = postinput.closest('.mainpost');
-
-        postinput.empty();
-
-        if (postdiv.length === 0 || postdiv.length > 1) {
-            this.showToast('error', 'Error trying to find the discussion for this comment.');
-
-            return;
-        }
-
-        var id = postdiv.data('id');
-
-        var request = Ajax.call([{
-            methodname: 'mod_evokeportfolio_addcomment',
-            args: {
-                comment: {
-                    submissionid: id,
-                    message: value,
-                }
-            }
-        }]);
-
-        request[0].done(function(data) {
-            this.addCommentToPost(postdiv, data.message);
-        }.bind(this)).fail(function(error) {
-            var message = error.message;
-
-            if (!message) {
-                message = error.error;
-            }
-
-            this.showToast('error', message);
         }.bind(this));
     };
 
@@ -115,25 +76,6 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
             icon: type,
             title: message
         });
-    };
-
-    ToggleLike.prototype.addCommentToPost = function(postdiv, value) {
-        var userimg = postdiv.find('.add-comment .userimg').clone();
-        var userfullname = userimg.attr('alt');
-        var loadallcomments = postdiv.find('.loadmore');
-
-        var comment = $("<div class='submissioncomment fadeIn'>" +
-          "<div class='userimg'>" + $('<div/>').append(userimg).html() + "</div>" +
-          "<div class='entry'><div class='entry-content'>" +
-          "<p class='name'>" + userfullname + "</p>" +
-          "<p class='text'>" + value + "</p>" +
-          "</div></div></div>");
-
-        if (loadallcomments.length > 0) {
-            comment.insertBefore(loadallcomments);
-        } else {
-            comment.insertBefore(postdiv.find('.add-comment'));
-        }
     };
 
     return {

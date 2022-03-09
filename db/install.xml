@@ -13,7 +13,9 @@
         <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The format of the intro field."/>
         <FIELD NAME="submissionsuccessmessage" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="A custom message to be displayed after activity submission"/>
         <FIELD NAME="grade" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The maximum grade for this assignment. Can be negative to indicate the use of a scale."/>
+        <FIELD NAME="datestart" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="datelimit" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="evokation" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" UNSIGNED="true" COMMENT="Is an evokation activity?"/>
         <FIELD NAME="groupactivity" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Defines whether the activity is made in group or not."/>/
         <FIELD NAME="groupgradingmode" TYPE="int" LENGTH="4" NOTNULL="false" DEFAULT="1" SEQUENCE="false" COMMENT="Defines the group grading method, if every user will receive the same grade or if the tutor will grade every user from group individually."/>
         <FIELD NAME="completionrequiresubmit" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" UNSIGNED="true"/>

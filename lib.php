@@ -56,10 +56,6 @@ function evokeportfolio_add_instance($moduleinstance, $mform = null) {
     $moduleinstance->timecreated = time();
     $moduleinstance->timemodified = time();
 
-    if ($moduleinstance->groupactivity == 0) {
-        $moduleinstance->groupgradingmode = 0;
-    }
-
     $id = $DB->insert_record('evokeportfolio', $moduleinstance);
 
     $moduleinstance->id = $id;
