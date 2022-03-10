@@ -1,0 +1,88 @@
+{{{filters}}}
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <button class="nav-link active" id="myportfolio-tab" data-toggle="tab" data-target="#myportfolio" type="button" role="tab" aria-controls="myportfolio" aria-selected="true">My portfolio</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" id="teamportfolio-tab" data-toggle="tab" data-target="#teamportfolio" type="button" role="tab" aria-controls="teamportfolio" aria-selected="false">Team portfolio</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" id="networkportfolio-tab" data-toggle="tab" data-target="#networkportfolio" type="button" role="tab" aria-controls="networkportfolio" aria-selected="false">Network portfolio</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active p-2" id="myportfolio" role="tabpanel" aria-labelledby="myportfolio-tab">
+        {{#portfolios}}
+            <fieldset class="fieldset" data-portfolioid="{{id}}">
+                <legend>{{name}}</legend>
+
+                <div class="submissions mt-2" data-courseid="{{{courseid}}}">
+                    {{#submissions}}
+                        {{> mod_evokeportfolio/social_submission }}
+                    {{/submissions}}
+                </div>
+            </fieldset>
+        {{/portfolios}}
+    </div>
+    <div class="tab-pane fade p-2" id="teamportfolio" role="tabpanel" aria-labelledby="teamportfolio-tab">
+        {{#hasgroup}}
+            <div class="row">
+                <div class="col">
+                    <h3>My team</h3>
+                    {{#groupmembers}}
+                        <div class="groupmember">
+                            <a href="{{config.wwwroot}}/local/evokegame/profile.php?id={{courseid}}&userid={{id}}">
+                                <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
+                            </a>
+                        </div>
+                    {{/groupmembers}}
+                </div>
+            </div>
+        {{/hasgroup}}
+
+        {{#groupportfolios}}
+            <fieldset class="fieldset mt-2" data-portfolioid="{{id}}">
+                <legend>{{name}}</legend>
+
+                <div class="submissions mt-2" data-courseid="{{{courseid}}}">
+                    {{#submissions}}
+                        {{> mod_evokeportfolio/social_submission }}
+                    {{/submissions}}
+                </div>
+            </fieldset>
+        {{/groupportfolios}}
+    </div>
+    <div class="tab-pane fade" id="networkportfolio" role="tabpanel" aria-labelledby="networkportfolio-tab">
+        {{#networkportfolios}}
+            <fieldset class="fieldset mt-2" data-portfolioid="{{id}}">
+                <legend>{{name}}</legend>
+
+                <div class="submissions mt-2" data-courseid="{{{courseid}}}">
+                    {{#submissions}}
+                        {{> mod_evokeportfolio/social_submission }}
+                    {{/submissions}}
+                </div>
+            </fieldset>
+        {{/networkportfolios}}
+    </div>
+</div>
+
+{{#js}}
+    require([
+        'mod_evokeportfolio/addcomment',
+        'mod_evokeportfolio/tribute_init',
+        'mod_evokeportfolio/comment',
+        'mod_evokeportfolio/togglelike',
+        'mod_evokeportfolio/addgrade'
+    ], function(AddComment, TributeInit, Comment, ToggleLike, AddGrade) {
+        AddComment.init();
+
+        TributeInit.init();
+
+        Comment.init();
+
+        ToggleLike.init();
+    });
+{{/js}}

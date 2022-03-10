@@ -26,7 +26,7 @@ if ($chapterid) {
 
 $portfolio = null;
 if ($portfolioid) {
-    $portfolio = $DB->get_record('evokeportfolio', array('id' => $portfolioid, 'evokation' => 0), '*', MUST_EXIST);
+    $portfolio = $DB->get_record('evokeportfolio', array('id' => $portfolioid, 'evokation' => 1), '*', MUST_EXIST);
 }
 
 $group = null;
@@ -49,7 +49,7 @@ if ($chapter) {
     $urlparams['chapter'] = $chapter->id;
 }
 
-$url = new moodle_url('/mod/evokeportfolio/index.php', $urlparams);
+$url = new moodle_url('/mod/evokeportfolio/evokation.php', $urlparams);
 
 $PAGE->set_url($url);
 
@@ -71,13 +71,13 @@ echo $OUTPUT->header();
 if (!has_capability('mod/evokeportfolio:grade', $context)) {
     $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-    $contentrenderable = new \mod_evokeportfolio\output\index($course, $chapter, $portfolio);
+    $contentrenderable = new \mod_evokeportfolio\output\evokation($course, $chapter, $portfolio);
 
     echo $renderer->render($contentrenderable);
 } else {
     $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-    $contentrenderable = new \mod_evokeportfolio\output\indexadmin($course, $context, $chapter, $portfolio, $group);
+    $contentrenderable = new \mod_evokeportfolio\output\evokationadmin($course, $context, $chapter, $portfolio, $group);
 
     echo $renderer->render($contentrenderable);
 }

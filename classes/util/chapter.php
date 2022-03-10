@@ -106,7 +106,7 @@ class chapter {
         return $data;
     }
 
-    public function get_chapter_portfolios($chapter) {
+    public function get_chapter_portfolios($chapter, $evokation = 0) {
         global $DB;
 
         if (!$chapter->portfolios) {
@@ -117,7 +117,9 @@ class chapter {
 
         $sql = "SELECT * 
                 FROM {evokeportfolio}
-                WHERE id {$insql}";
+                WHERE evokation = :evokation AND id {$insql}";
+
+        $params['evokation'] = $evokation;
 
         $portfolios = $DB->get_records_sql($sql, $params);
 
