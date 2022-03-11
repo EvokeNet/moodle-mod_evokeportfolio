@@ -2,13 +2,13 @@
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-        <button class="nav-link active" id="myportfolio-tab" data-toggle="tab" data-target="#myportfolio" type="button" role="tab" aria-controls="myportfolio" aria-selected="true">My portfolio</button>
+        <button class="nav-link active" id="myportfolio-tab" data-toggle="tab" data-target="#myportfolio" type="button" role="tab" aria-controls="myportfolio" aria-selected="true">My evokation</button>
     </li>
     <li class="nav-item">
-        <button class="nav-link" id="teamportfolio-tab" data-toggle="tab" data-target="#teamportfolio" type="button" role="tab" aria-controls="teamportfolio" aria-selected="false">Team portfolio</button>
+        <button class="nav-link" id="teamportfolio-tab" data-toggle="tab" data-target="#teamportfolio" type="button" role="tab" aria-controls="teamportfolio" aria-selected="false">Team evokation</button>
     </li>
     <li class="nav-item">
-        <button class="nav-link" id="networkportfolio-tab" data-toggle="tab" data-target="#networkportfolio" type="button" role="tab" aria-controls="networkportfolio" aria-selected="false">Network portfolio</button>
+        <button class="nav-link" id="networkportfolio-tab" data-toggle="tab" data-target="#networkportfolio" type="button" role="tab" aria-controls="networkportfolio" aria-selected="false">Network evokation</button>
     </li>
 </ul>
 
@@ -21,6 +21,11 @@
                 <div class="submissions mt-2" data-courseid="{{{courseid}}}">
                     {{#submissions}}
                         {{> mod_evokeportfolio/social_submission }}
+                    {{/submissions}}
+
+                    {{^submissions}}
+                        <p>You did not submit your work yet</p>
+                        <a href="{{config.wwwroot}}" class="btn btn-primary">Click here and submit your work</a>
                     {{/submissions}}
                 </div>
             </fieldset>

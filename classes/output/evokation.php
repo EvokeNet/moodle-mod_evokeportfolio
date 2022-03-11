@@ -83,7 +83,7 @@ class evokation implements renderable, templatable {
             $portfoliosdata['currentportfolioid'] = $this->portfolio->id;
         }
 
-        $filtersrenderer = new indexfilters($this->course->id, $chaptersdata, $portfoliosdata);
+        $filtersrenderer = new evokationfilters($this->course->id, $chaptersdata, $portfoliosdata);
 
         $filters = $output->render($filtersrenderer);
 

@@ -390,13 +390,13 @@
     font-weight: bold;
 }
 
-#page-mod-evokeportfolio-index fieldset {
+.path-mod-evokeportfolio fieldset {
     border: 1px solid #d7dfe3;
     padding: 0 1rem 1rem 1rem;
     margin-bottom: 1rem;
 }
 
-#page-mod-evokeportfolio-index legend {
+.path-mod-evokeportfolio fieldset legend {
     margin-bottom: 0;
     width: initial;
     padding: 0 0.5rem;

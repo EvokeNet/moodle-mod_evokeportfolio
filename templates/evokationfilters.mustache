@@ -1,0 +1,45 @@
+<form action="{{baseurl}}" method="GET">
+    <input name="id" type="hidden" value="{{courseid}}">
+
+    <div class="row">
+        <div class="col-8">
+            <h2>Evokation</h2>
+        </div>
+        <div class="col-4">
+            <select id="chapter" name="chapter" class="form-control">
+                {{#chapters}}
+                    <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+                {{/chapters}}
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8">
+        </div>
+        <div class="col-4">
+            <select id="portfolio" name="portfolio" class="form-control">
+                <option value="0">All activities</option>
+
+                {{#portfolios}}
+                    <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+                {{/portfolios}}
+            </select>
+        </div>
+    </div>
+</form>
+
+{{#js}}
+    require(['jquery',], function($) {
+        $('#chapter').on('change', function(event) {
+            event.preventDefault();
+
+            this.form.submit();
+        });
+
+
+        $('#portfolio').on('change', function(event) {
+            this.form.submit();
+        });
+    });
+{{/js}}

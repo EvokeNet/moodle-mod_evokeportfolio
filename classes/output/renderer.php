@@ -101,4 +101,34 @@ class renderer extends plugin_renderer_base {
 
         return $this->render_from_template('mod_evokeportfolio/indexfilters', $data);
     }
+
+    /**
+     * Defer the instance in course to template.
+     *
+     * @param renderable $page
+     *
+     * @return bool|string
+     *
+     * @throws \moodle_exception
+     */
+    public function render_evokationadminfilters(renderable $page) {
+        $data = $page->export_for_template($this);
+
+        return $this->render_from_template('mod_evokeportfolio/evokationadminfilters', $data);
+    }
+
+    /**
+     * Defer the instance in course to template.
+     *
+     * @param renderable $page
+     *
+     * @return bool|string
+     *
+     * @throws \moodle_exception
+     */
+    public function render_evokationfilters(renderable $page) {
+        $data = $page->export_for_template($this);
+
+        return $this->render_from_template('mod_evokeportfolio/evokationfilters', $data);
+    }
 }
