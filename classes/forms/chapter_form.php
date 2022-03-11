@@ -53,7 +53,7 @@ class chapter_form extends \moodleform {
 
         $portfolioutil = new evokeportfolio();
 
-        $courseportfolios = $portfolioutil->get_unused_course_portfolio_instances_select($this->_customdata['course'], $id);
+        $courseportfolios = $portfolioutil->get_course_portfolio_instances_select($this->_customdata['course'], $id);
         $mform->addElement('select', 'portfolios', get_string('chaptersportfolios', 'mod_evokeportfolio'), $courseportfolios);
         $mform->addRule('portfolios', get_string('required'), 'required', null, 'client');
         $mform->getElement('portfolios')->setMultiple(true);

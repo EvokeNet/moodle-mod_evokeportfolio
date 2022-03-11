@@ -33,7 +33,7 @@
     require(['mod_evokeportfolio/createchapter', 'mod_evokeportfolio/editchapter', 'mod_evokeportfolio/deletechapter'], function(CreateChapter, EditChapter, DeleteChapter) {
         CreateChapter.init('[data-action=create-chapter-modal]', {{{contextid}}}, {{{courseid}}});
 
-        EditChapter.init({{{contextid}}});
+        EditChapter.init({{{contextid}}}, {{{courseid}}});
 
         DeleteChapter.init();
     });

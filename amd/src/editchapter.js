@@ -1,7 +1,6 @@
 /**
  * Edit chapter js logic.
  *
- * @package    mod_evokeportfolio
  * @copyright  2021 World Bank Group <https://worldbank.org>
  * @author     Willian Mano <willianmanoaraujo@gmail.com>
  */
@@ -17,14 +16,11 @@ define([
         'mod_evokeportfolio/sweetalert',
         'core/yui'],
     function($, Config, Str, ModalFactory, ModalEvents, Fragment, Ajax, Swal, Y) {
-        /**
-         * Constructor for the EditChapter.
-         *
-         * @param selector The selector to open the modal
-         * @param contextid The course module contextid
-         */
-        var EditChapter = function(contextid) {
+
+        var EditChapter = function(contextid, courseid) {
             this.contextid = contextid;
+
+            this.courseid = courseid;
 
             this.registerEventListeners();
         };
@@ -40,6 +36,8 @@ define([
          * @private
          */
         EditChapter.prototype.contextid = -1;
+
+        EditChapter.prototype.courseid = -1;
 
         EditChapter.prototype.eventtarget = null;
 
@@ -57,7 +55,8 @@ define([
                         body: this.getBody({
                             id: this.eventtarget.data('id'),
                             name: this.eventtarget.data('name'),
-                            portfolios: this.eventtarget.data('portfolios')
+                            portfolios: this.eventtarget.data('portfolios'),
+                            course: this.courseid
                         })
                     });
                 }.bind(this)).then(function(modal) {
@@ -69,7 +68,8 @@ define([
                         this.modal.setBody(this.getBody({
                             id: this.eventtarget.data('id'),
                             name: this.eventtarget.data('name'),
-                            portfolios: this.eventtarget.data('portfolios')
+                            portfolios: this.eventtarget.data('portfolios'),
+                            course: this.courseid
                         }));
                     }.bind(this));
 
@@ -90,13 +90,6 @@ define([
             }.bind(this));
         };
 
-        /**
-         * @method getBody
-         *
-         * @private
-         *
-         * @return {Promise}
-         */
         EditChapter.prototype.getBody = function(formdata) {
             if (typeof formdata === "undefined") {
                 formdata = {};
@@ -108,13 +101,6 @@ define([
             return Fragment.loadFragment('mod_evokeportfolio', 'chapter_form', this.contextid, params);
         };
 
-        /**
-         * @method handleFormSubmissionResponse
-         *
-         * @private
-         *
-         * @return {Promise}
-         */
         EditChapter.prototype.handleFormSubmissionResponse = function(data) {
             this.modal.hide();
             // We could trigger an event instead.
@@ -152,13 +138,6 @@ define([
             });
         };
 
-        /**
-         * @method handleFormSubmissionFailure
-         *
-         * @private
-         *
-         * @return {Promise}
-         */
         EditChapter.prototype.handleFormSubmissionFailure = function(data) {
             // Oh noes! Epic fail :(
             // Ah wait - this is normal. We need to re-display the form with errors!
@@ -227,8 +206,8 @@ define([
         };
 
         return {
-            init: function(contextid) {
-                return new EditChapter(contextid);
+            init: function(contextid, courseid) {
+                return new EditChapter(contextid, courseid);
             }
         };
     }

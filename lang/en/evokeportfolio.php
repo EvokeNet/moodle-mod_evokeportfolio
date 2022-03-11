@@ -144,6 +144,7 @@ $string['courseportfolios'] = 'Portfolios in course';
 $string['deletechapter_success'] = 'Chapter successfully deleted.';
 $string['createchapter_success'] = 'Chapter successfully created.';
 $string['editchapter_success'] = 'Chapter successfully edited.';
+$string['editchapter'] = 'Edit chapter';
 $string['grading_success'] = 'Grading successfully finished.';
 $string['graded'] = 'Graded';
 $string['nosubmissions'] = 'No submissions';
