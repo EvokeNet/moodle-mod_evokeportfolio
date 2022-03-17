@@ -10,12 +10,24 @@
 
 require(__DIR__.'/../../config.php');
 
+global $DB;
+
 // Course module id.
-$id = required_param('id', PARAM_INT);
+$id = optional_param('id', null, PARAM_INT);
+$portfolioid = optional_param('portfolioid', null, PARAM_INT);
 $embed = optional_param('embed', 0, PARAM_INT);
 
-list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
-$evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
+if (!$id && !$portfolioid) {
+    throw new Exception('Illegal access');
+}
+
+if ($id) {
+    list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
+    $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
+} else if ($portfolioid) {
+    list ($course, $cm) = get_course_and_cm_from_instance($portfolioid, 'evokeportfolio');
+    $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
+}
 
 require_course_login($course, true, $cm);
 
