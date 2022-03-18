@@ -9,12 +9,14 @@
                 <span class="small">{{{humantimecreated}}}</span>
             </div>
             <div class="usergradeinfo ml-auto">
-                {{#grade}}
-                    <span class="badge badge-success">Assessment: {{{grade}}}</span>
-                {{/grade}}
-                {{^grade}}
-                    <span class="badge badge-primary">Not yet assessed</span>
-                {{/grade}}
+                {{#isevaluated}}
+                    {{#grade}}
+                        <span class="badge badge-success">Assessment: {{{grade}}}</span>
+                    {{/grade}}
+                    {{^grade}}
+                        <span class="badge badge-primary">Not yet assessed</span>
+                    {{/grade}}
+                {{/isevaluated}}
             </div>
         </div>
         <div class="content">

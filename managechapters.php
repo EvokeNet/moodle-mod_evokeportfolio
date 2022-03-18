@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 /**
  * Manage sections of mod_evokeportfolio.

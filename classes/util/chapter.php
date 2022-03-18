@@ -127,6 +127,14 @@ class chapter {
             return false;
         }
 
+        foreach ($portfolios as $portfolio) {
+            $portfolio->isevaluated = false;
+
+            if ($portfolio->grade != 0) {
+                $portfolio->isevaluated = true;
+            }
+        }
+
         return array_values($portfolios);
     }
 }

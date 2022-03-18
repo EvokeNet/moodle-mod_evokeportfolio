@@ -78,15 +78,11 @@
     require([
         'mod_evokeportfolio/addcomment',
         'mod_evokeportfolio/tribute_init',
-        'mod_evokeportfolio/comment',
-        'mod_evokeportfolio/togglelike',
-        'mod_evokeportfolio/addgrade'
-    ], function(AddComment, TributeInit, Comment, ToggleLike, AddGrade) {
+        'mod_evokeportfolio/togglelike'
+    ], function(AddComment, TributeInit, ToggleLike) {
         AddComment.init();
 
         TributeInit.init();
-
-        Comment.init();
 
         ToggleLike.init();
     });

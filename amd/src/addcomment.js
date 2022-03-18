@@ -14,6 +14,15 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
     };
 
     AddComment.prototype.registerEventListeners = function() {
+        $(".commentbutton").click(function(event) {
+            var inputtarget = $(event.currentTarget).closest('.submission')
+                .find('.add-comment .input-group .post-comment-input');
+
+            if (inputtarget.length > 0) {
+                inputtarget.focus();
+            }
+        });
+
         $(".post-comment-input").keypress(function(event) {
             var keycode = (event.keyCode ? event.keyCode : event.which);
 

@@ -311,7 +311,6 @@ class evokeportfolio {
 
         $sql = 'SELECT e.*
                 FROM {evokeportfolio} e
-                INNER JOIN {grade_items} gi ON gi.iteminstance = e.id AND gi.itemmodule = "evokeportfolio"
                 WHERE e.course = :courseid';
 
         return $DB->get_records_sql($sql, ['courseid' => $courseid]);
