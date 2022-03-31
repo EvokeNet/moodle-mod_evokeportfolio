@@ -21,7 +21,7 @@ $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*'
 $section = $DB->get_record('evokeportfolio_sections', ['id' => $sectionid], '*', MUST_EXIST);
 
 if ($submissionid) {
-    $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $submissionid, 'postedby' => $USER->id], '*');
+    $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $submissionid, 'userid' => $USER->id], '*');
 
     if (!$submission) {
         $url = new moodle_url('/course/view', ['id' => $course->id]);
@@ -52,14 +52,7 @@ $formdata = [
     'sectionid' => $section->id
 ];
 
-if ($evokeportfolio->groupactivity) {
-    $groupsutil = new \mod_evokeportfolio\util\group();
-    $usercoursegroup = $groupsutil->get_user_group($course->id);
-
-    $formdata['groupid'] = $usercoursegroup->id;
-} else {
-    $formdata['userid'] = $USER->id;
-}
+$formdata['userid'] = $USER->id;
 
 if ($submissionid) {
     $formdata['submissionid'] = $submissionid;
@@ -74,7 +67,7 @@ if ($form->is_cancelled()) {
         unset($formdata->submitbutton);
 
         if (isset($formdata->submissionid)) {
-            $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $formdata->submissionid, 'postedby' => $USER->id], '*', MUST_EXIST);
+            $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $formdata->submissionid, 'userid' => $USER->id], '*', MUST_EXIST);
 
             $submission->comment = null;
             $submission->commentformat = null;
@@ -91,7 +84,7 @@ if ($form->is_cancelled()) {
             $params = array(
                 'context' => $context,
                 'objectid' => $submission->id,
-                'relateduserid' => $submission->postedby
+                'relateduserid' => $submission->userid
             );
             $event = \mod_evokeportfolio\event\submission_updated::create($params);
             $event->add_record_snapshot('evokeportfolio_submissions', $submission);
@@ -101,21 +94,11 @@ if ($form->is_cancelled()) {
         } else {
             $submission = new \stdClass();
             $submission->sectionid = $section->id;
-            $submission->postedby = $USER->id;
+            $submission->userid = $USER->id;
             $submission->timecreated = time();
             $submission->timemodified = time();
-            $submission->groupid = null;
-            $submission->userid = null;
             $submission->comment = null;
             $submission->commentformat = null;
-
-            if (isset($formdata->groupid)) {
-                $submission->groupid = $formdata->groupid;
-            }
-
-            if (isset($formdata->userid)) {
-                $submission->userid = $formdata->userid;
-            }
 
             if (isset($formdata->comment['text'])) {
                 $submission->comment = $formdata->comment['text'];
@@ -129,7 +112,7 @@ if ($form->is_cancelled()) {
             $params = array(
                 'context' => $context,
                 'objectid' => $submissionid,
-                'relateduserid' => $submission->postedby
+                'relateduserid' => $submission->userid
             );
             $event = \mod_evokeportfolio\event\submission_sent::create($params);
             $event->add_record_snapshot('evokeportfolio_submissions', $submission);

@@ -42,7 +42,7 @@ class section {
                 }
             }
 
-            $submissions = $this->get_section_submissions($context, $section->id, $userid, $groupid);
+            $submissions = $this->get_section_submissions($context, $section->id, $userid);
             $sections[$key]->nosubmissions = false;
 
             if (!$submissions) {
@@ -58,10 +58,10 @@ class section {
         return $sections;
     }
 
-    public function get_section_submissions($context, $sectionid, $userids = null, $groupid = null) {
+    public function get_section_submissions($context, $sectionid, $userids = null) {
         global $DB;
 
-        if (!$userids && !$groupid) {
+        if (!$userids) {
             throw new \Exception('You need to inform either an user or group id');
         }
 
@@ -69,43 +69,30 @@ class section {
                     es.*,
                     u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
                 FROM {evokeportfolio_submissions} es
-                INNER JOIN {user} u ON u.id = es.postedby
+                INNER JOIN {user} u ON u.id = es.userid
                 WHERE es.sectionid = :sectionid';
 
-        if ($groupid) {
-            $sql .= ' AND es.groupid = :groupid ORDER BY es.id desc';
-            $submissions = $DB->get_records_sql($sql, ['sectionid' => $sectionid, 'groupid' => $groupid]);
+        $params = ['sectionid' => $sectionid];
 
-            if (!$submissions) {
-                return false;
-            }
+        if (is_array($userids)) {
+            list($sqld, $paramsd) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
 
-            return $this->populate_submission_with_data($submissions, $context);
+            $sql .= ' AND es.userid '. $sqld .' ORDER BY es.id desc';
+
+            $params = $params + $paramsd;
+        } else {
+            $sql .= ' AND es.userid = :userid ORDER BY es.id desc';
+
+            $params = $params + ['userid' => $userids];
         }
 
-        if ($userids) {
-            $params = ['sectionid' => $sectionid];
+        $submissions = $DB->get_records_sql($sql, $params);
 
-            if (is_array($userids)) {
-                list($sqld, $paramsd) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
-
-                $sql .= ' AND es.userid '. $sqld .' ORDER BY es.id desc';
-
-                $params = $params + $paramsd;
-            } else {
-                $sql .= ' AND es.userid = :userid ORDER BY es.id desc';
-
-                $params = $params + ['userid' => $userids];
-            }
-
-            $submissions = $DB->get_records_sql($sql, $params);
-
-            if (!$submissions) {
-                return false;
-            }
-
-            return $this->populate_submission_with_data($submissions, $context);
+        if (!$submissions) {
+            return false;
         }
+
+        return $this->populate_submission_with_data($submissions, $context);
     }
 
     private function populate_submission_with_data($submissions, $context) {

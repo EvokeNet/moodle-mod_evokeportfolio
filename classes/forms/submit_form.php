@@ -31,11 +31,6 @@ class submit_form extends \moodleform {
             $mform->setType('userid', PARAM_INT);
         }
 
-        if (isset($this->_customdata['groupid'])) {
-            $mform->addElement('hidden', 'groupid', $this->_customdata['groupid']);
-            $mform->setType('groupid', PARAM_INT);
-        }
-
         $options = [
             'subdirs'=> 0,
             'maxbytes'=> 0,

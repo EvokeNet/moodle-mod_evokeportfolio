@@ -9,17 +9,6 @@
             <p class="mb-0">{{{datelimit}}}</p>
         </div>
         <div class="col-4">
-            <p class="mb-0 font-weight-bold">{{#str}}groupactivity, mod_evokeportfolio{{/str}}</p>
-            <p class="mb-0">
-                {{#groupactivity}}
-                    {{#str}}yes{{/str}}
-                {{/groupactivity}}
-                {{^groupactivity}}
-                    {{#str}}no{{/str}}
-                {{/groupactivity}}
-            </p>
-        </div>
-        <div class="col-4">
             <p class="mb-0 font-weight-bold">{{#str}}page_view_timeremaining, mod_evokeportfolio{{/str}}</p>
             <p class="mb-0">
                 {{#isdelayed}}
@@ -31,33 +20,6 @@
             </p>
         </div>
     </div>
-    {{#groupactivity}}
-        <hr class="my-2">
-        <div class="row">
-            <div class="col-6">
-                <p class="mb-0 font-weight-bold">{{#str}}groupgradingmode, mod_evokeportfolio{{/str}}</p>
-                <p class="mb-0">{{groupgradingmodetext}}</p>
-            </div>
-            {{#hasgroup}}
-                <div class="col-6">
-                    <p class="mb-0 font-weight-bold">{{#str}}group{{/str}}</p>
-                    <p class="mb-0">{{groupname}}</p>
-                </div>
-            {{/hasgroup}}
-        </div>
-        {{#hasgroup}}
-            <div class="row">
-                <div class="col">
-                    <p class="mb-0 font-weight-bold">{{#str}}groupmembers{{/str}}</p>
-                    {{#groupmembers}}
-                        <div class="groupmember">
-                            <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
-                        </div>
-                    {{/groupmembers}}
-                </div>
-            </div>
-        {{/hasgroup}}
-    {{/groupactivity}}
 </div>
 
 {{#issinglesection}}

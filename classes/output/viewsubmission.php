@@ -4,9 +4,7 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\section;
-use mod_evokeportfolio\util\group;
 use mod_evokeportfolio\util\user;
 use renderable;
 use templatable;
@@ -23,21 +21,12 @@ class viewsubmission implements renderable, templatable {
     public $evokeportfolio;
     public $context;
     public $user;
-    public $group;
 
-    public function __construct($evokeportfolio, $context, $userid = null, $groupid = null) {
-        global $DB;
-
+    public function __construct($evokeportfolio, $context, $user) {
         $this->evokeportfolio = $evokeportfolio;
         $this->context = $context;
 
-        if ($userid) {
-            $this->user = $DB->get_record('user', ['id' => $userid], '*', MUST_EXIST);
-        }
-
-        if ($groupid) {
-            $this->group = $DB->get_record('groups', ['id' => $groupid], '*', MUST_EXIST);
-        }
+        $this->user = $user;
     }
 
     /**
@@ -65,34 +54,10 @@ class viewsubmission implements renderable, templatable {
             'name' => $this->evokeportfolio->name,
             'cmid' => $this->context->instanceid,
             'course' => $this->evokeportfolio->course,
-            'groupactivity' => $this->evokeportfolio->groupactivity,
             'isgradinglocked' => $isgradinglocked,
         ];
 
-        $evokeportfolioutil = new evokeportfolio();
         $sectionutil = new section();
-
-        if ($this->evokeportfolio->groupactivity) {
-            $groupsutil = new group();
-
-            $data['hassubmission'] = false;
-            $data['submissions'] = false;
-
-            $data['groupid'] = $this->group->id;
-            $data['groupname'] = $this->group->name;
-            $data['groupmembers'] = $groupsutil->get_group_members($this->group->id);
-
-            $data['hassubmission'] = $evokeportfolioutil->has_submission($this->evokeportfolio->id, null, $this->group->id);
-
-            $sectionssubmissions = $sectionutil->get_sections_submissions($this->context, $this->evokeportfolio->id, null, $this->group->id);
-
-            $data['sectionssubmissions'] = $sectionssubmissions;
-            $data['issinglesection'] = count($sectionssubmissions) == 1;
-
-            $data['grouphasgrade'] = $gradeutil->group_has_grade($this->evokeportfolio, $this->group->id);
-
-            return $data;
-        }
 
         $userpicture = new \user_picture($USER);
         $userpicture->size = 1;

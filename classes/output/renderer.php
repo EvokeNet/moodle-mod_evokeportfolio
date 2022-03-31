@@ -46,11 +46,7 @@ class renderer extends plugin_renderer_base {
     public function render_section(renderable $page) {
         $data = $page->export_for_template($this);
 
-        if ($data['groupactivity']) {
-            return $this->render_from_template('mod_evokeportfolio/section_group', $data);
-        }
-
-        return $this->render_from_template('mod_evokeportfolio/section_individual', $data);
+        return $this->render_from_template('mod_evokeportfolio/section', $data);
     }
 
     /**
@@ -65,11 +61,7 @@ class renderer extends plugin_renderer_base {
     public function render_viewsubmission(renderable $page) {
         $data = $page->export_for_template($this);
 
-        if ($data['groupactivity']) {
-            return $this->render_from_template('mod_evokeportfolio/viewsubmission_group', $data);
-        }
-
-        return $this->render_from_template('mod_evokeportfolio/viewsubmission_individual', $data);
+        return $this->render_from_template('mod_evokeportfolio/viewsubmission', $data);
     }
 
     /**

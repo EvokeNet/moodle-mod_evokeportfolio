@@ -49,11 +49,6 @@ class view implements renderable, templatable {
             $isdelayed = false;
         }
 
-        $groupgradingmodetext = get_string('groupgrading', 'mod_evokeportfolio');
-        if ($this->evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_INDIVIDUAL) {
-            $groupgradingmodetext = get_string('individualgrading', 'mod_evokeportfolio');
-        }
-
         $data = [
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,
@@ -62,14 +57,10 @@ class view implements renderable, templatable {
             'timeremaining' => format_time($timeremaining),
             'cmid' => $this->context->instanceid,
             'courseid' => $this->evokeportfolio->course,
-            'groupactivity' => $this->evokeportfolio->groupactivity,
-            'groupgradingmodetext' => $groupgradingmodetext,
             'isdelayed' => $isdelayed,
             'itsme' => true,
             'embed' => $this->embed
         ];
-
-        $groupsutil = new group();
 
         // Teacher.
         if (has_capability('mod/evokeportfolio:grade', $this->context)) {
@@ -78,10 +69,6 @@ class view implements renderable, templatable {
 
             $participants = count_enrolled_users($this->context, 'mod/evokeportfolio:submit');
             $data['participants'] = $participants;
-
-            if ($this->evokeportfolio->groupactivity) {
-                $data['groupscount'] = $groupsutil->get_total_groups_in_course($this->evokeportfolio->course);
-            }
 
             return $data;
         }
@@ -105,27 +92,11 @@ class view implements renderable, templatable {
             $data['userpicture'] = $userpicture->get_url($PAGE)->out();
             $data['userfullname'] = fullname($USER);
 
-            if (!$this->evokeportfolio->groupactivity) {
-                $submissions = $sectionutil->get_section_submissions($this->context, $section->id, $USER->id);
-            }
+            $submissions = $sectionutil->get_section_submissions($this->context, $section->id, $USER->id);
         }
 
         if (!$issinglesection) {
             $data['sections'] = $sections;
-        }
-
-        if ($this->evokeportfolio->groupactivity) {
-            $usercoursegroup = $groupsutil->get_user_group($this->evokeportfolio->course);
-
-            $data['hasgroup'] = !empty($usercoursegroup);
-            if ($usercoursegroup) {
-                $data['groupname'] = $usercoursegroup->name;
-                $data['groupmembers'] = $groupsutil->get_group_members($usercoursegroup->id);
-
-                if ($issinglesection) {
-                    $submissions = $sectionutil->get_section_submissions($this->context, $section->id, null, $usercoursegroup->id);
-                }
-            }
         }
 
         $data['submissions'] = $submissions;

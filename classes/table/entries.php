@@ -32,9 +32,9 @@ class entries extends table_sql {
         $this->context = $context;
         $this->coursemodule = $coursemodule;
 
-        $this->define_columns($this->get_evokeportfolio_columns());
+        $this->define_columns(['id', 'fullname', 'email', 'group', 'status']);
 
-        $this->define_headers($this->get_evokeportfolio_headers());
+        $this->define_headers(['ID', get_string('fullname'), 'E-mail', get_string('group'), get_string('status', 'mod_evokeportfolio')]);
 
         $this->no_sorting('status');
 
@@ -53,26 +53,6 @@ class entries extends table_sql {
         $userutil = new user();
 
         $usergroup = $userutil->get_user_group($USER->id, $this->evokeportfolio->course);
-
-        if ($this->evokeportfolio->groupactivity) {
-            $fields = 'DISTINCT g.id, g.name';
-
-            $from = ' {groups} g ';
-
-            $where = ' g.courseid = :courseid';
-
-            if ($usergroup) {
-                $where = ' g.id = :groupid';
-
-                $params['groupid'] = $usergroup->id;
-            }
-
-            $params['courseid'] = $this->evokeportfolio->course;
-
-            $this->set_sql($fields, $from, $where, $params);
-
-            return;
-        }
 
         $fields = 'DISTINCT u.id, u.firstname, u.lastname, u.email';
 
@@ -127,50 +107,18 @@ class entries extends table_sql {
         $evokeportfolioutil = new evokeportfolio();
         $gradeutil = new grade();
 
-        if ($this->evokeportfolio->groupactivity) {
-            if ($evokeportfolioutil->has_submission($this->evokeportfolio->id, null, $data->id)) {
-                $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', ['id' => $this->coursemodule->id, 'groupid' => $data->id]);
+        if ($evokeportfolioutil->has_submission($this->evokeportfolio->id, $data->id)) {
+            $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', ['id' => $this->coursemodule->id, 'userid' => $data->id]);
 
-                $statuscontent = html_writer::link($url, get_string('viewsubmission', 'mod_evokeportfolio'), ['class' => 'btn btn-primary btn-sm']);
+            $statuscontent = html_writer::link($url, get_string('viewsubmission', 'mod_evokeportfolio'), ['class' => 'btn btn-primary btn-sm']);
 
-                if ($gradeutil->group_has_grade($this->evokeportfolio, $data->id)) {
-                    $statuscontent .= html_writer::span(get_string('evaluated', 'mod_evokeportfolio'), 'badge badge-success ml-2 p-2');
-                }
-
-                return $statuscontent;
+            if ($gradeutil->user_has_grade($this->evokeportfolio, $data->id)) {
+                $statuscontent .= html_writer::span(get_string('evaluated', 'mod_evokeportfolio'), 'badge badge-success ml-2 p-2');
             }
-        }
 
-        if (!$this->evokeportfolio->groupactivity) {
-            if ($evokeportfolioutil->has_submission($this->evokeportfolio->id, $data->id)) {
-                $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', ['id' => $this->coursemodule->id, 'userid' => $data->id]);
-
-                $statuscontent = html_writer::link($url, get_string('viewsubmission', 'mod_evokeportfolio'), ['class' => 'btn btn-primary btn-sm']);
-
-                if ($gradeutil->user_has_grade($this->evokeportfolio, $data->id)) {
-                    $statuscontent .= html_writer::span(get_string('evaluated', 'mod_evokeportfolio'), 'badge badge-success ml-2 p-2');
-                }
-
-                return $statuscontent;
-            }
+            return $statuscontent;
         }
 
         return html_writer::span(get_string('notsubmitted', 'mod_evokeportfolio'), 'badge badge-dark');
-    }
-
-    private function get_evokeportfolio_columns() {
-        if ($this->evokeportfolio->groupactivity) {
-            return ['id', 'name', 'status'];
-        }
-
-        return ['id', 'fullname', 'email', 'group', 'status'];
-    }
-
-    private function get_evokeportfolio_headers() {
-        if ($this->evokeportfolio->groupactivity) {
-            return ['ID', get_string('group'), 'Status'];
-        }
-
-        return ['ID', get_string('fullname'), 'E-mail', get_string('group'), get_string('status', 'mod_evokeportfolio')];
     }
 }

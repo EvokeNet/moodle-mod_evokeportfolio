@@ -12,11 +12,11 @@ require(__DIR__.'/../../config.php');
 
 // Course module id.
 $id = required_param('id', PARAM_INT);
-$userid = optional_param('userid', null, PARAM_INT);
-$groupid = optional_param('groupid', null, PARAM_INT);
+$userid = required_param('userid', PARAM_INT);
 
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
+$user = $DB->get_record('user', ['id' => $userid], '*', MUST_EXIST);
 
 require_course_login($course, true, $cm);
 
@@ -28,15 +28,7 @@ if (!has_capability('mod/evokeportfolio:grade', $context)) {
     redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
 }
 
-$urlparams = ['id' => $cm->id];
-
-if ($userid) {
-    $urlparams['userid'] = $userid;
-}
-
-if ($groupid) {
-    $urlparams['groupid'] = $groupid;
-}
+$urlparams = ['id' => $cm->id, 'userid' => $userid];
 
 $PAGE->set_url('/mod/evokeportfolio/viewsubmission.php', $urlparams);
 $PAGE->set_title(format_string($evokeportfolio->name));
@@ -47,7 +39,7 @@ echo $OUTPUT->header();
 
 $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-$contentrenderable = new \mod_evokeportfolio\output\viewsubmission($evokeportfolio, $context, $userid, $groupid);
+$contentrenderable = new \mod_evokeportfolio\output\viewsubmission($evokeportfolio, $context, $user);
 
 echo $renderer->render($contentrenderable);
 

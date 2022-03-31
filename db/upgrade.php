@@ -197,5 +197,42 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2022030500, 'mod', 'evokeportfolio');
     }
 
+    if ($oldversion < 2022031800) {
+        $dbman = $DB->get_manager();
+
+        $table = new xmldb_table('evokeportfolio');
+        $groupactivityfield = new xmldb_field('groupactivity');
+        $groupgradingmodefield = new xmldb_field('groupgradingmode');
+
+        if ($dbman->field_exists($table, $groupactivityfield)) {
+            $dbman->drop_field($table, $groupactivityfield);
+        }
+
+        if ($dbman->field_exists($table, $groupgradingmodefield)) {
+            $dbman->drop_field($table, $groupgradingmodefield);
+        }
+
+        $submissions = $DB->get_records_sql('SELECT * FROM {evokeportfolio_submissions} WHERE groupid IS NOT null');
+        foreach ($submissions as $submission) {
+            $submission->userid = $submission->postedby;
+        }
+
+        $submissionstable = new xmldb_table('evokeportfolio_submissions');
+        $groupidfield = new xmldb_field('groupid');
+        $groupidfkkey = new xmldb_key('fk_groupid', XMLDB_KEY_FOREIGN, ['groupid'], 'groups', 'id');
+        $postedbyfield = new xmldb_field('postedby');
+
+        if ($dbman->field_exists($submissionstable, $groupidfield)) {
+            $dbman->drop_key($submissionstable, $groupidfkkey);
+            $dbman->drop_field($submissionstable, $groupidfield);
+        }
+
+        if ($dbman->field_exists($submissionstable, $postedbyfield)) {
+            $dbman->drop_field($submissionstable, $postedbyfield);
+        }
+
+        upgrade_plugin_savepoint(true, 2022031800, 'mod', 'evokeportfolio');
+    }
+
     return true;
 }
