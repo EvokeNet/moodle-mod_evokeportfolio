@@ -103,7 +103,7 @@ class evokeportfolio {
                     es.*,
                     u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
                 FROM {evokeportfolio_submissions} es
-                INNER JOIN {user} u ON u.id = es.postedby
+                INNER JOIN {user} u ON u.id = es.userid
                 WHERE es.sectionid = :sectionid';
 
         if ($groupid) {
@@ -151,7 +151,7 @@ class evokeportfolio {
                     es.*,
                     u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
                 FROM {evokeportfolio_submissions} es
-                INNER JOIN {user} u ON u.id = es.postedby';
+                INNER JOIN {user} u ON u.id = es.userid';
 
         if ($groupid) {
             $sql .= ' INNER JOIN {groups_members} gm ON gm.userid = u.id';
@@ -230,7 +230,7 @@ class evokeportfolio {
                     es.*,
                     u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
                 FROM {evokeportfolio_submissions} es
-                INNER JOIN {user} u ON u.id = es.postedby
+                INNER JOIN {user} u ON u.id = es.userid
                 WHERE es.sectionid ' . $sectioncondition . ' AND u.id ' . $groupmemberscondition;
 
         $params = $sectionparams + $groupmemberparams;

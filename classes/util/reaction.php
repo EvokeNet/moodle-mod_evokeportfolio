@@ -45,7 +45,7 @@ class reaction {
     private function dispatch_event($reaction) {
         global $DB;
 
-        $sql = 'SELECT p.id, p.course, su.postedby
+        $sql = 'SELECT p.id, p.course, su.userid
                 FROM {evokeportfolio_submissions} su
                 INNER JOIN {evokeportfolio_sections} se ON se.id = su.sectionid
                 INNER JOIN {evokeportfolio} p ON p.id = se.portfolioid
@@ -61,7 +61,7 @@ class reaction {
             'context' => $context,
             'objectid' => $reaction->id,
             'courseid' => $portfolio->course,
-            'relateduserid' => $portfolio->postedby
+            'relateduserid' => $portfolio->userid
         );
         $event = \mod_evokeportfolio\event\like_sent::create($eventparams);
         $event->add_record_snapshot('evokeportfolio_reactions', $reaction);
