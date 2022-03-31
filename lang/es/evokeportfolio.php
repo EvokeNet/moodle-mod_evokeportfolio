@@ -25,11 +25,18 @@ $string['name'] = 'Nombre';
 $string['view'] = 'Ver';
 $string['eventsubmissionsent'] = 'Enviado';
 $string['eventsubmissionupdated'] = 'Envío actualizado';
+$string['eventcommentadded'] = 'Comentario actualizado'; //CHECK
+$string['eventlikesent'] = 'Te gustó'; //CHECK
 $string['gradinglocked'] = 'La valoración de esta misión está actualmente bloqueada.';
 $string['viewsubmission'] = 'Ver envío';
 $string['notsubmitted'] = 'No enviado';
 $string['evaluated'] = 'Valorado';
 
+$string['submissionsuccessmessage'] = 'Submission success message';
+$string['evokation'] = 'Is an evokation';
+$string['evokation_help'] = 'Check this if it is an evokation activity.';
+$string['datestart'] = 'Submission start date';
+$string['datestart_help'] = 'Students can only submit their work after this date.';
 $string['datelimit'] = 'Fecha límite para el envío';
 $string['datelimit_help'] = 'Tras esta fecha, los agentes no pueden enviar respuestas.';
 $string['groupactivity'] = 'Misión en grupo';
@@ -59,6 +66,7 @@ $string['page_view_usernotingroup_text'] = 'Necesita ser parte de un equipo para
 
 $string['page_submit_comment'] = 'Su comentario';
 $string['page_submit_attachments'] = 'Adjuntos';
+$string['nohavesectionaccess'] = 'Aún no tienes acceso a esa sección.'; //CHECK
 
 $string['page_submissions_portfoliocomment'] = 'Comentario';
 $string['page_submissions_portfoliomentorcomment'] = 'Comentarios del mentor';
@@ -84,7 +92,6 @@ $string['validation:commentlen'] = 'El comentario debe tener al menos 10 caracte
 $string['validation:graderequired'] = 'Se requiere una valoración';
 $string['validation:commentattachmentsrequired'] = 'Debe añadir un comentario o enviar un archivo';
 $string['validation:namelen'] = 'El nombre debe tener al menos 3 caracteres de longitud';
-
 $string['managesections'] = 'Administrar secciones';
 $string['createsection'] = 'Crear sección';
 $string['editsection'] = 'Editar sección';
@@ -97,10 +104,8 @@ $string['deletesection_success'] = 'Sección eliminada correctamente';
 $string['createsection_success'] = 'Sección creada correctamente';
 $string['editsection_success'] = 'Sección editada correctamente';
 $string['deletesection_hassubmissions'] = 'No es posible eliminar esta sección porque ya contiene envíos';
-
 $string['evokeportfolio:grade'] = 'Permisos para evaluar a los agentes';
 $string['evokeportfolio:submit'] = 'Permisos para enviar una evidencia de misión al portafolio';
-
 $string['dependentcoursesections'] = 'Secciones dependientes de la campaña';
 $string['nosectionsavailable'] = 'No sections available'; 'No hay secciones disponibles';
 $string['nosectionsavailable_desc'] = 'Aún no hay secciones disponibles en el portafolio.';
@@ -137,6 +142,7 @@ $string['deletechapter_success'] = 'Capítulo eliminado correctamente.';
 $string['createchapter_success'] = 'Capítulo creado con éxito.';
 $string['editchapter_success'] = 'Capítulo editado exitosamente.';
 $string['grading_success'] = 'Calificación finalizada con éxito.';
+$string['editchapter'] = 'Editar capítulo';
 $string['graded'] = 'Calificada';
 $string['nosubmissions'] = 'No hay envíos';
 $string['nosubmissions_desc'] = 'Este usuario aún no ha realizado un envío para este portafolio.';
@@ -152,5 +158,17 @@ $string['message_mentionedinaportfolio'] = 'Se te mencionó en un comentario en 
 $string['message_mentioncontextname'] = 'Mencionado en un comentario.';
 $string['message_clicktoaccessportfolio'] = 'Haga clic aquí para acceder al portafolio';
 
+$string['coursenoportfolio'] = 'This course does not have a portfolio';
+$string['view'] = 'Mirar'; //CHECK
+$string['page_portfolio_title'] = 'Mis envíos en un portafolio'; //CHECK
+
+$string['reaction_like'] = 'Me gusta';
+$string['reaction_comment'] = 'Comentario';
+$string['reaction_youreacted'] = 'Reaccionaste'; //CHECK
+$string['reaction_youandreacted'] = 'You and {$a} other people'; //WHAT IS THIS?
+$string['reaction_peoplereacted'] = '{$a} personas reaccionaron'; //CHECK
+
 $string['completionrequiresubmit'] = 'Require submission';
 $string['completionrequiresubmit_help'] = 'The user needs to submit to complete this activity';
+
+$string['messageprovider:commentmention'] = 'Notify user and he/she is mentioned in a comment';

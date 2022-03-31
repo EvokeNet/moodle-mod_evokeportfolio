@@ -11,7 +11,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['evokeportfolio:addinstance'] = 'Add a portfolio';
+$string['evokeportfolio:addinstance'] = 'Add a portflio';
 $string['evokeportfolio:view'] = 'View portfolio';
 $string['missingidandcmid'] = 'Missing ID or Course Module ID';
 $string['modulename'] = 'Portfolio';
@@ -92,7 +92,6 @@ $string['validation:commentlen'] = 'Post text needs to be at least 10 characters
 $string['validation:graderequired'] = 'Grade is required';
 $string['validation:commentattachmentsrequired'] = 'You must add text to your post or submit a file.';
 $string['validation:namelen'] = 'Name needs to contain at least 3 characters';
-
 $string['managesections'] = 'Manage sections';
 $string['createsection'] = 'Create section';
 $string['editsection'] = 'Edit section';
@@ -105,10 +104,8 @@ $string['deletesection_success'] = 'Section successfully deleted.';
 $string['createsection_success'] = 'Section successfully created.';
 $string['editsection_success'] = 'Section successfully edited.';
 $string['deletesection_hassubmissions'] = 'It is not possible to delete this section because it contains submissions.';
-
 $string['evokeportfolio:grade'] = 'Permission to grade users';
 $string['evokeportfolio:submit'] = 'Permission to send a portfolio submission';
-
 $string['dependentcoursesections'] = 'Dependent course sections';
 $string['nosectionsavailable'] = 'No sections available';
 $string['nosectionsavailable_desc'] = 'There are no sections available for you in this portfolio yet.';
@@ -168,7 +165,7 @@ $string['page_portfolio_title'] = 'My submissions in a portfolio';
 $string['reaction_like'] = 'Like';
 $string['reaction_comment'] = 'Comment';
 $string['reaction_youreacted'] = 'You reacted';
-$string['reaction_youandreacted'] = 'You and {$a} other people';
+$string['reaction_youandreacted'] = 'You and {$a} other people'; //WHAT IS THIS?
 $string['reaction_peoplereacted'] = '{$a} people reacted';
 
 $string['completionrequiresubmit'] = 'Require submission';
