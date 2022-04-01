@@ -32,13 +32,29 @@ class evokeportfolio {
         return $data;
     }
 
-    public function get_course_portfolio_instances($courseid) {
+    public function get_course_portfolio_instances($courseid, $evokation = 0) {
         global $DB;
 
-        $sql = 'SELECT e.*
-                FROM {evokeportfolio} e
-                WHERE e.course = :courseid';
+        $sql = 'SELECT *
+                FROM {evokeportfolio}
+                WHERE course = :courseid AND evokation = :evokation';
 
-        return $DB->get_records_sql($sql, ['courseid' => $courseid]);
+        $portfolios = $DB->get_records_sql($sql, ['courseid' => $courseid, 'evokation' => $evokation]);
+
+        if (!$portfolios) {
+            return false;
+        }
+
+        $now = time();
+
+        foreach ($portfolios as $portfolio) {
+            $portfolio->isavailable = false;
+
+            if ($portfolio->datestart < $now && $portfolio->datelimit > $now) {
+                $portfolio->isavailable = true;
+            }
+        }
+
+        return array_values($portfolios);
     }
 }

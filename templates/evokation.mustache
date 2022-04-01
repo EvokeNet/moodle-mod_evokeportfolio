@@ -1,5 +1,3 @@
-{{{filters}}}
-
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
         <button class="nav-link active" id="myportfolio-tab" data-toggle="tab" data-target="#myportfolio" type="button" role="tab" aria-controls="myportfolio" aria-selected="true">My evokation</button>
@@ -15,20 +13,42 @@
 <div class="tab-content" id="submissions" data-courseid="{{{courseid}}}">
     <div class="tab-pane fade show active p-2" id="myportfolio" role="tabpanel" aria-labelledby="myportfolio-tab">
         {{#portfolios}}
-            <fieldset class="fieldset" data-portfolioid="{{id}}">
-                <legend>{{name}}</legend>
+            {{#submissions}}
+                {{#isavailable}}
+                    <fieldset class="fieldset" data-portfolioid="{{id}}">
+                        <legend>{{name}}</legend>
 
-                <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-                    {{#submissions}}
-                        {{> mod_evokeportfolio/submission }}
-                    {{/submissions}}
+                        <div class="submissions mt-2" data-courseid="{{{courseid}}}">
+                            {{#submissions}}
+                                {{> mod_evokeportfolio/submission }}
+                            {{/submissions}}
+                        </div>
+                    </fieldset>
+                {{/isavailable}}
+                {{^isavailable}}
+                    <fieldset class="fieldset" data-portfolioid="{{id}}">
+                        <legend>{{name}}</legend>
 
-                    {{^submissions}}
-                        <p>You did not submit your work yet</p>
-                        <a href="{{config.wwwroot}}/mod/evokeportfolio/view.php?portfolioid={{id}}" class="btn btn-primary">Click here and submit your work</a>
-                    {{/submissions}}
-                </div>
-            </fieldset>
+                        <div class="submissions mt-2" data-courseid="{{{courseid}}}">
+                            {{#submissions}}
+                                {{> mod_evokeportfolio/submission }}
+                            {{/submissions}}
+                        </div>
+                    </fieldset>
+                {{/isavailable}}
+            {{/submissions}}
+            {{^submissions}}
+                {{#isavailable}}
+                    <fieldset class="fieldset" data-portfolioid="{{id}}">
+                        <legend>{{name}}</legend>
+
+                        <div class="submissions mt-2" data-courseid="{{{courseid}}}">
+                            <p>You did not submit your work yet</p>
+                            <a href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?portfolioid={{id}}" class="btn btn-primary">Click here and submit your work</a>
+                        </div>
+                    </fieldset>
+                {{/isavailable}}
+            {{/submissions}}
         {{/portfolios}}
     </div>
     <div class="tab-pane fade p-2" id="teamportfolio" role="tabpanel" aria-labelledby="teamportfolio-tab">
