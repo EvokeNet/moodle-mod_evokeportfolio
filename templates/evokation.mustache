@@ -12,7 +12,7 @@
     </li>
 </ul>
 
-<div class="tab-content" id="myTabContent">
+<div class="tab-content" id="submissions" data-courseid="{{{courseid}}}">
     <div class="tab-pane fade show active p-2" id="myportfolio" role="tabpanel" aria-labelledby="myportfolio-tab">
         {{#portfolios}}
             <fieldset class="fieldset" data-portfolioid="{{id}}">
@@ -20,7 +20,7 @@
 
                 <div class="submissions mt-2" data-courseid="{{{courseid}}}">
                     {{#submissions}}
-                        {{> mod_evokeportfolio/social_submission }}
+                        {{> mod_evokeportfolio/submission }}
                     {{/submissions}}
 
                     {{^submissions}}
@@ -53,7 +53,7 @@
 
                 <div class="submissions mt-2" data-courseid="{{{courseid}}}">
                     {{#submissions}}
-                        {{> mod_evokeportfolio/social_submission }}
+                        {{> mod_evokeportfolio/submission }}
                     {{/submissions}}
                 </div>
             </fieldset>
@@ -66,7 +66,7 @@
 
                 <div class="submissions mt-2" data-courseid="{{{courseid}}}">
                     {{#submissions}}
-                        {{> mod_evokeportfolio/social_submission }}
+                        {{> mod_evokeportfolio/submission }}
                     {{/submissions}}
                 </div>
             </fieldset>

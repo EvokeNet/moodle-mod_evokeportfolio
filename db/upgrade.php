@@ -215,6 +215,8 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
         $submissions = $DB->get_records_sql('SELECT * FROM {evokeportfolio_submissions} WHERE groupid IS NOT null');
         foreach ($submissions as $submission) {
             $submission->userid = $submission->postedby;
+
+            $DB->update_record('evokeportfolio_submissions', $submission);
         }
 
         $submissionstable = new xmldb_table('evokeportfolio_submissions');
@@ -232,6 +234,43 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
         }
 
         upgrade_plugin_savepoint(true, 2022031800, 'mod', 'evokeportfolio');
+    }
+
+    if ($oldversion < 2022032800) {
+        $dbman = $DB->get_manager();
+
+        $table = new xmldb_table('evokeportfolio_submissions');
+        if ($dbman->table_exists($table)) {
+            $portfolioidfield = new xmldb_field('portfolioid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'id');
+            $dbman->add_field($table, $portfolioidfield);
+
+            $portfolioidfkkey = new xmldb_key('fk_portfolioid', XMLDB_KEY_FOREIGN, ['portfolioid'], 'portfolio', 'id');
+            $dbman->add_key($table, $portfolioidfkkey);
+
+            $submissions = $DB->get_records('evokeportfolio_submissions');
+            foreach ($submissions as $submission) {
+                $section = $DB->get_record('evokeportfolio_sections', ['id' => $submission->sectionid]);
+
+                $submission->portfolioid = $section->portfolioid;
+
+                $DB->update_record('evokeportfolio_submissions', $submission);
+            }
+        }
+
+        $sectionidfield = new xmldb_field('sectionid');
+        $sectionidfkkey = new xmldb_key('fk_sectionid', XMLDB_KEY_FOREIGN, ['sectionid'], 'evokeportfolio_sections', 'id');
+
+        if ($dbman->field_exists($table, $sectionidfield)) {
+            $dbman->drop_key($table, $sectionidfkkey);
+            $dbman->drop_field($table, $sectionidfield);
+        }
+
+        $table = new xmldb_table('evokeportfolio_sections');
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        upgrade_plugin_savepoint(true, 2022032800, 'mod', 'evokeportfolio');
     }
 
     return true;

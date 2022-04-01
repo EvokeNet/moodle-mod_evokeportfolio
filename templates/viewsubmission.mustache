@@ -27,29 +27,22 @@
     {{/isgradinglocked}}
 </div>
 
-<div class="submissions">
-    {{#sectionssubmissions}}
-        {{#issinglesection}}
-            {{>mod_evokeportfolio/sectionsubmissions}}
-        {{/issinglesection}}
-        {{^issinglesection}}
-            <div class="accordion mb-2" id="sectionssubmissions-accordion">
-                <div class="card">
-                    <div class="card-header" id="heading-{{id}}">
-                        <h2 class="mb-0">
-                            <button class="accordion-button" type="button" data-toggle="collapse" data-target="#collapse-{{id}}" aria-expanded="true" aria-controls="collapse-{{id}}">
-                                {{name}}
-                            </button>
-                        </h2>
-                    </div>
+{{#submissions}}
+    <div id="submissions" class="submissions mt-2" data-courseid="{{{courseid}}}">
+        {{> mod_evokeportfolio/submission }}
+    </div>
+{{/submissions}}
 
-                    <div id="collapse-{{id}}" class="collapse" aria-labelledby="heading-{{id}}" data-parent="#sectionssubmissions-accordion">
-                        <div class="card-body">
-                            {{>mod_evokeportfolio/submissions}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {{/issinglesection}}
-    {{/sectionssubmissions}}
-</div>
+{{#js}}
+    require([
+        'mod_evokeportfolio/addcomment',
+        'mod_evokeportfolio/tribute_init',
+        'mod_evokeportfolio/togglelike'
+    ], function(AddComment, TributeInit, ToggleLike) {
+        AddComment.init();
+
+        TributeInit.init();
+
+        ToggleLike.init();
+    });
+{{/js}}

@@ -12,13 +12,11 @@ require(__DIR__.'/../../config.php');
 
 // Course module id.
 $id = required_param('id', PARAM_INT);
-$sectionid = required_param('sectionid', PARAM_INT);
 $submissionid = optional_param('submissionid', null, PARAM_INT);
 $embed = optional_param('embed', 0, PARAM_INT);
 
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'evokeportfolio');
 $evokeportfolio = $DB->get_record('evokeportfolio', ['id' => $cm->instance], '*', MUST_EXIST);
-$section = $DB->get_record('evokeportfolio_sections', ['id' => $sectionid], '*', MUST_EXIST);
 
 if ($submissionid) {
     $submission = $DB->get_record('evokeportfolio_submissions', ['id' => $submissionid, 'userid' => $USER->id], '*');
@@ -34,7 +32,7 @@ require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-$urlparams = ['id' => $cm->id, 'sectionid' => $section->id];
+$urlparams = ['id' => $cm->id];
 if ($embed) {
     $PAGE->set_pagelayout('embedded');
     $urlparams['embed'] = $embed;
@@ -48,8 +46,7 @@ $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
 $formdata = [
-    'portfolioid' => $evokeportfolio->id,
-    'sectionid' => $section->id
+    'portfolioid' => $evokeportfolio->id
 ];
 
 $formdata['userid'] = $USER->id;
@@ -61,7 +58,7 @@ if ($submissionid) {
 $form = new \mod_evokeportfolio\forms\submit_form($url, $formdata);
 
 if ($form->is_cancelled()) {
-    redirect(new moodle_url('/mod/evokeportfolio/section.php', $urlparams));
+    redirect(new moodle_url('/mod/evokeportfolio/view.php', $urlparams));
 } else if ($formdata = $form->get_data()) {
     try {
         unset($formdata->submitbutton);
@@ -93,7 +90,7 @@ if ($form->is_cancelled()) {
             $redirectstring = get_string('update_submission_success', 'mod_evokeportfolio');
         } else {
             $submission = new \stdClass();
-            $submission->sectionid = $section->id;
+            $submission->portfolioid = $evokeportfolio->id;
             $submission->userid = $USER->id;
             $submission->timecreated = time();
             $submission->timemodified = time();

@@ -26,42 +26,32 @@ class backup_evokeportfolio_activity_structure_step extends backup_activity_stru
         // Build the tree with these elements with $evokeportfolio as the root of the backup tree.
         $evokeportfolio = new backup_nested_element('evokeportfolio', ['id'], [
             'course', 'name', 'intro', 'introformat', 'grade', 'datelimit',
-            'groupactivity', 'groupgradingmode', 'timecreated', 'timemodified']);
-
-        $sections = new backup_nested_element('sections');
-        $section = new backup_nested_element('section', ['id'], [
-            'name', 'dependentsections', 'timecreated', 'timemodified']);
+            'timecreated', 'timemodified']);
 
         $submissions = new backup_nested_element('submissions');
         $submission = new backup_nested_element('submission', ['id'], [
-            'userid', 'groupid', 'postedby', 'role', 'comment', 'commentformat',
-            'timecreated', 'timemodified']);
+            'userid', 'comment', 'commentformat', 'timecreated', 'timemodified']);
 
         $grades = new backup_nested_element('grades');
         $grade = new backup_nested_element('grade', ['id'], [
             'userid', 'grader', 'grade', 'timecreated', 'timemodified']);
 
-        $evokeportfolio->add_child($sections);
-        $sections->add_child($section);
-        $section->add_child($submissions);
+        $evokeportfolio->add_child($submissions);
         $submissions->add_child($submission);
         $evokeportfolio->add_child($grades);
         $grades->add_child($grade);
 
         // Define the source tables for the elements.
         $evokeportfolio->set_source_table('evokeportfolio', ['id' => backup::VAR_ACTIVITYID]);
-        $section->set_source_table('evokeportfolio_sections', ['portfolioid' => backup::VAR_ACTIVITYID]);
 
         // User views are included only if we are including user info.
         if ($userinfo) {
             // Define sources.
-            $submission->set_source_table('evokeportfolio_submissions', ['sectionid' => backup::VAR_PARENTID]);
+            $submission->set_source_table('evokeportfolio_submissions', ['portfolioid' => backup::VAR_ACTIVITYID]);
             $grade->set_source_table('evokeportfolio_grades', ['portfolioid' => backup::VAR_ACTIVITYID]);
         }
 
         $submission->annotate_ids('user', 'userid');
-        $submission->annotate_ids('group', 'groupid');
-        $submission->annotate_ids('user', 'postedby');
 
         $grade->annotate_ids('user', 'userid');
         $grade->annotate_ids('user', 'grader');

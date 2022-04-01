@@ -22,29 +22,37 @@
     </div>
 </div>
 
-{{#issinglesection}}
-    {{> mod_evokeportfolio/sectionsubmissions }}
-{{/issinglesection}}
-{{^issinglesection}}
-    {{#sections}}
-        <div class="card mb-2" style="border: 1px solid #d7dfe3;">
-            <div class="card-body">
-                <h5 class="card-title">{{{name}}}</h5>
-                {{#description}}
-                    <p class="mb-0">{{{description}}}</p>
-                {{/description}}
-                {{^hasaccess}}
-                    <div class="alert alert-warning mt-4" role="alert">
-                        {{#str}}nohavesectionaccess, mod_evokeportfolio{{/str}}
-                    </div>
-                {{/hasaccess}}
-            </div>
-            {{#hasaccess}}
-                <div class="card-footer text-muted">
-                    <a class="btn btn-primary" href="{{{config.wwwroot}}}/mod/evokeportfolio/section.php?id={{{cmid}}}&sectionid={{{id}}}">{{#str}}page_view_submissions, mod_evokeportfolio{{/str}}</a>
-                </div>
-            {{/hasaccess}}
+<div id="submissions" class="submissions mt-2" data-courseid="{{{courseid}}}">
+    {{^isdelayed}}
+        <div class="actions">
+            <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}{{#embed}}&embed=1{{/embed}}">
+                {{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}
+            </a>
         </div>
-    {{/sections}}
-{{/issinglesection}}
+    {{/isdelayed}}
 
+    {{#submissions}}
+        {{> mod_evokeportfolio/submission }}
+    {{/submissions}}
+
+    {{^submissions}}
+        <div class="alert alert-warning mt-2" role="alert">
+            <h3>{{#str}}nosubmissions, mod_evokeportfolio{{/str}}</h3>
+            <p class="mb-0">{{#str}}nosubmissions_desc, mod_evokeportfolio{{/str}}</p>
+        </div>
+    {{/submissions}}
+</div>
+
+{{#js}}
+    require([
+        'mod_evokeportfolio/addcomment',
+        'mod_evokeportfolio/tribute_init',
+        'mod_evokeportfolio/togglelike'
+    ], function(AddComment, TributeInit, ToggleLike) {
+        AddComment.init();
+
+        TributeInit.init();
+
+        ToggleLike.init();
+    });
+{{/js}}

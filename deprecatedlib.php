@@ -27,9 +27,9 @@ function evokeportfolio_get_completion_state($course, $cm, $userid, $type) {
         throw new \moodle_exception('Unable to find evokeportfolio with id ' . $cm->instance);
     }
 
-    $evokeportfolioutil = new \mod_evokeportfolio\util\evokeportfolio();
+    $submissionutil = new \mod_evokeportfolio\util\submission();
 
-    $hassubmission = $evokeportfolioutil->has_submission($evokeportfolio->id, $userid);
+    $hassubmission = $submissionutil->user_has_submission($evokeportfolio->id, $userid);
 
     if ($evokeportfolio->completionrequiresubmit && !$hassubmission) {
         return COMPLETION_INCOMPLETE;

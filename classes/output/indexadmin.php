@@ -5,8 +5,8 @@ namespace mod_evokeportfolio\output;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_evokeportfolio\util\chapter;
-use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\group;
+use mod_evokeportfolio\util\submission;
 use mod_evokeportfolio\util\user;
 use renderable;
 use templatable;
@@ -49,7 +49,7 @@ class indexadmin implements renderable, templatable {
 
         $chapterutil = new chapter();
         $grouputil = new group();
-        $portfolioutil = new evokeportfolio();
+        $submissionutil = new submission();
 
         // Chapters data.
         $chapters = $chapterutil->get_course_chapters($this->course->id);
@@ -101,11 +101,13 @@ class indexadmin implements renderable, templatable {
 
         if ($portfolios) {
             foreach ($portfolios as $portfolio) {
-                $portfolio->submissions = $portfolioutil->get_portfolio_submissions($portfolio, $this->context, null, $groupid);
+                $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->context, null, $groupid);
             }
         }
 
         $userpicture = user::get_user_image_or_avatar($USER);
+
+        $cangrade = has_capability('mod/evokeportfolio:grade', $this->context);
 
         return [
             'contextid' => $this->context->id,
@@ -114,7 +116,8 @@ class indexadmin implements renderable, templatable {
             'groups' => $groups,
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
-            'portfolios' => $portfolios
+            'portfolios' => $portfolios,
+            'cangrade' => $cangrade
         ];
     }
 

@@ -22,12 +22,6 @@ require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-if (!has_capability('mod/evokeportfolio:grade', $context)) {
-    $url = new moodle_url('/mod/evokeportfolio/view.php', ['id' => $id]);
-
-    redirect($url, get_string('illegalaccess', 'mod_evokeportfolio'), null, \core\output\notification::NOTIFY_ERROR);
-}
-
 $urlparams = ['id' => $cm->id, 'userid' => $userid];
 
 $PAGE->set_url('/mod/evokeportfolio/viewsubmission.php', $urlparams);

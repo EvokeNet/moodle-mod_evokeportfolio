@@ -8,6 +8,7 @@ require_once($CFG->libdir.'/tablelib.php');
 
 use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\grade;
+use mod_evokeportfolio\util\submission;
 use mod_evokeportfolio\util\user;
 use table_sql;
 use moodle_url;
@@ -104,10 +105,10 @@ class entries extends table_sql {
     }
 
     public function col_status($data) {
-        $evokeportfolioutil = new evokeportfolio();
+        $submissionutil = new submission();
         $gradeutil = new grade();
 
-        if ($evokeportfolioutil->has_submission($this->evokeportfolio->id, $data->id)) {
+        if ($submissionutil->user_has_submission($this->evokeportfolio->id, $data->id)) {
             $url = new moodle_url('/mod/evokeportfolio/viewsubmission.php', ['id' => $this->coursemodule->id, 'userid' => $data->id]);
 
             $statuscontent = html_writer::link($url, get_string('viewsubmission', 'mod_evokeportfolio'), ['class' => 'btn btn-primary btn-sm']);

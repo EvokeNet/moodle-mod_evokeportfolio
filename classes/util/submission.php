@@ -12,6 +12,103 @@ defined('MOODLE_INTERNAL') || die();
  */
 
 class submission {
+    public function user_has_submission($portfolioid, $userid) {
+        global $DB;
+
+        $sql = 'SELECT COUNT(*)
+                FROM {evokeportfolio_submissions}
+                WHERE portfolioid = :portfolioid AND userid = :userid';
+
+        $entries = $DB->count_records_sql($sql, ['portfolioid' => $portfolioid, 'userid' => $userid]);
+
+        if ($entries) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function get_user_submissions($context, $portfolioid, $userid) {
+        global $DB;
+
+        $sql = 'SELECT
+                    es.*,
+                    u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
+                FROM {evokeportfolio_submissions} es
+                INNER JOIN {user} u ON u.id = es.userid
+                WHERE portfolioid = :portfolioid AND userid = :userid';
+
+        $submissions = $DB->get_records_sql($sql, ['portfolioid' => $portfolioid, 'userid' => $userid]);
+
+        if (!$submissions) {
+            return false;
+        }
+
+        foreach ($submissions as $submission) {
+            $submission->humantimecreated = userdate($submission->timecreated);
+        }
+
+        $this->populate_data_with_comments($submissions);
+
+        $this->populate_data_with_user_info($submissions);
+
+        $this->populate_data_with_attachments($submissions, $context);
+
+        $this->populate_data_with_reactions($submissions);
+
+        return array_values($submissions);
+    }
+
+    public function get_portfolio_submissions($portfolio, $context, $userid = false, $groupid = null) {
+        global $DB;
+
+        $sql = 'SELECT
+                    es.*,
+                    u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
+                FROM {evokeportfolio_submissions} es
+                INNER JOIN {user} u ON u.id = es.userid';
+
+        if ($groupid) {
+            $sql .= ' INNER JOIN {groups_members} gm ON gm.userid = u.id';
+        }
+
+        $sql .= ' WHERE es.portfolioid = :portfolioid';
+
+        $params['portfolioid'] = $portfolio->id;
+
+        if ($userid) {
+            $sql .= ' AND u.id = :userid';
+            $params['userid'] = $userid;
+        }
+
+        if ($groupid) {
+            $sql .= ' AND gm.groupid = :groupid';
+            $params['groupid'] = $groupid;
+        }
+
+        $submissions = $DB->get_records_sql($sql, $params);
+
+        if (!$submissions) {
+            return false;
+        }
+
+        foreach ($submissions as $submission) {
+            $submission->humantimecreated = userdate($submission->timecreated);
+        }
+
+        $this->populate_data_with_comments($submissions);
+
+        $this->populate_data_with_user_info($submissions);
+
+        $this->populate_data_with_attachments($submissions, $context);
+
+        $this->populate_data_with_reactions($submissions);
+
+        $this->populate_data_with_evaluation($submissions, $portfolio, $context);
+
+        return array_values($submissions);
+    }
+
     public function populate_data_with_comments($submissions) {
         global $DB;
 
@@ -116,7 +213,7 @@ class submission {
         return $submissions;
     }
 
-    public function populate_data_with_evaluation($submissions, $portfolio) {
+    public function populate_data_with_evaluation($submissions, $portfolio, $context) {
         $gradeutil = new grade();
 
         foreach ($submissions as $submission) {

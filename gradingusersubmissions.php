@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Manage sections of mod_evokeportfolio.
+ * Grade user submissions of mod_evokeportfolio.
  *
  * @package     mod_evokeportfolio
  * @copyright   2021 World Bank Group <https://worldbank.org>

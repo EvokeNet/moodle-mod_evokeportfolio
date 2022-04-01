@@ -57,6 +57,10 @@
     flex-wrap: wrap;
 }
 
+.path-mod-evokeportfolio .submissionheader .userpicture {
+    width: 100px;
+}
+
 .border-white {
     border: 2px solid #fff;
     padding: .5rem;

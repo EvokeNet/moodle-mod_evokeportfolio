@@ -37,11 +37,9 @@ class custom_completion extends activity_custom_completion {
         }
 
         if ($rule == 'completionrequiresubmit') {
-            $evokeportfolioutil = new \mod_evokeportfolio\util\evokeportfolio();
+            $submissionutil = new \mod_evokeportfolio\util\submission();
 
-            $hassubmission = $evokeportfolioutil->has_submission($evokeportfolio->id, $userid);
-
-            if ($hassubmission) {
+            if ($submissionutil->user_has_submission($evokeportfolio->id, $userid)) {
                 return COMPLETION_COMPLETE;
             }
         }

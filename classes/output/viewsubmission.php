@@ -4,7 +4,7 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_evokeportfolio\util\section;
+use mod_evokeportfolio\util\submission;
 use mod_evokeportfolio\util\user;
 use renderable;
 use templatable;
@@ -25,7 +25,6 @@ class viewsubmission implements renderable, templatable {
     public function __construct($evokeportfolio, $context, $user) {
         $this->evokeportfolio = $evokeportfolio;
         $this->context = $context;
-
         $this->user = $user;
     }
 
@@ -53,30 +52,20 @@ class viewsubmission implements renderable, templatable {
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,
             'cmid' => $this->context->instanceid,
-            'course' => $this->evokeportfolio->course,
-            'isgradinglocked' => $isgradinglocked,
+            'courseid' => $this->evokeportfolio->course,
+            'isgradinglocked' => $isgradinglocked
         ];
 
-        $sectionutil = new section();
-
-        $userpicture = new \user_picture($USER);
-        $userpicture->size = 1;
-
         $data['userfullname'] = fullname($USER);
-        $data['userpicture'] = $userpicture->get_url($PAGE)->out();
-
-        $userpicture = new \user_picture($this->user);
-        $userpicture->size = 1;
+        $data['userpicture'] = user::get_user_image_or_avatar($USER);
 
         $data['userid'] = $this->user->id;
         $data['targetuserfullname'] = fullname($this->user);
-        $data['targetuserpicture'] = $userpicture->get_url($PAGE)->out();
+        $data['targetuserpicture'] = user::get_user_image_or_avatar($this->user);
         $data['userhasgrade'] = $gradeutil->user_has_grade($this->evokeportfolio, $this->user->id);
 
-        $sectionssubmissions = $sectionutil->get_sections_submissions($this->context, $this->evokeportfolio->id, $this->user->id);
-
-        $data['sectionssubmissions'] = $sectionssubmissions;
-        $data['issinglesection'] = count($sectionssubmissions) == 1;
+        $submissionutil = new submission();
+        $data['submissions'] = $submissionutil->get_user_submissions($this->context, $this->evokeportfolio->id, $this->user->id);
 
         $userutil = new user();
         $usergroup = $userutil->get_user_group($this->user->id, $this->evokeportfolio->course);

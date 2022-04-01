@@ -28,8 +28,6 @@ class commentmention {
     public $cmid;
     /** @var int The course ID. */
     public $courseid;
-    /** @var int The portfolio section ID. */
-    public $sectionid;
     /** @var string The course name. */
     public $portfolioname;
     /** @var string The user id. */
@@ -43,11 +41,10 @@ class commentmention {
      * @param int $postid
      * @param \context $context
      */
-    public function __construct($context, $cmid, $courseid, $sectionid, $portfolioname, $userid) {
+    public function __construct($context, $cmid, $courseid, $portfolioname, $userid) {
         $this->context = $context;
         $this->cmid = $cmid;
         $this->courseid = $courseid;
-        $this->sectionid = $sectionid;
         $this->portfolioname = $portfolioname;
         $this->userid = $userid;
     }
@@ -91,11 +88,10 @@ class commentmention {
 
         $urlparams = [
             'id' => $this->cmid,
-            'sectionid' => $this->sectionid,
             'userid' => $this->userid
         ];
 
-        $url = new moodle_url("/mod/evokeportfolio/section.php", $urlparams);
+        $url = new moodle_url("/mod/evokeportfolio/viewsubmission.php", $urlparams);
 
         $message = new message();
         $message->component = 'mod_evokeportfolio';

@@ -19,69 +19,35 @@
     </div>
 </div>
 
-<div class="submissions">
+<div id="submissions" data-courseid="{{{courseid}}}">
     {{#portfolioswithusersubmissions}}
-        <div class="accordion mb-2" id="portfolios-accordion">
-            <div class="card">
-                <div class="card-header" id="heading-{{id}}">
-                    <h2 class="mb-0">
-                        <button class="accordion-button" type="button" data-toggle="collapse" data-target="#collapse-{{id}}" aria-expanded="true" aria-controls="collapse-{{id}}">
-                            {{name}}
-                            {{#issinglesection}}
-                                {{#sections}}
-                                    {{#nosubmissions}}
-                                        <span class="badge badge-info ml-2">{{#str}}nosubmissions, mod_evokeportfolio{{/str}}</span>
-                                    {{/nosubmissions}}
-                                {{/sections}}
-                            {{/issinglesection}}
-                        </button>
-                    </h2>
-                </div>
-                <div id="collapse-{{id}}" class="collapse" aria-labelledby="heading-{{id}}" data-parent="#portfolios-accordion">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            {{#issinglesection}}
-                                {{#sections}}
-                                    {{#nosubmissions}}
-                                        <div class="alert alert-info" role="alert">
-                                            <p class="mb-0">{{#str}}nosubmissions_desc, mod_evokeportfolio{{/str}}</p>
-                                        </div>
-                                    {{/nosubmissions}}
+        <fieldset>
+            <legend>{{name}}</legend>
 
-                                    {{>mod_evokeportfolio/submissionsgrading}}
-                                {{/sections}}
-                            {{/issinglesection}}
-                            {{^issinglesection}}
-                                {{#sections}}
-                                    <div class="accordion mb-2" id="sectionssubmissions-accordion">
-                                        <div class="card">
-                                            <div class="card-header" id="heading-{{id}}">
-                                                <h2 class="mb-0">
-                                                    <button class="accordion-button" type="button" data-toggle="collapse" data-target="#collapse-{{id}}" aria-expanded="true" aria-controls="collapse-{{id}}">
-                                                        {{name}}
-                                                    </button>
-                                                </h2>
-                                            </div>
-
-                                            <div id="collapse-{{id}}" class="collapse" aria-labelledby="heading-{{id}}" data-parent="#sectionssubmissions-accordion">
-                                                <div class="card-body">
-                                                    {{>mod_evokeportfolio/submissionsgrading}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {{/sections}}
-                            {{/issinglesection}}
-                        </div>
-                    </div>
-                </div>
+            <div class="submissions mt-2" data-courseid="{{{courseid}}}">
+                {{#submissions}}
+                    {{#hasevaluation}}
+                        {{> mod_evokeportfolio/submission }}
+                    {{/hasevaluation}}
+                {{/submissions}}
             </div>
-        </div>
+        </fieldset>
     {{/portfolioswithusersubmissions}}
 </div>
 
 {{#js}}
-    require(['mod_evokeportfolio/gradeuserchapter'], function(GradeUserChapter) {
+    require([
+        'mod_evokeportfolio/gradeuserchapter',
+        'mod_evokeportfolio/addcomment',
+        'mod_evokeportfolio/tribute_init',
+        'mod_evokeportfolio/togglelike'
+    ], function(GradeUserChapter, AddComment, TributeInit, ToggleLike) {
         GradeUserChapter.init('[data-action=grade-student-modal]', {{{contextid}}}, {{{chapterid}}}, {{{userid}}});
+
+        AddComment.init();
+
+        TributeInit.init();
+
+        ToggleLike.init();
     });
 {{/js}}

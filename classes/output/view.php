@@ -4,9 +4,7 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_evokeportfolio\util\evokeportfolio;
-use mod_evokeportfolio\util\group;
-use mod_evokeportfolio\util\section;
+use mod_evokeportfolio\util\submission;
 use renderable;
 use templatable;
 use renderer_base;
@@ -58,7 +56,6 @@ class view implements renderable, templatable {
             'cmid' => $this->context->instanceid,
             'courseid' => $this->evokeportfolio->course,
             'isdelayed' => $isdelayed,
-            'itsme' => true,
             'embed' => $this->embed
         ];
 
@@ -73,33 +70,15 @@ class view implements renderable, templatable {
             return $data;
         }
 
-        $sectionutil = new section();
+        $submissionutil = new submission();
 
-        $sections = $sectionutil->get_portfolio_sections($this->evokeportfolio->id);
-        $sections = $sectionutil->add_sections_access_info($sections, $this->context);
+        $userpicture = new \user_picture($USER);
+        $userpicture->size = 1;
 
-        // Single section.
-        $issinglesection = count($sections) == 1;
-        $submissions = null;
-        if ($issinglesection) {
-            $section = current($sections);
-            $data['issinglesection'] = true;
-            $data['sectionid'] = $section->id;
+        $data['userpicture'] = $userpicture->get_url($PAGE)->out();
+        $data['userfullname'] = fullname($USER);
 
-            $userpicture = new \user_picture($USER);
-            $userpicture->size = 1;
-
-            $data['userpicture'] = $userpicture->get_url($PAGE)->out();
-            $data['userfullname'] = fullname($USER);
-
-            $submissions = $sectionutil->get_section_submissions($this->context, $section->id, $USER->id);
-        }
-
-        if (!$issinglesection) {
-            $data['sections'] = $sections;
-        }
-
-        $data['submissions'] = $submissions;
+        $data['submissions'] = $submissionutil->get_user_submissions($this->context, $this->evokeportfolio->id, $USER->id);
 
         return $data;
     }

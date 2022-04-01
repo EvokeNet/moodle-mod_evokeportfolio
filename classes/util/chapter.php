@@ -71,36 +71,20 @@ class chapter {
         return $data;
     }
 
-    public function get_portfolios_with_user_submissions($context, $chapter, $user) {
+    public function get_portfolios_with_user_submissions($chapter, $user) {
+        $submissionutil = new submission();
+
         $portfolios = $this->get_chapter_portfolios($chapter);
 
         if (!$portfolios) {
             return false;
         }
 
-        $sectionutil = new section();
-
-        $userutil = new user();
-        $usergroup = $userutil->get_user_group($user->id, $chapter->course);
-
         $data = [];
         foreach ($portfolios as $portfolio) {
+            $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), $user->id);
 
-            $usergroupid = null;
-            if ($usergroup && $portfolio->groupactivity) {
-                $usergroupid = $usergroup->id;
-            }
-
-            $sectionssubmissions = $sectionutil->get_sections_submissions($context, $portfolio->id, $user->id, $usergroupid);
-
-            $issinglesection = count($sectionssubmissions) == 1;
-
-            $data[] = [
-                'id' => $portfolio->id,
-                'name' => $portfolio->name,
-                'sections' => $sectionssubmissions,
-                'issinglesection' => $issinglesection
-            ];
+            $data[] = $portfolio;
         }
 
         return $data;
@@ -136,5 +120,17 @@ class chapter {
         }
 
         return array_values($portfolios);
+    }
+
+    private function get_portfolio_context($portfolioid) {
+        if (isset($this->portfoliocontexts[$portfolioid])) {
+            return $this->portfoliocontexts[$portfolioid];
+        }
+
+        $coursemodule = get_coursemodule_from_instance('evokeportfolio', $portfolioid);
+
+        $this->portfoliocontexts[$portfolioid] = \context_module::instance($coursemodule->id);
+
+        return $this->portfoliocontexts[$portfolioid];
     }
 }

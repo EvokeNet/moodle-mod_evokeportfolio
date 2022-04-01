@@ -47,8 +47,7 @@ class reaction {
 
         $sql = 'SELECT p.id, p.course, su.userid
                 FROM {evokeportfolio_submissions} su
-                INNER JOIN {evokeportfolio_sections} se ON se.id = su.sectionid
-                INNER JOIN {evokeportfolio} p ON p.id = se.portfolioid
+                INNER JOIN {evokeportfolio} p ON p.id = su.portfolioid
                 WHERE su.id = :submissionid';
 
         $portfolio = $DB->get_record_sql($sql, ['submissionid' => $reaction->submissionid]);

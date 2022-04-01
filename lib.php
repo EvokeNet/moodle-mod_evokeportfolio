@@ -10,9 +10,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-DEFINE('MOD_EVOKEPORTFOLIO_ROLE_STUDENT', 1);
-DEFINE('MOD_EVOKEPORTFOLIO_ROLE_TEACHER', 2);
-
 require_once(__DIR__ . '/deprecatedlib.php');
 
 /**
@@ -60,13 +57,6 @@ function evokeportfolio_add_instance($moduleinstance, $mform = null) {
 
     evokeportfolio_grade_item_update($moduleinstance);
 
-    $DB->insert_record('evokeportfolio_sections', [
-        'portfolioid' => $id,
-        'name' => get_string('section', 'mod_evokeportfolio') . ' ' . 1,
-        'timecreated' => time(),
-        'timemodified' => time()
-    ]);
-
     return $id;
 }
 
@@ -107,15 +97,16 @@ function evokeportfolio_delete_instance($id) {
 
     $DB->delete_records('evokeportfolio', ['id' => $id]);
 
-    $sections = $DB->get_records('evokeportfolio_sections', ['portfolioid' => $id]);
+    $submissions = $DB->get_records('evokeportfolio_submissions', ['portfolioid' => $id]);
+    if ($submissions) {
+        foreach ($submissions as $submission) {
+            $DB->delete_records('evokeportfolio_comments', ['submissionid' => $submission->id]);
 
-    if ($sections) {
-        foreach ($sections as $section) {
-            $DB->delete_records('evokeportfolio_submissions', ['sectionid' => $section->id]);
+            $DB->delete_records('evokeportfolio_reactions', ['submissionid' => $submission->id]);
         }
     }
 
-    $DB->delete_records('evokeportfolio_sections', ['portfolioid' => $id]);
+    $DB->delete_records('evokeportfolio_submissions', ['portfolioid' => $id]);
 
     $DB->delete_records('evokeportfolio_grades', ['portfolioid' => $id]);
 
@@ -305,37 +296,6 @@ function evokeportfolio_pluginfile($course, $cm, $context, $filearea, $args, $fo
     }
 
     send_stored_file($file, 0, 0, $forcedownload, $options);
-}
-
-function mod_evokeportfolio_output_fragment_section_form($args) {
-    $args = (object) $args;
-    $o = '';
-
-    $formdata = [];
-    if (!empty($args->jsonformdata)) {
-        $serialiseddata = json_decode($args->jsonformdata);
-        parse_str($serialiseddata, $formdata);
-    }
-
-    $mform = new \mod_evokeportfolio\forms\section_form($formdata, [
-        'id' => $serialiseddata->id,
-        'portfolioid' => $serialiseddata->portfolioid,
-        'name' => $serialiseddata->name,
-        'description' => $serialiseddata->description,
-        'dependentsections' => $serialiseddata->dependentsections,
-    ]);
-
-    if (!empty($args->jsonformdata)) {
-        // If we were passed non-empty form data we want the mform to call validation functions and show errors.
-        $mform->is_validated();
-    }
-
-    ob_start();
-    $mform->display();
-    $o .= ob_get_contents();
-    ob_end_clean();
-
-    return $o;
 }
 
 function mod_evokeportfolio_output_fragment_chapter_form($args) {

@@ -5,8 +5,8 @@ namespace mod_evokeportfolio\output;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_evokeportfolio\util\chapter;
-use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\group;
+use mod_evokeportfolio\util\submission;
 use mod_evokeportfolio\util\user;
 use renderable;
 use templatable;
@@ -45,7 +45,7 @@ class evokation implements renderable, templatable {
         global $USER;
 
         $chapterutil = new chapter();
-        $portfolioutil = new evokeportfolio();
+        $submissionutil = new submission();
 
         // Chapters data.
         $chapters = $chapterutil->get_course_chapters($this->course->id);
@@ -95,7 +95,7 @@ class evokation implements renderable, templatable {
 
         if ($portfolios) {
             foreach ($portfolios as $portfolio) {
-                $portfolio->submissions = $portfolioutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), $USER->id);
+                $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), $USER->id);
             }
         }
 
@@ -109,13 +109,13 @@ class evokation implements renderable, templatable {
 
         if ($groupportfolios && $usercoursegroup) {
             foreach ($groupportfolios as $portfolio) {
-                $portfolio->submissions = $portfolioutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), null, $usercoursegroup->id);
+                $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), null, $usercoursegroup->id);
             }
         }
 
         if ($networkportfolios) {
             foreach ($networkportfolios as $portfolio) {
-                $portfolio->submissions = $portfolioutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id));
+                $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id));
             }
         }
 

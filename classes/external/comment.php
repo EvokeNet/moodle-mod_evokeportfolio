@@ -54,10 +54,9 @@ class comment extends external_api {
 
         $comment = (object)$comment;
 
-        $sql = 'SELECT su.id, su.userid, p.id as portfolioid, p.course, p.name as portfolioname, se.id as sectionid, se.name as sectionname, su.postedby
+        $sql = 'SELECT su.id, su.userid, p.id as portfolioid, p.course, p.name as portfolioname
                 FROM {evokeportfolio_submissions} su
-                INNER JOIN {evokeportfolio_sections} se ON se.id = su.sectionid
-                INNER JOIN {evokeportfolio} p ON p.id = se.portfolioid
+                INNER JOIN {evokeportfolio} p ON p.id = su.portfolioid
                 WHERE su.id = :submissionid';
 
         $utildata = $DB->get_record_sql($sql, ['submissionid' => $comment->submissionid], MUST_EXIST);
@@ -119,13 +118,13 @@ class comment extends external_api {
             'context' => $contextmodule,
             'objectid' => $insertedid,
             'courseid' => $utildata->course,
-            'relateduserid' => $utildata->postedby
+            'relateduserid' => $utildata->userid
         );
         $event = \mod_evokeportfolio\event\comment_added::create($params);
         $event->add_record_snapshot('evokeportfolio_comments', $usercomment);
         $event->trigger();
 
-        $notification = new commentmention($contextmodule, $cm->id, $utildata->course, $utildata->sectionid, $utildata->portfolioname, $utildata->userid);
+        $notification = new commentmention($contextmodule, $cm->id, $utildata->course, $utildata->portfolioname, $utildata->userid);
 
         if (!empty($userstonotifymention)) {
             $notification->send_mentions_notifications($userstonotifymention);
