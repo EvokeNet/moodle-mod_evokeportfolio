@@ -16,14 +16,16 @@
 
 <div class="mb-3">
     {{^isgradinglocked}}
-        <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/grade.php?id={{cmid}}&userid={{userid}}">
-            {{#userhasgrade}}
-                {{#str}}page_viewsubmission_editgrade, mod_evokeportfolio{{/str}}
-            {{/userhasgrade}}
-            {{^userhasgrade}}
-                {{#str}}page_viewsubmission_addgrade, mod_evokeportfolio{{/str}}
-            {{/userhasgrade}}
-        </a>
+        {{#cangrade}}
+            <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/grade.php?id={{cmid}}&userid={{userid}}">
+                {{#userhasgrade}}
+                    {{#str}}page_viewsubmission_editgrade, mod_evokeportfolio{{/str}}
+                {{/userhasgrade}}
+                {{^userhasgrade}}
+                    {{#str}}page_viewsubmission_addgrade, mod_evokeportfolio{{/str}}
+                {{/userhasgrade}}
+            </a>
+        {{/cangrade}}
     {{/isgradinglocked}}
 </div>
 

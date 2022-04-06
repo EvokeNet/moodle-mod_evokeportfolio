@@ -39,7 +39,7 @@ class viewsubmission implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $PAGE, $USER;
+        global $USER;
 
         $gradeutil = new \mod_evokeportfolio\util\grade();
 
@@ -53,7 +53,8 @@ class viewsubmission implements renderable, templatable {
             'name' => $this->evokeportfolio->name,
             'cmid' => $this->context->instanceid,
             'courseid' => $this->evokeportfolio->course,
-            'isgradinglocked' => $isgradinglocked
+            'isgradinglocked' => $isgradinglocked,
+            'cangrade' => false
         ];
 
         $data['userfullname'] = fullname($USER);
@@ -70,6 +71,10 @@ class viewsubmission implements renderable, templatable {
         $userutil = new user();
         $usergroup = $userutil->get_user_group($this->user->id, $this->evokeportfolio->course);
         $data['usergroup'] = $usergroup ? $usergroup->name : false;
+
+        if (has_capability('mod/evokeportfolio:grade', $this->context)) {
+            $data['cangrade'] = true;
+        }
 
         return $data;
     }
