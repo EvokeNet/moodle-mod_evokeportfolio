@@ -138,7 +138,7 @@ if ($form->is_cancelled()) {
         // Process attachments.
         $draftitemid = file_get_submitted_draft_itemid('attachments');
 
-        file_save_draft_area_files($draftitemid, $context->id, 'mod_evokeportfolio', 'attachments', $submission->id, ['subdirs' => 0, 'maxfiles' => 1]);
+        file_save_draft_area_files($draftitemid, $context->id, 'mod_evokeportfolio', 'attachments', $submission->id, ['subdirs' => 0, 'maxfiles' => 10]);
 
         $url = new moodle_url('/course/view.php', ['id' => $evokeportfolio->course]);
 
