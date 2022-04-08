@@ -145,7 +145,7 @@ $string['editchapter'] = 'Edit chapter';
 $string['grading_success'] = 'Grading successfully finished.';
 $string['graded'] = 'Graded';
 $string['nosubmissions'] = 'No submissions';
-$string['nosubmissions_desc'] = 'There is no submissions for this portfolio yet.';
+$string['nosubmissions_desc'] = 'There are no submissions for this portfolio yet.';
 
 $string['myportfolios'] = 'My Portfolios';
 $string['gototheportfolio'] = 'Go to the portfolio';
@@ -158,7 +158,7 @@ $string['message_mentionedinaportfolio'] = 'You were mentioned in a comment in t
 $string['message_mentioncontextname'] = 'Mentioned in a comment.';
 $string['message_clicktoaccessportfolio'] = 'Click here to access the portfolio';
 
-$string['coursenoportfolio'] = 'This course does not have a portfolio';
+$string['coursenoportfolio'] = 'This course does not have a portfolio assignment';
 $string['view'] = 'View';
 $string['page_portfolio_title'] = 'My submissions in a portfolio';
 
@@ -167,6 +167,6 @@ $string['completionrequiresubmit_help'] = 'The user needs to submit to complete 
 
 $string['messageprovider:commentmention'] = 'Notify user and he/she is mentioned in a comment';
 
-$string['nochapters'] = 'There is no chapters available in this mission.';
+$string['nochapters'] = 'There are no chapters available in this mission.';
 $string['backtomission'] = 'Back to mission';
 $string['assignments'] = 'Assignments';
