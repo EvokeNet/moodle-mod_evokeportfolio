@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * Add comment js logic.
  *
@@ -7,7 +9,6 @@
  * @author     Willian Mano <willianmanoaraujo@gmail.com>
  */
 
-/* eslint-disable no-console */
 define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Ajax, Swal) {
     var ToggleLike = function() {
         this.registerEventListeners();
@@ -34,11 +35,10 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
             }]);
 
             request[0].done(function(data) {
-
-                var statusdiv = submissiondiv.find('.reactions .status');
                 var likebutton = submissiondiv.find('.actions .likebutton');
+                var totalreactionsspan = submissiondiv.find('.actions .likebutton .totalreactions');
 
-                statusdiv.empty();
+                totalreactionsspan.empty();
 
                 likebutton.toggleClass('hasreacted');
 
@@ -46,7 +46,7 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
                     return;
                 }
 
-                statusdiv.html('<i class="fa fa-thumbs-up"></i> ' + data.message);
+                totalreactionsspan.text(data.message);
             }.bind(this)).fail(function(error) {
                 var message = error.message;
 

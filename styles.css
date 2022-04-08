@@ -249,12 +249,12 @@
 
 .path-blocks-evokehq .submissions .reactions .actions .likebutton .fa:before,
 .path-mod-evokeportfolio .submissions .reactions .actions .likebutton .fa:before {
-    content: "\f087";
+    content: "\f08a";
 }
 
 .path-blocks-evokehq .submissions .reactions .actions .likebutton.hasreacted .fa:before,
 .path-mod-evokeportfolio .submissions .reactions .actions .likebutton.hasreacted .fa:before {
-    content: "\f164";
+    content: "\f004";
 }
 
 .path-blocks-evokehq .submissions .reactions .actions .button:hover,

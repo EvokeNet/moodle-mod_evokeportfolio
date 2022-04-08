@@ -122,6 +122,13 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
         } else {
             comment.insertBefore(postdiv.find('.add-comment'));
         }
+
+        var totalcommentsspan = postdiv.find('.reactions .actions .commentbutton .totalcomments');
+        var totalcomments = postdiv.find('.submissioncomment').length;
+
+        totalcommentsspan.empty();
+
+        totalcommentsspan.text(totalcomments);
     };
 
     return {

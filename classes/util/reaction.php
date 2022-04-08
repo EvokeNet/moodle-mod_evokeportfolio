@@ -39,7 +39,7 @@ class reaction {
             $this->dispatch_event($reaction);
         }
 
-        return $this->get_reactions_string($submissionid, $reactionid);
+        return $this->get_total_reactions($submissionid, $reactionid);
     }
 
     private function dispatch_event($reaction) {
@@ -65,28 +65,6 @@ class reaction {
         $event = \mod_evokeportfolio\event\like_sent::create($eventparams);
         $event->add_record_snapshot('evokeportfolio_reactions', $reaction);
         $event->trigger();
-    }
-
-    public function get_reactions_string($submissionid, $reactionid) {
-        $totalreactions = $this->get_total_reactions($submissionid, $reactionid);
-
-        if (!$totalreactions) {
-            return false;
-        }
-
-        $userreacted = $this->user_reacted($submissionid, $reactionid);
-
-        if ($userreacted && $totalreactions == 1) {
-            return get_string('reaction_youreacted', 'mod_evokeportfolio');
-        }
-
-        if ($userreacted && $totalreactions > 1) {
-            $totalreactions--;
-
-            return get_string('reaction_youandreacted', 'mod_evokeportfolio', $totalreactions);
-        }
-
-        return get_string('reaction_peoplereacted', 'mod_evokeportfolio', $totalreactions);
     }
 
     public function get_total_reactions($submissionid, $reactionid) {

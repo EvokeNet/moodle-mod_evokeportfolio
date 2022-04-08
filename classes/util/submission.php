@@ -138,6 +138,7 @@ class submission {
             }
 
             $submission->comments = $commentsdata;
+            $submission->totalcomments = count($commentsdata);
         }
 
         return $submissions;
@@ -206,7 +207,7 @@ class submission {
         $reactionutil = new reaction();
 
         foreach ($submissions as $submission) {
-            $submission->reactionstring = $reactionutil->get_reactions_string($submission->id, reaction::LIKE);
+            $submission->totalreactions = $reactionutil->get_total_reactions($submission->id, reaction::LIKE);
             $submission->userreacted = $reactionutil->user_reacted($submission->id, reaction::LIKE);
         }
 

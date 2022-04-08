@@ -162,12 +162,6 @@ $string['coursenoportfolio'] = 'This course does not have a portfolio';
 $string['view'] = 'Mirar'; //CHECK
 $string['page_portfolio_title'] = 'Mis envíos en un portafolio'; //CHECK
 
-$string['reaction_like'] = 'Me gusta';
-$string['reaction_comment'] = 'Comentario';
-$string['reaction_youreacted'] = 'Reaccionaste'; //CHECK
-$string['reaction_youandreacted'] = 'You and {$a} other people'; //WHAT IS THIS?
-$string['reaction_peoplereacted'] = '{$a} personas reaccionaron'; //CHECK
-
 $string['completionrequiresubmit'] = 'Require submission';
 $string['completionrequiresubmit_help'] = 'The user needs to submit to complete this activity';
 
