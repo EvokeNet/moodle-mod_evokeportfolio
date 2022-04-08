@@ -126,7 +126,7 @@ class chapter {
         return array_values($portfolios);
     }
 
-    private function get_portfolio_context($portfolioid) {
+    public function get_portfolio_context($portfolioid) {
         if (isset($this->portfoliocontexts[$portfolioid])) {
             return $this->portfoliocontexts[$portfolioid];
         }

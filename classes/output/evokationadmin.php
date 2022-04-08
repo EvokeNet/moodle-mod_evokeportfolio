@@ -4,6 +4,7 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_evokeportfolio\util\chapter;
 use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\group;
 use mod_evokeportfolio\util\submission;
@@ -50,6 +51,7 @@ class evokationadmin implements renderable, templatable {
         $portfolioutil = new evokeportfolio();
         $grouputil = new group();
         $submissionutil = new submission();
+        $chapterutil = new chapter();
 
         // Portfolios data.
         $portfolios = $portfolioutil->get_course_portfolio_instances($this->course->id, 1);
@@ -76,7 +78,7 @@ class evokationadmin implements renderable, templatable {
         }
 
         foreach ($portfolios as $portfolio) {
-            $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->context, null, $groupid);
+            $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $chapterutil->get_portfolio_context($portfolio->id), null, $groupid);
         }
 
         $userpicture = user::get_user_image_or_avatar($USER);

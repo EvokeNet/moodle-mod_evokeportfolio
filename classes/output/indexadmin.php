@@ -101,7 +101,7 @@ class indexadmin implements renderable, templatable {
 
         if ($portfolios) {
             foreach ($portfolios as $portfolio) {
-                $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->context, null, $groupid);
+                $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $chapterutil->get_portfolio_context($portfolio->id), null, $groupid);
             }
         }
 
