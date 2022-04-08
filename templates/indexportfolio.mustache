@@ -1,0 +1,70 @@
+<h2>{{#str}}pluginname, mod_evokeportfolio{{/str}}</h2>
+
+<h3 style="color: #00f0a6;">{{{portfolio.name}}}</h3>
+
+{{{portfolio.intro}}}
+
+<ul class="nav nav-tabs" id="portfolios-tab" role="tablist">
+    <li class="nav-item">
+        <button class="nav-link active" id="myportfolio-tab" data-toggle="tab" data-target="#myportfolio" type="button" role="tab" aria-controls="myportfolio" aria-selected="true">My portfolio</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" id="teamportfolio-tab" data-toggle="tab" data-target="#teamportfolio" type="button" role="tab" aria-controls="teamportfolio" aria-selected="false">Team portfolio</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" id="networkportfolio-tab" data-toggle="tab" data-target="#networkportfolio" type="button" role="tab" aria-controls="networkportfolio" aria-selected="false">Network portfolio</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="submissions" data-courseid="{{{courseid}}}">
+    <div class="tab-pane fade show active p-2" id="myportfolio" role="tabpanel" aria-labelledby="myportfolio-tab">
+        <div class="submissions mt-2" data-courseid="{{{courseid}}}">
+            {{#mysubmissions}}
+                {{> mod_evokeportfolio/submission }}
+            {{/mysubmissions}}
+        </div>
+    </div>
+    <div class="tab-pane fade p-2" id="teamportfolio" role="tabpanel" aria-labelledby="teamportfolio-tab">
+        {{#hasgroup}}
+            <div class="row">
+                <div class="col">
+                    <h3 class="text-mint mt-2">My team</h3>
+                    {{#groupmembers}}
+                        <div class="groupmember">
+                            <a href="{{config.wwwroot}}/local/evokegame/profile.php?id={{courseid}}&userid={{id}}">
+                                <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
+                            </a>
+                        </div>
+                    {{/groupmembers}}
+                </div>
+            </div>
+        {{/hasgroup}}
+
+        <div class="submissions mt-2" data-courseid="{{{courseid}}}">
+            {{#groupsubmissions}}
+                {{> mod_evokeportfolio/submission }}
+            {{/groupsubmissions}}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="networkportfolio" role="tabpanel" aria-labelledby="networkportfolio-tab">
+        <div class="submissions mt-2" data-courseid="{{{courseid}}}">
+            {{#networksubmissions}}
+                {{> mod_evokeportfolio/submission }}
+            {{/networksubmissions}}
+        </div>
+    </div>
+</div>
+
+{{#js}}
+    require([
+        'mod_evokeportfolio/addcomment',
+        'mod_evokeportfolio/tribute_init',
+        'mod_evokeportfolio/togglelike'
+    ], function(AddComment, TributeInit, ToggleLike) {
+        AddComment.init();
+
+        TributeInit.init();
+
+        ToggleLike.init();
+    });
+{{/js}}

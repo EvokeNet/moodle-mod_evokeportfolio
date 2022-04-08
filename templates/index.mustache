@@ -1,84 +1,39 @@
-{{{filters}}}
+<h2>{{#str}}pluginname, mod_evokeportfolio{{/str}}</h2>
 
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-        <button class="nav-link active" id="myportfolio-tab" data-toggle="tab" data-target="#myportfolio" type="button" role="tab" aria-controls="myportfolio" aria-selected="true">My portfolio</button>
-    </li>
-    <li class="nav-item">
-        <button class="nav-link" id="teamportfolio-tab" data-toggle="tab" data-target="#teamportfolio" type="button" role="tab" aria-controls="teamportfolio" aria-selected="false">Team portfolio</button>
-    </li>
-    <li class="nav-item">
-        <button class="nav-link" id="networkportfolio-tab" data-toggle="tab" data-target="#networkportfolio" type="button" role="tab" aria-controls="networkportfolio" aria-selected="false">Network portfolio</button>
-    </li>
-</ul>
+<h3 class="text-mint">{{#str}}assignments, mod_evokeportfolio{{/str}}</h3>
 
-<div class="tab-content" id="submissions" data-courseid="{{{courseid}}}">
-    <div class="tab-pane fade show active p-2" id="myportfolio" role="tabpanel" aria-labelledby="myportfolio-tab">
-        {{#portfolios}}
-            <fieldset class="fieldset" data-portfolioid="{{id}}">
-                <legend>{{name}}</legend>
+{{^chapters}}
+    <div class="alert alert-warning" role="alert">
+        <h3 class="alert-heading">{{#str}}nochapters, mod_evokeportfolio{{/str}}</h3>
 
-                <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-                    {{#submissions}}
-                        {{> mod_evokeportfolio/submission }}
-                    {{/submissions}}
-                </div>
-            </fieldset>
-        {{/portfolios}}
+        <a class="btn btn-primary mt-2 text-white" href="{{config.wwwroot}}/course/view.php?id={{{courseid}}}">
+         {{#str}}backtomission, mod_evokeportfolio{{/str}}
+        </a>
     </div>
-    <div class="tab-pane fade p-2" id="teamportfolio" role="tabpanel" aria-labelledby="teamportfolio-tab">
-        {{#hasgroup}}
-            <div class="row">
-                <div class="col">
-                    <h3>My team</h3>
-                    {{#groupmembers}}
-                        <div class="groupmember">
-                            <a href="{{config.wwwroot}}/local/evokegame/profile.php?id={{courseid}}&userid={{id}}">
-                                <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
-                            </a>
-                        </div>
-                    {{/groupmembers}}
-                </div>
+{{/chapters}}
+
+<div class="accordion" id="accordion-chapters">
+    {{#chapters}}
+        <div class="card">
+            <div class="card-header" id="chapter-{{{id}}}">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-chapter-{{{id}}}" aria-expanded="false" aria-controls="collapse-chapter-{{{id}}}">
+                    {{{name}}}
+                    <span class="icon">
+                        <i class="fa"></i>
+                    </span>
+                </button>
             </div>
-        {{/hasgroup}}
 
-        {{#groupportfolios}}
-            <fieldset class="fieldset mt-2" data-portfolioid="{{id}}">
-                <legend>{{name}}</legend>
-
-                <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-                    {{#submissions}}
-                        {{> mod_evokeportfolio/submission }}
-                    {{/submissions}}
-                </div>
-            </fieldset>
-        {{/groupportfolios}}
-    </div>
-    <div class="tab-pane fade" id="networkportfolio" role="tabpanel" aria-labelledby="networkportfolio-tab">
-        {{#networkportfolios}}
-            <fieldset class="fieldset mt-2" data-portfolioid="{{id}}">
-                <legend>{{name}}</legend>
-
-                <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-                    {{#submissions}}
-                        {{> mod_evokeportfolio/submission }}
-                    {{/submissions}}
-                </div>
-            </fieldset>
-        {{/networkportfolios}}
-    </div>
+            <div id="collapse-chapter-{{{id}}}" class="collapse" aria-labelledby="chapter-{{{id}}}" data-parent="#accordion-chapters">
+                {{#portfolios}}
+                    <div class="box-portfolio">
+                        <a href="{{config.wwwroot}}/mod/evokeportfolio/indexportfolio.php?id={{{courseid}}}&portfolio={{{id}}}">
+                            <h5>{{{name}}}</h5>
+                        </a>
+                        <p class="mb-0">{{{intro}}}</p>
+                    </div>
+                {{/portfolios}}
+            </div>
+        </div>
+    {{/chapters}}
 </div>
-
-{{#js}}
-    require([
-        'mod_evokeportfolio/addcomment',
-        'mod_evokeportfolio/tribute_init',
-        'mod_evokeportfolio/togglelike'
-    ], function(AddComment, TributeInit, ToggleLike) {
-        AddComment.init();
-
-        TributeInit.init();
-
-        ToggleLike.init();
-    });
-{{/js}}

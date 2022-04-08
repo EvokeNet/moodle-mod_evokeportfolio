@@ -172,3 +172,7 @@ $string['completionrequiresubmit'] = 'Require submission';
 $string['completionrequiresubmit_help'] = 'The user needs to submit to complete this activity';
 
 $string['messageprovider:commentmention'] = 'Notify user and he/she is mentioned in a comment';
+
+$string['nochapters'] = 'There is no chapters available in this mission.';
+$string['backtomission'] = 'Back to mission';
+$string['assignments'] = 'Assignments';

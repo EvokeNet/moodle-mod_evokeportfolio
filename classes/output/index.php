@@ -5,9 +5,6 @@ namespace mod_evokeportfolio\output;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_evokeportfolio\util\chapter;
-use mod_evokeportfolio\util\group;
-use mod_evokeportfolio\util\submission;
-use mod_evokeportfolio\util\user;
 use renderable;
 use templatable;
 use renderer_base;
@@ -21,14 +18,9 @@ use renderer_base;
 class index implements renderable, templatable {
 
     public $course;
-    public $chapter;
-    public $portfolio;
-    private $portfoliocontexts = [];
 
-    public function __construct($course, $chapter = null, $portfolio = null) {
+    public function __construct($course) {
         $this->course = $course;
-        $this->chapter = $chapter;
-        $this->portfolio = $portfolio;
     }
 
     /**
@@ -42,12 +34,8 @@ class index implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $USER;
-
         $chapterutil = new chapter();
-        $submissionutil = new submission();
 
-        // Chapters data.
         $chapters = $chapterutil->get_course_chapters($this->course->id);
 
         if (!$chapters) {
@@ -56,92 +44,13 @@ class index implements renderable, templatable {
             ];
         }
 
-        $currentchapter = new \stdClass();
-        if ($this->chapter) {
-            $currentchapter = $this->chapter;
-        }
-
-        if (!$this->chapter && $chapters) {
-            $currentchapter = current($chapters);
-        }
-
-        $chaptersdata = [
-            'currentchapterid' => $currentchapter->id,
-            'chapters' => $chapters
-        ];
-
-        // Portfolios data.
-        $chapterportfolios = $chapterutil->get_chapter_portfolios($currentchapter);
-
-        $portfolios[] = $this->portfolio;
-        if (!$this->portfolio) {
-            $portfolios = $chapterportfolios;
-        }
-
-        $portfoliosdata = ['portfolios' => $chapterportfolios];
-        if ($this->portfolio) {
-            $portfoliosdata['currentportfolioid'] = $this->portfolio->id;
-        }
-
-        $filtersrenderer = new indexfilters($this->course->id, $chaptersdata, $portfoliosdata);
-
-        $filters = $output->render($filtersrenderer);
-
-        // Workaround to clone portfolios array and its objects.
-        $groupportfolios = array_map(function ($object) { return clone $object; }, $portfolios);
-
-        // Workaround to clone portfolios array and its objects.
-        $networkportfolios = array_map(function ($object) { return clone $object; }, $portfolios);
-
-        if ($portfolios) {
-            foreach ($portfolios as $portfolio) {
-                $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), $USER->id);
-            }
-        }
-
-        $userpicture = user::get_user_image_or_avatar($USER);
-
-        $groupsutil = new group();
-
-        $usercoursegroup = $groupsutil->get_user_group($this->course->id);
-
-        $groupmembers = $groupsutil->get_group_members($usercoursegroup->id);
-
-        if ($groupportfolios && $usercoursegroup) {
-            foreach ($groupportfolios as $portfolio) {
-                $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), null, $usercoursegroup->id);
-            }
-        }
-
-        if ($networkportfolios) {
-            foreach ($networkportfolios as $portfolio) {
-                $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id));
-            }
+        foreach ($chapters as $chapter) {
+            $chapter->portfolios = $chapterutil->get_chapter_portfolios($chapter, 0);
         }
 
         return [
-            'contextid' => \context_course::instance($this->course->id),
             'courseid' => $this->course->id,
-            'filters' => $filters,
-            'userpicture' => $userpicture,
-            'userfullname' => fullname($USER),
-            'groupmembers' => $groupmembers,
-            'hasgroup' => !empty($usercoursegroup),
-            'portfolios' => $portfolios,
-            'groupportfolios' => $groupportfolios,
-            'networkportfolios' => $networkportfolios
+            'chapters' => $chapters
         ];
-    }
-
-    private function get_portfolio_context($portfolioid) {
-        if (isset($this->portfoliocontexts[$portfolioid])) {
-            return $this->portfoliocontexts[$portfolioid];
-        }
-
-        $coursemodule = get_coursemodule_from_instance('evokeportfolio', $portfolioid);
-
-        $this->portfoliocontexts[$portfolioid] = \context_module::instance($coursemodule->id);
-
-        return $this->portfoliocontexts[$portfolioid];
     }
 }

@@ -114,6 +114,10 @@ class chapter {
         foreach ($portfolios as $portfolio) {
             $portfolio->isevaluated = false;
 
+            $coursemodule = get_coursemodule_from_instance('evokeportfolio', $portfolio->id);
+
+            $portfolio->intro = format_module_intro('evokeportfolio', $portfolio, $coursemodule->id);
+
             if ($portfolio->grade != 0) {
                 $portfolio->isevaluated = true;
             }
