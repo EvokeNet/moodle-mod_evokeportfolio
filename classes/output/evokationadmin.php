@@ -4,7 +4,7 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_evokeportfolio\util\chapter;
+use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\group;
 use mod_evokeportfolio\util\submission;
 use mod_evokeportfolio\util\user;
@@ -47,42 +47,14 @@ class evokationadmin implements renderable, templatable {
     public function export_for_template(renderer_base $output) {
         global $USER;
 
-        $chapterutil = new chapter();
+        $portfolioutil = new evokeportfolio();
         $grouputil = new group();
         $submissionutil = new submission();
 
-        // Chapters data.
-        $chapters = $chapterutil->get_course_chapters($this->course->id);
-
-        if (!$chapters) {
-            return [
-                'courseid' => $this->course->id
-            ];
-        }
-
-        $currentchapter = new \stdClass();
-        if ($this->chapter) {
-            $currentchapter = $this->chapter;
-        }
-
-        if (!$this->chapter && $chapters) {
-            $currentchapter = current($chapters);
-        }
-
-        $chaptersdata = [
-            'currentchapterid' => $currentchapter->id,
-            'chapters' => $chapters
-        ];
-
         // Portfolios data.
-        $chapterportfolios = $chapterutil->get_chapter_portfolios($currentchapter, 1);
+        $portfolios = $portfolioutil->get_course_portfolio_instances($this->course->id, 1);
 
-        $portfolios[] = $this->portfolio;
-        if (!$this->portfolio) {
-            $portfolios = $chapterportfolios;
-        }
-
-        $portfoliosdata = ['portfolios' => $chapterportfolios];
+        $portfoliosdata = ['portfolios' => $portfolios];
         if ($this->portfolio) {
             $portfoliosdata['currentportfolioid'] = $this->portfolio->id;
         }
@@ -97,12 +69,14 @@ class evokationadmin implements renderable, templatable {
             $groupid = $this->group->id;
         }
 
-        $filters = $this->get_filters($output, $chaptersdata, $portfoliosdata, $groupsdata);
+        $filters = $this->get_filters($output, [], $portfoliosdata, $groupsdata);
 
-        if ($portfolios) {
-            foreach ($portfolios as $portfolio) {
-                $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->context, null, $groupid);
-            }
+        if ($this->portfolio) {
+            $portfolios = [$this->portfolio];
+        }
+
+        foreach ($portfolios as $portfolio) {
+            $portfolio->submissions = $submissionutil->get_portfolio_submissions($portfolio, $this->context, null, $groupid);
         }
 
         $userpicture = user::get_user_image_or_avatar($USER);

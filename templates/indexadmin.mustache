@@ -61,12 +61,6 @@
                                     </div>
 
                                     <div class="reactions">
-                                        <div class="status">
-                                            {{#reactionstring}}
-                                                <i class="fa fa-thumbs-up"></i> {{{reactionstring}}}
-                                            {{/reactionstring}}
-                                        </div>
-
                                         <div class="actions">
                                             <div class="button likebutton {{#userreacted}}hasreacted{{/userreacted}}">
                                                 {{#userreacted}}
@@ -75,10 +69,13 @@
                                                 {{^userreacted}}
                                                     <i class="fa "></i>
                                                 {{/userreacted}}
-                                                {{#str}}reaction_like, mod_evokeportfolio{{/str}}
+
+                                                <span class="totalreactions">{{{totalreactions}}}</span>
                                             </div>
                                             <div class="button commentbutton">
-                                                <i class="fa fa-commenting-o"></i> {{#str}}reaction_comment, mod_evokeportfolio{{/str}}
+                                                <i class="fa fa-comment-o"></i>
+
+                                                <span class="totalcomments">{{{totalcomments}}}</span>
                                             </div>
                                         </div>
                                     </div>

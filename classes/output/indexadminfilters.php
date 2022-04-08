@@ -56,7 +56,7 @@ class indexadminfilters implements renderable, templatable {
         }
 
         $chapters = [];
-        if ($this->chaptersdata['chapters']) {
+        if (isset($this->chaptersdata['chapters'])) {
             foreach ($this->chaptersdata['chapters'] as $chapter) {
                 $chapter->selected = false;
 
@@ -69,6 +69,7 @@ class indexadminfilters implements renderable, templatable {
         }
 
         $data['chapters'] = $chapters;
+        $data['haschapters'] = !empty($chapters);
 
         $portfolios = [];
         if ($this->portfoliosdata['portfolios']) {
