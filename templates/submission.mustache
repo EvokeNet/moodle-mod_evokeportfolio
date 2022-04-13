@@ -12,20 +12,20 @@
                 {{#isowner}}
                     {{#isevaluated}}
                         {{#grade}}
-                            <span class="badge badge-success">Assessment: {{{grade}}}</span>
+                            <span class="badge badge-success">{{#str}}assessment, mod_evokeportfolio{{/str}}: {{{grade}}}</span>
                         {{/grade}}
                         {{^grade}}
-                            <span class="badge badge-primary">Not yet assessed</span>
+                            <span class="badge badge-primary">{{#str}}notyetassessed, mod_evokeportfolio{{/str}}</span>
                         {{/grade}}
                     {{/isevaluated}}
                 {{/isowner}}
                 {{#cangrade}}
                     {{#isevaluated}}
                         {{#grade}}
-                            <span class="badge badge-success">Assessment: {{{grade}}}</span>
+                            <span class="badge badge-success">{{#str}}assessment, mod_evokeportfolio{{/str}}: {{{grade}}}</span>
                         {{/grade}}
                         {{^grade}}
-                            <span class="badge badge-primary">Not yet assessed</span>
+                            <span class="badge badge-primary">{{#str}}notyetassessed, mod_evokeportfolio{{/str}}</span>
                         {{/grade}}
                     {{/isevaluated}}
                 {{/cangrade}}

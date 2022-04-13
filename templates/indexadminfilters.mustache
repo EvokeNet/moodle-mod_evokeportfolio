@@ -4,7 +4,7 @@
     {{#haschapters}}
         <div class="row">
             <div class="col-8">
-                <h2>Portfolio grading</h2>
+                <h2>{{#str}}portfoliograding, mod_evokeportfolio{{/str}}</h2>
             </div>
             <div class="col-4">
                 <select id="chapter" name="chapter" class="form-control">
@@ -19,7 +19,7 @@
     <div class="row my-4">
         <div class="col-md-6">
             <select id="portfolio" name="portfolio" class="form-control">
-                <option value="0">All activities</option>
+                <option value="0">{{#str}}allactivities, mod_evokeportfolio{{/str}}</option>
 
                 {{#portfolios}}
                     <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
@@ -28,7 +28,7 @@
         </div>
         <div class="col-md-6">
             <select id="group" name="group" class="form-control">
-                <option value="0">All groups</option>
+                <option value="0">{{#str}}allgroups, mod_evokeportfolio{{/str}}</option>
 
                 {{#groups}}
                     <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>

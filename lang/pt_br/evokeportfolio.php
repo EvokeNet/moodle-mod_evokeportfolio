@@ -13,6 +13,8 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['evokeportfolio:addinstance'] = 'Adicionar um portfolio';
 $string['evokeportfolio:view'] = 'Visualizar portfolio';
+$string['evokeportfolio:grade'] = 'Permissão para avaliar usuários';
+$string['evokeportfolio:submit'] = 'Permissão para fazer um envio no portfólio';
 $string['missingidandcmid'] = 'Faltando o ID do módulo do curso';
 $string['modulename'] = 'Portfolio';
 $string['modulename_help'] = 'Use o módulo portfolio para gerenciar as criações dos usuários...';
@@ -25,11 +27,18 @@ $string['name'] = 'Nome';
 $string['view'] = 'Visualizar';
 $string['eventsubmissionsent'] = 'Envio realizado';
 $string['eventsubmissionupdated'] = 'Envio atualizado';
+$string['eventcommentadded'] = 'Comentário adicionado';
+$string['eventlikesent'] = 'Like enviado';
 $string['gradinglocked'] = 'A avaliação está atualimente bloqueada para esta atividade.';
 $string['viewsubmission'] = 'Visualizar envio';
 $string['notsubmitted'] = 'Não enviado';
 $string['evaluated'] = 'Avaliado';
 
+$string['submissionsuccessmessage'] = 'Mensagem de envio com sucesso';
+$string['evokation'] = 'É uma evokation?';
+$string['evokation_help'] = 'Marque este campo para indicar que a atividade é uma evokation.';
+$string['datestart'] = 'Data de início dos envios';
+$string['datestart_help'] = 'Estudentes só podem enviar seus trabalhos depois desta data.';
 $string['datelimit'] = 'Data limite';
 $string['datelimit_help'] = 'Após esta data, estudantes não podemo mais realizar envios.';
 $string['groupactivity'] = 'Atividade em grupo';
@@ -75,7 +84,7 @@ $string['save_submission_success'] = 'Envio realizado com sucesso.';
 $string['update_submission_success'] = 'Envio atualizado com sucesso';
 
 $string['grade'] = 'Nota';
-$string['grade_help'] = 'DIgite a nota do portfolio do estudante aqui.';
+$string['grade_help'] = 'Digite a nota do portfolio do estudante aqui.';
 $string['onlynumbers'] = 'Somente números são aceitos.';
 $string['gradefor'] = 'Nota para: {$a}';
 
@@ -84,26 +93,10 @@ $string['validation:commentlen'] = 'Comentário precisa ter pelo menos 10 caract
 $string['validation:graderequired'] = 'Nota é obrigatório';
 $string['validation:commentattachmentsrequired'] = 'Você precisa pelo menos adicionar um comentário ou anexar um arquivo.';
 $string['validation:namelen'] = 'Nome precisa ter pelo menos 3 caracteres';
-
-$string['managesections'] = 'Gerenciar seções';
-$string['createsection'] = 'Criar seção';
-$string['editsection'] = 'Editar seção';
-$string['actions'] = 'Ações';
 $string['deleteitem_confirm_title'] = 'Você tem certeza?';
 $string['deleteitem_confirm_msg'] = 'Uma vez deletado, este item não pode mais ser recuperado!';
 $string['deleteitem_confirm_yes'] = 'Sim, pode deletar!';
 $string['deleteitem_confirm_no'] = 'Cancelar';
-$string['deletesection_success'] = 'Seção deletada com sucesso.';
-$string['createsection_success'] = 'Seção criada com sucesso.';
-$string['editsection_success'] = 'Seção editada com sucesso.';
-$string['deletesection_hassubmissions'] = 'Não é possível deletar esta seção porque ela já possui envios feitos nela.';
-
-$string['evokeportfolio:grade'] = 'Permissão para avaliar usuários';
-$string['evokeportfolio:submit'] = 'Permissão para fazer um envio no portfólio';
-
-$string['dependentcoursesections'] = 'Seções do curso dependentes';
-$string['nosectionsavailable'] = 'Seções não disponíveis';
-$string['nosectionsavailable_desc'] = 'Não existem seções disponíveis para você neste portfolio ainda..';
 
 $string['privacy:metadata:evokeportfolio_submissions'] = 'Informações sobre os envios de um usuário em um portfolio';
 $string['privacy:metadata:evokeportfolio_submissions:sectionid'] = 'O ID da seção do curso onde o portfolio está';
@@ -127,5 +120,60 @@ $string['indicator:socialbreadthdef'] = 'Evoke portfolio social';
 $string['indicator:socialbreadthdef_help'] = 'O participante alcançou essa porcentagem do engajamento social oferecido pelos recursos Portfolio durante esse intervalo de análise (Níveis = Sem participação, Participante único)';
 $string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
 
+$string['status'] = 'Status';
+$string['portfoliochapters'] = 'Capítulos do Portfolio';
+$string['portfoliograding'] = 'Avaliação do Portfolio';
+$string['chaptersportfolios'] = 'Portfolios no capítulo';
+$string['createchapter'] = 'Criar capítulo';
+$string['courseportfolios'] = 'Portfolios no curso ';
+$string['deletechapter_success'] = 'Capítulo excluído com sucesso.';
+$string['createchapter_success'] = 'Capítulo criado com sucesso.';
+$string['editchapter_success'] = 'Capítulo editado com sucesso.';
+$string['editchapter'] = 'Editar capítulo';
+$string['grading_success'] = 'Avaliação finalizada com sucesso.';
+$string['graded'] = 'Avaliado';
+$string['nosubmissions'] = 'Sem envios';
+$string['nosubmissions_desc'] = 'Não há envios para este portfolio ainda.';
+
+$string['myportfolios'] = 'Meus Portfolios';
+$string['gototheportfolio'] = 'Ir para o portfolio';
+$string['comment'] = 'Comentar';
+$string['writeacomment'] = '+ Compartilhe seus pensamentos...';
+$string['description'] = 'Descrição';
+
+$string['message_mentioned'] = 'Você foi mencionado em um comentário';
+$string['message_mentionedinaportfolio'] = 'Você foi mencionado em um comentário no portfolio <b>{$a}</b>';
+$string['message_mentioncontextname'] = 'Mencionado em um comentário.';
+$string['message_clicktoaccessportfolio'] = 'Clique aqui para acessar o portfolio';
+
+$string['coursenoportfolio'] = 'Este curso não possui atividades do tipo portfolio';
+$string['view'] = 'Visualizar';
+$string['page_portfolio_title'] = 'Meus envios em um portfolio';
+
 $string['completionrequiresubmit'] = 'Requer envio';
-$string['completionrequiresubmit_help'] = 'O usuário precisa enviar a tarefa para concluir esta atividade';
+$string['completionrequiresubmit_help'] = 'O estudante precisa fazer um envio para completar esta atividade';
+
+$string['messageprovider:commentmention'] = 'Notifica o usuário quando ele é mencionado em um comentário';
+
+$string['nochapters'] = 'Não há capítulos disponíveis nesta missão.';
+$string['backtomission'] = 'Voltar para a missão';
+$string['assignments'] = 'Atividades';
+
+$string['myportfolio'] = 'Meu Portfolio';
+$string['teamportfolio'] = 'Portfolio do Time';
+$string['networkportfolio'] = 'Portfolio da Rede';
+
+$string['myevokation'] = 'Meu Evokation';
+$string['teamevokation'] = 'Evokation do Time';
+$string['networkevokation'] = 'Evokation da Rede';
+$string['assessed'] = 'Avaliado';
+$string['notassessed'] = 'Não avaliado';
+$string['evokation'] = 'Evokation';
+$string['allactivities'] = 'Todas as atividades';
+$string['allgroups'] = 'Todos os grupos';
+
+$string['evaluatechapter'] = 'Avaliar capítulo';
+$string['chaptergrading'] = 'Avaliação de capítulo';
+
+$string['assessment'] = 'Avaliação';
+$string['notyetassessed'] = 'Não avaliado ainda';

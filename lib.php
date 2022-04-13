@@ -385,41 +385,6 @@ function mod_evokeportfolio_output_fragment_grade_form($args) {
     return $o;
 }
 
-/**
- * This function extends the settings navigation block for the site.
- *
- * It is safe to rely on PAGE here as we will only ever be within the module
- * context when this is called
- *
- * @param settings_navigation $settings
- * @param navigation_node $modnode
- * @return void
- */
-function evokeportfolio_extend_settings_navigation($settings, $modnode) {
-    global $PAGE;
-
-    if (!has_capability('mod/evokeportfolio:addinstance', $PAGE->cm->context)) {
-        return false;
-    }
-
-    // We want to add these new nodes after the Edit settings node, and before the
-    // Locally assigned roles node. Of course, both of those are controlled by capabilities.
-    $keys = $modnode->get_children_key_list();
-    $beforekey = null;
-    $i = array_search('modedit', $keys);
-    if ($i === false and array_key_exists(0, $keys)) {
-        $beforekey = $keys[0];
-    } else if (array_key_exists($i + 1, $keys)) {
-        $beforekey = $keys[$i + 1];
-    }
-
-    $node = navigation_node::create(get_string('managesections', 'mod_evokeportfolio'),
-        new moodle_url('/mod/evokeportfolio/managesections.php', array('id' => $PAGE->cm->id)),
-        navigation_node::TYPE_SETTING, null, 'mod_evokeportfolio_managesections',
-        new pix_icon('t/edit', ''));
-    $modnode->add_node($node, $beforekey);
-}
-
 function mod_evokeportfolio_extend_navigation_course($navigation, $course, $context) {
     if (has_capability('mod/evokeportfolio:addinstance', $context)) {
         $url = new moodle_url('/mod/evokeportfolio/managechapters.php',['id' => $course->id]);

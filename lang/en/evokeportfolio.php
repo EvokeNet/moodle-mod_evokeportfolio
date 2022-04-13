@@ -13,6 +13,8 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['evokeportfolio:addinstance'] = 'Add a portflio';
 $string['evokeportfolio:view'] = 'View portfolio';
+$string['evokeportfolio:grade'] = 'Permission to grade users';
+$string['evokeportfolio:submit'] = 'Permission to send a portfolio submission';
 $string['missingidandcmid'] = 'Missing ID or Course Module ID';
 $string['modulename'] = 'Portfolio';
 $string['modulename_help'] = 'The portfolio module may be used to manage collections of agent work'; // agent = student
@@ -66,7 +68,6 @@ $string['page_view_usernotingroup_text'] = 'You need to be part of a team to do 
 
 $string['page_submit_comment'] = 'Your post';
 $string['page_submit_attachments'] = 'Attachments';
-$string['nohavesectionaccess'] = 'You don\'t have access to that section yet.';
 
 $string['page_submissions_portfoliocomment'] = 'Comment';
 $string['page_submissions_portfoliomentorcomment'] = 'Mentor comments';
@@ -92,23 +93,10 @@ $string['validation:commentlen'] = 'Post text needs to be at least 10 characters
 $string['validation:graderequired'] = 'Grade is required';
 $string['validation:commentattachmentsrequired'] = 'You must add text to your post or submit a file.';
 $string['validation:namelen'] = 'Name needs to contain at least 3 characters';
-$string['managesections'] = 'Manage sections';
-$string['createsection'] = 'Create section';
-$string['editsection'] = 'Edit section';
-$string['actions'] = 'Actions';
 $string['deleteitem_confirm_title'] = 'Are you sure?';
 $string['deleteitem_confirm_msg'] = 'Once deleted, this item cannot be recovered.';
 $string['deleteitem_confirm_yes'] = 'Yes, delete it.';
 $string['deleteitem_confirm_no'] = 'Cancel';
-$string['deletesection_success'] = 'Section successfully deleted.';
-$string['createsection_success'] = 'Section successfully created.';
-$string['editsection_success'] = 'Section successfully edited.';
-$string['deletesection_hassubmissions'] = 'It is not possible to delete this section because it contains submissions.';
-$string['evokeportfolio:grade'] = 'Permission to grade users';
-$string['evokeportfolio:submit'] = 'Permission to send a portfolio submission';
-$string['dependentcoursesections'] = 'Dependent course sections';
-$string['nosectionsavailable'] = 'No sections available';
-$string['nosectionsavailable_desc'] = 'There are no sections available for you in this portfolio yet.';
 
 $string['privacy:metadata:evokeportfolio_submissions'] = 'Information about the user\'s submissions for a given portfolio activity';
 $string['privacy:metadata:evokeportfolio_submissions:sectionid'] = 'The ID of the potfolio\'s section';
@@ -170,3 +158,22 @@ $string['messageprovider:commentmention'] = 'Notify user and he/she is mentioned
 $string['nochapters'] = 'There are no chapters available in this mission.';
 $string['backtomission'] = 'Back to mission';
 $string['assignments'] = 'Assignments';
+
+$string['myportfolio'] = 'My Portfolio';
+$string['teamportfolio'] = 'Team Portfolio';
+$string['networkportfolio'] = 'Network Portfolio';
+
+$string['myevokation'] = 'My Evokation';
+$string['teamevokation'] = 'Team Evokation';
+$string['networkevokation'] = 'Network Evokation';
+$string['assessed'] = 'Assessed';
+$string['notassessed'] = 'Not Assessed';
+$string['evokation'] = 'Evokation';
+$string['allactivities'] = 'All activities';
+$string['allgroups'] = 'All groups';
+
+$string['evaluatechapter'] = 'Evaluate chapter';
+$string['chaptergrading'] = 'Chapter grading';
+
+$string['assessment'] = 'Assessment';
+$string['notyetassessed'] = 'Not yet assessed';
