@@ -46,7 +46,7 @@ class submit_form extends \moodleform {
         $mform->setType('comment', PARAM_CLEANHTML);
 
         $mform->addElement('filemanager', 'attachments', get_string('page_submit_attachments', 'mod_evokeportfolio'), null,
-            ['subdirs' => 0, 'maxfiles' => 10, 'accepted_types' => ['document', 'presentation', 'image'], 'return_types'=> FILE_INTERNAL | FILE_EXTERNAL]);
+            ['subdirs' => 0, 'maxfiles' => 10, 'accepted_types' => ['document', 'presentation', 'optimised_image'], 'return_types'=> FILE_INTERNAL | FILE_EXTERNAL]);
 
         $this->add_action_buttons(true);
     }

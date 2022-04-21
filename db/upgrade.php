@@ -273,5 +273,21 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2022032800, 'mod', 'evokeportfolio');
     }
 
+    if ($oldversion < 2022042000) {
+        $submissions = $DB->get_records('evokeportfolio_submissions');
+
+        $submissionutil = new \mod_evokeportfolio\util\submission();
+
+        foreach ($submissions as $submission) {
+            $cm = get_coursemodule_from_instance('evokeportfolio', $submission->portfolioid);
+
+            $context = context_module::instance($cm->id);
+
+            $submissionutil->create_submission_thumbs($submission, $context);
+        }
+
+        upgrade_plugin_savepoint(true, 2022042000, 'mod', 'evokeportfolio');
+    }
+
     return true;
 }

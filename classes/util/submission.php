@@ -180,12 +180,16 @@ class submission {
                 $entryfiles = [];
 
                 foreach ($files as $file) {
+                    if ($file->get_filepath() != '/thumb/') {
+                        continue;
+                    }
+
                     $path = [
                         '',
                         $file->get_contextid(),
                         $file->get_component(),
                         $file->get_filearea(),
-                        $entry->id .$file->get_filepath() . $file->get_filename()
+                        $entry->id . $file->get_filepath() . $file->get_filename()
                     ];
 
                     $fileurl = \moodle_url::make_file_url('/pluginfile.php', implode('/', $path), true);
@@ -224,5 +228,42 @@ class submission {
         }
 
         return $submissions;
+    }
+
+    public function create_submission_thumbs($submission, $context) {
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($context->id,
+            'mod_evokeportfolio',
+            'attachments',
+            $submission->id,
+            'timemodified',
+            false);
+
+        if (!$files) {
+            return;
+        }
+
+        foreach ($files as $file) {
+            if ($file->is_valid_image()) {
+                $filerecord = [
+                    'userid' => $submission->userid,
+                    'filename' => $file->get_filename(),
+                    'contextid' => $file->get_contextid(),
+                    'component' => $file->get_component(),
+                    'filearea' => $file->get_filearea(),
+                    'itemid' => $submission->id,
+                    'filepath' => '/thumb/'
+                ];
+
+                $fileinfo = $file->get_imageinfo();
+
+                $width = $fileinfo['width'];
+                if ($width > 600) {
+                    $width = 600;
+                }
+
+                $fs->convert_image($filerecord, $file, $width);
+            }
+        }
     }
 }

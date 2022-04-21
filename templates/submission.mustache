@@ -42,7 +42,9 @@
                 {{#attachments}}
                     <div class="attachment mb-2">
                         {{#isimage}}
-                            <img src="{{fileurl}}" class="img-responsive" alt="{{filename}}">
+                            <div class="thumbnail-container">
+                                <img src="{{fileurl}}" class="img-responsive img-thumbnail" alt="{{filename}}">
+                            </div>
                         {{/isimage}}
                         {{^isimage}}
                             <div class="fileinfo">
@@ -106,3 +108,40 @@
         </div>
     </div>
 </div>
+
+<div id="image-modal" class="modal" aria-hidden="true">
+    <!-- The Close Button -->
+    <span class="close" aria-label="Close">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content">
+</div>
+
+{{#js}}
+    require(['jquery'], function($) {
+        var modal = $('#image-modal');
+
+        $('.thumbnail-container').on('click', function(event) {
+            var imgsrc = $(event.currentTarget).find('.img-responsive').attr('src');
+            var originalimage = imgsrc.replace('/thumb', '');
+
+            modal.css('display', 'block');
+            modal.attr('aria-hidden', 'false');
+
+            var imagecontaier = $('#image-modal .modal-content');
+            imagecontaier.attr('src', originalimage);
+        });
+
+        $('#image-modal .close').on('click', function(event) {
+            modal.css('display', 'none');
+            modal.attr('aria-hidden', 'true');
+        });
+
+        $(document).on('keydown', function(event) {
+            if (event.which == 27) {
+                modal.css('display', 'none');
+                modal.attr('aria-hidden', 'true');
+            }
+        });
+    });
+{{/js}}
