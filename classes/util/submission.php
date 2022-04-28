@@ -180,10 +180,6 @@ class submission {
                 $entryfiles = [];
 
                 foreach ($files as $file) {
-                    if ($file->get_filepath() != '/thumb/') {
-                        continue;
-                    }
-
                     $path = [
                         '',
                         $file->get_contextid(),
@@ -194,11 +190,13 @@ class submission {
 
                     $fileurl = \moodle_url::make_file_url('/pluginfile.php', implode('/', $path), true);
 
-                    $entryfiles[] = [
-                        'filename' => $file->get_filename(),
-                        'isimage' => $file->is_valid_image(),
-                        'fileurl' => $fileurl
-                    ];
+                    if (!$file->is_valid_image() || $file->get_filepath() == '/thumb/') {
+                        $entryfiles[] = [
+                            'filename' => $file->get_filename(),
+                            'isimage' => $file->is_valid_image(),
+                            'fileurl' => $fileurl
+                        ];
+                    }
                 }
 
                 $data[$key]->attachments = $entryfiles;
