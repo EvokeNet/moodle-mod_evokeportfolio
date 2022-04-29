@@ -289,5 +289,30 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2022042000, 'mod', 'evokeportfolio');
     }
 
+    if ($oldversion < 2022042900) {
+        $dbman = $DB->get_manager();
+
+        $table = new xmldb_table('evokeportfolio');
+        $field = new xmldb_field('submissionsuccessmessage', XMLDB_TYPE_TEXT);
+
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->change_field_type($table, $field);
+        }
+
+        upgrade_plugin_savepoint(true, 2022042900, 'mod', 'evokeportfolio');
+    }
+
+    if ($oldversion < 2022043000) {
+        $dbman = $DB->get_manager();
+
+        $table = new xmldb_table('evokeportfolio');
+
+        $submissionsuccessmessageformatfield = new xmldb_field('submissionsuccessmessageformat', XMLDB_TYPE_INTEGER, '4', true, XMLDB_NOTNULL, null, 1, 'submissionsuccessmessage');
+
+        $dbman->add_field($table, $submissionsuccessmessageformatfield);
+
+        upgrade_plugin_savepoint(true, 2022043000, 'mod', 'evokeportfolio');
+    }
+
     return true;
 }

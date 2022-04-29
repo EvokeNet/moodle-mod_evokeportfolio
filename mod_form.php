@@ -49,9 +49,22 @@ class mod_evokeportfolio_mod_form extends moodleform_mod {
         $mform->addHelpButton('datelimit', 'datelimit', 'mod_evokeportfolio');
         $mform->addRule('datelimit', null, 'required', null, 'client');
 
-        $mform->addElement('text', 'submissionsuccessmessage', get_string('submissionsuccessmessage', 'mod_evokeportfolio'), array('size' => '64'));
-        $mform->setType('submissionsuccessmessage', PARAM_TEXT);
-        $mform->addRule('submissionsuccessmessage', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
+        if ($this->current->submissionsuccessmessage) {
+            $this->current->submissionsuccessmessage = array('text' => $this->current->submissionsuccessmessage, 'format' => $this->current->submissionsuccessmessageformat);
+        }
+
+        $options = [
+            'subdirs' => 0,
+            'maxbytes' => 0,
+            'maxfiles' => 0,
+            'changeformat' => 0,
+            'context' => null,
+            'noclean' => 0,
+            'trusttext' => 0,
+            'enable_filemanagement' => false
+        ];
+        $mform->addElement('editor', 'submissionsuccessmessage', get_string('submissionsuccessmessage', 'mod_evokeportfolio'), $options);
+        $mform->setType('submissionsuccessmessage', PARAM_RAW);
 
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();
@@ -61,6 +74,12 @@ class mod_evokeportfolio_mod_form extends moodleform_mod {
 
         // Add standard buttons.
         $this->add_action_buttons();
+    }
+
+    public function definition_after_data() {
+        global $DB;
+
+        $mform = $this->_form;
     }
 
     /**

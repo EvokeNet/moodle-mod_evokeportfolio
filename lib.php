@@ -51,6 +51,13 @@ function evokeportfolio_add_instance($moduleinstance, $mform = null) {
     $moduleinstance->timecreated = time();
     $moduleinstance->timemodified = time();
 
+    if (isset($moduleinstance->submissionsuccessmessage['text'])) {
+        $moduleinstance->submissionsuccessmessageformat = $moduleinstance->submissionsuccessmessage['format'];
+        $moduleinstance->submissionsuccessmessage = $moduleinstance->submissionsuccessmessage['text'];
+    } else {
+        $moduleinstance->submissionsuccessmessage = null;
+    }
+
     $id = $DB->insert_record('evokeportfolio', $moduleinstance);
 
     $moduleinstance->id = $id;
@@ -75,6 +82,13 @@ function evokeportfolio_update_instance($moduleinstance, $mform = null) {
 
     $moduleinstance->timemodified = time();
     $moduleinstance->id = $moduleinstance->instance;
+
+    if (isset($moduleinstance->submissionsuccessmessage['text'])) {
+        $moduleinstance->submissionsuccessmessageformat = $moduleinstance->submissionsuccessmessage['format'];
+        $moduleinstance->submissionsuccessmessage = $moduleinstance->submissionsuccessmessage['text'];
+    } else {
+        $moduleinstance->submissionsuccessmessage = null;
+    }
 
     evokeportfolio_grade_item_update($moduleinstance);
 
