@@ -49,6 +49,7 @@ class evokeportfolio {
 
         foreach ($portfolios as $portfolio) {
             $portfolio->isavailable = false;
+            $portfolio->isevaluated = $portfolio->grade != 0;
 
             if ($portfolio->datestart < $now && $portfolio->datelimit > $now) {
                 $portfolio->isavailable = true;
