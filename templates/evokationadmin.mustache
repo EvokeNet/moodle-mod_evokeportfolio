@@ -43,9 +43,11 @@
 
                                         {{#hasattachments}}
                                             {{#attachments}}
-                                                <div class="attachment">
+                                                <div class="attachment mb-2">
                                                     {{#isimage}}
-                                                        <img src="{{fileurl}}" class="img-responsive" alt="{{filename}}">
+                                                        <div class="thumbnail-container">
+                                                            <img src="{{fileurl}}" class="img-responsive img-thumbnail" alt="{{filename}}">
+                                                        </div>
                                                     {{/isimage}}
                                                     {{^isimage}}
                                                         <div class="fileinfo">
@@ -139,8 +141,9 @@
         'mod_evokeportfolio/addcomment',
         'mod_evokeportfolio/tribute_init',
         'mod_evokeportfolio/togglelike',
-        'mod_evokeportfolio/addgrade'
-    ], function(AddComment, TributeInit, ToggleLike, AddGrade) {
+        'mod_evokeportfolio/addgrade',
+        'mod_evokeportfolio/thumb'
+    ], function(AddComment, TributeInit, ToggleLike, AddGrade, Thumb) {
         AddComment.init();
 
         TributeInit.init();
@@ -148,5 +151,7 @@
         ToggleLike.init();
 
         AddGrade.init({{contextid}});
+
+        Thumb.init();
     });
 {{/js}}
