@@ -6,22 +6,56 @@
 
 <ul class="nav nav-tabs" id="portfolios-tab" role="tablist">
     <li class="nav-item">
-        <button class="nav-link active" id="myportfolio-tab" data-toggle="tab" data-target="#myportfolio" type="button" role="tab" aria-controls="myportfolio" aria-selected="true">{{#str}}myportfolio, mod_evokeportfolio{{/str}}</button>
+        <button class="nav-link active"
+                id="myportfolio-tab"
+                data-toggle="tab"
+                data-target="#myportfolio"
+                type="button"
+                role="tab"
+                aria-controls="myportfolio"
+                aria-selected="true"
+                data-timeline_type="my"
+                data-timeline_hasmoreitems="true"
+                data-timeline_limit="0">
+            {{#str}}myportfolio, mod_evokeportfolio{{/str}}
+        </button>
     </li>
     <li class="nav-item">
-        <button class="nav-link" id="teamportfolio-tab" data-toggle="tab" data-target="#teamportfolio" type="button" role="tab" aria-controls="teamportfolio" aria-selected="false">{{#str}}teamportfolio, mod_evokeportfolio{{/str}}</button>
+        <button class="nav-link"
+                id="teamportfolio-tab"
+                data-toggle="tab"
+                data-target="#teamportfolio"
+                type="button"
+                role="tab"
+                aria-controls="teamportfolio"
+                aria-selected="false"
+                data-timeline_type="team"
+                data-timeline_hasmoreitems="true"
+                data-timeline_limit="0">
+            {{#str}}teamportfolio, mod_evokeportfolio{{/str}}
+        </button>
     </li>
     <li class="nav-item">
-        <button class="nav-link" id="networkportfolio-tab" data-toggle="tab" data-target="#networkportfolio" type="button" role="tab" aria-controls="networkportfolio" aria-selected="false">{{#str}}networkportfolio, mod_evokeportfolio{{/str}}</button>
+        <button class="nav-link"
+                id="networkportfolio-tab"
+                data-toggle="tab"
+                data-target="#networkportfolio"
+                type="button"
+                role="tab"
+                aria-controls="networkportfolio"
+                aria-selected="false"
+                data-timeline_type="network"
+                data-timeline_hasmoreitems="true"
+                data-timeline_limit="0">
+            {{#str}}networkportfolio, mod_evokeportfolio{{/str}}
+        </button>
     </li>
 </ul>
 
 <div class="tab-content" id="submissions" data-courseid="{{{courseid}}}">
     <div class="tab-pane fade show active p-2" id="myportfolio" role="tabpanel" aria-labelledby="myportfolio-tab">
-        <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-            {{#mysubmissions}}
-                {{> mod_evokeportfolio/submission }}
-            {{/mysubmissions}}
+        <div id="submissions-myportfolios" class="submissions mt-2 timeline" data-courseid="{{{courseid}}}">
+            {{> mod_evokeportfolio/timeline_loading_placeholder }}
         </div>
     </div>
     <div class="tab-pane fade p-2" id="teamportfolio" role="tabpanel" aria-labelledby="teamportfolio-tab">
@@ -41,16 +75,12 @@
         {{/hasgroup}}
 
         <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-            {{#groupsubmissions}}
-                {{> mod_evokeportfolio/submission }}
-            {{/groupsubmissions}}
+            {{> mod_evokeportfolio/timeline_loading_placeholder }}
         </div>
     </div>
     <div class="tab-pane fade" id="networkportfolio" role="tabpanel" aria-labelledby="networkportfolio-tab">
         <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-            {{#networksubmissions}}
-                {{> mod_evokeportfolio/submission }}
-            {{/networksubmissions}}
+            {{> mod_evokeportfolio/timeline_loading_placeholder }}
         </div>
     </div>
 </div>
@@ -60,8 +90,9 @@
         'mod_evokeportfolio/addcomment',
         'mod_evokeportfolio/tribute_init',
         'mod_evokeportfolio/togglelike',
-        'mod_evokeportfolio/thumb'
-    ], function(AddComment, TributeInit, ToggleLike, Thumb) {
+        'mod_evokeportfolio/thumb',
+        'mod_evokeportfolio/loadtimeline'
+    ], function(AddComment, TributeInit, ToggleLike, Thumb, LoadTimeline) {
         AddComment.init();
 
         TributeInit.init();
@@ -69,5 +100,7 @@
         ToggleLike.init();
 
         Thumb.init();
+
+        LoadTimeline.init({{{courseid}}});
     });
 {{/js}}

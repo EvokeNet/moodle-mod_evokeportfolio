@@ -152,16 +152,23 @@ class user {
         global $PAGE;
 
         if (function_exists('theme_evoke_get_user_avatar_or_image')) {
-            return theme_evoke_get_user_avatar_or_image($user);
+            $userpicture = theme_evoke_get_user_avatar_or_image($user);
         }
 
         if (function_exists('theme_moove_get_user_avatar_or_image')) {
-            return theme_moove_get_user_avatar_or_image($user);
+            $userpicture = theme_moove_get_user_avatar_or_image($user);
         }
 
-        $userpicture = new \user_picture($user);
-        $userpicture->size = 1;
+        if (!$userpicture) {
+            $userpicture = new \user_picture($user);
+            $userpicture->size = 1;
+            $userpicture = $userpicture->get_url($PAGE);
+        }
 
-        return $userpicture->get_url($PAGE);
+        if ($userpicture instanceof \moodle_url) {
+            return $userpicture->out();
+        }
+
+        return $userpicture;
     }
 }

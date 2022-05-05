@@ -1,110 +1,112 @@
-<div class="submission mt-4" data-id="{{id}}">
-    <div class="post">
-        <div class="userinfo">
-            <div class="userimg">
-                <img src="{{{usersubmissionpicture}}}" alt="{{{usersubmissionfullname}}}">
-            </div>
-            <div class="nameanddate">
-                <p class="username">{{{usersubmissionfullname}}}</p>
-                <span class="small">{{{humantimecreated}}}</span>
-            </div>
-            <div class="usergradeinfo ml-auto">
-                {{#isowner}}
-                    {{#isevaluated}}
-                        {{#grade}}
-                            <span class="badge badge-success">{{#str}}assessment, mod_evokeportfolio{{/str}}: {{{grade}}}</span>
-                        {{/grade}}
-                        {{^grade}}
-                            <span class="badge badge-primary">{{#str}}notyetassessed, mod_evokeportfolio{{/str}}</span>
-                        {{/grade}}
-                    {{/isevaluated}}
-                {{/isowner}}
-                {{#cangrade}}
-                    {{#isevaluated}}
-                        {{#grade}}
-                            <span class="badge badge-success">{{#str}}assessment, mod_evokeportfolio{{/str}}: {{{grade}}}</span>
-                        {{/grade}}
-                        {{^grade}}
-                            <span class="badge badge-primary">{{#str}}notyetassessed, mod_evokeportfolio{{/str}}</span>
-                        {{/grade}}
-                    {{/isevaluated}}
-                {{/cangrade}}
-            </div>
-        </div>
-        <div class="content">
-            {{#comment}}
-                <div class="comment">
-                    {{{.}}}
-                </div>
-            {{/comment}}
-
-            {{#hasattachments}}
-                {{#attachments}}
-                    <div class="attachment mb-2">
-                        {{#isimage}}
-                            <div class="thumbnail-container">
-                                <img src="{{fileurl}}" class="img-responsive img-thumbnail" alt="{{filename}}">
-                            </div>
-                        {{/isimage}}
-                        {{^isimage}}
-                            <div class="fileinfo">
-                                <i class="fa fa-file-pdf-o"></i>&nbsp;{{#str}}page_submissions_portfolioattachment, mod_evokeportfolio{{/str}}
-                            </div>
-                            <div class="filedownload">
-                                <a href="{{fileurl}}" class="btn btn-secondary btn-sm">{{#str}}downloadfile, mod_evokeportfolio{{/str}}</a>
-                            </div>
-                        {{/isimage}}
-                    </div>
-                {{/attachments}}
-            {{/hasattachments}}
-        </div>
-
-        <div class="reactions">
-            <div class="actions">
-                <div class="button likebutton {{#userreacted}}hasreacted{{/userreacted}}">
-                    {{#userreacted}}
-                        <i class="fa "></i>
-                    {{/userreacted}}
-                    {{^userreacted}}
-                        <i class="fa "></i>
-                    {{/userreacted}}
-
-                    <span class="totalreactions">{{{totalreactions}}}</span>
-                </div>
-                <div class="button commentbutton">
-                    <i class="fa fa-comment-o"></i>
-
-                    <span class="totalcomments">{{{totalcomments}}}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{#comments}}
-        <div class="submissioncomment">
+{{#submissions}}
+    <div class="submission mt-4" data-id="{{id}}">
+        <div class="post">
             <div class="userinfo">
                 <div class="userimg">
-                    <img src="{{{commentuserpicture}}}" alt="{{{commentuserfullname}}}">
+                    <img src="{{{usersubmissionpicture}}}" alt="{{{usersubmissionfullname}}}">
                 </div>
                 <div class="nameanddate">
-                    <p class="username">{{{commentuserfullname}}}</p>
+                    <p class="username">{{{usersubmissionfullname}}}</p>
                     <span class="small">{{{humantimecreated}}}</span>
                 </div>
+                <div class="usergradeinfo ml-auto">
+                    {{#isowner}}
+                        {{#isevaluated}}
+                            {{#grade}}
+                                <span class="badge badge-success">{{#str}}assessment, mod_evokeportfolio{{/str}}: {{{grade}}}</span>
+                            {{/grade}}
+                            {{^grade}}
+                                <span class="badge badge-primary">{{#str}}notyetassessed, mod_evokeportfolio{{/str}}</span>
+                            {{/grade}}
+                        {{/isevaluated}}
+                    {{/isowner}}
+                    {{#cangrade}}
+                        {{#isevaluated}}
+                            {{#grade}}
+                                <span class="badge badge-success">{{#str}}assessment, mod_evokeportfolio{{/str}}: {{{grade}}}</span>
+                            {{/grade}}
+                            {{^grade}}
+                                <span class="badge badge-primary">{{#str}}notyetassessed, mod_evokeportfolio{{/str}}</span>
+                            {{/grade}}
+                        {{/isevaluated}}
+                    {{/cangrade}}
+                </div>
+            </div>
+            <div class="content">
+                {{#comment}}
+                    <div class="comment">
+                        {{{.}}}
+                    </div>
+                {{/comment}}
+
+                {{#hasattachments}}
+                    {{#attachments}}
+                        <div class="attachment mb-2">
+                            {{#isimage}}
+                                <div class="thumbnail-container">
+                                    <img src="{{fileurl}}" class="img-responsive img-thumbnail" alt="{{filename}}">
+                                </div>
+                            {{/isimage}}
+                            {{^isimage}}
+                                <div class="fileinfo">
+                                    <i class="fa fa-file-pdf-o"></i>&nbsp;{{#str}}page_submissions_portfolioattachment, mod_evokeportfolio{{/str}}
+                                </div>
+                                <div class="filedownload">
+                                    <a href="{{fileurl}}" class="btn btn-secondary btn-sm">{{#str}}downloadfile, mod_evokeportfolio{{/str}}</a>
+                                </div>
+                            {{/isimage}}
+                        </div>
+                    {{/attachments}}
+                {{/hasattachments}}
             </div>
 
-            <p class="text">{{{text}}}</p>
+            <div class="reactions">
+                <div class="actions">
+                    <div class="button likebutton {{#userreacted}}hasreacted{{/userreacted}}">
+                        {{#userreacted}}
+                            <i class="fa "></i>
+                        {{/userreacted}}
+                        {{^userreacted}}
+                            <i class="fa "></i>
+                        {{/userreacted}}
+
+                        <span class="totalreactions">{{{totalreactions}}}</span>
+                    </div>
+                    <div class="button commentbutton">
+                        <i class="fa fa-comment-o"></i>
+
+                        <span class="totalcomments">{{{totalcomments}}}</span>
+                    </div>
+                </div>
+            </div>
         </div>
-    {{/comments}}
 
-    <div class="add-comment">
-        <img src="{{{userpicture}}}" class="userimg" alt="{{{userfullname}}}">
+        {{#comments}}
+            <div class="submissioncomment">
+                <div class="userinfo">
+                    <div class="userimg">
+                        <img src="{{{commentuserpicture}}}" alt="{{{commentuserfullname}}}">
+                    </div>
+                    <div class="nameanddate">
+                        <p class="username">{{{commentuserfullname}}}</p>
+                        <span class="small">{{{humantimecreated}}}</span>
+                    </div>
+                </div>
 
-        <div class="input-group">
-            <p class="post-comment-input" placeholder="{{#str}}writeacomment, mod_evokeportfolio{{/str}}" contenteditable="true" data-tribute="true"></p>
+                <p class="text">{{{text}}}</p>
+            </div>
+        {{/comments}}
 
-            <button class="btn btn-outline-primary post-comment-btn mt-2" type="button">
-                <i class="fa fa-commenting-o"></i> {{#str}}comment, mod_evokeportfolio{{/str}}
-            </button>
+        <div class="add-comment">
+            <img src="{{{userpicture}}}" class="userimg" alt="{{{userfullname}}}">
+
+            <div class="input-group">
+                <p class="post-comment-input" placeholder="{{#str}}writeacomment, mod_evokeportfolio{{/str}}" contenteditable="true" data-tribute="true"></p>
+
+                <button class="btn btn-outline-primary post-comment-btn mt-2" type="button">
+                    <i class="fa fa-commenting-o"></i> {{#str}}comment, mod_evokeportfolio{{/str}}
+                </button>
+            </div>
         </div>
     </div>
-</div>
+{{/submissions}}
