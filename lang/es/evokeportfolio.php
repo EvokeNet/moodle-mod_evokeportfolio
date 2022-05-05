@@ -107,7 +107,7 @@ $string['deletesection_hassubmissions'] = 'No es posible eliminar esta sección 
 $string['evokeportfolio:grade'] = 'Permisos para evaluar a los agentes';
 $string['evokeportfolio:submit'] = 'Permisos para enviar una evidencia de misión al portafolio';
 $string['dependentcoursesections'] = 'Secciones dependientes de la campaña';
-$string['nosectionsavailable'] = 'No sections available'; 'No hay secciones disponibles';
+$string['nosectionsavailable'] = 'No hay secciones disponibles';
 $string['nosectionsavailable_desc'] = 'Aún no hay secciones disponibles en el portafolio.';
 
 $string['privacy:metadata:evokeportfolio_submissions'] = 'Información sobre las evidencias de misión enviadas por los agentes para una actividad del portafolio determinada';
@@ -123,14 +123,14 @@ $string['privacy:metadata:evokeportfolio_submissions:timemodified'] = 'Marca de 
 
 $string['indicator:cognitivedepth'] = 'Nivel de participación en el portafolio';
 $string['indicator:cognitivedepth_help'] = 'Este indicador se basa en el nivel de profundidad cognitiva lograda por el agente en la actividad de portafolio de Evoke.';
-$string['indicator:cognitivedepthdef'] = 'Evoke portfolio engagement'; 'Evoke portfolio engagement';
+$string['indicator:cognitivedepthdef'] = 'Evoke portfolio engagement';
 $string['indicator:cognitivedepthdef_help'] = 'El agente ha alcanzado este porcentaje de compromiso cognitivo disponible en el portafolio de Evoke durante este intervalo de análisis (Niveles = No mostrar, Mostrar , Enviar, Mostrar realimentación';
-$string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Engagement_depth'; 'Indicadores de analíticas de aprendizaje #Engagement_depth';
-$string['indicator:socialbreadth'] = 'Evoke portfolio social engagement'; 'Compromiso social del portafolio de Evoke';
+$string['indicator:cognitivedepthdef_link'] = 'Indicadores de analíticas de aprendizaje #Engagement_depth';
+$string['indicator:socialbreadth'] = 'Compromiso social del portafolio de Evoke';
 $string['indicator:socialbreadth_help'] = 'Este indicador se basa en la amplitud social alcanzada por el agente en una evidencia de misión enviada al portafolio de Evoke';
 $string['indicator:socialbreadthdef'] = 'Compromiso social del portafolio de Evoke';
-$string['indicator:socialbreadthdef_help'] = 'El agente ha alcanzado este porcentaje de compromiso social disponible en el portfolio de Evoke durante este intervalo de análisis  (Niveles = No participó, Participó individualmente, Participó de forma grupal)';
-$string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth'; 'Indicadores de analíticas de aprendizaje #Social_breadth';
+$string['indicator:socialbreadthdef_help'] = 'El agente ha alcanzado este porcentaje de compromiso social disponible en el portfolio de Evoke durante este intervalo de análisis (Niveles = No participó, Participó individualmente, Participó de forma grupal)';
+$string['indicator:socialbreadthdef_link'] = 'Indicadores de analíticas de aprendizaje #Social_breadth';
 
 $string['status'] = 'Estado';  // need to double-check language from here on
 $string['portfoliochapters'] = 'Capítulos del portafolio';
@@ -159,8 +159,8 @@ $string['message_mentioncontextname'] = 'Mencionado en un comentario.';
 $string['message_clicktoaccessportfolio'] = 'Haga clic aquí para acceder al portafolio';
 
 $string['coursenoportfolio'] = 'This course does not have a portfolio';
-$string['view'] = 'Mirar'; //CHECK
-$string['page_portfolio_title'] = 'Mis envíos en un portafolio'; //CHECK
+$string['view'] = 'Mirar';
+$string['page_portfolio_title'] = 'Mis envíos en un portafolio';
 
 $string['completionrequiresubmit'] = 'Require submission';
 $string['completionrequiresubmit_help'] = 'The user needs to submit to complete this activity';
