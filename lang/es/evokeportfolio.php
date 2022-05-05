@@ -159,7 +159,7 @@ $string['message_mentioncontextname'] = 'Mencionado en un comentario.';
 $string['message_clicktoaccessportfolio'] = 'Haga clic aquí para acceder al portafolio';
 
 $string['coursenoportfolio'] = 'This course does not have a portfolio';
-$string['view'] = 'Mirar';
+// $string['view'] = 'Mirar';   // DUPLICATE
 $string['page_portfolio_title'] = 'Mis envíos en un portafolio';
 
 $string['completionrequiresubmit'] = 'Require submission';
