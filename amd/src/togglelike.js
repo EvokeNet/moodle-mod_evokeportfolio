@@ -15,7 +15,7 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
     };
 
     ToggleLike.prototype.registerEventListeners = function() {
-        $(".likebutton").click(function(event) {
+        $(document).on('click', '.likebutton', function(event) {
             var submissiondiv = $(event.currentTarget).closest('.submission');
 
             if (submissiondiv.length === 0 || submissiondiv.length > 1) {

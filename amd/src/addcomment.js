@@ -7,14 +7,13 @@
  * @author     Willian Mano <willianmanoaraujo@gmail.com>
  */
 
-/* eslint-disable */
 define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Ajax, Swal) {
     var AddComment = function() {
         this.registerEventListeners();
     };
 
     AddComment.prototype.registerEventListeners = function() {
-        $(".commentbutton").click(function(event) {
+        $(document).on('click', '.commentbutton', function(event) {
             var inputtarget = $(event.currentTarget).closest('.submission')
                 .find('.add-comment .input-group .post-comment-input');
 
@@ -23,7 +22,7 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
             }
         });
 
-        $(".post-comment-input").keypress(function(event) {
+        $(document).on('click', '.post-comment-input', function(event) {
             var keycode = (event.keyCode ? event.keyCode : event.which);
 
             if (keycode === 13) {
@@ -35,7 +34,7 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
             }
         }.bind(this));
 
-        $(".post-comment-btn").click(function(event) {
+        $(document).on('click', '.post-comment-btn', function(event) {
             var target = $(event.currentTarget).closest('.input-group').children('.post-comment-input');
 
             this.saveComment(target, target.html());

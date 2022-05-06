@@ -16,14 +16,17 @@
 /**
  * Tribute JS initialization
  *
- * @package    format_timeline
- * @copyright  2020 onwards Willian Mano {@link http://conecti.me}
+ * @copyright  2022 onwards Willian Mano {@link http://conecti.me}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 define(['core/config', 'mod_evokeportfolio/tribute', 'core/ajax'], function(mdlcfg, Tribute, Ajax) {
     var TributeInit = function() {
-        var tribute = new Tribute({
+        this.initialize();
+    };
+
+    TributeInit.prototype.initialize = function() {
+        this.attachobject = new Tribute({
             values: function(text, cb) {
                 this.remoteSearch(text, users => cb(users));
             }.bind(this),
@@ -57,8 +60,18 @@ define(['core/config', 'mod_evokeportfolio/tribute', 'core/ajax'], function(mdlc
             lookup: 'fullname'
         });
 
-        tribute.attach(document.querySelectorAll(".post-comment-input"));
+        this.attachobject.attach(document.querySelectorAll(".post-comment-input"));
+
+        return this;
     };
+
+    TributeInit.prototype.reload = function() {
+        this.attachobject.detach(document.querySelectorAll(".post-comment-input"));
+
+        this.initialize();
+    };
+
+    TributeInit.prototype.attachobject = null;
 
     TributeInit.prototype.remoteSearch = function(text, cb) {
         const courseid = document.getElementById("submissions").dataset.courseid;

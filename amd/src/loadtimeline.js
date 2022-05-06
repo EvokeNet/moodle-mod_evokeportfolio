@@ -7,13 +7,15 @@
  * @author     Willian Mano <willianmanoaraujo@gmail.com>
  */
 /* eslint-disable */
-define(['jquery', 'core/ajax', 'core/templates'], function($, Ajax, Templates) {
+define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_init'], function($, Ajax, Templates, TributeInit) {
     var LoadTimeline = function(courseid, evokation) {
         this.courseid = courseid;
 
         this.evokation = evokation;
 
-        this.loaditems();
+        this.tribute = TributeInit.init();
+
+        this.loadItems();
 
         document.addEventListener('scroll', function(event) {
             var scrollTop = event.target.scrollingElement.scrollTop;
@@ -21,7 +23,7 @@ define(['jquery', 'core/ajax', 'core/templates'], function($, Ajax, Templates) {
             var offsetHeight = event.target.scrollingElement.offsetHeight;
 
             if (this.hasmoreitems && !this.wait && (scrollTop + offsetHeight > scrollHeight - 40)) {
-                this.loaditems();
+                this.loadItems();
             }
         }.bind(this));
 
@@ -32,7 +34,7 @@ define(['jquery', 'core/ajax', 'core/templates'], function($, Ajax, Templates) {
 
             this.targetdiv = event.target.dataset.target;
 
-            this.loaditems();
+            this.loadItems();
         }.bind(this));
     }
 
@@ -48,7 +50,9 @@ define(['jquery', 'core/ajax', 'core/templates'], function($, Ajax, Templates) {
 
     LoadTimeline.prototype.wait = false;
 
-    LoadTimeline.prototype.loaditems = function() {
+    LoadTimeline.prototype.tribute = null;
+
+    LoadTimeline.prototype.loadItems = function() {
         this.wait = true;
 
         Ajax.call([{
@@ -72,6 +76,8 @@ define(['jquery', 'core/ajax', 'core/templates'], function($, Ajax, Templates) {
             targetdiv.find('.submission_loading-placeholder').addClass('hidden');
 
             targetdiv.find('.submissions.timeline').append(content);
+
+            this.tribute.reload();
         }.bind(this));
     };
 
