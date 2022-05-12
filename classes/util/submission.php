@@ -59,7 +59,7 @@ class submission {
         return array_values($submissions);
     }
 
-    public function get_portfolio_submissions($portfolio, $context, $userid = false, $groupid = null) {
+    public function get_portfolio_submissions($portfolio, $context, $userid = false, $groupid = null, $limit = 20, $offset = 0) {
         global $DB;
 
         $sql = 'SELECT
@@ -84,6 +84,14 @@ class submission {
         if ($groupid) {
             $sql .= ' AND gm.groupid = :groupid';
             $params['groupid'] = $groupid;
+        }
+
+        $sql .= ' ORDER BY es.id DESC LIMIT ' . $limit;
+
+        if ($offset) {
+            $offset = $offset * $limit;
+
+            $sql .= ' OFFSET ' . $offset;
         }
 
         $submissions = $DB->get_records_sql($sql, $params);

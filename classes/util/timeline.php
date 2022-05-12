@@ -18,32 +18,25 @@ class timeline {
         $this->courseid = $courseid;
     }
 
-    public function loadmy($portfolioid) {
+    public function loadmy($portfolioid, $offset = 0) {
         global $DB, $USER;
 
         $portfolio = $DB->get_record('evokeportfolio', ['id' => $portfolioid], '*', MUST_EXIST);
 
-        $chapterutil = new chapter();
         $submissionutil = new submission();
 
-        // Chapters data.
-        $chapters = $chapterutil->get_course_chapters($this->courseid);
-
-        if (!$chapters) {
-            return [
-                'courseid' => $this->courseid
-            ];
-        }
-
-        $mysubmissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), $USER->id);
+        $mysubmissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), $USER->id, null, 10, $offset);
 
         $userpicture = user::get_user_image_or_avatar($USER);
 
-        return [
+        $data = [
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
             'submissions' => $mysubmissions,
+            'hasmoreitems' => !empty($mysubmissions)
         ];
+
+        return $data;
     }
 
     private function get_portfolio_context($portfolioid) {

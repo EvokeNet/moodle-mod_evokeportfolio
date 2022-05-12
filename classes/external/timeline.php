@@ -25,8 +25,7 @@ class timeline extends external_api {
             'courseid' => new external_value(PARAM_INT, 'The block course id'),
             'type' => new external_value(PARAM_ALPHAEXT, 'The offset value'),
             'offset' => new external_value(PARAM_INT, 'The offset value'),
-            'portfolioid' => new external_value(PARAM_INT, 'The portfolio id value', VALUE_OPTIONAL),
-            'hasmoreitems' => new external_value(PARAM_BOOL, 'Load more items control')
+            'portfolioid' => new external_value(PARAM_INT, 'The portfolio id value', VALUE_OPTIONAL)
         ]);
     }
 
@@ -36,7 +35,7 @@ class timeline extends external_api {
      * @param int $courseid
      * @param int $type
      * @param int $offset
-     * @param bool $hasmoreitems
+     * @param int $portfolioid
      *
      * @return array
      *
@@ -45,7 +44,7 @@ class timeline extends external_api {
      * @throws \invalid_parameter_exception
      * @throws \moodle_exception
      */
-    public static function load($courseid, $type, $offset, $hasmoreitems, $portfolioid = null) {
+    public static function load($courseid, $type, $offset, $portfolioid = null) {
         global $PAGE;
 
         // We always must pass webservice params through validate_parameters.
@@ -53,8 +52,7 @@ class timeline extends external_api {
             'courseid' => $courseid,
             'type' => $type,
             'offset' => $offset,
-            'portfolioid' => $portfolioid,
-            'hasmoreitems' => $hasmoreitems
+            'portfolioid' => $portfolioid
         ]);
 
         $context = \context_course::instance($courseid);
@@ -63,7 +61,7 @@ class timeline extends external_api {
         $timelineutil = new \mod_evokeportfolio\util\timeline($courseid);
 
         if ($type == 'my') {
-            $returndata = $timelineutil->loadmy($portfolioid);
+            $returndata = $timelineutil->loadmy($portfolioid, $offset);
         }
 
         return [
