@@ -15,6 +15,13 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
 
         this.tribute = TributeInit.init();
 
+        const myportfoliotab = $('#myportfolio-tab');
+
+        this.type = myportfoliotab.data('timeline_type');
+        this.offset = myportfoliotab.data('timeline_offset');
+        this.portfolioid = myportfoliotab.data('timeline_portfolioid');
+        this.hasmoreitems = myportfoliotab.data('timeline_hasmoreitems');
+
         this.loadItems();
 
         document.addEventListener('scroll', function(event) {
@@ -28,8 +35,9 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
         }.bind(this));
 
         $('.nav-tabs .nav-link').click(function(event) {
-            this.type = this.target = event.target.dataset.timeline_type;
-            this.limit = this.target = event.target.dataset.timeline_limit;
+            this.type = event.target.dataset.timeline_type;
+            this.offset = event.target.dataset.timeline_offset;
+            this.portfolioid = event.target.dataset.timeline_portfolioid;
             this.hasmoreitems = event.target.dataset.timeline_hasmoreitems === 'true';
 
             this.targetdiv = event.target.dataset.target;
@@ -42,7 +50,9 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
 
     LoadTimeline.prototype.type = 'my';
 
-    LoadTimeline.prototype.limit = 0;
+    LoadTimeline.prototype.offset = 0;
+
+    LoadTimeline.prototype.portfolioid = null;
 
     LoadTimeline.prototype.hasmoreitems = true;
 
@@ -60,7 +70,8 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
             args: {
                 courseid: this.courseid,
                 type: this.type,
-                limit: this.limit,
+                offset: this.offset,
+                portfolioid: this.portfolioid,
                 hasmoreitems: this.hasmoreitems
             },
             done: this.handleLoadData.bind(this)

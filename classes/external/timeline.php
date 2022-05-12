@@ -23,8 +23,9 @@ class timeline extends external_api {
     public static function load_parameters() {
         return new external_function_parameters([
             'courseid' => new external_value(PARAM_INT, 'The block course id'),
-            'type' => new external_value(PARAM_ALPHAEXT, 'The limit value'),
-            'limit' => new external_value(PARAM_INT, 'The limit value'),
+            'type' => new external_value(PARAM_ALPHAEXT, 'The offset value'),
+            'offset' => new external_value(PARAM_INT, 'The offset value'),
+            'portfolioid' => new external_value(PARAM_INT, 'The portfolio id value', VALUE_OPTIONAL),
             'hasmoreitems' => new external_value(PARAM_BOOL, 'Load more items control')
         ]);
     }
@@ -34,7 +35,7 @@ class timeline extends external_api {
      *
      * @param int $courseid
      * @param int $type
-     * @param int $limit
+     * @param int $offset
      * @param bool $hasmoreitems
      *
      * @return array
@@ -44,23 +45,26 @@ class timeline extends external_api {
      * @throws \invalid_parameter_exception
      * @throws \moodle_exception
      */
-    public static function load($courseid, $type, $limit, $hasmoreitems) {
+    public static function load($courseid, $type, $offset, $hasmoreitems, $portfolioid = null) {
         global $PAGE;
 
         // We always must pass webservice params through validate_parameters.
         self::validate_parameters(self::load_parameters(), [
             'courseid' => $courseid,
             'type' => $type,
-            'limit' => $limit,
+            'offset' => $offset,
+            'portfolioid' => $portfolioid,
             'hasmoreitems' => $hasmoreitems
         ]);
 
         $context = \context_course::instance($courseid);
         $PAGE->set_context($context);
 
-        $timelineutil = new \mod_evokeportfolio\util\timeline($courseid, 1);
+        $timelineutil = new \mod_evokeportfolio\util\timeline($courseid);
 
-        $returndata = $timelineutil->load();
+        if ($type == 'my') {
+            $returndata = $timelineutil->loadmy($portfolioid);
+        }
 
         return [
             'status' => 'ok',

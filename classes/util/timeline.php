@@ -12,18 +12,16 @@ defined('MOODLE_INTERNAL') || die();
  */
 class timeline {
     public $courseid;
-    public $portfolio;
     private $portfoliocontexts = [];
 
-    public function __construct($courseid, $portfolioid) {
-        global $DB;
-
+    public function __construct($courseid) {
         $this->courseid = $courseid;
-        $this->portfolio = $DB->get_record('evokeportfolio', ['id' => $portfolioid], '*', MUST_EXIST);
     }
 
-    public function load() {
-        global $USER;
+    public function loadmy($portfolioid) {
+        global $DB, $USER;
+
+        $portfolio = $DB->get_record('evokeportfolio', ['id' => $portfolioid], '*', MUST_EXIST);
 
         $chapterutil = new chapter();
         $submissionutil = new submission();
@@ -37,7 +35,7 @@ class timeline {
             ];
         }
 
-        $mysubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id), $USER->id);
+        $mysubmissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), $USER->id);
 
         $userpicture = user::get_user_image_or_avatar($USER);
 
