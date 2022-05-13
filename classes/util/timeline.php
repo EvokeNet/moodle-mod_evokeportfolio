@@ -39,6 +39,55 @@ class timeline {
         return $data;
     }
 
+    public function loadteam($portfolioid, $offset = 0) {
+        global $DB, $USER;
+
+        $portfolio = $DB->get_record('evokeportfolio', ['id' => $portfolioid], '*', MUST_EXIST);
+
+        $submissionutil = new submission();
+
+        $groupsutil = new group();
+
+        $usercoursegroup = $groupsutil->get_user_group($this->courseid);
+
+        $teamsubmissions = [];
+        if ($usercoursegroup) {
+            $teamsubmissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), null, $usercoursegroup->id, 10, $offset);
+        }
+
+        $userpicture = user::get_user_image_or_avatar($USER);
+
+        $data = [
+            'userpicture' => $userpicture,
+            'userfullname' => fullname($USER),
+            'submissions' => $teamsubmissions,
+            'hasmoreitems' => !empty($teamsubmissions)
+        ];
+
+        return $data;
+    }
+
+    public function loadnetwork($portfolioid, $offset = 0) {
+        global $DB, $USER;
+
+        $portfolio = $DB->get_record('evokeportfolio', ['id' => $portfolioid], '*', MUST_EXIST);
+
+        $submissionutil = new submission();
+
+        $networksubmissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), null, null, 10, $offset);
+
+        $userpicture = user::get_user_image_or_avatar($USER);
+
+        $data = [
+            'userpicture' => $userpicture,
+            'userfullname' => fullname($USER),
+            'submissions' => $networksubmissions,
+            'hasmoreitems' => !empty($networksubmissions)
+        ];
+
+        return $data;
+    }
+
     private function get_portfolio_context($portfolioid) {
         if (isset($this->portfoliocontexts[$portfolioid])) {
             return $this->portfoliocontexts[$portfolioid];

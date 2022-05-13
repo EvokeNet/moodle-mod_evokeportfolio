@@ -64,6 +64,14 @@ class timeline extends external_api {
             $returndata = $timelineutil->loadmy($portfolioid, $offset);
         }
 
+        if ($type == 'team') {
+            $returndata = $timelineutil->loadteam($portfolioid, $offset);
+        }
+
+        if ($type == 'network') {
+            $returndata = $timelineutil->loadnetwork($portfolioid, $offset);
+        }
+
         return [
             'status' => 'ok',
             'data' => json_encode($returndata)

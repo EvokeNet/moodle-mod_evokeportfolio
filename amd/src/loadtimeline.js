@@ -41,6 +41,8 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
         }.bind(this), false);
 
         $('.nav-tabs .nav-link').click(function(event) {
+            console.log(event.target.dataset);
+
             this.controlbutton = event.target;
 
             this.type = event.target.dataset.timeline_type;
