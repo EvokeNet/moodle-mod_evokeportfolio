@@ -1,5 +1,5 @@
 /**
- * Add comment js logic.
+ * Load evokation timeline js logic.
  *
  * @package
  * @subpackage mod_evokeportfolio
@@ -8,18 +8,15 @@
  */
 /* eslint-disable */
 define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_init'], function($, Ajax, Templates, TributeInit) {
-    var LoadTimeline = function(courseid, evokation) {
+    var LoadTimelineEvokation = function(courseid) {
         this.courseid = courseid;
-
-        this.evokation = evokation;
 
         this.tribute = TributeInit.init();
 
-        this.controlbutton = document.getElementById('myportfolio-tab');
+        this.controlbutton = document.getElementById('myevokation-tab');
 
         this.type = this.controlbutton.dataset.timeline_type;
         this.offset = parseInt(this.controlbutton.dataset.timeline_offset);
-        this.portfolioid = this.controlbutton.dataset.timeline_portfolioid;
         this.hasmoreitems = this.controlbutton.dataset.timeline_hasmoreitems;
 
         this.loadItems();
@@ -45,7 +42,6 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
 
             this.type = event.target.dataset.timeline_type;
             this.offset = parseInt(event.target.dataset.timeline_offset);
-            this.portfolioid = event.target.dataset.timeline_portfolioid;
             this.hasmoreitems = event.target.dataset.timeline_hasmoreitems === 'true';
 
             this.targetdiv = event.target.dataset.target;
@@ -54,16 +50,15 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
         }.bind(this));
     }
 
-    LoadTimeline.prototype.loadItems = function() {
+    LoadTimelineEvokation.prototype.loadItems = function() {
         this.wait = true;
 
         const request = Ajax.call([{
-            methodname: 'mod_evokeportfolio_loadtimeline',
+            methodname: 'mod_evokeportfolio_loadtimelineevokation',
             args: {
                 courseid: this.courseid,
                 type: this.type,
-                offset: this.offset,
-                portfolioid: this.portfolioid
+                offset: this.offset
             }
         }]);
 
@@ -79,7 +74,7 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
         }.bind(this));
     };
 
-    LoadTimeline.prototype.handleLoadData = function(data) {
+    LoadTimelineEvokation.prototype.handleLoadData = function(data) {
         Templates.render('mod_evokeportfolio/submission', data).then(function(content) {
             const targetdiv = $(this.targetdiv);
 
@@ -93,27 +88,27 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
         }.bind(this));
     };
 
-    LoadTimeline.prototype.courseid = 0;
+    LoadTimelineEvokation.prototype.courseid = 0;
 
-    LoadTimeline.prototype.type = 'my';
+    LoadTimelineEvokation.prototype.type = 'my';
 
-    LoadTimeline.prototype.offset = 0;
+    LoadTimelineEvokation.prototype.offset = 0;
 
-    LoadTimeline.prototype.portfolioid = null;
+    LoadTimelineEvokation.prototype.portfolioid = null;
 
-    LoadTimeline.prototype.hasmoreitems = true;
+    LoadTimelineEvokation.prototype.hasmoreitems = true;
 
-    LoadTimeline.prototype.targetdiv = '#myportfolio';
+    LoadTimelineEvokation.prototype.targetdiv = '#myevokation';
 
-    LoadTimeline.prototype.wait = false;
+    LoadTimelineEvokation.prototype.wait = false;
 
-    LoadTimeline.prototype.tribute = null;
+    LoadTimelineEvokation.prototype.tribute = null;
 
-    LoadTimeline.prototype.controlbutton = null;
+    LoadTimelineEvokation.prototype.controlbutton = null;
 
     return {
-        'init': function(courseid, evokation = false) {
-            return new LoadTimeline(courseid, evokation);
+        'init': function(courseid) {
+            return new LoadTimelineEvokation(courseid);
         }
     };
 });

@@ -1,57 +1,58 @@
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-        <button class="nav-link active" id="myportfolio-tab" data-toggle="tab" data-target="#myportfolio" type="button" role="tab" aria-controls="myportfolio" aria-selected="true">{{#str}}myevokation, mod_evokeportfolio{{/str}}</button>
+        <button class="nav-link active"
+                id="myevokation-tab"
+                data-toggle="tab"
+                data-target="#myevokation"
+                type="button"
+                role="tab"
+                aria-controls="myevokation"
+                aria-selected="true"
+                data-timeline_type="my"
+                data-timeline_offset="0"
+                data-timeline_hasmoreitems="true">
+            {{#str}}myevokation, mod_evokeportfolio{{/str}}
+        </button>
     </li>
     <li class="nav-item">
-        <button class="nav-link" id="teamportfolio-tab" data-toggle="tab" data-target="#teamportfolio" type="button" role="tab" aria-controls="teamportfolio" aria-selected="false">{{#str}}teamevokation, mod_evokeportfolio{{/str}}</button>
+        <button class="nav-link"
+                id="teamevokation-tab"
+                data-toggle="tab"
+                data-target="#teamevokation"
+                type="button"
+                role="tab"
+                aria-controls="teamevokation"
+                aria-selected="false"
+                data-timeline_type="team"
+                data-timeline_offset="0"
+                data-timeline_hasmoreitems="true">
+            {{#str}}teamevokation, mod_evokeportfolio{{/str}}
+        </button>
     </li>
     <li class="nav-item">
-        <button class="nav-link" id="networkportfolio-tab" data-toggle="tab" data-target="#networkportfolio" type="button" role="tab" aria-controls="networkportfolio" aria-selected="false">{{#str}}networkevokation, mod_evokeportfolio{{/str}}</button>
+        <button class="nav-link"
+                id="networkevokation-tab"
+                data-toggle="tab"
+                data-target="#networkevokation"
+                type="button"
+                role="tab"
+                aria-controls="networkevokation"
+                aria-selected="false"
+                data-timeline_type="network"
+                data-timeline_offset="0"
+                data-timeline_hasmoreitems="true">
+            {{#str}}networkevokation, mod_evokeportfolio{{/str}}
+        </button>
     </li>
 </ul>
 
 <div class="tab-content" id="submissions" data-courseid="{{{courseid}}}">
-    <div class="tab-pane fade show active p-2" id="myportfolio" role="tabpanel" aria-labelledby="myportfolio-tab">
-        {{#portfolios}}
-            {{#submissions}}
-                {{#isavailable}}
-                    <fieldset class="fieldset" data-portfolioid="{{id}}">
-                        <legend>{{name}}</legend>
-
-                        <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-                            {{#submissions}}
-                                {{> mod_evokeportfolio/submission }}
-                            {{/submissions}}
-                        </div>
-                    </fieldset>
-                {{/isavailable}}
-                {{^isavailable}}
-                    <fieldset class="fieldset" data-portfolioid="{{id}}">
-                        <legend>{{name}}</legend>
-
-                        <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-                            {{#submissions}}
-                                {{> mod_evokeportfolio/submission }}
-                            {{/submissions}}
-                        </div>
-                    </fieldset>
-                {{/isavailable}}
-            {{/submissions}}
-            {{^submissions}}
-                {{#isavailable}}
-                    <fieldset class="fieldset" data-portfolioid="{{id}}">
-                        <legend>{{name}}</legend>
-
-                        <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-                            <p>You did not submit your work yet</p>
-                            <a href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?portfolioid={{id}}" class="btn btn-primary">Click here and submit your work</a>
-                        </div>
-                    </fieldset>
-                {{/isavailable}}
-            {{/submissions}}
-        {{/portfolios}}
+    <div class="tab-pane fade show active p-2" id="myevokation" role="tabpanel" aria-labelledby="myevokation-tab">
+        <div class="submissions mt-2 timeline" data-courseid="{{{courseid}}}">
+            {{> mod_evokeportfolio/timeline_loading_placeholder }}
+        </div>
     </div>
-    <div class="tab-pane fade p-2" id="teamportfolio" role="tabpanel" aria-labelledby="teamportfolio-tab">
+    <div class="tab-pane fade p-2" id="teamevokation" role="tabpanel" aria-labelledby="teamevokation-tab">
         {{#hasgroup}}
             <div class="row">
                 <div class="col">
@@ -67,30 +68,14 @@
             </div>
         {{/hasgroup}}
 
-        {{#groupportfolios}}
-            <fieldset class="fieldset mt-2" data-portfolioid="{{id}}">
-                <legend>{{name}}</legend>
-
-                <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-                    {{#submissions}}
-                        {{> mod_evokeportfolio/submission }}
-                    {{/submissions}}
-                </div>
-            </fieldset>
-        {{/groupportfolios}}
+        <div class="submissions mt-2 timeline" data-courseid="{{{courseid}}}">
+            {{> mod_evokeportfolio/timeline_loading_placeholder }}
+        </div>
     </div>
-    <div class="tab-pane fade" id="networkportfolio" role="tabpanel" aria-labelledby="networkportfolio-tab">
-        {{#networkportfolios}}
-            <fieldset class="fieldset mt-2" data-portfolioid="{{id}}">
-                <legend>{{name}}</legend>
-
-                <div class="submissions mt-2" data-courseid="{{{courseid}}}">
-                    {{#submissions}}
-                        {{> mod_evokeportfolio/submission }}
-                    {{/submissions}}
-                </div>
-            </fieldset>
-        {{/networkportfolios}}
+    <div class="tab-pane fade" id="networkevokation" role="tabpanel" aria-labelledby="networkevokation-tab">
+        <div class="submissions mt-2 timeline" data-courseid="{{{courseid}}}">
+            {{> mod_evokeportfolio/timeline_loading_placeholder }}
+        </div>
     </div>
 </div>
 
@@ -108,5 +93,22 @@
         ToggleLike.init();
 
         Thumb.init();
+    });
+{{/js}}
+
+{{#js}}
+    require([
+        'mod_evokeportfolio/addcomment',
+        'mod_evokeportfolio/togglelike',
+        'mod_evokeportfolio/thumb',
+        'mod_evokeportfolio/loadtimelineevokation'
+    ], function(AddComment, ToggleLike, Thumb, LoadTimelineEvokation) {
+        AddComment.init();
+
+        ToggleLike.init();
+
+        Thumb.init();
+
+        LoadTimelineEvokation.init({{{courseid}}});
     });
 {{/js}}
