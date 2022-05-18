@@ -82,23 +82,6 @@
 {{#js}}
     require([
         'mod_evokeportfolio/addcomment',
-        'mod_evokeportfolio/tribute_init',
-        'mod_evokeportfolio/togglelike',
-        'mod_evokeportfolio/thumb'
-    ], function(AddComment, TributeInit, ToggleLike, Thumb) {
-        AddComment.init();
-
-        TributeInit.init();
-
-        ToggleLike.init();
-
-        Thumb.init();
-    });
-{{/js}}
-
-{{#js}}
-    require([
-        'mod_evokeportfolio/addcomment',
         'mod_evokeportfolio/togglelike',
         'mod_evokeportfolio/thumb',
         'mod_evokeportfolio/loadtimelineevokation'
