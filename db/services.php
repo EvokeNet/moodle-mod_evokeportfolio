@@ -99,4 +99,20 @@ $functions = [
         'type' => 'write',
         'ajax' => true
     ],
+    'mod_evokeportfolio_loadtimeline' => [
+        'classname' => 'mod_evokeportfolio\external\timeline',
+        'classpath' => 'mod/evokeportfolio/classes/external/timeline.php',
+        'methodname' => 'load',
+        'description' => 'Load a timeline',
+        'type' => 'read',
+        'ajax' => true
+    ],
+    'mod_evokeportfolio_loadtimelineevokation' => [
+        'classname' => 'mod_evokeportfolio\external\timeline',
+        'classpath' => 'mod/evokeportfolio/classes/external/timeline.php',
+        'methodname' => 'loadevokation',
+        'description' => 'Load an evokation timeline',
+        'type' => 'read',
+        'ajax' => true
+    ],
 ];

@@ -59,7 +59,7 @@ class submission {
         return array_values($submissions);
     }
 
-    public function get_portfolio_submissions($portfolio, $context, $userid = false, $groupid = null) {
+    public function get_portfolio_submissions($portfolio, $context, $userid = false, $groupid = null, $limit = 20, $offset = 0) {
         global $DB;
 
         $sql = 'SELECT
@@ -86,6 +86,14 @@ class submission {
             $params['groupid'] = $groupid;
         }
 
+        $sql .= ' ORDER BY es.id DESC LIMIT ' . $limit;
+
+        if ($offset) {
+            $offset = $offset * $limit;
+
+            $sql .= ' OFFSET ' . $offset;
+        }
+
         $submissions = $DB->get_records_sql($sql, $params);
 
         if (!$submissions) {
@@ -105,6 +113,69 @@ class submission {
         $this->populate_data_with_reactions($submissions);
 
         $this->populate_data_with_evaluation($submissions, $portfolio, $context);
+
+        return array_values($submissions);
+    }
+
+    public function get_evokation_submissions($portfolios, $userid = false, $groupid = null, $limit = 20, $offset = 0) {
+        global $DB;
+
+        $arrportfolios = array_map(function($item) { return $item->id; }, $portfolios);
+        list($evokationids, $evokationparams) = $DB->get_in_or_equal($arrportfolios, SQL_PARAMS_NAMED, 'evk');
+
+        $sql = 'SELECT
+                    es.*,
+                    u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
+                FROM {evokeportfolio_submissions} es
+                INNER JOIN {user} u ON u.id = es.userid';
+
+        if ($groupid) {
+            $sql .= ' INNER JOIN {groups_members} gm ON gm.userid = u.id';
+        }
+
+        $sql .= " WHERE es.portfolioid $evokationids";
+
+        $params = $evokationparams;
+
+        if ($userid) {
+            $sql .= ' AND u.id = :userid';
+            $params['userid'] = $userid;
+        }
+
+        if ($groupid) {
+            $sql .= ' AND gm.groupid = :groupid';
+            $params['groupid'] = $groupid;
+        }
+
+        $sql .= ' ORDER BY es.id DESC LIMIT ' . $limit;
+
+        if ($offset) {
+            $offset = $offset * $limit;
+
+            $sql .= ' OFFSET ' . $offset;
+        }
+
+        $submissions = $DB->get_records_sql($sql, $params);
+
+        if (!$submissions) {
+            return false;
+        }
+
+        foreach ($submissions as $submission) {
+            $submission->humantimecreated = userdate($submission->timecreated);
+        }
+
+        $this->populate_data_with_comments($submissions);
+
+        $this->populate_data_with_user_info($submissions);
+
+        $this->populate_data_with_reactions($submissions);
+
+        foreach ($submissions as $submission) {
+            $this->populate_submission_with_attachments($submission, $portfolios[$submission->portfolioid]->context);
+
+            $this->populate_data_with_evaluation($submission, $portfolios[$submission->portfolioid], $portfolios[$submission->portfolioid]->context);
+        }
 
         return array_values($submissions);
     }
@@ -194,7 +265,7 @@ class submission {
                         $entryfiles[] = [
                             'filename' => $file->get_filename(),
                             'isimage' => $file->is_valid_image(),
-                            'fileurl' => $fileurl
+                            'fileurl' => $fileurl->out()
                         ];
                     }
                 }
@@ -202,6 +273,46 @@ class submission {
                 $data[$key]->attachments = $entryfiles;
                 $data[$key]->hasattachments = true;
             }
+        }
+    }
+
+    public function populate_submission_with_attachments($submission, $context) {
+        $fs = get_file_storage();
+
+        $files = $fs->get_area_files($context->id,
+            'mod_evokeportfolio',
+            'attachments',
+            $submission->id,
+            'timemodified',
+            false);
+
+        $submission->hasattachments = false;
+
+        if ($files) {
+            $entryfiles = [];
+
+            foreach ($files as $file) {
+                $path = [
+                    '',
+                    $file->get_contextid(),
+                    $file->get_component(),
+                    $file->get_filearea(),
+                    $submission->id . $file->get_filepath() . $file->get_filename()
+                ];
+
+                $fileurl = \moodle_url::make_file_url('/pluginfile.php', implode('/', $path), true);
+
+                if (!$file->is_valid_image() || $file->get_filepath() == '/thumb/') {
+                    $entryfiles[] = [
+                        'filename' => $file->get_filename(),
+                        'isimage' => $file->is_valid_image(),
+                        'fileurl' => $fileurl->out()
+                    ];
+                }
+            }
+
+            $submission->attachments = $entryfiles;
+            $submission->hasattachments = true;
         }
     }
 
