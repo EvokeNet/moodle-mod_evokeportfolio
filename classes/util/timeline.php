@@ -48,11 +48,11 @@ class timeline {
 
         $groupsutil = new group();
 
-        $usercoursegroup = $groupsutil->get_user_group($this->courseid);
+        $usercoursegroups = $groupsutil->get_user_groups($this->courseid);
 
         $teamsubmissions = [];
-        if ($usercoursegroup) {
-            $teamsubmissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), null, $usercoursegroup->id, 10, $offset);
+        if ($usercoursegroups) {
+            $teamsubmissions = $submissionutil->get_portfolio_submissions($portfolio, $this->get_portfolio_context($portfolio->id), null, $usercoursegroups, 10, $offset);
         }
 
         $userpicture = user::get_user_image_or_avatar($USER);

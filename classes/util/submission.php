@@ -59,7 +59,7 @@ class submission {
         return array_values($submissions);
     }
 
-    public function get_portfolio_submissions($portfolio, $context, $userid = false, $groupid = null, $limit = 20, $offset = 0) {
+    public function get_portfolio_submissions($portfolio, $context, $userid = false, $groupsorgroupid = null, $limit = 20, $offset = 0) {
         global $DB;
 
         $sql = 'SELECT
@@ -68,7 +68,7 @@ class submission {
                 FROM {evokeportfolio_submissions} es
                 INNER JOIN {user} u ON u.id = es.userid';
 
-        if ($groupid) {
+        if ($groupsorgroupid) {
             $sql .= ' INNER JOIN {groups_members} gm ON gm.userid = u.id';
         }
 
@@ -81,9 +81,22 @@ class submission {
             $params['userid'] = $userid;
         }
 
-        if ($groupid) {
-            $sql .= ' AND gm.groupid = :groupid';
-            $params['groupid'] = $groupid;
+        if ($groupsorgroupid) {
+            $ids = [];
+
+            if (!is_array($groupsorgroupid)) {
+                $ids = $groupsorgroupid;
+            } else {
+                foreach ($groupsorgroupid as $group) {
+                    $ids[] = $group->id;
+                }
+            }
+
+            list($groupsids, $groupsparams) = $DB->get_in_or_equal($ids, SQL_PARAMS_NAMED, 'group');
+
+            $sql .= ' AND gm.groupid ' . $groupsids;
+
+            $params = array_merge($params, $groupsparams);
         }
 
         $sql .= ' ORDER BY es.id DESC LIMIT ' . $limit;
@@ -117,7 +130,7 @@ class submission {
         return array_values($submissions);
     }
 
-    public function get_evokation_submissions($portfolios, $userid = false, $groupid = null, $limit = 20, $offset = 0) {
+    public function get_evokation_submissions($portfolios, $userid = false, $groupsorgroupid = null, $limit = 20, $offset = 0) {
         global $DB;
 
         $arrportfolios = array_map(function($item) { return $item->id; }, $portfolios);
@@ -129,7 +142,7 @@ class submission {
                 FROM {evokeportfolio_submissions} es
                 INNER JOIN {user} u ON u.id = es.userid';
 
-        if ($groupid) {
+        if ($groupsorgroupid) {
             $sql .= ' INNER JOIN {groups_members} gm ON gm.userid = u.id';
         }
 
@@ -142,9 +155,22 @@ class submission {
             $params['userid'] = $userid;
         }
 
-        if ($groupid) {
-            $sql .= ' AND gm.groupid = :groupid';
-            $params['groupid'] = $groupid;
+        if ($groupsorgroupid) {
+            $ids = [];
+
+            if (!is_array($groupsorgroupid)) {
+                $ids = $groupsorgroupid;
+            } else {
+                foreach ($groupsorgroupid as $group) {
+                    $ids[] = $group->id;
+                }
+            }
+
+            list($groupsids, $groupsparams) = $DB->get_in_or_equal($ids, SQL_PARAMS_NAMED, 'group');
+
+            $sql .= ' AND gm.groupid ' . $groupsids;
+
+            $params = array_merge($params, $groupsparams);
         }
 
         $sql .= ' ORDER BY es.id DESC LIMIT ' . $limit;

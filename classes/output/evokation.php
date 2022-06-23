@@ -41,17 +41,17 @@ class evokation implements renderable, templatable {
 
         $groupsutil = new group();
 
-        $usercoursegroup = $groupsutil->get_user_group($this->course->id);
+        $usercoursegroups = $groupsutil->get_user_groups($this->course->id);
 
-        $groupmembers = $groupsutil->get_group_members($usercoursegroup->id);
+        $groupsmembers = $groupsutil->get_groups_members($usercoursegroups);
 
         return [
             'contextid' => \context_course::instance($this->course->id),
             'courseid' => $this->course->id,
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
-            'groupmembers' => $groupmembers,
-            'hasgroup' => !empty($usercoursegroup)
+            'groupsmembers' => $groupsmembers,
+            'hasgroup' => !empty($usercoursegroups)
         ];
     }
 }
