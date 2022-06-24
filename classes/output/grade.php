@@ -51,34 +51,14 @@ class grade implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        $data = [
+        return [
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,
             'cmid' => $this->context->instanceid,
             'course' => $this->evokeportfolio->course,
-            'groupactivity' => $this->evokeportfolio->groupactivity,
+            'userid' => $this->user->id,
+            'userfullname' => fullname($this->user),
             'form' => $this->form->render()
         ];
-
-        if ($this->evokeportfolio->groupactivity) {
-            $groupsutil = new group();
-
-            $data['groupid'] = $this->group->id;
-            $data['groupname'] = $this->group->name;
-            $data['groupmembers'] = $groupsutil->get_group_members($this->group->id);
-
-            $groupgradingmodetext = get_string('groupgrading', 'mod_evokeportfolio');
-            if ($this->evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_INDIVIDUAL) {
-                $groupgradingmodetext = get_string('individualgrading', 'mod_evokeportfolio');
-            }
-            $data['groupgradingmodetext'] = $groupgradingmodetext;
-
-            return $data;
-        }
-
-        $data['userid'] = $this->user->id;
-        $data['userfullname'] = fullname($this->user);
-
-        return $data;
     }
 }

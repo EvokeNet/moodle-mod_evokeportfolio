@@ -30,65 +30,16 @@ class grade {
     private function get_grades_from_form($evokeportfolio, $formdata) {
         $grades = [];
 
-        if (!$evokeportfolio->groupactivity) {
-            $finalgrade = $formdata->grade;
-            if ($evokeportfolio->grade > 0 && $finalgrade > $evokeportfolio->grade) {
-                $finalgrade = $evokeportfolio->grade;
-            }
-
-            $grades[$formdata->userid] = new \stdClass();
-            $grades[$formdata->userid]->userid = $formdata->userid;
-            $grades[$formdata->userid]->rawgrade = $finalgrade;
-
-            return $grades;
+        $finalgrade = $formdata->grade;
+        if ($evokeportfolio->grade > 0 && $finalgrade > $evokeportfolio->grade) {
+            $finalgrade = $evokeportfolio->grade;
         }
 
-        if ($evokeportfolio->groupactivity) {
-            if ($evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_GROUP) {
-                $groupsutil = new group();
-                $groupmembers = $groupsutil->get_group_members($formdata->groupid);
+        $grades[$formdata->userid] = new \stdClass();
+        $grades[$formdata->userid]->userid = $formdata->userid;
+        $grades[$formdata->userid]->rawgrade = $finalgrade;
 
-                if (!$groupmembers) {
-                    return false;
-                }
-
-                $finalgrade = $formdata->grade;
-                if ($evokeportfolio->grade > 0 && $finalgrade > $evokeportfolio->grade) {
-                    $finalgrade = $evokeportfolio->grade;
-                }
-
-                foreach ($groupmembers as $user) {
-                    $grades[$user->id] = new \stdClass();
-                    $grades[$user->id]->userid = $user->id;
-                    $grades[$user->id]->rawgrade = $finalgrade;
-                }
-
-                return $grades;
-            }
-
-            if ($evokeportfolio->groupgradingmode == MOD_EVOKEPORTFOLIO_GRADING_INDIVIDUAL) {
-                unset($formdata->groupid);
-
-                foreach ($formdata as $key => $usergrade) {
-                    $userid = substr(strrchr($key, "gradeuserid-"), 12);
-
-                    if (!$userid) {
-                        continue;
-                    }
-
-                    $finalgrade = $usergrade;
-                    if ($evokeportfolio->grade > 0 && $finalgrade > $evokeportfolio->grade) {
-                        $finalgrade = $evokeportfolio->grade;
-                    }
-
-                    $grades[$userid] = new \stdClass();
-                    $grades[$userid]->userid = $userid;
-                    $grades[$userid]->rawgrade = $finalgrade;
-                }
-
-                return $grades;
-            }
-        }
+        return $grades;
     }
 
     private function update_evokeportfolio_grades($portfolioid, $grades) {

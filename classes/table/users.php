@@ -7,6 +7,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 
 use mod_evokeportfolio\util\grade;
+use mod_evokeportfolio\util\group;
 use table_sql;
 use moodle_url;
 use html_writer;
@@ -58,31 +59,9 @@ class users extends table_sql {
     }
 
     public function col_group($data) {
-        $groupname = $this->get_user_group($data->id, $this->context->instanceid);
+        $grouputil = new group();
 
-        if (!$groupname) {
-            return '';
-        }
-
-        return $groupname;
-    }
-
-    private function get_user_group($userid, $courseid) {
-        global $DB;
-
-        $sql = 'SELECT g.name FROM {groups_members} gm
-                INNER JOIN {groups} g ON g.id = gm.groupid
-                WHERE gm.userid = :userid AND g.courseid = :courseid';
-
-        $records = $DB->get_records_sql($sql, ['userid' => $userid, 'courseid' => $courseid]);
-
-        if (!$records) {
-            return false;
-        }
-
-        $firstgroup = current($records);
-
-        return $firstgroup->name;
+        return $grouputil->get_user_groups_names($this->context->instanceid, $data->id);
     }
 
     public function col_status($data) {

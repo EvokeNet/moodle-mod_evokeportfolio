@@ -8,6 +8,7 @@ require_once($CFG->libdir.'/tablelib.php');
 
 use mod_evokeportfolio\util\evokeportfolio;
 use mod_evokeportfolio\util\grade;
+use mod_evokeportfolio\util\group;
 use mod_evokeportfolio\util\submission;
 use mod_evokeportfolio\util\user;
 use table_sql;
@@ -51,10 +52,6 @@ class entries extends table_sql {
     public function base_sql() {
         global $USER;
 
-        $userutil = new user();
-
-        $usergroup = $userutil->get_user_group($USER->id, $this->evokeportfolio->course);
-
         $fields = 'DISTINCT u.id, u.firstname, u.lastname, u.email';
 
         $capjoin = get_enrolled_with_capabilities_join($this->context, '', 'mod/evokeportfolio:submit');
@@ -62,12 +59,6 @@ class entries extends table_sql {
         $from = ' {user} u ' . $capjoin->joins;
 
         $params = $capjoin->params;
-
-        if ($usergroup) {
-            $from .= ' INNER JOIN {groups_members} gm ON gm.userid = u.id AND gm.groupid = :groupid ';
-
-            $params['groupid'] = $usergroup->id;
-        }
 
         $this->set_sql($fields, $from, $capjoin->wheres, $params);
     }
@@ -77,31 +68,9 @@ class entries extends table_sql {
     }
 
     public function col_group($data) {
-        $groupname = $this->get_user_group($data->id, $this->evokeportfolio->course);
+        $grouputil = new group();
 
-        if (!$groupname) {
-            return '';
-        }
-
-        return $groupname;
-    }
-
-    private function get_user_group($userid, $courseid) {
-        global $DB;
-
-        $sql = 'SELECT g.name FROM {groups_members} gm
-                INNER JOIN {groups} g ON g.id = gm.groupid
-                WHERE gm.userid = :userid AND g.courseid = :courseid';
-
-        $records = $DB->get_records_sql($sql, ['userid' => $userid, 'courseid' => $courseid]);
-
-        if (!$records) {
-            return false;
-        }
-
-        $firstgroup = current($records);
-
-        return $firstgroup->name;
+        return $grouputil->get_user_groups_names($this->evokeportfolio->course, $data->id);
     }
 
     public function col_status($data) {

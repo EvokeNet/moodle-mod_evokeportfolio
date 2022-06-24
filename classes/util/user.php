@@ -14,22 +14,6 @@ use user_picture;
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 class user {
-    public function get_user_group($userid, $courseid) {
-        global $DB;
-
-        $sql = 'SELECT g.* FROM {groups_members} gm
-                INNER JOIN {groups} g ON g.id = gm.groupid
-                WHERE gm.userid = :userid AND g.courseid = :courseid';
-
-        $records = $DB->get_records_sql($sql, ['userid' => $userid, 'courseid' => $courseid]);
-
-        if (!$records) {
-            return false;
-        }
-
-        return current($records);
-    }
-
     /**
      * Get all users enrolled in a course by id
      *

@@ -39,10 +39,6 @@ class social_breadth extends activity_base {
     public function get_social_breadth_level(\cm_info $cm) {
         $this->fill_instance_data($cm);
 
-        if ($this->instancedata[$cm->instance]->groupactivity == 1) {
-            return self::SOCIAL_LEVEL_3;
-        }
-
         return self::SOCIAL_LEVEL_2;
     }
 }

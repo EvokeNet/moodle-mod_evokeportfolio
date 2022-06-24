@@ -54,8 +54,6 @@ class indexportfolio implements renderable, templatable {
             ];
         }
 
-        $mysubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id), $USER->id);
-
         $userpicture = user::get_user_image_or_avatar($USER);
 
         $groupsutil = new group();
@@ -64,7 +62,11 @@ class indexportfolio implements renderable, templatable {
 
         $groupsmembers = $groupsutil->get_groups_members($usercoursegroups);
 
-        $groupsubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id), null, $groupsmembers);
+        $usercoursegroupsids = $groupsutil->get_user_groups_ids($this->course->id);
+
+        $mysubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id), $USER->id);
+
+        $groupsubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id), null, $usercoursegroupsids);
 
         $networksubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id));
 

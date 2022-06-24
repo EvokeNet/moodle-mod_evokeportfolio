@@ -82,17 +82,7 @@ class submission {
         }
 
         if ($groupsorgroupid) {
-            $ids = [];
-
-            if (!is_array($groupsorgroupid)) {
-                $ids = $groupsorgroupid;
-            } else {
-                foreach ($groupsorgroupid as $group) {
-                    $ids[] = $group->id;
-                }
-            }
-
-            list($groupsids, $groupsparams) = $DB->get_in_or_equal($ids, SQL_PARAMS_NAMED, 'group');
+            list($groupsids, $groupsparams) = $DB->get_in_or_equal($groupsorgroupid, SQL_PARAMS_NAMED, 'group');
 
             $sql .= ' AND gm.groupid ' . $groupsids;
 
@@ -156,17 +146,7 @@ class submission {
         }
 
         if ($groupsorgroupid) {
-            $ids = [];
-
-            if (!is_array($groupsorgroupid)) {
-                $ids = $groupsorgroupid;
-            } else {
-                foreach ($groupsorgroupid as $group) {
-                    $ids[] = $group->id;
-                }
-            }
-
-            list($groupsids, $groupsparams) = $DB->get_in_or_equal($ids, SQL_PARAMS_NAMED, 'group');
+            list($groupsids, $groupsparams) = $DB->get_in_or_equal($groupsorgroupid, SQL_PARAMS_NAMED, 'group');
 
             $sql .= ' AND gm.groupid ' . $groupsids;
 

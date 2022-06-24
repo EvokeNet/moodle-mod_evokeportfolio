@@ -86,7 +86,7 @@ class timelineevokation {
 
         $groupsutil = new group();
 
-        $usercoursegroups = $groupsutil->get_user_groups($this->courseid);
+        $usercoursegroups = $groupsutil->get_user_groups_ids($this->courseid);
 
         $submissions = $submissionutil->get_evokation_submissions($portfolios, null, $usercoursegroups, 10, $offset);
 

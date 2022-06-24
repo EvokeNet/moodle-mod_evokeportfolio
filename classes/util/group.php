@@ -32,6 +32,48 @@ class group {
         return $usergroups;
     }
 
+    public function get_user_groups_names($courseid, $userid = null) {
+        global $USER;
+
+        if (!$userid) {
+            $userid = $USER->id;
+        }
+
+        $usergroups = $this->get_user_groups($courseid, $userid);
+
+        if (!$usergroups) {
+            return '';
+        }
+
+        $groupsnames = [];
+        foreach ($usergroups as $usergroup) {
+            $groupsnames[] = $usergroup->name;
+        }
+
+        return implode(', ', $groupsnames);
+    }
+
+    public function get_user_groups_ids($courseid, $userid = null) {
+        global $USER;
+
+        if (!$userid) {
+            $userid = $USER->id;
+        }
+
+        $usergroups = $this->get_user_groups($courseid, $userid);
+
+        if (!$usergroups) {
+            return false;
+        }
+
+        $groupsids = [];
+        foreach ($usergroups as $usergroup) {
+            $groupsids[] = $usergroup->id;
+        }
+
+        return $groupsids;
+    }
+
     public function get_groups_members($groups, $withfulluserinfo = true) {
         global $DB;
 
@@ -64,28 +106,6 @@ class group {
         }
 
         return array_values($groupsmembers);
-    }
-
-    public function get_user_group($courseid, $userid = null) {
-        global $DB, $USER;
-
-        if (!$userid) {
-            $userid = $USER->id;
-        }
-
-        $sql = "SELECT g.id, g.name
-                FROM {groups} g
-                JOIN {groups_members} gm ON gm.groupid = g.id
-                WHERE gm.userid = :userid AND g.courseid = :courseid
-                LIMIT 1";
-
-        $usergroup = $DB->get_record_sql($sql, ['courseid' => $courseid, 'userid' => $userid]);
-
-        if (!$usergroup) {
-            return false;
-        }
-
-        return $usergroup;
     }
 
     public function get_group_members($groupid, $withfulluserinfo = true) {

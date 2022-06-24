@@ -48,7 +48,7 @@ class timeline {
 
         $groupsutil = new group();
 
-        $usercoursegroups = $groupsutil->get_user_groups($this->courseid);
+        $usercoursegroups = $groupsutil->get_user_groups_ids($this->courseid);
 
         $teamsubmissions = [];
         if ($usercoursegroups) {
