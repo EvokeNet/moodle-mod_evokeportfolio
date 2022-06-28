@@ -164,6 +164,7 @@
     width: 100%;
 }
 
+.path-mod-evokeportfolio .modal-body .post-comment-input,
 .path-blocks-evokehq .submissions .add-comment .post-comment-input,
 .path-mod-evokeportfolio .submissions .add-comment .post-comment-input {
     position: relative;
@@ -187,6 +188,7 @@
     cursor: text;
 }
 
+.path-mod-evokeportfolio .modal-body .post-comment-input:focus,
 .path-blocks-evokehq .submissions .add-comment .post-comment-input:focus,
 .path-mod-evokeportfolio .submissions .add-comment .post-comment-input:focus {
     color: #495057;
@@ -197,6 +199,7 @@
     box-shadow: 0 0 0 0.2rem rgba(17, 119, 209, .25);
 }
 
+.path-mod-evokeportfolio .modal-body .post-comment-input[contenteditable="true"]:empty:before,
 .path-blocks-evokehq .submissions .add-comment .post-comment-input[contenteditable="true"]:empty:before,
 .path-mod-evokeportfolio .submissions .add-comment .post-comment-input[contenteditable="true"]:empty:before {
     content: attr(placeholder);
@@ -204,6 +207,7 @@
     color: #ccc;
 }
 
+.path-mod-evokeportfolio .modal-body .post-comment-input a.usermentioned,
 .path-blocks-evokehq .submissions .add-comment .post-comment-input a.usermentioned,
 .path-mod-evokeportfolio .submissions .add-comment .post-comment-input a.usermentioned {
     padding: 0 .5rem;

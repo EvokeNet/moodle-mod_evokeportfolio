@@ -11,7 +11,7 @@ defined('MOODLE_INTERNAL') || die();
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 class group {
-    public function get_user_group($courseid, $userid = null) {
+    public function get_user_groups($courseid, $userid = null) {
         global $DB, $USER;
 
         if (!$userid) {
@@ -21,16 +21,91 @@ class group {
         $sql = "SELECT g.id, g.name
                 FROM {groups} g
                 JOIN {groups_members} gm ON gm.groupid = g.id
-                WHERE gm.userid = :userid AND g.courseid = :courseid
-                LIMIT 1";
+                WHERE gm.userid = :userid AND g.courseid = :courseid";
 
-        $usergroup = $DB->get_record_sql($sql, ['courseid' => $courseid, 'userid' => $userid]);
+        $usergroups = $DB->get_records_sql($sql, ['courseid' => $courseid, 'userid' => $userid]);
 
-        if (!$usergroup) {
+        if (!$usergroups) {
             return false;
         }
 
-        return $usergroup;
+        return $usergroups;
+    }
+
+    public function get_user_groups_names($courseid, $userid = null) {
+        global $USER;
+
+        if (!$userid) {
+            $userid = $USER->id;
+        }
+
+        $usergroups = $this->get_user_groups($courseid, $userid);
+
+        if (!$usergroups) {
+            return '';
+        }
+
+        $groupsnames = [];
+        foreach ($usergroups as $usergroup) {
+            $groupsnames[] = $usergroup->name;
+        }
+
+        return implode(', ', $groupsnames);
+    }
+
+    public function get_user_groups_ids($courseid, $userid = null) {
+        global $USER;
+
+        if (!$userid) {
+            $userid = $USER->id;
+        }
+
+        $usergroups = $this->get_user_groups($courseid, $userid);
+
+        if (!$usergroups) {
+            return false;
+        }
+
+        $groupsids = [];
+        foreach ($usergroups as $usergroup) {
+            $groupsids[] = $usergroup->id;
+        }
+
+        return $groupsids;
+    }
+
+    public function get_groups_members($groups, $withfulluserinfo = true) {
+        global $DB;
+
+        $ids = [];
+        foreach ($groups as $group) {
+            $ids[] = $group->id;
+        }
+
+        list($groupsids, $groupsparams) = $DB->get_in_or_equal($ids, SQL_PARAMS_NAMED, 'group');
+
+        $sql = "SELECT u.*
+                FROM {groups_members} gm
+                INNER JOIN {user} u ON u.id = gm.userid
+                WHERE gm.groupid " . $groupsids;
+
+        $groupsmembers = $DB->get_records_sql($sql, $groupsparams);
+
+        if (!$groupsmembers) {
+            return false;
+        }
+
+        if ($withfulluserinfo) {
+            foreach ($groupsmembers as $key => $groupmember) {
+                $userpicture = user::get_user_image_or_avatar($groupmember);
+
+                $groupsmembers[$key]->userpicture = $userpicture;
+
+                $groupsmembers[$key]->fullname = fullname($groupmember);
+            }
+        }
+
+        return array_values($groupsmembers);
     }
 
     public function get_group_members($groupid, $withfulluserinfo = true) {

@@ -90,7 +90,13 @@
                     <div class="nameanddate">
                         <p class="username">{{{commentuserfullname}}}</p>
                         <span class="small">{{{humantimecreated}}}</span>
+                        {{#edited}}<span class="badge badge-secondary">{{#str}}edited, mod_evokeportfolio{{/str}}</span>{{/edited}}
                     </div>
+                    {{#itsmine}}
+                        <div class="editbutton ml-auto">
+                            <a class="btn-editcomment btn btn-sm btn-primary" data-id="{{{commentid}}}">Edit comment</a>
+                        </div>
+                    {{/itsmine}}
                 </div>
 
                 <p class="text">{{{text}}}</p>

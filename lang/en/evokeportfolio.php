@@ -140,6 +140,9 @@ $string['gototheportfolio'] = 'Go to the portfolio';
 $string['comment'] = 'Comment';
 $string['writeacomment'] = '+ Share your thoughts...';
 $string['description'] = 'Description';
+$string['editcomment'] = 'Edit comment';
+$string['editcomment_success'] = 'Comment successfully edited.';
+$string['edited'] = 'Edited';
 
 $string['message_mentioned'] = 'You were mentioned in a comment';
 $string['message_mentionedinaportfolio'] = 'You were mentioned in a comment in the portfolio <b>{$a}</b>';

@@ -66,13 +66,13 @@
             <div class="row">
                 <div class="col">
                     <h3 class="text-mint mt-2">My team</h3>
-                    {{#groupmembers}}
+                    {{#groupsmembers}}
                         <div class="groupmember">
                             <a href="{{config.wwwroot}}/local/evokegame/profile.php?id={{courseid}}&userid={{id}}">
                                 <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
                             </a>
                         </div>
-                    {{/groupmembers}}
+                    {{/groupsmembers}}
                 </div>
             </div>
         {{/hasgroup}}
@@ -91,11 +91,14 @@
 {{#js}}
     require([
         'mod_evokeportfolio/addcomment',
+        'mod_evokeportfolio/editcomment',
         'mod_evokeportfolio/togglelike',
         'mod_evokeportfolio/thumb',
         'mod_evokeportfolio/loadtimeline'
-    ], function(AddComment, ToggleLike, Thumb, LoadTimeline) {
+    ], function(AddComment, EditComment, ToggleLike, Thumb, LoadTimeline) {
         AddComment.init();
+
+        EditComment.init({{{contextid}}});
 
         ToggleLike.init();
 

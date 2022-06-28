@@ -54,27 +54,29 @@ class indexportfolio implements renderable, templatable {
             ];
         }
 
-        $mysubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id), $USER->id);
-
         $userpicture = user::get_user_image_or_avatar($USER);
 
         $groupsutil = new group();
 
-        $usercoursegroup = $groupsutil->get_user_group($this->course->id);
+        $usercoursegroups = $groupsutil->get_user_groups($this->course->id);
 
-        $groupmembers = $groupsutil->get_group_members($usercoursegroup->id);
+        $groupsmembers = $groupsutil->get_groups_members($usercoursegroups);
 
-        $groupsubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id), null, $usercoursegroup->id);
+        $usercoursegroupsids = $groupsutil->get_user_groups_ids($this->course->id);
+
+        $mysubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id), $USER->id);
+
+        $groupsubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id), null, $usercoursegroupsids);
 
         $networksubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id));
 
         return [
-            'contextid' => \context_course::instance($this->course->id),
+            'contextid' => \context_course::instance($this->course->id)->id,
             'courseid' => $this->course->id,
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
-            'groupmembers' => $groupmembers,
-            'hasgroup' => !empty($usercoursegroup),
+            'groupsmembers' => $groupsmembers,
+            'hasgroup' => !empty($usercoursegroups),
             'portfolio' => $this->portfolio,
             'mysubmissions' => $mysubmissions,
             'groupsubmissions' => $groupsubmissions,

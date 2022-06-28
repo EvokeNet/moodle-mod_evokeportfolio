@@ -5,7 +5,7 @@ namespace mod_evokeportfolio\output;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_evokeportfolio\util\chapter;
-use mod_evokeportfolio\util\user;
+use mod_evokeportfolio\util\group;
 use renderable;
 use templatable;
 use renderer_base;
@@ -46,8 +46,8 @@ class gradingusersubmissions implements renderable, templatable {
         $userpicture = new \user_picture($this->user);
         $userpicture->size = 1;
 
-        $userutil = new user();
-        $usergroup = $userutil->get_user_group($this->user->id, $this->course->id);
+        $grouputil = new group();
+        $usergroups = $grouputil->get_user_groups_names($this->course->id, $this->user->id);
 
         $chapterutil = new chapter();
 
@@ -61,7 +61,7 @@ class gradingusersubmissions implements renderable, templatable {
             'userid' => $this->user->id,
             'userfullname' => fullname($this->user),
             'userpicture' => $userpicture->get_url($PAGE)->out(),
-            'usergroup' => $usergroup ? $usergroup->name : false,
+            'usergroup' => $usergroups,
             'portfolioswithusersubmissions' => $portfolioswithusersubmissions
         ];
 

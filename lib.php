@@ -399,6 +399,34 @@ function mod_evokeportfolio_output_fragment_grade_form($args) {
     return $o;
 }
 
+function mod_evokeportfolio_output_fragment_comment_form($args) {
+    $args = (object) $args;
+    $o = '';
+
+    $formdata = [];
+    if (!empty($args->jsonformdata)) {
+        $serialiseddata = json_decode($args->jsonformdata);
+        parse_str($serialiseddata, $formdata);
+    }
+
+    $mform = new \mod_evokeportfolio\forms\comment_form($formdata, [
+        'id' => $serialiseddata->id,
+        'comment' => $serialiseddata->comment
+    ]);
+
+    if (!empty($args->jsonformdata)) {
+        // If we were passed non-empty form data we want the mform to call validation functions and show errors.
+        $mform->is_validated();
+    }
+
+    ob_start();
+    $mform->display();
+    $o .= ob_get_contents();
+    ob_end_clean();
+
+    return $o;
+}
+
 function mod_evokeportfolio_extend_navigation_course($navigation, $course, $context) {
     if (has_capability('mod/evokeportfolio:addinstance', $context)) {
         $url = new moodle_url('/mod/evokeportfolio/managechapters.php',['id' => $course->id]);

@@ -4,6 +4,7 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_evokeportfolio\util\group;
 use mod_evokeportfolio\util\submission;
 use mod_evokeportfolio\util\user;
 use renderable;
@@ -68,9 +69,8 @@ class viewsubmission implements renderable, templatable {
         $submissionutil = new submission();
         $data['submissions'] = $submissionutil->get_user_submissions($this->context, $this->evokeportfolio->id, $this->user->id);
 
-        $userutil = new user();
-        $usergroup = $userutil->get_user_group($this->user->id, $this->evokeportfolio->course);
-        $data['usergroup'] = $usergroup ? $usergroup->name : false;
+        $grouputil = new group();
+        $data['usergroup'] = $grouputil->get_user_groups_names($this->evokeportfolio->course, $this->user->id);
 
         if (has_capability('mod/evokeportfolio:grade', $this->context)) {
             $data['cangrade'] = true;

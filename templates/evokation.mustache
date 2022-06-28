@@ -57,13 +57,13 @@
             <div class="row">
                 <div class="col">
                     <h3>My team</h3>
-                    {{#groupmembers}}
+                    {{#groupsmembers}}
                         <div class="groupmember">
                             <a href="{{config.wwwroot}}/local/evokegame/profile.php?id={{courseid}}&userid={{id}}">
                                 <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
                             </a>
                         </div>
-                    {{/groupmembers}}
+                    {{/groupsmembers}}
                 </div>
             </div>
         {{/hasgroup}}
