@@ -187,10 +187,10 @@ class submission {
     }
 
     public function populate_data_with_comments($submissions) {
-        global $DB;
+        global $DB, $USER;
 
         foreach ($submissions as $submission) {
-            $sql = 'SELECT c.id as commentid, c.text, u.*
+            $sql = 'SELECT c.id as commentid, c.text, c.timecreated as ctimecreated, c.timemodified as ctimemodified, u.id as userid, u.*
                 FROM {evokeportfolio_comments} c
                 INNER JOIN {user} u ON u.id = c.userid
                 WHERE c.submissionid = :submissionid';
@@ -208,9 +208,12 @@ class submission {
                 $userpicture = user::get_user_image_or_avatar($comment);
 
                 $commentsdata[] = [
+                    'commentid' => $comment->commentid,
                     'text' => $comment->text,
                     'commentuserpicture' => $userpicture,
-                    'commentuserfullname' => fullname($comment)
+                    'commentuserfullname' => fullname($comment),
+                    'itsmine' => $USER->id == $comment->userid,
+                    'edited' => $comment->ctimecreated != $comment->ctimemodified
                 ];
             }
 

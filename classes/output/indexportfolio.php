@@ -71,7 +71,7 @@ class indexportfolio implements renderable, templatable {
         $networksubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id));
 
         return [
-            'contextid' => \context_course::instance($this->course->id),
+            'contextid' => \context_course::instance($this->course->id)->id,
             'courseid' => $this->course->id,
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),

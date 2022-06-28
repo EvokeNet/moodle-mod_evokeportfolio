@@ -91,11 +91,14 @@
 {{#js}}
     require([
         'mod_evokeportfolio/addcomment',
+        'mod_evokeportfolio/editcomment',
         'mod_evokeportfolio/togglelike',
         'mod_evokeportfolio/thumb',
         'mod_evokeportfolio/loadtimeline'
-    ], function(AddComment, ToggleLike, Thumb, LoadTimeline) {
+    ], function(AddComment, EditComment, ToggleLike, Thumb, LoadTimeline) {
         AddComment.init();
+
+        EditComment.init({{{contextid}}});
 
         ToggleLike.init();
 

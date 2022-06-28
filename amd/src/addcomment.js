@@ -22,22 +22,12 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
             }
         });
 
-        $(document).on('click', '.post-comment-input', function(event) {
-            var keycode = (event.keyCode ? event.keyCode : event.which);
-
-            if (keycode === 13) {
-                event.preventDefault();
-
-                var target = $(event.currentTarget);
-
-                this.saveComment(target, target.html());
-            }
-        }.bind(this));
-
         $(document).on('click', '.post-comment-btn', function(event) {
             var target = $(event.currentTarget).closest('.input-group').children('.post-comment-input');
 
-            this.saveComment(target, target.html());
+            if (target) {
+                this.saveComment(target, target.html());
+            }
         }.bind(this));
     };
 

@@ -75,6 +75,14 @@ $functions = [
         'type' => 'write',
         'ajax' => true
     ],
+    'mod_evokeportfolio_editcomment' => [
+        'classname' => 'mod_evokeportfolio\external\comment',
+        'classpath' => 'mod/evokeportfolio/classes/external/comment.php',
+        'methodname' => 'edit',
+        'description' => 'Edit a new comment',
+        'type' => 'write',
+        'ajax' => true
+    ],
     'mod_evokeportfolio_enrolledusers' => [
         'classname' => 'mod_evokeportfolio\external\course',
         'classpath' => 'mod/evokeportfolio/classes/external/course.php',
