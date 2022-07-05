@@ -10,6 +10,11 @@
                     <span class="small">{{{humantimecreated}}}</span>
                 </div>
                 <div class="usergradeinfo ml-auto">
+                    {{#itsmine}}
+                        <div class="editbutton ml-auto">
+                            <a href="{{{wwwroot}}}/mod/evokeportfolio/submit.php?portfolioid={{{portfolioid}}}&submissionid={{{id}}}" class="btn-editsubmission btn btn-sm btn-primary">{{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}</a>
+                        </div>
+                    {{/itsmine}}
                     {{#isowner}}
                         {{#isevaluated}}
                             {{#grade}}
@@ -94,7 +99,7 @@
                     </div>
                     {{#itsmine}}
                         <div class="editbutton ml-auto">
-                            <a class="btn-editcomment btn btn-sm btn-primary" data-id="{{{commentid}}}">Edit comment</a>
+                            <a class="btn-editcomment btn btn-sm btn-primary" data-id="{{{commentid}}}">{{#str}}editcomment, mod_evokeportfolio{{/str}}</a>
                         </div>
                     {{/itsmine}}
                 </div>

@@ -60,7 +60,7 @@ class submission {
     }
 
     public function get_portfolio_submissions($portfolio, $context, $userid = false, $groupsorgroupid = null, $limit = 20, $offset = 0) {
-        global $DB;
+        global $DB, $USER;
 
         $sql = 'SELECT
                     es.*,
@@ -104,6 +104,7 @@ class submission {
         }
 
         foreach ($submissions as $submission) {
+            $submission->itsmine = $USER->id == $submission->uid;
             $submission->humantimecreated = userdate($submission->timecreated);
         }
 
@@ -121,7 +122,7 @@ class submission {
     }
 
     public function get_evokation_submissions($portfolios, $userid = false, $groupsorgroupid = null, $limit = 20, $offset = 0) {
-        global $DB;
+        global $DB, $USER;
 
         $arrportfolios = array_map(function($item) { return $item->id; }, $portfolios);
         list($evokationids, $evokationparams) = $DB->get_in_or_equal($arrportfolios, SQL_PARAMS_NAMED, 'evk');
@@ -168,6 +169,7 @@ class submission {
         }
 
         foreach ($submissions as $submission) {
+            $submission->itsmine = $USER->id == $submission->uid;
             $submission->humantimecreated = userdate($submission->timecreated);
         }
 

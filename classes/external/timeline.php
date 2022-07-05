@@ -45,7 +45,7 @@ class timeline extends external_api {
      * @throws \moodle_exception
      */
     public static function load($courseid, $type, $offset, $portfolioid = null) {
-        global $PAGE;
+        global $PAGE, $CFG;
 
         // We always must pass webservice params through validate_parameters.
         self::validate_parameters(self::load_parameters(), [
@@ -71,6 +71,8 @@ class timeline extends external_api {
         if ($type == 'network') {
             $returndata = $timelineutil->loadnetwork($portfolioid, $offset);
         }
+
+        $returndata['wwwroot'] = $CFG->wwwroot;
 
         return [
             'status' => 'ok',
@@ -121,7 +123,7 @@ class timeline extends external_api {
      * @throws \moodle_exception
      */
     public static function loadevokation($courseid, $type, $offset) {
-        global $PAGE;
+        global $PAGE, $CFG;
 
         // We always must pass webservice params through validate_parameters.
         self::validate_parameters(self::loadevokation_parameters(), [
@@ -146,6 +148,8 @@ class timeline extends external_api {
         if ($type == 'network') {
             $returndata = $timelineutil->loadnetwork($offset);
         }
+
+        $returndata['wwwroot'] = $CFG->wwwroot;
 
         return [
             'status' => 'ok',
