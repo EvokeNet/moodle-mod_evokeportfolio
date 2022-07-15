@@ -43,7 +43,6 @@ class indexportfolio implements renderable, templatable {
         global $USER;
 
         $chapterutil = new chapter();
-        $submissionutil = new submission();
 
         // Chapters data.
         $chapters = $chapterutil->get_course_chapters($this->course->id);
@@ -54,45 +53,27 @@ class indexportfolio implements renderable, templatable {
             ];
         }
 
-        $userpicture = user::get_user_image_or_avatar($USER);
-
         $groupsutil = new group();
 
-        $usercoursegroups = $groupsutil->get_user_groups($this->course->id);
+        $usercoursegroups = $groupsutil->get_user_groups($this->portfolio->course);
 
-        $groupsmembers = $groupsutil->get_groups_members($usercoursegroups);
+        $groupsmembers = [];
+        if ($usercoursegroups) {
+            $groupsmembers = $groupsutil->get_groups_members($usercoursegroups);
+        }
 
-        $usercoursegroupsids = $groupsutil->get_user_groups_ids($this->course->id);
-
-        $mysubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id), $USER->id);
-
-        $groupsubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id), null, $usercoursegroupsids);
-
-        $networksubmissions = $submissionutil->get_portfolio_submissions($this->portfolio, $this->get_portfolio_context($this->portfolio->id));
+        $data['contextid'] = \context_course::instance($this->portfolio->course)->id;
+        $data['groupsmembers'] = $groupsmembers;
+        $data['hasgroup'] = !empty($usercoursegroups);
+        $data['portfolioid'] = $this->portfolio->id;
 
         return [
             'contextid' => \context_course::instance($this->course->id)->id,
             'courseid' => $this->course->id,
-            'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
             'groupsmembers' => $groupsmembers,
             'hasgroup' => !empty($usercoursegroups),
             'portfolio' => $this->portfolio,
-            'mysubmissions' => $mysubmissions,
-            'groupsubmissions' => $groupsubmissions,
-            'networksubmissions' => $networksubmissions
         ];
-    }
-
-    private function get_portfolio_context($portfolioid) {
-        if (isset($this->portfoliocontexts[$portfolioid])) {
-            return $this->portfoliocontexts[$portfolioid];
-        }
-
-        $coursemodule = get_coursemodule_from_instance('evokeportfolio', $portfolioid);
-
-        $this->portfoliocontexts[$portfolioid] = \context_module::instance($coursemodule->id);
-
-        return $this->portfoliocontexts[$portfolioid];
     }
 }

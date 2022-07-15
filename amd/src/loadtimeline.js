@@ -40,7 +40,7 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
             }
         }.bind(this), false);
 
-        $('.nav-tabs .nav-link').click(function(event) {
+        $('.nav-tabs .nav-link, .nav-pills .nav-link').click(function(event) {
             this.controlbutton = event.target;
 
             this.type = event.target.dataset.timeline_type;

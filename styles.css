@@ -145,6 +145,8 @@
     flex-direction: row;
     padding: 1rem 4rem;
     background-color: #f1f0f0;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
 }
 
 .path-blocks-evokehq .submissions .add-comment .userimg,
@@ -221,6 +223,8 @@
 .path-mod-evokeportfolio .submissions .submission .post {
     background-color: #e5e7e6;
     padding: 1.25rem;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
 }
 
 .path-blocks-evokehq .submissions .reactions,

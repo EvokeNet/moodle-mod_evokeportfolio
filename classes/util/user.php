@@ -135,12 +135,12 @@ class user {
     public static function get_user_image_or_avatar($user) {
         global $PAGE;
 
-        if (function_exists('theme_evoke_get_user_avatar_or_image')) {
-            $userpicture = theme_evoke_get_user_avatar_or_image($user);
+        if ($PAGE->theme->name == 'moove' && function_exists('theme_moove_get_user_avatar_or_image')) {
+            $userpicture = theme_moove_get_user_avatar_or_image($user);
         }
 
-        if (function_exists('theme_moove_get_user_avatar_or_image')) {
-            $userpicture = theme_moove_get_user_avatar_or_image($user);
+        if ($PAGE->theme->name == 'evoke' && function_exists('theme_evoke_get_user_avatar_or_image')) {
+            $userpicture = theme_evoke_get_user_avatar_or_image($user);
         }
 
         if (!$userpicture) {

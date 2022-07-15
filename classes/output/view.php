@@ -4,7 +4,8 @@ namespace mod_evokeportfolio\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_evokeportfolio\util\submission;
+use mod_evokeportfolio\util\chapter;
+use mod_evokeportfolio\util\group;
 use renderable;
 use templatable;
 use renderer_base;
@@ -38,8 +39,6 @@ class view implements renderable, templatable {
      * @throws \moodle_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $USER, $PAGE;
-
         $timeremaining = $this->evokeportfolio->datelimit - time();
 
         $isdelayed = true;
@@ -70,15 +69,30 @@ class view implements renderable, templatable {
             return $data;
         }
 
-        $submissionutil = new submission();
+        $chapterutil = new chapter();
 
-        $userpicture = new \user_picture($USER);
-        $userpicture->size = 1;
+        // Chapters data.
+        $chapters = $chapterutil->get_course_chapters($this->evokeportfolio->course);
 
-        $data['userpicture'] = $userpicture->get_url($PAGE)->out();
-        $data['userfullname'] = fullname($USER);
+        if (!$chapters) {
+            return [
+                'courseid' => $this->evokeportfolio->course
+            ];
+        }
 
-        $data['submissions'] = $submissionutil->get_user_submissions($this->context, $this->evokeportfolio->id, $USER->id);
+        $groupsutil = new group();
+
+        $usercoursegroups = $groupsutil->get_user_groups($this->evokeportfolio->course);
+
+        $groupsmembers = [];
+        if ($usercoursegroups) {
+            $groupsmembers = $groupsutil->get_groups_members($usercoursegroups);
+        }
+
+        $data['contextid'] = \context_course::instance($this->evokeportfolio->course)->id;
+        $data['groupsmembers'] = $groupsmembers;
+        $data['hasgroup'] = !empty($usercoursegroups);
+        $data['portfolioid'] = $this->evokeportfolio->id;
 
         return $data;
     }
