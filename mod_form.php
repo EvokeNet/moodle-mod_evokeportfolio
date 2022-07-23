@@ -38,8 +38,12 @@ class mod_evokeportfolio_mod_form extends moodleform_mod {
 
         $this->standard_intro_elements();
 
-        $mform->addElement('checkbox', 'evokation', get_string('evokation', 'mod_evokeportfolio'));
-        $mform->addHelpButton('evokation', 'evokation', 'mod_evokeportfolio');
+        $yesnooptions = [0 => get_string('no'), 1 => get_string('yes')];
+
+        $mform->addElement('select', 'evokation', get_string('evokation', 'mod_evokeportfolio'), $yesnooptions);
+
+        $mform->addElement('select', 'groupactivity', get_string('groupactivity', 'mod_evokeportfolio'), $yesnooptions);
+        $mform->hideIf('groupactivity', 'evokation', 'eq', 1);
 
         $mform->addElement('date_time_selector', 'datestart', get_string('datestart', 'mod_evokeportfolio'));
         $mform->addHelpButton('datestart', 'datestart', 'mod_evokeportfolio');
@@ -76,12 +80,6 @@ class mod_evokeportfolio_mod_form extends moodleform_mod {
         $this->add_action_buttons();
     }
 
-    public function definition_after_data() {
-        global $DB;
-
-        $mform = $this->_form;
-    }
-
     /**
      * Allows module to modify the data returned by form get_data().
      * This method is also called in the bulk activity completion form.
@@ -92,6 +90,11 @@ class mod_evokeportfolio_mod_form extends moodleform_mod {
      */
     public function data_postprocessing($data) {
         parent::data_postprocessing($data);
+
+        if ($data->evokation) {
+            $data->groupactivity = 0;
+        }
+
         if (!empty($data->completionunlocked)) {
             // Turn off completion settings if the checkboxes aren't ticked.
             $autocompletion = !empty($data->completion) && $data->completion == COMPLETION_TRACKING_AUTOMATIC;

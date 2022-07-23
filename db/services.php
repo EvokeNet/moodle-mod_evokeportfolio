@@ -123,4 +123,12 @@ $functions = [
         'type' => 'read',
         'ajax' => true
     ],
+    'mod_evokeportfolio_loadtimelinegroup' => [
+        'classname' => 'mod_evokeportfolio\external\timeline',
+        'classpath' => 'mod/evokeportfolio/classes/external/timeline.php',
+        'methodname' => 'loadgroup',
+        'description' => 'Load a group timeline',
+        'type' => 'read',
+        'ajax' => true
+    ],
 ];

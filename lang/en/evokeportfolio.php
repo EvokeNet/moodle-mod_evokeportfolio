@@ -36,17 +36,11 @@ $string['evaluated'] = 'Evaluated';
 
 $string['submissionsuccessmessage'] = 'Submission success message';
 $string['evokation'] = 'Is an evokation';
-$string['evokation_help'] = 'Check this if it is an evokation activity.';
 $string['datestart'] = 'Submission start date';
 $string['datestart_help'] = 'Students can only submit their work after this date.';
 $string['datelimit'] = 'Submission deadline';
 $string['datelimit_help'] = 'After this date, agents cannot submit responses.';
 $string['groupactivity'] = 'Team activity'; // team = group; mission = activity
-$string['individualctivity'] = 'Individual activity';
-$string['groupgradingmode'] = 'Team grading mode';
-$string['groupgradingmode_help'] = '<b>Team grading: </b> all users in the team will receive the same grade.<br><b>Individual grading:</b> users will receive their grades individually.';
-$string['groupgrading'] = 'Team grading';
-$string['individualgrading'] = 'Individual grading';
 $string['section'] = 'Section';
 $string['illegalaccess'] = 'Unauthorized access';
 $string['attachmentfile'] = 'Attachment file';

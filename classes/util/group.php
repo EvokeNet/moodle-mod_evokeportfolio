@@ -18,18 +18,18 @@ class group {
             $userid = $USER->id;
         }
 
-        $sql = "SELECT g.id, g.name
+        $sql = "SELECT g.id, g.name, g.picture
                 FROM {groups} g
                 JOIN {groups_members} gm ON gm.groupid = g.id
                 WHERE gm.userid = :userid AND g.courseid = :courseid";
 
-        $usergroups = $DB->get_records_sql($sql, ['courseid' => $courseid, 'userid' => $userid]);
+        $groups = $DB->get_records_sql($sql, ['courseid' => $courseid, 'userid' => $userid]);
 
-        if (!$usergroups) {
+        if (!$groups) {
             return false;
         }
 
-        return $usergroups;
+        return $groups;
     }
 
     public function get_user_groups_names($courseid, $userid = null) {

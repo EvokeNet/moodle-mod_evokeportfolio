@@ -59,6 +59,63 @@ class submission {
         return array_values($submissions);
     }
 
+    public function get_user_groups_portfolio_submissions($portfolio, $context, $users = false, $limit = 20, $offset = 0) {
+        global $DB, $USER;
+
+        $sql = 'SELECT
+                    es.*,
+                    u.id as uid, u.picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email
+                FROM {evokeportfolio_submissions} es
+                INNER JOIN {user} u ON u.id = es.userid';
+
+        $sql .= ' WHERE es.portfolioid = :portfolioid';
+
+        $params['portfolioid'] = $portfolio->id;
+
+        if ($users) {
+            $usersids = [];
+            foreach ($users as $user) {
+                $usersids[] = $user->id;
+            }
+
+            list($groupsidssql, $usersparams) = $DB->get_in_or_equal($usersids, SQL_PARAMS_NAMED, 'user');
+
+            $sql .= ' AND u.id ' . $groupsidssql;
+
+            $params = array_merge($params, $usersparams);
+        }
+
+        $sql .= ' ORDER BY es.id DESC LIMIT ' . $limit;
+
+        if ($offset) {
+            $offset = $offset * $limit;
+
+            $sql .= ' OFFSET ' . $offset;
+        }
+
+        $submissions = $DB->get_records_sql($sql, $params);
+
+        if (!$submissions) {
+            return false;
+        }
+
+        foreach ($submissions as $submission) {
+            $submission->humantimecreated = userdate($submission->timecreated);
+        }
+
+        $this->populate_data_with_comments($submissions);
+
+        $this->populate_data_with_user_info($submissions);
+
+        $this->populate_data_with_attachments($submissions, $context);
+
+        $this->populate_data_with_reactions($submissions);
+
+        $this->populate_data_with_evaluation($submissions, $portfolio, $context);
+
+        return array_values($submissions);
+    }
+
     public function get_portfolio_submissions($portfolio, $context, $userid = false, $groupsorgroupid = null, $limit = 20, $offset = 0) {
         global $DB, $USER;
 
@@ -104,7 +161,6 @@ class submission {
         }
 
         foreach ($submissions as $submission) {
-            $submission->itsmine = $USER->id == $submission->uid;
             $submission->humantimecreated = userdate($submission->timecreated);
         }
 
@@ -169,7 +225,6 @@ class submission {
         }
 
         foreach ($submissions as $submission) {
-            $submission->itsmine = $USER->id == $submission->uid;
             $submission->humantimecreated = userdate($submission->timecreated);
         }
 
@@ -214,7 +269,7 @@ class submission {
                     'text' => $comment->text,
                     'commentuserpicture' => $userpicture,
                     'commentuserfullname' => fullname($comment),
-                    'itsmine' => $USER->id == $comment->userid,
+                    'isowner' => $USER->id == $comment->userid,
                     'edited' => $comment->ctimecreated != $comment->ctimemodified
                 ];
             }

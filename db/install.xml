@@ -17,6 +17,7 @@
         <FIELD NAME="datestart" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="datelimit" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="evokation" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" UNSIGNED="true" COMMENT="Is an evokation activity?"/>
+        <FIELD NAME="groupactivity" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" UNSIGNED="true" COMMENT="Is a group activity?"/>
         <FIELD NAME="completionrequiresubmit" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" UNSIGNED="true"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Timestamp of when the instance was added to the course."/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Timestamp of when the instance was last modified."/>

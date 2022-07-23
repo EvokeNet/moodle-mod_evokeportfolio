@@ -314,5 +314,18 @@ function xmldb_evokeportfolio_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2022043000, 'mod', 'evokeportfolio');
     }
 
+    if ($oldversion < 2022071000) {
+        $dbman = $DB->get_manager();
+
+        $table = new xmldb_table('evokeportfolio');
+        $groupactivityfield = new xmldb_field('groupactivity', XMLDB_TYPE_INTEGER, '2', true, XMLDB_NOTNULL, null, 0, 'evokation');
+
+        if ($dbman->table_exists($table)) {
+            $dbman->add_field($table, $groupactivityfield);
+        }
+
+        upgrade_plugin_savepoint(true, 2022071000, 'mod', 'evokeportfolio');
+    }
+
     return true;
 }

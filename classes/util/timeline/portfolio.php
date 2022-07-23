@@ -1,16 +1,20 @@
 <?php
 
-namespace mod_evokeportfolio\util;
+namespace mod_evokeportfolio\util\timeline;
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_evokeportfolio\util\group;
+use mod_evokeportfolio\util\submission;
+use mod_evokeportfolio\util\user;
+
 /**
- * Evoke timeline class helper
+ * Evoke portfolio timeline class helper
  *
  * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
-class timeline {
+class portfolio {
     public $courseid;
     private $portfoliocontexts = [];
 

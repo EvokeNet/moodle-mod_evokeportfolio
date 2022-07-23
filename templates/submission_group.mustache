@@ -2,11 +2,13 @@
     <div class="submission mt-4" data-id="{{id}}">
         <div class="post">
             <div class="userinfo">
-                <div class="userimg">
-                    <img src="{{{usersubmissionpicture}}}" alt="{{{usersubmissionfullname}}}">
-                </div>
-                <div class="nameanddate">
-                    <p class="username">{{{usersubmissionfullname}}}</p>
+                <div class="nameanddate ml-0">
+                    <p class="username">{{{group.name}}}</p>
+                    <div class="groupmembers">
+                        {{#groupmembers}}
+                            <img src="{{userpicture}}" alt="{{fullname}}" data-toggle="tooltip" data-placement="top" title="{{fullname}}">
+                        {{/groupmembers}}
+                    </div>
                     <span class="small">{{{humantimecreated}}}</span>
                 </div>
                 <div class="usergradeinfo ml-auto">

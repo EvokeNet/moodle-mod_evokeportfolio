@@ -36,17 +36,11 @@ $string['evaluated'] = 'Avaliado';
 
 $string['submissionsuccessmessage'] = 'Mensagem de envio com sucesso';
 $string['evokation'] = 'É uma evokation?';
-$string['evokation_help'] = 'Marque este campo para indicar que a atividade é uma evokation.';
 $string['datestart'] = 'Data de início dos envios';
 $string['datestart_help'] = 'Estudentes só podem enviar seus trabalhos depois desta data.';
 $string['datelimit'] = 'Data limite';
 $string['datelimit_help'] = 'Após esta data, estudantes não podemo mais realizar envios.';
 $string['groupactivity'] = 'Atividade em grupo';
-$string['individualctivity'] = 'Atividade individual';
-$string['groupgradingmode'] = 'Modo de avaliação do grupo';
-$string['groupgradingmode_help'] = '<b>Avaliação do grupo: </b> todos os usuários do grupo receberão a mesma nota.<br><b>Avaliação individual:</b> os usuários receberão notas individualmente.';
-$string['groupgrading'] = 'Avaliação do grupo';
-$string['individualgrading'] = 'Avaliação individual';
 $string['section'] = 'Seção';
 $string['illegalaccess'] = 'Acesso ilegal';
 $string['attachmentfile'] = 'Arquivo de anexo';

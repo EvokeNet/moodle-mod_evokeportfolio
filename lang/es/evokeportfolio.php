@@ -34,17 +34,11 @@ $string['evaluated'] = 'Valorado';
 
 $string['submissionsuccessmessage'] = 'Submission success message';
 $string['evokation'] = 'Is an evokation';
-$string['evokation_help'] = 'Check this if it is an evokation activity.';
 $string['datestart'] = 'Submission start date';
 $string['datestart_help'] = 'Students can only submit their work after this date.';
 $string['datelimit'] = 'Fecha límite para el envío';
 $string['datelimit_help'] = 'Tras esta fecha, los agentes no pueden enviar respuestas.';
 $string['groupactivity'] = 'Misión en grupo';
-$string['individualctivity'] = 'Misión individual';
-$string['groupgradingmode'] = 'Modo de valoración de equipo';
-$string['groupgradingmode_help'] = '<b>Valoración en equipo: </b> todos los agentes del equipo recibirán la misma valoración.<br><b>Valoración individual:</b> los agentes recibirán la valoración individualmente.';
-$string['groupgrading'] = 'Valoración en equipo';
-$string['individualgrading'] = 'Valoración individual';
 $string['section'] = 'Sección';
 $string['illegalaccess'] = 'Acceso no autorizado';
 $string['attachmentfile'] = 'Archivo adjunto';

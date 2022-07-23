@@ -25,8 +25,8 @@ class backup_evokeportfolio_activity_structure_step extends backup_activity_stru
 
         // Build the tree with these elements with $evokeportfolio as the root of the backup tree.
         $evokeportfolio = new backup_nested_element('evokeportfolio', ['id'], [
-            'course', 'name', 'intro', 'introformat', 'grade', 'datelimit',
-            'timecreated', 'timemodified']);
+            'course', 'name', 'intro', 'introformat', 'submissionsuccessmessage', 'submissionsuccessmessageformat', 'grade',
+            'datestart', 'datelimit', 'evokation', 'groupactivity', 'completionrequiresubmit',  'timecreated', 'timemodified']);
 
         $submissions = new backup_nested_element('submissions');
         $submission = new backup_nested_element('submission', ['id'], [
