@@ -43,6 +43,25 @@ class renderer extends plugin_renderer_base {
      *
      * @throws \moodle_exception
      */
+    public function render_view_group(renderable $page) {
+        $data = $page->export_for_template($this);
+
+        if (has_capability('mod/evokeportfolio:grade', $page->context)) {
+            return $this->render_from_template('mod_evokeportfolio/view_admin', $data);
+        }
+
+        return $this->render_from_template('mod_evokeportfolio/view_group', $data);
+    }
+
+    /**
+     * Defer the instance in course to template.
+     *
+     * @param renderable $page
+     *
+     * @return bool|string
+     *
+     * @throws \moodle_exception
+     */
     public function render_section(renderable $page) {
         $data = $page->export_for_template($this);
 

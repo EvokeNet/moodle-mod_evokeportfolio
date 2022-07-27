@@ -43,7 +43,6 @@ class mod_evokeportfolio_mod_form extends moodleform_mod {
         $mform->addElement('select', 'evokation', get_string('evokation', 'mod_evokeportfolio'), $yesnooptions);
 
         $mform->addElement('select', 'groupactivity', get_string('groupactivity', 'mod_evokeportfolio'), $yesnooptions);
-        $mform->hideIf('groupactivity', 'evokation', 'eq', 1);
 
         $mform->addElement('date_time_selector', 'datestart', get_string('datestart', 'mod_evokeportfolio'));
         $mform->addHelpButton('datestart', 'datestart', 'mod_evokeportfolio');

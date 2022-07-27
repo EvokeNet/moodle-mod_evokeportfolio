@@ -129,6 +129,36 @@ if ($form->is_cancelled()) {
             $completion = new completion_info($course);
             $completion->update_state($cm, COMPLETION_COMPLETE);
 
+            $completiondata = $completion->get_data($cm, false, $USER->id);
+
+            // If the user completed the activity and it is a group activity, mark all group members as complete.
+            if ($completiondata->completionstate == 1 && $evokeportfolio->groupactivity) {
+                $groupsutil = new \mod_evokeportfolio\util\group();
+
+                if ($usercoursegroups = $groupsutil->get_user_groups($course->id)) {
+                    if ($groupsmembers = $groupsutil->get_groups_members($usercoursegroups, false)) {
+                        foreach ($groupsmembers as $groupsmember) {
+                            // Skip current user.
+                            if ($groupsmember->id == $USER->id) {
+                                continue;
+                            }
+
+                            $current = $completion->get_data($cm, false, $groupsmember->id);
+
+                            if ($current->completionstate == 1) {
+                                continue;
+                            }
+
+                            $current->completionstate = COMPLETION_COMPLETE;
+                            $current->timemodified = time();
+                            $current->overrideby = $USER->id;
+
+                            $completion->internal_set_data($cm, $current);
+                        }
+                    }
+                }
+            }
+
             $redirectstring = get_string('save_submission_success', 'mod_evokeportfolio');
         }
 
