@@ -52,6 +52,7 @@ class view_group implements renderable, templatable {
             'intro' => format_module_intro('evokeportfolio', $this->evokeportfolio, $this->context->instanceid),
             'datelimit' => userdate($this->evokeportfolio->datelimit),
             'timeremaining' => format_time($timeremaining),
+            'groupactivity' => $this->evokeportfolio->groupactivity,
             'cmid' => $this->context->instanceid,
             'courseid' => $this->evokeportfolio->course,
             'isdelayed' => $isdelayed,
