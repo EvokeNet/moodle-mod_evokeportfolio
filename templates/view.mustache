@@ -39,11 +39,22 @@
 {{/hasgroupsmembers}}
 
 {{^isdelayed}}
-    <div class="actions my-3">
-        <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}{{#embed}}&embed=1{{/embed}}">
-        {{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}
-        </a>
-    </div>
+    {{#groupactivity}}
+        {{#hasgroup}}
+            <div class="actions my-3">
+                <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}{{#embed}}&embed=1{{/embed}}">
+                {{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}
+                </a>
+            </div>
+        {{/hasgroup}}
+    {{/groupactivity}}
+    {{^groupactivity}}
+        <div class="actions my-3">
+            <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/submit.php?id={{cmid}}{{#embed}}&embed=1{{/embed}}">
+            {{#str}}page_view_addsubmission, mod_evokeportfolio{{/str}}
+            </a>
+        </div>
+    {{/groupactivity}}
 {{/isdelayed}}
 
 <ul class="nav nav-pills" id="portfolios-tab" role="tablist">
@@ -131,24 +142,24 @@
         'mod_evokeportfolio/thumb',
         'mod_evokeportfolio/infinitescroll'
     ], function(AddComment, EditComment, ToggleLike, Thumb, InfiniteScroll) {
-    AddComment.init();
+        AddComment.init();
 
-    EditComment.init({{{contextid}}});
+        EditComment.init({{{contextid}}});
 
-    ToggleLike.init();
+        ToggleLike.init();
 
-    Thumb.init();
+        Thumb.init();
 
-    {{^groupactivity}}
-        InfiniteScroll.init({{{courseid}}}, 'my');
-    {{/groupactivity}}
-    {{#groupactivity}}
-        {{#hasgroup}}
-            InfiniteScroll.init({{{courseid}}}, 'team', true);
-        {{/hasgroup}}
-        {{^hasgroup}}
-            InfiniteScroll.init({{{courseid}}}, 'network', true);
-        {{/hasgroup}}
-    {{/groupactivity}}
+        {{^groupactivity}}
+            InfiniteScroll.init({{{courseid}}}, 'my');
+        {{/groupactivity}}
+        {{#groupactivity}}
+            {{#hasgroup}}
+                InfiniteScroll.init({{{courseid}}}, 'team', true);
+            {{/hasgroup}}
+            {{^hasgroup}}
+                InfiniteScroll.init({{{courseid}}}, 'network', true);
+            {{/hasgroup}}
+        {{/groupactivity}}
     });
 {{/js}}
