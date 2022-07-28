@@ -52,23 +52,24 @@ class view_group implements renderable, templatable {
             'intro' => format_module_intro('evokeportfolio', $this->evokeportfolio, $this->context->instanceid),
             'datelimit' => userdate($this->evokeportfolio->datelimit),
             'timeremaining' => format_time($timeremaining),
-            'groupactivity' => $this->evokeportfolio->groupactivity,
+            'groupactivity' => (int)$this->evokeportfolio->groupactivity,
             'cmid' => $this->context->instanceid,
             'courseid' => $this->evokeportfolio->course,
             'isdelayed' => $isdelayed,
-            'embed' => $this->embed
+            'embed' => $this->embed,
+            'portfolioid' => $this->evokeportfolio->id
         ];
 
         // Teacher.
-        if (has_capability('mod/evokeportfolio:grade', $this->context)) {
-            $coursemodule = get_coursemodule_from_instance('evokeportfolio', $this->evokeportfolio->id);
-            $data['hide'] = $coursemodule->visible;
-
-            $participants = count_enrolled_users($this->context, 'mod/evokeportfolio:submit');
-            $data['participants'] = $participants;
-
-            return $data;
-        }
+//        if (has_capability('mod/evokeportfolio:grade', $this->context)) {
+//            $coursemodule = get_coursemodule_from_instance('evokeportfolio', $this->evokeportfolio->id);
+//            $data['hide'] = $coursemodule->visible;
+//
+//            $participants = count_enrolled_users($this->context, 'mod/evokeportfolio:submit');
+//            $data['participants'] = $participants;
+//
+//            return $data;
+//        }
 
         $chapterutil = new chapter();
 
@@ -92,8 +93,7 @@ class view_group implements renderable, templatable {
 
         $data['contextid'] = \context_course::instance($this->evokeportfolio->course)->id;
         $data['groupsmembers'] = $groupsmembers;
-        $data['hasgroup'] = !empty($usercoursegroups);
-        $data['portfolioid'] = $this->evokeportfolio->id;
+        $data['hasgroup'] = (int) !empty($usercoursegroups);
 
         return $data;
     }

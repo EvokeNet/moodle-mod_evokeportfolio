@@ -46,11 +46,11 @@ class renderer extends plugin_renderer_base {
     public function render_view_group(renderable $page) {
         $data = $page->export_for_template($this);
 
-        if (has_capability('mod/evokeportfolio:grade', $page->context)) {
-            return $this->render_from_template('mod_evokeportfolio/view_admin', $data);
-        }
+//        if (has_capability('mod/evokeportfolio:grade', $page->context)) {
+//            return $this->render_from_template('mod_evokeportfolio/view_admin', $data);
+//        }
 
-        return $this->render_from_template('mod_evokeportfolio/view_group', $data);
+        return $this->render_from_template('mod_evokeportfolio/view', $data);
     }
 
     /**

@@ -174,3 +174,5 @@ $string['chaptergrading'] = 'Chapter grading';
 
 $string['assessment'] = 'Assessment';
 $string['notyetassessed'] = 'Not yet assessed';
+
+$string['myteam'] = 'My team';

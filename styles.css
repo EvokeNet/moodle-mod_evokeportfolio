@@ -21,6 +21,7 @@
 
 .path-mod-evokeportfolio .groupmember a {
     color: #000;
+    text-decoration: none !important;
 }
 
 .path-mod-evokeportfolio .groupmember img {
@@ -63,6 +64,11 @@
 }
 
 /* Timeline posts. */
+.path-blocks-evokehq .submissions .submission + .submission,
+.path-mod-evokeportfolio .submissions .submission + .submission {
+    margin-top: 1rem;
+}
+
 .path-blocks-evokehq .submissions .card,
 .path-mod-evokeportfolio .submissions .card {
     margin-top: 0.5rem;

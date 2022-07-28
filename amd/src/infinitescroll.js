@@ -8,14 +8,16 @@
  */
 /* eslint-disable */
 define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_init'], function($, Ajax, Templates, TributeInit) {
-    var LoadTimelineGroup = function(courseid, initialtype) {
+    var InfiniteScroll = function(courseid, initialtype, groupactivity = false) {
         this.courseid = courseid;
 
         this.tribute = TributeInit.init();
 
-        LoadTimelineGroup.prototype.type = initialtype;
+        this.groupactivity = groupactivity;
 
-        LoadTimelineGroup.prototype.targetdiv = '#' + this.type + 'portfolio';
+        this.type = initialtype;
+
+        this.targetdiv = '#' + this.type + 'portfolio';
 
         this.controlbutton = document.getElementById(this.type + 'portfolio-tab');
 
@@ -56,11 +58,17 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
         }.bind(this));
     }
 
-    LoadTimelineGroup.prototype.loadItems = function() {
+    InfiniteScroll.prototype.loadItems = function() {
         this.wait = true;
 
+        let methodname = 'mod_evokeportfolio_loadtimeline';
+
+        if (this.groupactivity) {
+            methodname = 'mod_evokeportfolio_loadtimelinegroup';
+        }
+
         const request = Ajax.call([{
-            methodname: 'mod_evokeportfolio_loadtimelinegroup',
+            methodname: methodname,
             args: {
                 courseid: this.courseid,
                 type: this.type,
@@ -81,8 +89,14 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
         }.bind(this));
     };
 
-    LoadTimelineGroup.prototype.handleLoadData = function(data) {
-        Templates.render('mod_evokeportfolio/submission_group', data).then(function(content) {
+    InfiniteScroll.prototype.handleLoadData = function(data) {
+        let template = 'mod_evokeportfolio/submission';
+
+        if (this.groupactivity) {
+            template = 'mod_evokeportfolio/submission_group';
+        }
+
+        Templates.render(template, data).then(function(content) {
             const targetdiv = $(this.targetdiv);
 
             targetdiv.find('.submission_loading-placeholder').addClass('hidden');
@@ -95,27 +109,29 @@ define(['jquery', 'core/ajax', 'core/templates', 'mod_evokeportfolio/tribute_ini
         }.bind(this));
     };
 
-    LoadTimelineGroup.prototype.courseid = 0;
+    InfiniteScroll.prototype.courseid = 0;
 
-    LoadTimelineGroup.prototype.type = 'team';
+    InfiniteScroll.prototype.groupactivity = 0;
 
-    LoadTimelineGroup.prototype.offset = 0;
+    InfiniteScroll.prototype.type = 'my';
 
-    LoadTimelineGroup.prototype.portfolioid = null;
+    InfiniteScroll.prototype.offset = 0;
 
-    LoadTimelineGroup.prototype.hasmoreitems = true;
+    InfiniteScroll.prototype.portfolioid = null;
 
-    LoadTimelineGroup.prototype.targetdiv = '#teamportfolio';
+    InfiniteScroll.prototype.hasmoreitems = true;
 
-    LoadTimelineGroup.prototype.wait = false;
+    InfiniteScroll.prototype.targetdiv = '#myportfolio';
 
-    LoadTimelineGroup.prototype.tribute = null;
+    InfiniteScroll.prototype.wait = false;
 
-    LoadTimelineGroup.prototype.controlbutton = null;
+    InfiniteScroll.prototype.tribute = null;
+
+    InfiniteScroll.prototype.controlbutton = null;
 
     return {
-        'init': function(courseid, initialtype) {
-            return new LoadTimelineGroup(courseid, initialtype);
+        'init': function(courseid, initialtype, groupactivity = false) {
+            return new InfiniteScroll(courseid, initialtype, groupactivity);
         }
     };
 });
