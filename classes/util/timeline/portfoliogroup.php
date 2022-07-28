@@ -23,7 +23,7 @@ class portfoliogroup {
     }
 
     public function loadteam($portfolioid, $offset = 0) {
-        global $DB, $USER;
+        global $DB, $USER, $PAGE;
 
         $portfolio = $DB->get_record('evokeportfolio', ['id' => $portfolioid], '*', MUST_EXIST);
 
@@ -33,7 +33,7 @@ class portfoliogroup {
 
         $usercoursegroups = $groupsutil->get_user_groups($this->courseid);
 
-        $groupsmembers = $groupsutil->get_groups_members($usercoursegroups);
+        $groupsmembers = $groupsutil->get_groups_members($usercoursegroups, true, $PAGE->context);
 
         $teamsubmissions = [];
         if ($usercoursegroups) {

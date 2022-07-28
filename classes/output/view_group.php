@@ -88,11 +88,12 @@ class view_group implements renderable, templatable {
 
         $groupsmembers = [];
         if ($usercoursegroups) {
-            $groupsmembers = $groupsutil->get_groups_members($usercoursegroups);
+            $groupsmembers = $groupsutil->get_groups_members($usercoursegroups, true, $this->context);
         }
 
-        $data['contextid'] = \context_course::instance($this->evokeportfolio->course)->id;
+        $data['contextid'] = $this->context->id;
         $data['groupsmembers'] = $groupsmembers;
+        $data['hasgroupsmembers'] = (int) !empty($groupsmembers);
         $data['hasgroup'] = (int) !empty($usercoursegroups);
 
         return $data;

@@ -86,7 +86,7 @@ class view implements renderable, templatable {
 
         $groupsmembers = [];
         if ($usercoursegroups) {
-            $groupsmembers = $groupsutil->get_groups_members($usercoursegroups);
+            $groupsmembers = $groupsutil->get_groups_members($usercoursegroups, true, $this->context);
         }
 
         $data['contextid'] = \context_course::instance($this->evokeportfolio->course)->id;

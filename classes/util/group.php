@@ -74,7 +74,7 @@ class group {
         return $groupsids;
     }
 
-    public function get_groups_members($groups, $withfulluserinfo = true) {
+    public function get_groups_members($groups, $withfulluserinfo = true, $contexttofilter = false) {
         global $DB;
 
         $ids = [];
@@ -93,6 +93,15 @@ class group {
 
         if (!$groupsmembers) {
             return false;
+        }
+
+        // Remove any person who have access to grade students. Teachers, mentors...
+        if ($contexttofilter) {
+            foreach ($groupsmembers as $key => $groupmember) {
+                if (has_capability('mod/evokeportfolio:grade', $contexttofilter, $groupmember->id)) {
+                    unset($groupsmembers[$key]);
+                }
+            }
         }
 
         if ($withfulluserinfo) {
