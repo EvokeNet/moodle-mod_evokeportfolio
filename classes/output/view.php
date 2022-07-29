@@ -78,6 +78,7 @@ class view implements renderable, templatable {
             'isdelayed' => $isdelayed,
             'embed' => $this->embed,
             'portfolioid' => $this->evokeportfolio->id,
+            'evokation' => $this->evokeportfolio->evokation,
             'contextid' => $this->context->id,
             'groupsmembers' => $groupsmembers,
             'hasgroupsmembers' => (int) !empty($groupsmembers),

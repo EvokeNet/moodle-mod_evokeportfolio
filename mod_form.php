@@ -90,10 +90,6 @@ class mod_evokeportfolio_mod_form extends moodleform_mod {
     public function data_postprocessing($data) {
         parent::data_postprocessing($data);
 
-        if ($data->evokation) {
-            $data->groupactivity = 0;
-        }
-
         if (!empty($data->completionunlocked)) {
             // Turn off completion settings if the checkboxes aren't ticked.
             $autocompletion = !empty($data->completion) && $data->completion == COMPLETION_TRACKING_AUTOMATIC;

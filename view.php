@@ -58,11 +58,7 @@ echo $OUTPUT->header();
 
 $renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-if ($evokeportfolio->groupactivity) {
-    $contentrenderable = new \mod_evokeportfolio\output\view_group($evokeportfolio, $context, $embed);
-} else {
-    $contentrenderable = new \mod_evokeportfolio\output\view($evokeportfolio, $context, $embed);
-}
+$contentrenderable = new \mod_evokeportfolio\output\view($evokeportfolio, $context, $embed);
 
 echo $renderer->render($contentrenderable);
 

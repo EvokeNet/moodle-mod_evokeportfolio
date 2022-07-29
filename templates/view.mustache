@@ -1,10 +1,10 @@
 <div class="gradingsummary mb-2 p-2 border-radius" style="border: 1px solid #d7dfe3;">
     <div class="row">
-        <div class="col-4">
+        <div class="col-sm">
             <p class="mb-0 font-weight-bold">{{#str}}datelimit, mod_evokeportfolio{{/str}}</p>
             <p class="mb-0">{{{datelimit}}}</p>
         </div>
-        <div class="col-4">
+        <div class="col-sm">
             <p class="mb-0 font-weight-bold">{{#str}}page_view_timeremaining, mod_evokeportfolio{{/str}}</p>
             <p class="mb-0">
                 {{#isdelayed}}
@@ -15,13 +15,21 @@
                 {{/isdelayed}}
             </p>
         </div>
-
         {{#groupactivity}}
-            <div class="col-4">
+            <div class="col-sm">
                 <p class="mb-0 font-weight-bold">{{#str}}groupactivity, mod_evokeportfolio{{/str}}</p>
                 <p class="mb-0">{{#str}}yes{{/str}}</p>
             </div>
         {{/groupactivity}}
+        <div class="col-sm">
+            <p class="mb-0 font-weight-bold">Activity type</p>
+            {{#evokation}}
+                <span class="badge badge-success">Evokation</span>
+            {{/evokation}}
+            {{^evokation}}
+                <span class="badge badge-info">Portfolio</span>
+            {{/evokation}}
+        </div>
     </div>
 </div>
 
@@ -72,7 +80,12 @@
                     data-timeline_offset="0"
                     data-timeline_portfolioid="{{{portfolioid}}}"
                     data-timeline_hasmoreitems="true">
-                {{#str}}myportfolio, mod_evokeportfolio{{/str}}
+                    {{#evokation}}
+                        {{#str}}myevokation, mod_evokeportfolio{{/str}}
+                    {{/evokation}}
+                    {{^evokation}}
+                        {{#str}}myportfolio, mod_evokeportfolio{{/str}}
+                    {{/evokation}}
             </button>
         </li>
     {{/groupactivity}}
@@ -90,7 +103,12 @@
                     data-timeline_offset="0"
                     data-timeline_portfolioid="{{{portfolioid}}}"
                     data-timeline_hasmoreitems="true">
-                {{#str}}teamportfolio, mod_evokeportfolio{{/str}}
+                    {{#evokation}}
+                        {{#str}}teamevokation, mod_evokeportfolio{{/str}}
+                    {{/evokation}}
+                    {{^evokation}}
+                        {{#str}}teamportfolio, mod_evokeportfolio{{/str}}
+                    {{/evokation}}
             </button>
         </li>
     {{/hasgroup}}
@@ -107,7 +125,12 @@
                 data-timeline_offset="0"
                 data-timeline_portfolioid="{{{portfolioid}}}"
                 data-timeline_hasmoreitems="true">
-            {{#str}}networkportfolio, mod_evokeportfolio{{/str}}
+                {{#evokation}}
+                    {{#str}}networkevokation, mod_evokeportfolio{{/str}}
+                {{/evokation}}
+                {{^evokation}}
+                    {{#str}}networkportfolio, mod_evokeportfolio{{/str}}
+                {{/evokation}}
         </button>
     </li>
 </ul>
