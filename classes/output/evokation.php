@@ -43,7 +43,9 @@ class evokation implements renderable, templatable {
 
         $usercoursegroups = $groupsutil->get_user_groups($this->course->id);
 
-        $groupsmembers = $groupsutil->get_groups_members($usercoursegroups);
+        $context = \context_course::instance($this->course->id);
+
+        $groupsmembers = $groupsutil->get_groups_members($usercoursegroups, true, $context);
 
         return [
             'contextid' => \context_course::instance($this->course->id),
