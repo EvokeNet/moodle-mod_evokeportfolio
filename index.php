@@ -68,14 +68,22 @@ $PAGE->navbar->add($pagetitle);
 
 echo $OUTPUT->header();
 
-if (!has_capability('mod/evokeportfolio:grade', $context)) {
-    $renderer = $PAGE->get_renderer('mod_evokeportfolio');
+$renderer = $PAGE->get_renderer('mod_evokeportfolio');
 
-    $contentrenderable = new \mod_evokeportfolio\output\index($course, $chapter, $portfolio);
+if (!has_capability('mod/evokeportfolio:grade', $context)) {
+    $contentrenderable = new \mod_evokeportfolio\output\index($course);
 
     echo $renderer->render($contentrenderable);
 } else {
-    $renderer = $PAGE->get_renderer('mod_evokeportfolio');
+    if (!$groupid) {
+        $groupsutil = new \mod_evokeportfolio\util\group();
+
+        $usercoursegroups = $groupsutil->get_user_groups($course->id);
+
+        if ($usercoursegroups) {
+            $group = current($usercoursegroups);
+        }
+    }
 
     $contentrenderable = new \mod_evokeportfolio\output\indexadmin($course, $context, $chapter, $portfolio, $group);
 
