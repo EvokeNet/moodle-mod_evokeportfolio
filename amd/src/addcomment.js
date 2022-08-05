@@ -7,7 +7,7 @@
  * @author     Willian Mano <willianmanoaraujo@gmail.com>
  */
 
-define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Ajax, Swal) {
+define(['jquery', 'core/str', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Str, Ajax, Swal) {
     var AddComment = function() {
         this.registerEventListeners();
     };
@@ -59,7 +59,7 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
         }]);
 
         request[0].done(function(data) {
-            this.addCommentToPost(postdiv, data.message, data.humantimecreated);
+            this.addCommentToPost(postdiv, data.comment);
         }.bind(this)).fail(function(error) {
             var message = error.message;
 
@@ -90,34 +90,39 @@ define(['jquery', 'core/ajax', 'mod_evokeportfolio/sweetalert'], function($, Aja
         });
     };
 
-    AddComment.prototype.addCommentToPost = function(postdiv, text, timecreated) {
-        var userimg = postdiv.find('.add-comment .userimg').clone();
-        var userfullname = userimg.attr('alt');
-        var loadallcomments = postdiv.find('.loadmore');
+    AddComment.prototype.addCommentToPost = function(postdiv, comment) {
+        Str.get_string('editcomment', 'mod_evokeportfolio').then(function(editcomment) {
+            var userimg = postdiv.find('.add-comment .userimg').clone();
+            var userfullname = userimg.attr('alt');
+            var loadallcomments = postdiv.find('.loadmore');
 
-        var comment = $("<div class='submissioncomment fadeIn'>" +
-          "<div class='userinfo'>" +
-            "<div class='userimg'>" + $('<div/>').append(userimg).html() + "</div>" +
-            "<div class='nameanddate'>" +
+            var commentcontainer = $("<div class='submissioncomment fadeIn'>" +
+                "<div class='userinfo'>" +
+                "<div class='userimg'>" + $('<div/>').append(userimg).html() + "</div>" +
+                "<div class='nameanddate'>" +
                 "<p class='username'>" + userfullname + "</p>" +
-                "<span class='small'>" + timecreated + "</span>"+
-            "</div>"+
-          "</div>"+
-          "<p class='text'>" + text + "</p>" +
-        "</div>");
+                "<span class='small'>" + comment.humantimecreated + "</span>"+
+                "</div>"+
+                "<div class='editbutton ml-auto'>"+
+                "<a class='btn-editcomment btn btn-sm btn-primary' data-id='"+comment.id+"'>"+editcomment+"</a>"+
+                "</div>"+
+                "</div>"+
+                "<p class='text'>" + comment.message + "</p>" +
+                "</div>");
 
-        if (loadallcomments.length > 0) {
-            comment.insertBefore(loadallcomments);
-        } else {
-            comment.insertBefore(postdiv.find('.add-comment'));
-        }
+            if (loadallcomments.length > 0) {
+                commentcontainer.insertBefore(loadallcomments);
+            } else {
+                commentcontainer.insertBefore(postdiv.find('.add-comment'));
+            }
 
-        var totalcommentsspan = postdiv.find('.reactions .actions .commentbutton .totalcomments');
-        var totalcomments = postdiv.find('.submissioncomment').length;
+            var totalcommentsspan = postdiv.find('.reactions .actions .commentbutton .totalcomments');
+            var totalcomments = postdiv.find('.submissioncomment').length;
 
-        totalcommentsspan.empty();
+            totalcommentsspan.empty();
 
-        totalcommentsspan.text(totalcomments);
+            totalcommentsspan.text(totalcomments);
+        });
     };
 
     return {

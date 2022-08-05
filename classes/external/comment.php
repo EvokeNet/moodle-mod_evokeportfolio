@@ -110,7 +110,7 @@ class comment extends external_api {
         }
 
         $insertedid = $DB->insert_record('evokeportfolio_comments', $usercomment);
-        $usercomment->id = $usercomment;
+        $usercomment->id = $insertedid;
 
         $params = array(
             'context' => $contextmodule,
@@ -130,8 +130,11 @@ class comment extends external_api {
 
         return [
             'status' => 'ok',
-            'message' => $usercomment->text,
-            'humantimecreated' => userdate(time())
+            'comment' => [
+                'id' => $usercomment->id,
+                'message' => $usercomment->text,
+                'humantimecreated' => userdate($usercomment->timecreated)
+            ]
         ];
     }
 
@@ -144,8 +147,11 @@ class comment extends external_api {
         return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_TEXT, 'Operation status'),
-                'message' => new external_value(PARAM_RAW, 'Return message'),
-                'humantimecreated' => new external_value(PARAM_TEXT, 'Human readable time created')
+                'comment' => new external_single_structure([
+                    'id' => new external_value(PARAM_INT, 'Comment id', VALUE_REQUIRED),
+                    'message' => new external_value(PARAM_RAW, 'Comment message', VALUE_REQUIRED),
+                    'humantimecreated' => new external_value(PARAM_TEXT, 'Human readable time created')
+                ])
             )
         );
     }

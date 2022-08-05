@@ -19,7 +19,7 @@ use mod_evokeportfolio\forms\grade_form;
  */
 class grade extends external_api {
     /**
-     * Create chapter parameters
+     * Grade parameters
      *
      * @return external_function_parameters
      */
@@ -33,7 +33,7 @@ class grade extends external_api {
     }
 
     /**
-     * Create chapter method
+     * Grade method
      *
      * @param int $contextid
      * @param int $chapterid
@@ -90,7 +90,7 @@ class grade extends external_api {
     }
 
     /**
-     * Create chapter return fields
+     * Grade return fields
      *
      * @return external_single_structure
      */
@@ -105,7 +105,7 @@ class grade extends external_api {
     }
 
     /**
-     * Create chapter parameters
+     * Grade parameters
      *
      * @return external_function_parameters
      */
@@ -117,7 +117,7 @@ class grade extends external_api {
     }
 
     /**
-     * Create chapter method
+     * Grade method
      *
      * @param int $contextid
      * @param int $chapterid
@@ -158,12 +158,13 @@ class grade extends external_api {
 
         return [
             'status' => 'ok',
-            'message' => get_string('grading_success', 'mod_evokeportfolio')
+            'message' => get_string('grading_success', 'mod_evokeportfolio'),
+            'assessmenttext' => get_string('assessment', 'mod_evokeportfolio') . ': ' . $data['grade']
         ];
     }
 
     /**
-     * Create chapter return fields
+     * Grade return fields
      *
      * @return external_single_structure
      */
@@ -171,7 +172,8 @@ class grade extends external_api {
         return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_TEXT, 'Operation status'),
-                'message' => new external_value(PARAM_RAW, 'Return message')
+                'message' => new external_value(PARAM_TEXT, 'Return message'),
+                'assessmenttext' => new external_value(PARAM_TEXT, 'Assessment text message')
             )
         );
     }

@@ -66,7 +66,7 @@ class view implements renderable, templatable {
             $groupsmembers = $groupsutil->get_groups_members($usercoursegroups, true, $this->context);
         }
 
-        return [
+        $data = [
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,
             'intro' => format_module_intro('evokeportfolio', $this->evokeportfolio, $this->context->instanceid),
@@ -82,7 +82,11 @@ class view implements renderable, templatable {
             'contextid' => $this->context->id,
             'groupsmembers' => $groupsmembers,
             'hasgroupsmembers' => (int) !empty($groupsmembers),
-            'hasgroup' => (int) !empty($usercoursegroups)
+            'hasgroup' => (int) !empty($usercoursegroups),
+            'cangrade' => has_capability('mod/evokeportfolio:grade', $this->context),
+            'isevaluated' => $this->evokeportfolio->grade != 0
         ];
+
+        return $data;
     }
 }

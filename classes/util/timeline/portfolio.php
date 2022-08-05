@@ -4,6 +4,7 @@ namespace mod_evokeportfolio\util\timeline;
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_evokeportfolio\util\grade;
 use mod_evokeportfolio\util\group;
 use mod_evokeportfolio\util\submission;
 use mod_evokeportfolio\util\user;
@@ -37,7 +38,9 @@ class portfolio {
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
             'submissions' => $mysubmissions,
-            'hasmoreitems' => !empty($mysubmissions)
+            'hasmoreitems' => !empty($mysubmissions),
+            'cangrade' => has_capability('mod/evokeportfolio:grade', $this->get_portfolio_context($portfolio->id)),
+            'isevaluated' => $portfolio->grade != 0
         ];
 
         return $data;
@@ -65,7 +68,9 @@ class portfolio {
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
             'submissions' => $teamsubmissions,
-            'hasmoreitems' => !empty($teamsubmissions)
+            'hasmoreitems' => !empty($teamsubmissions),
+            'cangrade' => has_capability('mod/evokeportfolio:grade', $this->get_portfolio_context($portfolio->id)),
+            'isevaluated' => $portfolio->grade != 0
         ];
 
         return $data;
@@ -86,7 +91,9 @@ class portfolio {
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
             'submissions' => $networksubmissions,
-            'hasmoreitems' => !empty($networksubmissions)
+            'hasmoreitems' => !empty($networksubmissions),
+            'cangrade' => has_capability('mod/evokeportfolio:grade', $this->get_portfolio_context($portfolio->id)),
+            'isevaluated' => $portfolio->grade != 0
         ];
 
         return $data;

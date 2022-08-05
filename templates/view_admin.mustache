@@ -1,44 +1,137 @@
-<div class="gradingsummary">
-    <h3>{{#str}}page_view_gradingsummary,  mod_evokeportfolio{{/str}}</h3>
-
-    <div class="box py-3 boxaligncenter gradingsummarytable">
-        <table class="generaltable">
-            <tbody>
-            <tr>
-                <th class="cell c0" scope="row">{{#str}}page_view_hidden, mod_evokeportfolio{{/str}}</th>
-                <td class="cell c1 lastcol">
-                    {{#hide}}
-                        {{#str}}no{{/str}}
-                    {{/hide}}
-                    {{^hide}}
-                        {{#str}}yes{{/str}}
-                    {{/hide}}
-                </td>
-            </tr>
-            <tr>
-                <th class="cell c0" scope="row">{{#str}}page_view_participants, mod_evokeportfolio{{/str}}</th>
-                <td class="cell c1 lastcol">{{{participants}}}</td>
-            </tr>
-            <tr>
-                <th class="cell c0" scope="row">{{#str}}datelimit, mod_evokeportfolio{{/str}}</th>
-                <td class="cell c1 lastcol">{{{datelimit}}}</td>
-            </tr>
-            <tr class="lastrow">
-                <th class="cell c0" scope="row">{{#str}}page_view_timeremaining, mod_evokeportfolio{{/str}}</th>
-                <td class="cell c1 lastcol">
-                    {{#isdelayed}}
-                        <span class="badge badge-danger">{{{timeremaining}}}</span>
-                    {{/isdelayed}}
-                    {{^isdelayed}}
-                        {{{timeremaining}}}
-                    {{/isdelayed}}
-                </td>
-            </tr>
-            </tbody>
-        </table>
+<div class="gradingsummary mb-2 p-2 border-radius" style="border: 1px solid #d7dfe3;">
+    <div class="row">
+        <div class="col-sm">
+            <p class="mb-0 font-weight-bold">{{#str}}datelimit, mod_evokeportfolio{{/str}}</p>
+            <p class="mb-0">{{{datelimit}}}</p>
+        </div>
+        <div class="col-sm">
+            <p class="mb-0 font-weight-bold">{{#str}}page_view_timeremaining, mod_evokeportfolio{{/str}}</p>
+            <p class="mb-0">
+                {{#isdelayed}}
+                    <span class="badge badge-danger">{{{timeremaining}}}</span>
+                {{/isdelayed}}
+                {{^isdelayed}}
+                    {{{timeremaining}}}
+                {{/isdelayed}}
+            </p>
+        </div>
+        {{#groupactivity}}
+            <div class="col-sm">
+                <p class="mb-0 font-weight-bold">{{#str}}groupactivity, mod_evokeportfolio{{/str}}</p>
+                <p class="mb-0">{{#str}}yes{{/str}}</p>
+            </div>
+        {{/groupactivity}}
+        <div class="col-sm">
+            <p class="mb-0 font-weight-bold">{{#str}}activitytype, mod_evokeportfolio{{/str}}</p>
+            {{#evokation}}
+                <span class="badge badge-success">{{#str}}evokation, mod_evokeportfolio{{/str}}</span>
+            {{/evokation}}
+            {{^evokation}}
+                <span class="badge badge-info">{{#str}}pluginname, mod_evokeportfolio{{/str}}</span>
+            {{/evokation}}
+        </div>
     </div>
 </div>
 
-<div class="submissionlinks text-center">
-    <a class="btn btn-primary" href="{{config.wwwroot}}/mod/evokeportfolio/entries.php?id={{{cmid}}}">{{#str}}page_view_viewallsubmissions, mod_evokeportfolio{{/str}}</a>
+{{#hasgroupsmembers}}
+    <div class="mb-2 p-2 border-radius" style="border: 1px solid #d7dfe3;">
+        <h3 class="h5">{{#str}}myteam, mod_evokeportfolio{{/str}}</h3>
+        {{#groupsmembers}}
+            <div class="groupmember">
+                <a href="{{config.wwwroot}}/local/evokegame/profile.php?id={{courseid}}&userid={{id}}">
+                <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
+                </a>
+            </div>
+        {{/groupsmembers}}
+    </div>
+{{/hasgroupsmembers}}
+
+<ul class="nav nav-pills" id="portfolios-tab" role="tablist">
+    {{#hasgroup}}
+        <li class="nav-item">
+            <button class="nav-link {{#hasgroup}}active{{/hasgroup}}"
+                    id="teamportfolio-tab"
+                    data-toggle="tab"
+                    data-target="#teamportfolio"
+                    type="button"
+                    role="tab"
+                    aria-controls="teamportfolio"
+                    aria-selected="false"
+                    data-timeline_type="team"
+                    data-timeline_offset="0"
+                    data-timeline_portfolioid="{{{portfolioid}}}"
+                    data-timeline_hasmoreitems="true">
+                {{#evokation}}
+                    {{#str}}teamevokation, mod_evokeportfolio{{/str}}
+                {{/evokation}}
+                {{^evokation}}
+                    {{#str}}teamportfolio, mod_evokeportfolio{{/str}}
+                {{/evokation}}
+            </button>
+        </li>
+    {{/hasgroup}}
+    <li class="nav-item">
+        <button class="nav-link {{#groupactivity}}{{^hasgroup}}active{{/hasgroup}}{{/groupactivity}}"
+                id="networkportfolio-tab"
+                data-toggle="tab"
+                data-target="#networkportfolio"
+                type="button"
+                role="tab"
+                aria-controls="networkportfolio"
+                aria-selected="false"
+                data-timeline_type="network"
+                data-timeline_offset="0"
+                data-timeline_portfolioid="{{{portfolioid}}}"
+                data-timeline_hasmoreitems="true">
+            {{#evokation}}
+                {{#str}}networkevokation, mod_evokeportfolio{{/str}}
+            {{/evokation}}
+            {{^evokation}}
+                {{#str}}networkportfolio, mod_evokeportfolio{{/str}}
+            {{/evokation}}
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="submissions" data-courseid="{{{courseid}}}">
+    {{#hasgroup}}
+        <div class="tab-pane fade show active" id="teamportfolio" role="tabpanel" aria-labelledby="teamportfolio-tab">
+            <div class="submissions mt-2 timeline" data-courseid="{{{courseid}}}">
+                {{> mod_evokeportfolio/timeline_loading_placeholder }}
+            </div>
+        </div>
+    {{/hasgroup}}
+    <div class="tab-pane fade {{^hasgroup}}show active{{/hasgroup}}" id="networkportfolio" role="tabpanel" aria-labelledby="networkportfolio-tab">
+        <div class="submissions mt-2 timeline" data-courseid="{{{courseid}}}">
+            {{> mod_evokeportfolio/timeline_loading_placeholder }}
+        </div>
+    </div>
 </div>
+
+{{#js}}
+    require([
+        'mod_evokeportfolio/addcomment',
+        'mod_evokeportfolio/editcomment',
+        'mod_evokeportfolio/togglelike',
+        'mod_evokeportfolio/thumb',
+        'mod_evokeportfolio/infinitescroll'
+        {{#cangrade}}{{#isevaluated}}, 'mod_evokeportfolio/gradeindividual'{{/isevaluated}}{{/cangrade}}
+    ], function(AddComment, EditComment, ToggleLike, Thumb, InfiniteScroll {{#cangrade}}{{#isevaluated}},GradeIndividual{{/isevaluated}}{{/cangrade}}) {
+        AddComment.init();
+
+        EditComment.init({{{contextid}}});
+
+        ToggleLike.init();
+
+        Thumb.init();
+
+        {{#cangrade}}{{#isevaluated}}GradeIndividual.init({{contextid}});{{/isevaluated}}{{/cangrade}}
+
+        {{#hasgroup}}
+            InfiniteScroll.init({{{courseid}}}, 'team', {{groupactivity}});
+        {{/hasgroup}}
+        {{^hasgroup}}
+            InfiniteScroll.init({{{courseid}}}, 'network', {{groupactivity}});
+        {{/hasgroup}}
+    });
+{{/js}}

@@ -22,12 +22,12 @@
             </div>
         {{/groupactivity}}
         <div class="col-sm">
-            <p class="mb-0 font-weight-bold">Activity type</p>
+            <p class="mb-0 font-weight-bold">{{#str}}activitytype, mod_evokeportfolio{{/str}}</p>
             {{#evokation}}
-                <span class="badge badge-success">Evokation</span>
+                <span class="badge badge-success">{{#str}}evokation, mod_evokeportfolio{{/str}}</span>
             {{/evokation}}
             {{^evokation}}
-                <span class="badge badge-info">Portfolio</span>
+                <span class="badge badge-info">{{#str}}pluginname, mod_evokeportfolio{{/str}}</span>
             {{/evokation}}
         </div>
     </div>

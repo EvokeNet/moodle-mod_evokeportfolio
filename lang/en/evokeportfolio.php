@@ -176,3 +176,4 @@ $string['assessment'] = 'Assessment';
 $string['notyetassessed'] = 'Not yet assessed';
 
 $string['myteam'] = 'My team';
+$string['activitytype'] = 'Activity type';
