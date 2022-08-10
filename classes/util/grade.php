@@ -309,4 +309,44 @@ class grade {
 
         grade_update('mod/evokeportfolio', $portfolio->course, 'mod', 'evokeportfolio', $portfolio->id, 0, $grades);
     }
+
+    public function can_user_grade($context, $usercoursegroups = null, $userid = null) {
+        global $USER;
+
+        if (!$userid) {
+            $userid = $USER->id;
+        }
+
+        if (is_siteadmin($userid)) {
+            return true;
+        }
+
+        if (!has_capability('mod/evokeportfolio:grade', $context, $userid)) {
+            return false;
+        }
+
+        if (!$usercoursegroups) {
+            return false;
+        }
+
+        $groupsutil = new group();
+
+        $groups = [];
+        foreach ($usercoursegroups as $usercoursegroup) {
+            $ngroup = new \stdClass();
+            $ngroup->id = $usercoursegroup;
+
+            $groups[] = $ngroup;
+        }
+
+        $groupsmembers = $groupsutil->get_groups_members($groups, false);
+
+        foreach ($groupsmembers as $groupsmember) {
+            if ($groupsmember->id == $userid) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

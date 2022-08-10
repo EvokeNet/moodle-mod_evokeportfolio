@@ -39,7 +39,6 @@ class portfolio {
             'userfullname' => fullname($USER),
             'submissions' => $mysubmissions,
             'hasmoreitems' => !empty($mysubmissions),
-            'cangrade' => has_capability('mod/evokeportfolio:grade', $this->get_portfolio_context($portfolio->id)),
             'isevaluated' => $portfolio->grade != 0
         ];
 
@@ -92,7 +91,6 @@ class portfolio {
             'userfullname' => fullname($USER),
             'submissions' => $networksubmissions,
             'hasmoreitems' => !empty($networksubmissions),
-            'cangrade' => has_capability('mod/evokeportfolio:grade', $this->get_portfolio_context($portfolio->id)),
             'isevaluated' => $portfolio->grade != 0
         ];
 
