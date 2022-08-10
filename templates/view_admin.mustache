@@ -115,8 +115,8 @@
         'mod_evokeportfolio/togglelike',
         'mod_evokeportfolio/thumb',
         'mod_evokeportfolio/infinitescroll'
-        {{#cangrade}}{{#isevaluated}}, 'mod_evokeportfolio/gradeindividual'{{/isevaluated}}{{/cangrade}}
-    ], function(AddComment, EditComment, ToggleLike, Thumb, InfiniteScroll {{#cangrade}}{{#isevaluated}},GradeIndividual{{/isevaluated}}{{/cangrade}}) {
+        {{#cangrade}}{{#isevaluated}}, 'mod_evokeportfolio/addgradeviewpage'{{/isevaluated}}{{/cangrade}}
+    ], function(AddComment, EditComment, ToggleLike, Thumb, InfiniteScroll {{#cangrade}}{{#isevaluated}},AddGradeViewPage{{/isevaluated}}{{/cangrade}}) {
         AddComment.init();
 
         EditComment.init({{{contextid}}});
@@ -125,13 +125,17 @@
 
         Thumb.init();
 
-        {{#cangrade}}{{#isevaluated}}GradeIndividual.init({{contextid}});{{/isevaluated}}{{/cangrade}}
-
         {{#hasgroup}}
             InfiniteScroll.init({{{courseid}}}, 'team', {{groupactivity}});
         {{/hasgroup}}
         {{^hasgroup}}
             InfiniteScroll.init({{{courseid}}}, 'network', {{groupactivity}});
         {{/hasgroup}}
+
+        {{#cangrade}}
+            {{#isevaluated}}
+                AddGradeViewPage.init({{contextid}});
+            {{/isevaluated}}
+        {{/cangrade}}
     });
 {{/js}}

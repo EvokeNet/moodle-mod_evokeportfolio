@@ -53,7 +53,9 @@ class portfoliogroup {
             'userpicture' => $userpicture,
             'userfullname' => fullname($USER),
             'submissions' => $teamsubmissions,
-            'hasmoreitems' => !empty($teamsubmissions)
+            'hasmoreitems' => !empty($teamsubmissions),
+            'cangrade' => has_capability('mod/evokeportfolio:grade', $this->get_portfolio_context($portfolioid)),
+            'isevaluated' => $portfolio->grade != 0,
         ];
 
         return $data;

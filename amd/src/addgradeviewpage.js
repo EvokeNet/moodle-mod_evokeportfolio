@@ -20,12 +20,12 @@ define([
         'core/yui'],
     function($, Config, Str, ModalFactory, ModalEvents, Fragment, Ajax, Swal, Y) {
         /**
-         * Constructor for the GradeIndividual.
+         * Constructor for the AddGradeViewPage.
          *
          * @param selector The selector to open the modal
          * @param contextid The course module contextid
          */
-        var GradeIndividual = function(contextid) {
+        var AddGradeViewPage = function(contextid) {
             this.contextid = contextid;
 
             this.registerEventListeners();
@@ -35,21 +35,21 @@ define([
          * @var {Modal} modal
          * @private
          */
-        GradeIndividual.prototype.modal = null;
+        AddGradeViewPage.prototype.modal = null;
 
         /**
          * @var {int} contextid
          * @private
          */
-        GradeIndividual.prototype.contextid = -1;
+        AddGradeViewPage.prototype.contextid = -1;
 
         /**
          * @var {int} gradebutton
          * @private
          */
-        GradeIndividual.prototype.gradebutton = -1;
+        AddGradeViewPage.prototype.gradebutton = -1;
 
-        GradeIndividual.prototype.registerEventListeners = function() {
+        AddGradeViewPage.prototype.registerEventListeners = function() {
             $(document).on('click', '.grade-portfolio', function(event) {
                 this.gradebutton = $(event.currentTarget);
 
@@ -57,7 +57,7 @@ define([
             }.bind(this));
         };
 
-        GradeIndividual.prototype.openModal = function(portfolioid, userid) {
+        AddGradeViewPage.prototype.openModal = function(portfolioid, userid) {
             ModalFactory.create({
                 type: ModalFactory.types.SAVE_CANCEL,
                 title: 'Add grade',
@@ -92,7 +92,7 @@ define([
          *
          * @return {Promise}
          */
-        GradeIndividual.prototype.getBody = function(formdata) {
+        AddGradeViewPage.prototype.getBody = function(formdata) {
             if (typeof formdata === "undefined") {
                 formdata = {};
             }
@@ -110,7 +110,7 @@ define([
          *
          * @return {Promise}
          */
-        GradeIndividual.prototype.handleFormSubmissionResponse = function(data) {
+        AddGradeViewPage.prototype.handleFormSubmissionResponse = function(data) {
             this.modal.hide();
 
             // We could trigger an event instead.
@@ -151,7 +151,7 @@ define([
          *
          * @return {Promise}
          */
-        GradeIndividual.prototype.handleFormSubmissionFailure = function(data) {
+        AddGradeViewPage.prototype.handleFormSubmissionFailure = function(data) {
             // Oh noes! Epic fail :(
             // Ah wait - this is normal. We need to re-display the form with errors!
             this.modal.setBody(this.getBody(data));
@@ -166,7 +166,7 @@ define([
          *
          * @param {Event} e Form submission event.
          */
-        GradeIndividual.prototype.submitFormAjax = function(e) {
+        AddGradeViewPage.prototype.submitFormAjax = function(e) {
             // We don't want to do a real form submission.
             e.preventDefault();
 
@@ -212,7 +212,7 @@ define([
          * @param {Event} e Form submission event.
          * @private
          */
-        GradeIndividual.prototype.submitForm = function(e) {
+        AddGradeViewPage.prototype.submitForm = function(e) {
             e.preventDefault();
 
             this.modal.getRoot().find('form').submit();
@@ -220,7 +220,7 @@ define([
 
         return {
             init: function(contextid) {
-                return new GradeIndividual(contextid);
+                return new AddGradeViewPage(contextid);
             }
         };
     }

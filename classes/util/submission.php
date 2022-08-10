@@ -60,7 +60,7 @@ class submission {
     }
 
     public function get_user_groups_portfolio_submissions($portfolio, $context, $users = false, $limit = 20, $offset = 0) {
-        global $DB, $USER;
+        global $DB;
 
         $sql = 'SELECT
                     es.*,

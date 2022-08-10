@@ -310,6 +310,36 @@ class grade {
         grade_update('mod/evokeportfolio', $portfolio->course, 'mod', 'evokeportfolio', $portfolio->id, 0, $grades);
     }
 
+    public function grade_group_portfolio($portfolio, $userid, $grade, $context) {
+        global $CFG;
+
+        $groupsutil = new group();
+
+        $usercoursegroups = $groupsutil->get_user_groups($portfolio->course, $userid);
+
+        $groupsmembers = [];
+        if ($usercoursegroups) {
+            $groupsmembers = $groupsutil->get_groups_members($usercoursegroups, true, $context);
+        }
+
+        if (!$groupsmembers) {
+            return false;
+        }
+
+        $grades = [];
+        foreach ($groupsmembers as $groupsmember) {
+            $grades[$groupsmember->id] = new \stdClass();
+            $grades[$groupsmember->id]->userid = $groupsmember->id;
+            $grades[$groupsmember->id]->rawgrade = $grade;
+        }
+
+        $this->update_evokeportfolio_grades($portfolio->id, $grades);
+
+        require_once($CFG->libdir . '/gradelib.php');
+
+        grade_update('mod/evokeportfolio', $portfolio->course, 'mod', 'evokeportfolio', $portfolio->id, 0, $grades);
+    }
+
     public function can_user_grade($context, $usercoursegroups = null, $userid = null) {
         global $USER;
 

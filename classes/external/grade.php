@@ -154,7 +154,11 @@ class grade extends external_api {
 
         $gradeutil = new \mod_evokeportfolio\util\grade();
 
-        $gradeutil->grade_user_portfolio($portfolio, $data['userid'], $data['grade']);
+        if ($portfolio->groupactivity) {
+            $gradeutil->grade_group_portfolio($portfolio, $data['userid'], $data['grade'], $context);
+        } else {
+            $gradeutil->grade_user_portfolio($portfolio, $data['userid'], $data['grade']);
+        }
 
         return [
             'status' => 'ok',
