@@ -12,6 +12,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_evokeportfolio';
 $plugin->release = '1.9.0';
-$plugin->version = 2022080500;
+$plugin->version = 2022080600;
 $plugin->requires = 2022041200;
 $plugin->maturity = MATURITY_STABLE;
