@@ -10,7 +10,7 @@ use external_multiple_structure;
 use mod_evokeportfolio\util\user;
 
 /**
- * Section external api class.
+ * Course external api class.
  *
  * @package     mod_evokeportfolio
  * @copyright   2021 World Bank Group <https://worldbank.org>

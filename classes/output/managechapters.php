@@ -10,7 +10,7 @@ use templatable;
 use renderer_base;
 
 /**
- * Manage sections renderable class.
+ * Manage chapters renderable class.
  *
  * @copyright   2021 World Bank Group <https://worldbank.org>
  * @author      Willian Mano <willianmanoaraujo@gmail.com>

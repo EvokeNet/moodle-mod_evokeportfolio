@@ -8,7 +8,7 @@ use external_single_structure;
 use external_function_parameters;
 
 /**
- * Section external api class.
+ * Timeline external api class.
  *
  * @package     mod_evokeportfolio
  * @copyright   2021 World Bank Group <https://worldbank.org>

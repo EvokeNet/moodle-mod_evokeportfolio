@@ -14,7 +14,7 @@ use context_course;
 use context_module;
 
 /**
- * Section external api class.
+ * Comment external api class.
  *
  * @package     mod_evokeportfolio
  * @copyright   2021 World Bank Group <https://worldbank.org>

@@ -10,7 +10,7 @@ use external_function_parameters;
 use mod_evokeportfolio\forms\chapter_form;
 
 /**
- * Section external api class.
+ * Chapter external api class.
  *
  * @package     mod_evokeportfolio
  * @copyright   2021 World Bank Group <https://worldbank.org>
