@@ -1,97 +1,17 @@
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-        <button class="nav-link active"
-                id="myevokation-tab"
-                data-toggle="tab"
-                data-target="#myevokation"
-                type="button"
-                role="tab"
-                aria-controls="myevokation"
-                aria-selected="true"
-                data-timeline_type="my"
-                data-timeline_offset="0"
-                data-timeline_hasmoreitems="true">
-            {{#str}}myevokation, mod_evokeportfolio{{/str}}
-        </button>
-    </li>
-    <li class="nav-item">
-        <button class="nav-link"
-                id="teamevokation-tab"
-                data-toggle="tab"
-                data-target="#teamevokation"
-                type="button"
-                role="tab"
-                aria-controls="teamevokation"
-                aria-selected="false"
-                data-timeline_type="team"
-                data-timeline_offset="0"
-                data-timeline_hasmoreitems="true">
-            {{#str}}teamevokation, mod_evokeportfolio{{/str}}
-        </button>
-    </li>
-    <li class="nav-item">
-        <button class="nav-link"
-                id="networkevokation-tab"
-                data-toggle="tab"
-                data-target="#networkevokation"
-                type="button"
-                role="tab"
-                aria-controls="networkevokation"
-                aria-selected="false"
-                data-timeline_type="network"
-                data-timeline_offset="0"
-                data-timeline_hasmoreitems="true">
-            {{#str}}networkevokation, mod_evokeportfolio{{/str}}
-        </button>
-    </li>
-</ul>
-
-<div class="tab-content" id="submissions" data-courseid="{{{courseid}}}">
-    <div class="tab-pane fade show active p-2" id="myevokation" role="tabpanel" aria-labelledby="myevokation-tab">
-        <div class="submissions mt-2 timeline" data-courseid="{{{courseid}}}">
-            {{> mod_evokeportfolio/timeline_loading_placeholder }}
-        </div>
-    </div>
-    <div class="tab-pane fade p-2" id="teamevokation" role="tabpanel" aria-labelledby="teamevokation-tab">
-        {{#hasgroup}}
-            <div class="row">
-                <div class="col">
-                    <h3>My team</h3>
-                    {{#groupsmembers}}
-                        <div class="groupmember">
-                            <a href="{{config.wwwroot}}/local/evokegame/profile.php?id={{courseid}}&userid={{id}}">
-                                <img src="{{userpicture}}" alt="{{fullname}}"> {{fullname}}
-                            </a>
-                        </div>
-                    {{/groupsmembers}}
-                </div>
+<div class="card-columns">
+    {{#evokations}}
+        <div class="card shadow-none border">
+            <div class="card-body">
+                <h5 class="card-title">{{{name}}}</h5>
+                <p class="card-text">{{{intro}}}</p>
+                {{#lastupdated}}
+                    <p class="card-text text-right mb-0"><small class="text-muted">{{#str}}lastupdated, mod_evokeportfolio, {{{.}}}{{/str}}</small></p>
+                {{/lastupdated}}
+                <p class="card-text text-right mb-0"><small class="text-muted">{{#str}}totalsubmissions, mod_evokeportfolio, {{{totalsubmissions}}}{{/str}}</small></p>
             </div>
-        {{/hasgroup}}
-
-        <div class="submissions mt-2 timeline" data-courseid="{{{courseid}}}">
-            {{> mod_evokeportfolio/timeline_loading_placeholder }}
+            <div class="card-footer bg-white text-right">
+                <a class="btn btn-outline-primary" href="{{config.wwwroot}}/mod/evokeportfolio/view.php?portfolioid={{{id}}}">{{#str}}viewevokation, mod_evokeportfolio{{/str}}</a>
+            </div>
         </div>
-    </div>
-    <div class="tab-pane fade" id="networkevokation" role="tabpanel" aria-labelledby="networkevokation-tab">
-        <div class="submissions mt-2 timeline" data-courseid="{{{courseid}}}">
-            {{> mod_evokeportfolio/timeline_loading_placeholder }}
-        </div>
-    </div>
+    {{/evokations}}
 </div>
-
-{{#js}}
-    require([
-        'mod_evokeportfolio/addcomment',
-        'mod_evokeportfolio/togglelike',
-        'mod_evokeportfolio/thumb',
-        'mod_evokeportfolio/loadtimelineevokation'
-    ], function(AddComment, ToggleLike, Thumb, LoadTimelineEvokation) {
-        AddComment.init();
-
-        ToggleLike.init();
-
-        Thumb.init();
-
-        LoadTimelineEvokation.init({{{courseid}}});
-    });
-{{/js}}

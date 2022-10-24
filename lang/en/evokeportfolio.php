@@ -177,3 +177,7 @@ $string['notyetassessed'] = 'Not yet assessed';
 
 $string['myteam'] = 'My team';
 $string['activitytype'] = 'Activity type';
+
+$string['lastupdated'] = 'Last updated {$a} ago';
+$string['totalsubmissions'] = 'Total submissions: {$a}';
+$string['viewevokation'] = 'View evokation';
