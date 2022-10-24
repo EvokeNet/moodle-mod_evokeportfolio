@@ -181,3 +181,4 @@ $string['activitytype'] = 'Activity type';
 $string['lastupdated'] = 'Last updated {$a} ago';
 $string['totalsubmissions'] = 'Total submissions: {$a}';
 $string['viewevokation'] = 'View evokation';
+$string['noevokation'] = 'There is no evokation available yet.';
