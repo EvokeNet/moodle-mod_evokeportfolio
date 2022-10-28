@@ -21,6 +21,12 @@ class grade_form extends \moodleform {
 
     private $userid = null;
 
+    public function __construct($formdata, $customdata = null) {
+        parent::__construct(null, $customdata, 'post',  '', ['class' => 'evokeportfolio-grade-form'], true, $formdata);
+
+        $this->set_display_vertical();
+    }
+
     /**
      * Defines forms elements
      */

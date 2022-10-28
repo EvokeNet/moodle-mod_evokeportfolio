@@ -47,8 +47,8 @@ $PAGE->set_url($url);
 $pagetitle = format_string($course->fullname);
 $heading = format_string($course->fullname);
 if (!has_capability('mod/evokeportfolio:grade', $context)) {
-    $pagetitle = $course->fullname . ' : ' . get_string('evokation', 'mod_evokeportfolio');
-    $heading = get_string('evokation', 'mod_evokeportfolio');
+    $pagetitle = $course->fullname . ' : ' . get_string('page_evokation_title', 'mod_evokeportfolio');
+    $heading = get_string('page_evokation_title', 'mod_evokeportfolio');
 }
 
 $PAGE->set_title($pagetitle);

@@ -380,7 +380,7 @@ function mod_evokeportfolio_output_fragment_grade_form($args) {
     $formdata = [];
     if (!empty($args->jsonformdata)) {
         $serialiseddata = json_decode($args->jsonformdata);
-        parse_str($serialiseddata, $formdata);
+        $formdata = (array)$serialiseddata;
     }
 
     $mform = new \mod_evokeportfolio\forms\grade_form($formdata, [

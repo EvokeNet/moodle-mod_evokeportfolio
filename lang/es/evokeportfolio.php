@@ -160,3 +160,6 @@ $string['completionrequiresubmit'] = 'Require submission';
 $string['completionrequiresubmit_help'] = 'The user needs to submit to complete this activity';
 
 $string['messageprovider:commentmention'] = 'Notify user and he/she is mentioned in a comment';
+
+$string['page_evokation_title'] = 'Your Team’s Final Project';
+$string['page_evokation_view_button'] = 'View final project';

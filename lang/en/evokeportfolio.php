@@ -182,3 +182,6 @@ $string['lastupdated'] = 'Last updated {$a} ago';
 $string['totalsubmissions'] = 'Total submissions: {$a}';
 $string['viewevokation'] = 'View evokation';
 $string['noevokation'] = 'There is no evokation available yet.';
+
+$string['page_evokation_title'] = 'Your Team’s Final Project';
+$string['page_evokation_view_button'] = 'View final project';

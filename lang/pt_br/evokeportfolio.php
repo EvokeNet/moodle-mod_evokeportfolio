@@ -171,3 +171,6 @@ $string['chaptergrading'] = 'Avaliação de capítulo';
 
 $string['assessment'] = 'Avaliação';
 $string['notyetassessed'] = 'Não avaliado ainda';
+
+$string['page_evokation_title'] = 'Your Team’s Final Project';
+$string['page_evokation_view_button'] = 'View final project';
