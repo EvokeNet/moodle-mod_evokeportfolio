@@ -168,6 +168,7 @@ $string['notassessed'] = 'Not Assessed';
 $string['evokation'] = 'Evokation';
 $string['allactivities'] = 'All activities';
 $string['allgroups'] = 'All groups';
+$string['selectagroup'] = 'Select a group';
 
 $string['evaluatechapter'] = 'Evaluate chapter';
 $string['chaptergrading'] = 'Chapter grading';
