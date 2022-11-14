@@ -11,16 +11,21 @@
                 </div>
                 <div class="usergradeinfo ml-auto">
                     {{#isowner}}
-                        <div class="editbutton ml-auto">
-                            <a href="{{{wwwroot}}}/mod/evokeportfolio/submit.php?portfolioid={{{portfolioid}}}&submissionid={{{id}}}" class="btn-editsubmission btn btn-sm btn-primary">{{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}</a>
-                        </div>
                         {{#isevaluated}}
                             {{#grade}}
                                 <span class="badge badge-success">{{#str}}assessment, mod_evokeportfolio{{/str}}: {{{grade}}}</span>
                             {{/grade}}
                             {{^grade}}
+                                <div class="editbutton ml-auto">
+                                    <a href="{{{wwwroot}}}/mod/evokeportfolio/submit.php?portfolioid={{{portfolioid}}}&submissionid={{{id}}}" class="btn-editsubmission btn btn-sm btn-primary">{{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}</a>
+                                </div>
                                 <span class="badge badge-primary">{{#str}}notyetassessed, mod_evokeportfolio{{/str}}</span>
                             {{/grade}}
+                        {{/isevaluated}}
+                        {{^isevaluated}}
+                            <div class="editbutton ml-auto">
+                                <a href="{{{wwwroot}}}/mod/evokeportfolio/submit.php?portfolioid={{{portfolioid}}}&submissionid={{{id}}}" class="btn-editsubmission btn btn-sm btn-primary">{{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}</a>
+                            </div>
                         {{/isevaluated}}
                     {{/isowner}}
                     {{#cangrade}}

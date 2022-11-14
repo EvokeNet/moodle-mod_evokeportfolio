@@ -28,7 +28,7 @@ class submission {
         return false;
     }
 
-    public function get_user_submissions($context, $portfolioid, $userid) {
+    public function get_user_submissions($context, $portfolio, $userid) {
         global $DB;
 
         $sql = 'SELECT
@@ -38,7 +38,7 @@ class submission {
                 INNER JOIN {user} u ON u.id = es.userid
                 WHERE portfolioid = :portfolioid AND userid = :userid';
 
-        $submissions = $DB->get_records_sql($sql, ['portfolioid' => $portfolioid, 'userid' => $userid]);
+        $submissions = $DB->get_records_sql($sql, ['portfolioid' => $portfolio->id, 'userid' => $userid]);
 
         if (!$submissions) {
             return false;
@@ -55,6 +55,8 @@ class submission {
         $this->populate_data_with_attachments($submissions, $context);
 
         $this->populate_data_with_reactions($submissions);
+
+        $this->populate_data_with_evaluation($submissions, $portfolio, $context);
 
         return array_values($submissions);
     }

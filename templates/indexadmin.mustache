@@ -126,7 +126,130 @@
                     <div class="submissions mt-2" data-courseid="{{{courseid}}}">
                         {{#submissions}}
                             {{#hasevaluation}}
-                                {{> mod_evokeportfolio/submission }}
+                                <div class="submission" data-id="{{id}}">
+                                        <div class="post">
+                                            <div class="userinfo">
+                                                <div class="userimg">
+                                                    <img src="{{{usersubmissionpicture}}}" alt="{{{usersubmissionfullname}}}">
+                                                </div>
+                                                <div class="nameanddate">
+                                                    <p class="username">{{{usersubmissionfullname}}}</p>
+                                                    <span class="small">{{{humantimecreated}}}</span>
+                                                </div>
+                                                <div class="usergradeinfo ml-auto">
+                                                    {{#isowner}}
+                                                        {{#isevaluated}}
+                                                            {{#grade}}
+                                                                <span class="badge badge-success">{{#str}}assessment, mod_evokeportfolio{{/str}}: {{{grade}}}</span>
+                                                            {{/grade}}
+                                                            {{^grade}}
+                                                                <div class="editbutton ml-auto">
+                                                                    <a href="{{{wwwroot}}}/mod/evokeportfolio/submit.php?portfolioid={{{portfolioid}}}&submissionid={{{id}}}" class="btn-editsubmission btn btn-sm btn-primary">{{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}</a>
+                                                                </div>
+                                                                <span class="badge badge-primary">{{#str}}notyetassessed, mod_evokeportfolio{{/str}}</span>
+                                                            {{/grade}}
+                                                        {{/isevaluated}}
+                                                        {{^isevaluated}}
+                                                            <div class="editbutton ml-auto">
+                                                                <a href="{{{wwwroot}}}/mod/evokeportfolio/submit.php?portfolioid={{{portfolioid}}}&submissionid={{{id}}}" class="btn-editsubmission btn btn-sm btn-primary">{{#str}}page_view_editsubmission, mod_evokeportfolio{{/str}}</a>
+                                                            </div>
+                                                        {{/isevaluated}}
+                                                    {{/isowner}}
+                                                    {{#cangrade}}
+                                                        {{#isevaluated}}
+                                                            {{#grade}}
+                                                                <span class="badge badge-success">{{#str}}assessment, mod_evokeportfolio{{/str}}: {{{grade}}}</span>
+                                                            {{/grade}}
+                                                            {{^grade}}
+                                                                <button class="btn btn-sm btn-primary grade-portfolio" data-portfolioid="{{portfolioid}}" data-userid="{{uid}}">{{#str}}page_viewsubmission_addgrade, mod_evokeportfolio{{/str}}</button>
+                                                            {{/grade}}
+                                                        {{/isevaluated}}
+                                                    {{/cangrade}}
+                                                </div>
+                                            </div>
+                                            <div class="content">
+                                                {{#comment}}
+                                                    <div class="comment">
+                                                        {{{.}}}
+                                                    </div>
+                                                {{/comment}}
+
+                                                {{#hasattachments}}
+                                                    {{#attachments}}
+                                                        <div class="attachment mb-2">
+                                                            {{#isimage}}
+                                                                <div class="thumbnail-container">
+                                                                    <img src="{{fileurl}}" class="img-responsive img-thumbnail" alt="{{filename}}">
+                                                                </div>
+                                                            {{/isimage}}
+                                                            {{^isimage}}
+                                                                <div class="fileinfo">
+                                                                    <i class="fa fa-file-pdf-o"></i>&nbsp;{{#str}}page_submissions_portfolioattachment, mod_evokeportfolio{{/str}}
+                                                                </div>
+                                                                <div class="filedownload">
+                                                                    <a href="{{fileurl}}" class="btn btn-secondary btn-sm">{{#str}}downloadfile, mod_evokeportfolio{{/str}}</a>
+                                                                </div>
+                                                            {{/isimage}}
+                                                        </div>
+                                                    {{/attachments}}
+                                                {{/hasattachments}}
+                                            </div>
+
+                                            <div class="reactions">
+                                                <div class="actions">
+                                                    <div class="button likebutton {{#userreacted}}hasreacted{{/userreacted}}">
+                                                        {{#userreacted}}
+                                                            <i class="fa "></i>
+                                                        {{/userreacted}}
+                                                        {{^userreacted}}
+                                                            <i class="fa "></i>
+                                                        {{/userreacted}}
+
+                                                        <span class="totalreactions">{{{totalreactions}}}</span>
+                                                    </div>
+                                                    <div class="button commentbutton">
+                                                        <i class="fa fa-comment-o"></i>
+
+                                                        <span class="totalcomments">{{{totalcomments}}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{#comments}}
+                                            <div class="submissioncomment">
+                                                <div class="userinfo">
+                                                    <div class="userimg">
+                                                        <img src="{{{commentuserpicture}}}" alt="{{{commentuserfullname}}}">
+                                                    </div>
+                                                    <div class="nameanddate">
+                                                        <p class="username">{{{commentuserfullname}}}</p>
+                                                        <span class="small">{{{humantimecreated}}}</span>
+                                                        {{#edited}}<span class="badge badge-secondary">{{#str}}edited, mod_evokeportfolio{{/str}}</span>{{/edited}}
+                                                    </div>
+                                                    {{#isowner}}
+                                                        <div class="editbutton ml-auto">
+                                                            <a class="btn-editcomment btn btn-sm btn-primary" data-id="{{{commentid}}}">{{#str}}editcomment, mod_evokeportfolio{{/str}}</a>
+                                                        </div>
+                                                    {{/isowner}}
+                                                </div>
+
+                                                <p class="text">{{{text}}}</p>
+                                            </div>
+                                        {{/comments}}
+
+                                        <div class="add-comment">
+                                            <img src="{{{userpicture}}}" class="userimg" alt="{{{userfullname}}}">
+
+                                            <div class="input-group">
+                                                <p class="post-comment-input" placeholder="{{#str}}writeacomment, mod_evokeportfolio{{/str}}" contenteditable="true" data-tribute="true"></p>
+
+                                                <button class="btn btn-outline-primary post-comment-btn mt-2" type="button">
+                                                    <i class="fa fa-commenting-o"></i> {{#str}}comment, mod_evokeportfolio{{/str}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                             {{/hasevaluation}}
                         {{/submissions}}
                     </div>
@@ -139,12 +262,15 @@
 {{#js}}
     require([
         'mod_evokeportfolio/addcomment',
+        'mod_evokeportfolio/editcomment',
         'mod_evokeportfolio/tribute_init',
         'mod_evokeportfolio/togglelike',
         'mod_evokeportfolio/addgrade',
         'mod_evokeportfolio/thumb'
-    ], function(AddComment, TributeInit, ToggleLike, AddGrade, Thumb) {
+    ], function(AddComment, EditComment, TributeInit, ToggleLike, AddGrade, Thumb) {
         AddComment.init();
+
+        EditComment.init({{{contextid}}});
 
         TributeInit.init();
 

@@ -33,6 +33,7 @@ $string['gradinglocked'] = 'Grading for this mission is currently locked.';
 $string['viewsubmission'] = 'View submission';
 $string['notsubmitted'] = 'Not submitted';
 $string['evaluated'] = 'Evaluated';
+$string['actions'] = 'Actions';
 
 $string['submissionsuccessmessage'] = 'Submission success message';
 $string['evokation'] = 'Is an evokation';

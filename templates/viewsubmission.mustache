@@ -14,21 +14,6 @@
     </div>
 </div>
 
-<div class="mb-3">
-    {{^isgradinglocked}}
-        {{#cangrade}}
-            <a class="btn btn-secondary" href="{{config.wwwroot}}/mod/evokeportfolio/grade.php?id={{cmid}}&userid={{userid}}">
-                {{#userhasgrade}}
-                    {{#str}}page_viewsubmission_editgrade, mod_evokeportfolio{{/str}}
-                {{/userhasgrade}}
-                {{^userhasgrade}}
-                    {{#str}}page_viewsubmission_addgrade, mod_evokeportfolio{{/str}}
-                {{/userhasgrade}}
-            </a>
-        {{/cangrade}}
-    {{/isgradinglocked}}
-</div>
-
 {{#submissions}}
     <div id="submissions" class="submissions mt-2" data-courseid="{{{courseid}}}">
         {{> mod_evokeportfolio/submission }}
@@ -40,11 +25,18 @@
         'mod_evokeportfolio/addcomment',
         'mod_evokeportfolio/tribute_init',
         'mod_evokeportfolio/togglelike'
-    ], function(AddComment, TributeInit, ToggleLike) {
+        {{#cangrade}}{{#isevaluated}}, 'mod_evokeportfolio/addgradeviewpage'{{/isevaluated}}{{/cangrade}}
+    ], function(AddComment, TributeInit, ToggleLike {{#cangrade}}{{#isevaluated}},AddGradeViewPage{{/isevaluated}}{{/cangrade}}) {
         AddComment.init();
 
         TributeInit.init();
 
         ToggleLike.init();
+
+        {{#cangrade}}
+            {{#isevaluated}}
+                AddGradeViewPage.init({{contextid}});
+            {{/isevaluated}}
+        {{/cangrade}}
     });
 {{/js}}

@@ -120,7 +120,7 @@ class user {
 
         $wherecondition = implode(' AND ', $tests);
 
-        $fields = \core_user\fields::for_identity($context, false)->excluding(['username', 'lastaccess']);
+        $fields = \core_user\fields::for_identity($context, false)->excluding('username', 'lastaccess');
 
         $extrafields = $fields->get_required_fields();
         $extrafields[] = 'username';

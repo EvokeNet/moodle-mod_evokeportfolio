@@ -53,9 +53,11 @@ class viewsubmission implements renderable, templatable {
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,
             'cmid' => $this->context->instanceid,
+            'contextid' => $this->context->id,
             'courseid' => $this->evokeportfolio->course,
             'isgradinglocked' => $isgradinglocked,
-            'cangrade' => false
+            'cangrade' => has_capability('mod/evokeportfolio:grade', $this->context),
+            'isevaluated' => $this->evokeportfolio->grade != 0
         ];
 
         $data['userfullname'] = fullname($USER);
@@ -67,14 +69,10 @@ class viewsubmission implements renderable, templatable {
         $data['userhasgrade'] = $gradeutil->user_has_grade($this->evokeportfolio, $this->user->id);
 
         $submissionutil = new submission();
-        $data['submissions'] = $submissionutil->get_user_submissions($this->context, $this->evokeportfolio->id, $this->user->id);
+        $data['submissions'] = $submissionutil->get_user_submissions($this->context, $this->evokeportfolio, $this->user->id);
 
         $grouputil = new group();
         $data['usergroup'] = $grouputil->get_user_groups_names($this->evokeportfolio->course, $this->user->id);
-
-        if (has_capability('mod/evokeportfolio:grade', $this->context)) {
-            $data['cangrade'] = true;
-        }
 
         return $data;
     }

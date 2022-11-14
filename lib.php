@@ -321,7 +321,7 @@ function mod_evokeportfolio_output_fragment_chapter_form($args) {
     $formdata = [];
     if (!empty($args->jsonformdata)) {
         $serialiseddata = json_decode($args->jsonformdata);
-        parse_str($serialiseddata, $formdata);
+        $formdata = (array)$serialiseddata;
     }
 
     $mform = new \mod_evokeportfolio\forms\chapter_form($formdata, [
@@ -329,35 +329,6 @@ function mod_evokeportfolio_output_fragment_chapter_form($args) {
         'course' => $serialiseddata->course,
         'name' => $serialiseddata->name,
         'portfolios' => $serialiseddata->portfolios,
-    ]);
-
-    if (!empty($args->jsonformdata)) {
-        // If we were passed non-empty form data we want the mform to call validation functions and show errors.
-        $mform->is_validated();
-    }
-
-    ob_start();
-    $mform->display();
-    $o .= ob_get_contents();
-    ob_end_clean();
-
-    return $o;
-}
-
-function mod_evokeportfolio_output_fragment_gradeuserchapter_form($args) {
-    $args = (object) $args;
-    $o = '';
-
-    $formdata = [];
-    if (!empty($args->jsonformdata)) {
-        $serialiseddata = json_decode($args->jsonformdata);
-        parse_str($serialiseddata, $formdata);
-    }
-
-    $mform = new \mod_evokeportfolio\forms\gradeuserchapter_form($formdata, [
-        'id' => $serialiseddata->id,
-        'userid' => $serialiseddata->userid,
-        'chapterid' => $serialiseddata->chapterid
     ]);
 
     if (!empty($args->jsonformdata)) {
@@ -408,7 +379,7 @@ function mod_evokeportfolio_output_fragment_comment_form($args) {
     $formdata = [];
     if (!empty($args->jsonformdata)) {
         $serialiseddata = json_decode($args->jsonformdata);
-        parse_str($serialiseddata, $formdata);
+        $formdata = (array)$serialiseddata;
     }
 
     $mform = new \mod_evokeportfolio\forms\comment_form($formdata, [
@@ -443,38 +414,6 @@ function mod_evokeportfolio_extend_navigation_course($navigation, $course, $cont
         );
 
         $navigation->add_node($node);
-    }
-
-    if (has_capability('mod/evokeportfolio:grade', $context)) {
-        $url = new moodle_url('/mod/evokeportfolio/gradingchapters.php', array('id' => $course->id));
-
-        $node = navigation_node::create(
-            get_string('portfoliograding', 'mod_evokeportfolio'),
-            $url,
-            navigation_node::NODETYPE_LEAF,
-            null,
-            null,
-            new pix_icon('e/special_character', '')
-        );
-
-        $navigation->add_node($node);
-    }
-}
-
-function evokeportfolio_extend_navigation(navigation_node $navigation, $course, $module, $cm) {
-    if (has_capability('mod/evokeportfolio:grade', $cm->context)) {
-        $url = new moodle_url('/mod/evokeportfolio/gradingchapters.php', array('id' => $course->id));
-
-        $node = $navigation->add(
-            get_string('portfoliograding', 'mod_evokeportfolio'),
-            $url,
-            navigation_node::TYPE_CUSTOM,
-            null,
-            'portfoliograding',
-            new pix_icon('e/special_character', '')
-        );
-
-        $node->showinflatnavigation = true;
     }
 }
 
