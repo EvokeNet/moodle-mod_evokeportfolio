@@ -51,21 +51,6 @@ class view implements renderable, templatable {
         // Chapters data.
         $chapters = $chapterutil->get_course_chapters($this->evokeportfolio->course);
 
-        if (!$chapters) {
-            return [
-                'courseid' => $this->evokeportfolio->course
-            ];
-        }
-
-        $groupsutil = new group();
-
-        $usercoursegroups = $groupsutil->get_user_groups($this->evokeportfolio->course);
-
-        $groupsmembers = [];
-        if ($usercoursegroups) {
-            $groupsmembers = $groupsutil->get_groups_members($usercoursegroups, true, $this->context);
-        }
-
         $data = [
             'id' => $this->evokeportfolio->id,
             'name' => $this->evokeportfolio->name,
@@ -80,12 +65,26 @@ class view implements renderable, templatable {
             'portfolioid' => $this->evokeportfolio->id,
             'evokation' => $this->evokeportfolio->evokation,
             'contextid' => $this->context->id,
-            'groupsmembers' => $groupsmembers,
-            'hasgroupsmembers' => (int) !empty($groupsmembers),
-            'hasgroup' => (int) !empty($usercoursegroups),
             'cangrade' => has_capability('mod/evokeportfolio:grade', $this->context),
             'isevaluated' => $this->evokeportfolio->grade != 0
         ];
+
+        if (!$chapters) {
+            return $data;
+        }
+
+        $groupsutil = new group();
+
+        $usercoursegroups = $groupsutil->get_user_groups($this->evokeportfolio->course);
+
+        $groupsmembers = [];
+        if ($usercoursegroups) {
+            $groupsmembers = $groupsutil->get_groups_members($usercoursegroups, true, $this->context);
+        }
+
+        $data['groupsmembers'] = $groupsmembers;
+        $data['hasgroupsmembers'] = (int) !empty($groupsmembers);
+        $data['hasgroup'] = (int) !empty($usercoursegroups);
 
         return $data;
     }
