@@ -146,9 +146,9 @@ function evokeportfolio_scale_used($moduleinstanceid, $scaleid) {
 
     if ($scaleid && $DB->record_exists('evokeportfolio', array('id' => $moduleinstanceid, 'grade' => -$scaleid))) {
         return true;
-    } else {
-        return false;
     }
+
+    return false;
 }
 
 /**
@@ -164,9 +164,9 @@ function evokeportfolio_scale_used_anywhere($scaleid) {
 
     if ($scaleid and $DB->record_exists('evokeportfolio', array('grade' => -$scaleid))) {
         return true;
-    } else {
-        return false;
     }
+
+    return false;
 }
 
 /**
