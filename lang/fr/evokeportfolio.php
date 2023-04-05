@@ -107,12 +107,12 @@ $string['privacy:metadata:evokeportfolio_submissions:timemodified'] = 'L\'horoda
 $string['indicator:cognitivedepth'] = 'Porfolio Evoke cognitif';
 $string['indicator:cognitivedepth_help'] = 'Cet indicateur est basé sur la profondeur cognitive atteinte par l\'étudiant dans une activité du portfolio Evoke';
 $string['indicator:cognitivedepthdef'] = 'Porfolio Evoke cognitif';
-$string['indicator:cognitivedepthdef_help'] = 'Le participant a atteint ce pourcentage de l\'engagement cognitif offert par les activités du portefeuille Evoke au cours de cet intervalle d'analyse (Niveaux = Pas de vue, Vue, Soumettre, Voir le retour d'information)';
+$string['indicator:cognitivedepthdef_help'] = 'Le participant a atteint ce pourcentage de l\'engagement cognitif offert par les activités du portefeuille Evoke au cours de cet intervalle d\'analyse (Niveaux = Pas de vue, Vue, Soumettre, Voir le retour d\'information)';
 $string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Cognitive_depth';
 $string['indicator:socialbreadth'] = 'Portfolio Evoke social';
 $string['indicator:socialbreadth_help'] = 'Cet indicateur est basé sur l\'étendue sociale atteinte par l\'étudiant dans une activité du portfolio Evoke';
 $string['indicator:socialbreadthdef'] = 'Evoke portfolio social';
-$string['indicator:socialbreadthdef_help'] = "Le participant a atteint ce pourcentage d'engagement social offert par les activités du portefeuille Evoke pendant cet intervalle d'analyse (Niveaux = Pas de participation, Participant seul, Participant avec d'autres)";
+$string['indicator:socialbreadthdef_help'] = 'Le participant a atteint ce pourcentage d\'engagement social offert par les activités du portefeuille Evoke pendant cet intervalle d\'analyse (Niveaux = Pas de participation, Participant seul, Participant avec d\'autres)';
 $string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
 
 $string['status'] = 'Statut';
