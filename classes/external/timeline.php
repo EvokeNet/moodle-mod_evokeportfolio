@@ -2,10 +2,10 @@
 
 namespace mod_evokeportfolio\external;
 
-use external_api;
-use external_value;
-use external_single_structure;
-use external_function_parameters;
+use core_external\external_api;
+use core_external\external_value;
+use core_external\external_single_structure;
+use core_external\external_function_parameters;
 
 /**
  * Timeline external api class.
@@ -55,7 +55,7 @@ class timeline extends external_api {
             'portfolioid' => $portfolioid
         ]);
 
-        $context = \context_course::instance($courseid);
+        $context = \core\context\course::instance($courseid);
         $PAGE->set_context($context);
 
         $timelineutil = new \mod_evokeportfolio\util\timeline\portfolio($courseid);
@@ -132,7 +132,7 @@ class timeline extends external_api {
             'offset' => $offset,
         ]);
 
-        $context = \context_course::instance($courseid);
+        $context = \core\context\course::instance($courseid);
         $PAGE->set_context($context);
 
         $timelineutil = new \mod_evokeportfolio\util\timeline\evokation($courseid);
@@ -211,7 +211,7 @@ class timeline extends external_api {
             'portfolioid' => $portfolioid
         ]);
 
-        $context = \context_course::instance($courseid);
+        $context = \core\context\course::instance($courseid);
         $PAGE->set_context($context);
 
         $timelineutil = new \mod_evokeportfolio\util\timeline\portfoliogroup($courseid);
